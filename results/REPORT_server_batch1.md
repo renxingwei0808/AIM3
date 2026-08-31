@@ -707,6 +707,7 @@ Controls on the same instances (no per-block decomposition is defined for them):
 | 3 | 11 | 2;3;4;5 | random | {1+2} | 66 | 0 | 0 | 0 | 0 | 0.2086 |
 | 3 | 11 | 2;3;4;5 | random | {1+3} | 66 | 0 | 0 | 0 | 0 | 0.2086 |
 | 3 | 11 | 2;3;4;5 | random | {2+3} | 66 | 0 | 0 | 0 | 0 | 0.2086 |
+| 3 | 11 | 2;3;4;5 | random | {0+1+2} | 99 | 0 | 0 | 0 | 0 | 0.313 |
 | 3 | 11 | 3;4;7;8 | S_quad | {0} | 33 | 88 | 22 | 22 | 0 | 0.0997 |
 | 3 | 11 | 3;4;7;8 | S_quad | {0} | 33 | 88 | 22 | 22 | 0 | 0.0997 |
 | 3 | 11 | 3;4;7;8 | S_quad | {1} | 33 | 88 | 22 | 22 | 0 | 0.0997 |
@@ -996,164 +997,67 @@ A cell `a/b` in bold would mean msolve and Magma disagreed; a plain number means
 
 Magma 2.24's `BooleanPolynomialRing` takes an order *name* only, so the block orders run on `PolynomialRing(GF(2), nv, "elim", S)` with the field equations added by hand.  That ring is slower than the Boolean one, so the baseline for these rows is `genref` (= grevlex on the *same* general ring), not the `grevlex` of §5.
 
-| n | ℓ | system | seed | order | ring | d_solv | steps | max rows | s |
-|---:|---:|---|---:|---|---|---:|---:|---:|---:|
-| 7 | 1 | P1only | 1 | `blockPT` (elim:7) | PolynomialRing(GF(2)) + field equations | 3 | 4 | 85 | 0.1 |
-| 7 | 1 | P1only | 1 | `blockT` (elimlast:7) | PolynomialRing(GF(2)) + field equations | 3 | 4 | 85 | 0.1 |
-| 7 | 1 | P1only | 1 | `genref` (gen:grevlex) | PolynomialRing(GF(2)) + field equations | 3 | 4 | 85 | 0.1 |
-| 7 | 1 | P1only | 2 | `blockPT` (elim:7) | PolynomialRing(GF(2)) + field equations | 3 | 4 | 85 | 0.1 |
-| 7 | 1 | P1only | 2 | `blockT` (elimlast:7) | PolynomialRing(GF(2)) + field equations | 3 | 4 | 85 | 0.1 |
-| 7 | 1 | P1only | 2 | `genref` (gen:grevlex) | PolynomialRing(GF(2)) + field equations | 3 | 4 | 85 | 0.1 |
-| 7 | 1 | S_quad | 1 | `blockPT` (elim:7) | PolynomialRing(GF(2)) + field equations | 3 | 3 | 144 | 0.1 |
-| 7 | 1 | S_quad | 1 | `blockT` (elimlast:7) | PolynomialRing(GF(2)) + field equations | 3 | 3 | 144 | 0.1 |
-| 7 | 1 | S_quad | 1 | `genref` (gen:grevlex) | PolynomialRing(GF(2)) + field equations | 3 | 3 | 144 | 0.1 |
-| 7 | 1 | S_quad | 2 | `blockPT` (elim:7) | PolynomialRing(GF(2)) + field equations | 3 | 4 | 631 | 0.1 |
-| 7 | 1 | S_quad | 2 | `blockT` (elimlast:7) | PolynomialRing(GF(2)) + field equations | 3 | 4 | 631 | 0.1 |
-| 7 | 1 | S_quad | 2 | `genref` (gen:grevlex) | PolynomialRing(GF(2)) + field equations | 3 | 4 | 631 | 0.1 |
-| 7 | 1 | random | 1 | `blockPT` (elim:7) | PolynomialRing(GF(2)) + field equations | 3 | 3 | 147 | 0.1 |
-| 7 | 1 | random | 1 | `blockT` (elimlast:7) | PolynomialRing(GF(2)) + field equations | 3 | 3 | 147 | 0.1 |
-| 7 | 1 | random | 1 | `genref` (gen:grevlex) | PolynomialRing(GF(2)) + field equations | 3 | 3 | 147 | 0.1 |
-| 7 | 1 | random | 2 | `blockPT` (elim:7) | PolynomialRing(GF(2)) + field equations | 3 | 3 | 147 | 0.1 |
-| 7 | 1 | random | 2 | `blockT` (elimlast:7) | PolynomialRing(GF(2)) + field equations | 3 | 3 | 147 | 0.1 |
-| 7 | 1 | random | 2 | `genref` (gen:grevlex) | PolynomialRing(GF(2)) + field equations | 3 | 3 | 147 | 0.1 |
-| 7 | 2 | P1only | 1 | `blockPT` (elim:7) | PolynomialRing(GF(2)) + field equations | 3 | 6 | 3496 | 0.1 |
-| 7 | 2 | P1only | 1 | `blockT` (elimlast:14) | PolynomialRing(GF(2)) + field equations | 3 | 6 | 3496 | 0.1 |
-| 7 | 2 | P1only | 1 | `genref` (gen:grevlex) | PolynomialRing(GF(2)) + field equations | 3 | 6 | 3496 | 0.1 |
-| 7 | 2 | P1only | 2 | `blockPT` (elim:7) | PolynomialRing(GF(2)) + field equations | 3 | 6 | 3480 | 0.1 |
-| 7 | 2 | P1only | 2 | `blockT` (elimlast:14) | PolynomialRing(GF(2)) + field equations | 3 | 6 | 3480 | 0.1 |
-| 7 | 2 | P1only | 2 | `genref` (gen:grevlex) | PolynomialRing(GF(2)) + field equations | 3 | 6 | 3480 | 0.1 |
-| 7 | 2 | S_quad | 1 | `blockPT` (elim:7) | PolynomialRing(GF(2)) + field equations | 3 | 5 | 3471 | 0.1 |
-| 7 | 2 | S_quad | 1 | `blockT` (elimlast:14) | PolynomialRing(GF(2)) + field equations | 3 | 5 | 3471 | 0.1 |
-| 7 | 2 | S_quad | 1 | `genref` (gen:grevlex) | PolynomialRing(GF(2)) + field equations | 3 | 5 | 3471 | 0.1 |
-| 7 | 2 | S_quad | 2 | `blockPT` (elim:7) | PolynomialRing(GF(2)) + field equations | 3 | 5 | 3462 | 0.1 |
-| 7 | 2 | S_quad | 2 | `blockT` (elimlast:14) | PolynomialRing(GF(2)) + field equations | 3 | 5 | 3462 | 0.1 |
-| 7 | 2 | S_quad | 2 | `genref` (gen:grevlex) | PolynomialRing(GF(2)) + field equations | 3 | 5 | 3462 | 0.1 |
-| 7 | 2 | random | 1 | `blockPT` (elim:7) | PolynomialRing(GF(2)) + field equations | 4 | 4 | 294 | 0.3 |
-| 7 | 2 | random | 1 | `blockT` (elimlast:14) | PolynomialRing(GF(2)) + field equations | 4 | 4 | 294 | 0.3 |
-| 7 | 2 | random | 1 | `genref` (gen:grevlex) | PolynomialRing(GF(2)) + field equations | 4 | 4 | 294 | 0.2 |
-| 7 | 2 | random | 2 | `blockPT` (elim:7) | PolynomialRing(GF(2)) + field equations | 4 | 4 | 294 | 0.3 |
-| 7 | 2 | random | 2 | `blockT` (elimlast:14) | PolynomialRing(GF(2)) + field equations | 4 | 4 | 294 | 0.4 |
-| 7 | 2 | random | 2 | `genref` (gen:grevlex) | PolynomialRing(GF(2)) + field equations | 4 | 4 | 294 | 0.3 |
-| 9 | 1 | P1only | 1 | `blockPT` (elim:9) | PolynomialRing(GF(2)) + field equations | 3 | 6 | 2096 | 0.1 |
-| 9 | 1 | P1only | 1 | `blockT` (elimlast:9) | PolynomialRing(GF(2)) + field equations | 3 | 6 | 2096 | 0.1 |
-| 9 | 1 | P1only | 1 | `genref` (gen:grevlex) | PolynomialRing(GF(2)) + field equations | 3 | 6 | 2096 | 0.1 |
-| 9 | 1 | P1only | 2 | `blockPT` (elim:9) | PolynomialRing(GF(2)) + field equations | 3 | 5 | 129 | 0.2 |
-| 9 | 1 | P1only | 2 | `blockT` (elimlast:9) | PolynomialRing(GF(2)) + field equations | 3 | 5 | 129 | 0.2 |
-| 9 | 1 | P1only | 2 | `genref` (gen:grevlex) | PolynomialRing(GF(2)) + field equations | 3 | 5 | 129 | 0.2 |
-| 9 | 1 | S_quad | 1 | `blockPT` (elim:9) | PolynomialRing(GF(2)) + field equations | 3 | 5 | 2160 | 0.1 |
-| 9 | 1 | S_quad | 1 | `blockT` (elimlast:9) | PolynomialRing(GF(2)) + field equations | 3 | 5 | 2160 | 0.1 |
-| 9 | 1 | S_quad | 1 | `genref` (gen:grevlex) | PolynomialRing(GF(2)) + field equations | 3 | 5 | 2160 | 0.1 |
-| 9 | 1 | S_quad | 2 | `blockPT` (elim:9) | PolynomialRing(GF(2)) + field equations | 3 | 5 | 2162 | 0.1 |
-| 9 | 1 | S_quad | 2 | `blockT` (elimlast:9) | PolynomialRing(GF(2)) + field equations | 3 | 5 | 2162 | 0.1 |
-| 9 | 1 | S_quad | 2 | `genref` (gen:grevlex) | PolynomialRing(GF(2)) + field equations | 3 | 5 | 2162 | 0.1 |
-| 9 | 1 | random | 1 | `blockPT` (elim:9) | PolynomialRing(GF(2)) + field equations | 3 | 3 | 225 | 0.1 |
-| 9 | 1 | random | 1 | `blockT` (elimlast:9) | PolynomialRing(GF(2)) + field equations | 3 | 3 | 225 | 0.1 |
-| 9 | 1 | random | 1 | `genref` (gen:grevlex) | PolynomialRing(GF(2)) + field equations | 3 | 3 | 225 | 0.1 |
-| 9 | 1 | random | 2 | `blockPT` (elim:9) | PolynomialRing(GF(2)) + field equations | 3 | 3 | 225 | 0.1 |
-| 9 | 1 | random | 2 | `blockT` (elimlast:9) | PolynomialRing(GF(2)) + field equations | 3 | 3 | 225 | 0.1 |
-| 9 | 1 | random | 2 | `genref` (gen:grevlex) | PolynomialRing(GF(2)) + field equations | 3 | 3 | 225 | 0.1 |
-| 9 | 2 | P1only | 1 | `blockPT` (elim:9) | PolynomialRing(GF(2)) + field equations | 4 | 7 | 29050 | 0.6 |
-| 9 | 2 | P1only | 1 | `blockT` (elimlast:18) | PolynomialRing(GF(2)) + field equations | 4 | 7 | 29050 | 0.7 |
-| 9 | 2 | P1only | 1 | `genref` (gen:grevlex) | PolynomialRing(GF(2)) + field equations | 4 | 7 | 29050 | 0.6 |
-| 9 | 2 | P1only | 2 | `blockPT` (elim:9) | PolynomialRing(GF(2)) + field equations | 4 | 7 | 29056 | 0.6 |
-| 9 | 2 | P1only | 2 | `blockT` (elimlast:18) | PolynomialRing(GF(2)) + field equations | 4 | 7 | 29056 | 0.6 |
-| 9 | 2 | P1only | 2 | `genref` (gen:grevlex) | PolynomialRing(GF(2)) + field equations | 4 | 7 | 29056 | 0.6 |
-| 9 | 2 | S_quad | 1 | `blockPT` (elim:9) | PolynomialRing(GF(2)) + field equations | 4 | 6 | 28664 | 0.6 |
-| 9 | 2 | S_quad | 1 | `blockT` (elimlast:18) | PolynomialRing(GF(2)) + field equations | 4 | 6 | 28664 | 0.6 |
-| 9 | 2 | S_quad | 1 | `genref` (gen:grevlex) | PolynomialRing(GF(2)) + field equations | 4 | 6 | 28664 | 0.6 |
-| 9 | 2 | S_quad | 2 | `blockPT` (elim:9) | PolynomialRing(GF(2)) + field equations | 4 | 6 | 27606 | 0.6 |
-| 9 | 2 | S_quad | 2 | `blockT` (elimlast:18) | PolynomialRing(GF(2)) + field equations | 4 | 6 | 27606 | 0.5 |
-| 9 | 2 | S_quad | 2 | `genref` (gen:grevlex) | PolynomialRing(GF(2)) + field equations | 4 | 6 | 27606 | 0.6 |
-| 9 | 2 | random | 1 | `blockPT` (elim:9) | PolynomialRing(GF(2)) + field equations | 4 | 4 | 459 | 0.8 |
-| 9 | 2 | random | 1 | `blockT` (elimlast:18) | PolynomialRing(GF(2)) + field equations | 4 | 4 | 459 | 0.8 |
-| 9 | 2 | random | 1 | `genref` (gen:grevlex) | PolynomialRing(GF(2)) + field equations | 4 | 4 | 459 | 0.8 |
-| 9 | 2 | random | 2 | `blockPT` (elim:9) | PolynomialRing(GF(2)) + field equations | 4 | 4 | 459 | 0.8 |
-| 9 | 2 | random | 2 | `blockT` (elimlast:18) | PolynomialRing(GF(2)) + field equations | 4 | 4 | 459 | 0.9 |
-| 9 | 2 | random | 2 | `genref` (gen:grevlex) | PolynomialRing(GF(2)) + field equations | 4 | 4 | 459 | 0.8 |
-| 11 | 1 | P1only | 1 | `blockPT` (elim:11) | PolynomialRing(GF(2)) + field equations | 4 | 6 | 15758 | 0.3 |
-| 11 | 1 | P1only | 1 | `blockT` (elimlast:11) | PolynomialRing(GF(2)) + field equations | 4 | 6 | 15758 | 0.3 |
-| 11 | 1 | P1only | 1 | `genref` (gen:grevlex) | PolynomialRing(GF(2)) + field equations | 4 | 6 | 15758 | 0.3 |
-| 11 | 1 | P1only | 2 | `blockPT` (elim:11) | PolynomialRing(GF(2)) + field equations | 4 | 5 | 186 | 0.7 |
-| 11 | 1 | P1only | 2 | `blockT` (elimlast:11) | PolynomialRing(GF(2)) + field equations | 4 | 5 | 186 | 0.7 |
-| 11 | 1 | P1only | 2 | `genref` (gen:grevlex) | PolynomialRing(GF(2)) + field equations | 4 | 5 | 186 | 0.7 |
-| 11 | 1 | S_quad | 1 | `blockPT` (elim:11) | PolynomialRing(GF(2)) + field equations | 4 | 5 | 15580 | 0.3 |
-| 11 | 1 | S_quad | 1 | `blockT` (elimlast:11) | PolynomialRing(GF(2)) + field equations | 4 | 5 | 15580 | 0.3 |
-| 11 | 1 | S_quad | 1 | `genref` (gen:grevlex) | PolynomialRing(GF(2)) + field equations | 4 | 5 | 15580 | 0.3 |
-| 11 | 1 | S_quad | 2 | `blockPT` (elim:11) | PolynomialRing(GF(2)) + field equations | 4 | 5 | 15503 | 0.3 |
-| 11 | 1 | S_quad | 2 | `blockT` (elimlast:11) | PolynomialRing(GF(2)) + field equations | 4 | 5 | 15503 | 0.3 |
-| 11 | 1 | S_quad | 2 | `genref` (gen:grevlex) | PolynomialRing(GF(2)) + field equations | 4 | 5 | 15503 | 0.2 |
-| 11 | 1 | random | 1 | `blockPT` (elim:11) | PolynomialRing(GF(2)) + field equations | 4 | 4 | 319 | 0.3 |
-| 11 | 1 | random | 1 | `blockT` (elimlast:11) | PolynomialRing(GF(2)) + field equations | 4 | 4 | 319 | 0.3 |
-| 11 | 1 | random | 1 | `genref` (gen:grevlex) | PolynomialRing(GF(2)) + field equations | 4 | 4 | 319 | 0.4 |
-| 11 | 1 | random | 2 | `blockPT` (elim:11) | PolynomialRing(GF(2)) + field equations | 4 | 4 | 319 | 0.3 |
-| 11 | 1 | random | 2 | `blockT` (elimlast:11) | PolynomialRing(GF(2)) + field equations | 4 | 4 | 319 | 0.3 |
-| 11 | 1 | random | 2 | `genref` (gen:grevlex) | PolynomialRing(GF(2)) + field equations | 4 | 4 | 319 | 0.3 |
-| 11 | 2 | P1only | 1 | `blockPT` (elim:11) | PolynomialRing(GF(2)) + field equations | 4 | 6 | 52505 | 4.5 |
-| 11 | 2 | P1only | 1 | `blockT` (elimlast:22) | PolynomialRing(GF(2)) + field equations | 4 | 6 | 52505 | 5.9 |
-| 11 | 2 | P1only | 1 | `genref` (gen:grevlex) | PolynomialRing(GF(2)) + field equations | 4 | 6 | 52505 | 4.3 |
-| 11 | 2 | P1only | 1 | `genref` (gen:grevlex) | PolynomialRing(GF(2)) + field equations | 4 | 6 | 52505 | 4.9 |
-| 11 | 2 | P1only | 2 | `blockPT` (elim:11) | PolynomialRing(GF(2)) + field equations | 4 | 6 | 52229 | 4.4 |
-| 11 | 2 | P1only | 2 | `blockT` (elimlast:22) | PolynomialRing(GF(2)) + field equations | 4 | 6 | 52229 | 4.3 |
-| 11 | 2 | P1only | 2 | `genref` (gen:grevlex) | PolynomialRing(GF(2)) + field equations | 4 | 6 | 52229 | 4.3 |
-| 11 | 2 | S_quad | 1 | `blockPT` (elim:11) | PolynomialRing(GF(2)) + field equations | 4 | 5 | 52152 | 5.9 |
-| 11 | 2 | S_quad | 1 | `blockT` (elimlast:22) | PolynomialRing(GF(2)) + field equations | 4 | 5 | 52152 | 5.2 |
-| 11 | 2 | S_quad | 1 | `genref` (gen:grevlex) | PolynomialRing(GF(2)) + field equations | 4 | 5 | 52152 | 6.5 |
-| 11 | 2 | S_quad | 1 | `genref` (gen:grevlex) | PolynomialRing(GF(2)) + field equations | 4 | 5 | 52152 | 4.8 |
-| 11 | 2 | S_quad | 2 | `blockPT` (elim:11) | PolynomialRing(GF(2)) + field equations | 4 | 5 | 49156 | 4.5 |
-| 11 | 2 | S_quad | 2 | `blockT` (elimlast:22) | PolynomialRing(GF(2)) + field equations | 4 | 5 | 49156 | 4.4 |
-| 11 | 2 | S_quad | 2 | `genref` (gen:grevlex) | PolynomialRing(GF(2)) + field equations | 4 | 5 | 49156 | 4.6 |
-| 11 | 2 | random | 1 | `blockPT` (elim:11) | PolynomialRing(GF(2)) + field equations | 4 | 4 | 660 | 2.4 |
-| 11 | 2 | random | 1 | `blockT` (elimlast:22) | PolynomialRing(GF(2)) + field equations | 4 | 4 | 660 | 2.4 |
-| 11 | 2 | random | 1 | `genref` (gen:grevlex) | PolynomialRing(GF(2)) + field equations | 4 | 4 | 660 | 2.4 |
-| 11 | 2 | random | 2 | `blockPT` (elim:11) | PolynomialRing(GF(2)) + field equations | 4 | 4 | 660 | 2.6 |
-| 11 | 2 | random | 2 | `blockT` (elimlast:22) | PolynomialRing(GF(2)) + field equations | 4 | 4 | 660 | 2.7 |
-| 11 | 2 | random | 2 | `genref` (gen:grevlex) | PolynomialRing(GF(2)) + field equations | 4 | 4 | 660 | 2.7 |
-| 13 | 1 | P1only | 1 | `blockPT` (elim:13) | PolynomialRing(GF(2)) + field equations | 4 | 6 | 26151 | 0.6 |
-| 13 | 1 | P1only | 1 | `blockT` (elimlast:13) | PolynomialRing(GF(2)) + field equations | 4 | 6 | 26151 | 0.6 |
-| 13 | 1 | P1only | 1 | `genref` (gen:grevlex) | PolynomialRing(GF(2)) + field equations | 4 | 6 | 26151 | 0.6 |
-| 13 | 1 | P1only | 2 | `blockPT` (elim:13) | PolynomialRing(GF(2)) + field equations | 4 | 6 | 26218 | 0.6 |
-| 13 | 1 | P1only | 2 | `blockT` (elimlast:13) | PolynomialRing(GF(2)) + field equations | 4 | 6 | 26218 | 0.6 |
-| 13 | 1 | P1only | 2 | `genref` (gen:grevlex) | PolynomialRing(GF(2)) + field equations | 4 | 6 | 26218 | 0.6 |
-| 13 | 1 | S_quad | 1 | `blockPT` (elim:13) | PolynomialRing(GF(2)) + field equations | 4 | 5 | 25302 | 0.6 |
-| 13 | 1 | S_quad | 1 | `blockT` (elimlast:13) | PolynomialRing(GF(2)) + field equations | 4 | 5 | 25302 | 0.6 |
-| 13 | 1 | S_quad | 1 | `genref` (gen:grevlex) | PolynomialRing(GF(2)) + field equations | 4 | 5 | 25302 | 0.6 |
-| 13 | 1 | S_quad | 2 | `blockPT` (elim:13) | PolynomialRing(GF(2)) + field equations | 4 | 5 | 26217 | 0.6 |
-| 13 | 1 | S_quad | 2 | `blockT` (elimlast:13) | PolynomialRing(GF(2)) + field equations | 4 | 5 | 26217 | 0.6 |
-| 13 | 1 | S_quad | 2 | `genref` (gen:grevlex) | PolynomialRing(GF(2)) + field equations | 4 | 5 | 26217 | 0.6 |
-| 13 | 1 | random | 1 | `blockPT` (elim:13) | PolynomialRing(GF(2)) + field equations | 4 | 4 | 429 | 0.6 |
-| 13 | 1 | random | 1 | `blockT` (elimlast:13) | PolynomialRing(GF(2)) + field equations | 4 | 4 | 429 | 0.6 |
-| 13 | 1 | random | 1 | `genref` (gen:grevlex) | PolynomialRing(GF(2)) + field equations | 4 | 4 | 429 | 0.7 |
-| 13 | 1 | random | 2 | `blockPT` (elim:13) | PolynomialRing(GF(2)) + field equations | 4 | 4 | 429 | 0.6 |
-| 13 | 1 | random | 2 | `blockT` (elimlast:13) | PolynomialRing(GF(2)) + field equations | 4 | 4 | 429 | 0.6 |
-| 13 | 1 | random | 2 | `genref` (gen:grevlex) | PolynomialRing(GF(2)) + field equations | 4 | 4 | 429 | 0.6 |
-| 13 | 2 | P1only | 1 | `blockPT` (elim:13) | PolynomialRing(GF(2)) + field equations | 4 | 8 | 93423 | 245.6 |
-| 13 | 2 | P1only | 1 | `blockT` (elimlast:26) | PolynomialRing(GF(2)) + field equations | 4 | 8 | 93423 | 183.8 |
-| 13 | 2 | P1only | 1 | `genref` (gen:grevlex) | PolynomialRing(GF(2)) + field equations | 4 | 8 | 93423 | 155.3 |
-| 13 | 2 | S_quad | 1 | `blockPT` (elim:13) | PolynomialRing(GF(2)) + field equations | 4 | 7 | 92156 | 169.0 |
-| 13 | 2 | S_quad | 1 | `blockT` (elimlast:26) | PolynomialRing(GF(2)) + field equations | 4 | 7 | 92156 | 119.4 |
-| 13 | 2 | S_quad | 1 | `genref` (gen:grevlex) | PolynomialRing(GF(2)) + field equations | 4 | 7 | 92156 | 144.2 |
-| 15 | 1 | P1only | 1 | `blockPT` (elim:15) | PolynomialRing(GF(2)) + field equations | 4 | 7 | 40388 | 6.2 |
-| 15 | 1 | P1only | 1 | `blockT` (elimlast:15) | PolynomialRing(GF(2)) + field equations | 4 | 7 | 40388 | 6.6 |
-| 15 | 1 | P1only | 1 | `genref` (gen:grevlex) | PolynomialRing(GF(2)) + field equations | 4 | 7 | 40388 | 6.5 |
-| 15 | 1 | P1only | 2 | `blockPT` (elim:15) | PolynomialRing(GF(2)) + field equations | 4 | 7 | 40469 | 6.3 |
-| 15 | 1 | P1only | 2 | `blockT` (elimlast:15) | PolynomialRing(GF(2)) + field equations | 4 | 7 | 40469 | 6.6 |
-| 15 | 1 | P1only | 2 | `genref` (gen:grevlex) | PolynomialRing(GF(2)) + field equations | 4 | 7 | 40469 | 6.5 |
-| 15 | 1 | S_quad | 1 | `blockPT` (elim:15) | PolynomialRing(GF(2)) + field equations | 4 | 6 | 40419 | 6.6 |
-| 15 | 1 | S_quad | 1 | `blockT` (elimlast:15) | PolynomialRing(GF(2)) + field equations | 4 | 6 | 40419 | 6.6 |
-| 15 | 1 | S_quad | 1 | `genref` (gen:grevlex) | PolynomialRing(GF(2)) + field equations | 4 | 6 | 40419 | 6.5 |
-| 15 | 1 | S_quad | 2 | `blockPT` (elim:15) | PolynomialRing(GF(2)) + field equations | 4 | 6 | 40428 | 6.5 |
-| 15 | 1 | S_quad | 2 | `blockT` (elimlast:15) | PolynomialRing(GF(2)) + field equations | 4 | 6 | 40428 | 6.5 |
-| 15 | 1 | S_quad | 2 | `genref` (gen:grevlex) | PolynomialRing(GF(2)) + field equations | 4 | 6 | 40428 | 6.1 |
-| 15 | 1 | random | 1 | `blockPT` (elim:15) | PolynomialRing(GF(2)) + field equations | 4 | 4 | 555 | 1.4 |
-| 15 | 1 | random | 1 | `blockT` (elimlast:15) | PolynomialRing(GF(2)) + field equations | 4 | 4 | 555 | 1.4 |
-| 15 | 1 | random | 1 | `genref` (gen:grevlex) | PolynomialRing(GF(2)) + field equations | 4 | 4 | 555 | 1.5 |
-| 15 | 1 | random | 2 | `blockPT` (elim:15) | PolynomialRing(GF(2)) + field equations | 4 | 4 | 555 | 1.4 |
-| 15 | 1 | random | 2 | `blockT` (elimlast:15) | PolynomialRing(GF(2)) + field equations | 4 | 4 | 555 | 1.5 |
-| 15 | 1 | random | 2 | `genref` (gen:grevlex) | PolynomialRing(GF(2)) + field equations | 4 | 4 | 555 | 1.3 |
+One row per instance; a cell is `d_solv (seconds)`.  `—` means the order does not apply to that system's variable layout.
+
+| n | ℓ | system | seed | `genref` | `blockPT` | `blockT` |
+|---:|---:|---|---:|---:|---:|---:|
+| 7 | 1 | P1only | 1 | 3 (0.1) | 3 (0.1) | 3 (0.1) |
+| 7 | 1 | P1only | 2 | 3 (0.1) | 3 (0.1) | 3 (0.1) |
+| 7 | 1 | S_quad | 1 | 3 (0.1) | 3 (0.1) | 3 (0.1) |
+| 7 | 1 | S_quad | 2 | 3 (0.1) | 3 (0.1) | 3 (0.1) |
+| 7 | 1 | random | 1 | 3 (0.1) | 3 (0.1) | 3 (0.1) |
+| 7 | 1 | random | 2 | 3 (0.1) | 3 (0.1) | 3 (0.1) |
+| 7 | 2 | P1only | 1 | 3 (0.1) | 3 (0.1) | 3 (0.1) |
+| 7 | 2 | P1only | 2 | 3 (0.1) | 3 (0.1) | 3 (0.1) |
+| 7 | 2 | S_quad | 1 | 3 (0.1) | 3 (0.1) | 3 (0.1) |
+| 7 | 2 | S_quad | 2 | 3 (0.1) | 3 (0.1) | 3 (0.1) |
+| 7 | 2 | random | 1 | 4 (0.2) | 4 (0.3) | 4 (0.3) |
+| 7 | 2 | random | 2 | 4 (0.3) | 4 (0.3) | 4 (0.4) |
+| 9 | 1 | P1only | 1 | 3 (0.1) | 3 (0.1) | 3 (0.1) |
+| 9 | 1 | P1only | 2 | 3 (0.2) | 3 (0.2) | 3 (0.2) |
+| 9 | 1 | S_quad | 1 | 3 (0.1) | 3 (0.1) | 3 (0.1) |
+| 9 | 1 | S_quad | 2 | 3 (0.1) | 3 (0.1) | 3 (0.1) |
+| 9 | 1 | random | 1 | 3 (0.1) | 3 (0.1) | 3 (0.1) |
+| 9 | 1 | random | 2 | 3 (0.1) | 3 (0.1) | 3 (0.1) |
+| 9 | 2 | P1only | 1 | 4 (0.6) | 4 (0.6) | 4 (0.7) |
+| 9 | 2 | P1only | 2 | 4 (0.6) | 4 (0.6) | 4 (0.6) |
+| 9 | 2 | S_quad | 1 | 4 (0.6) | 4 (0.6) | 4 (0.6) |
+| 9 | 2 | S_quad | 2 | 4 (0.6) | 4 (0.6) | 4 (0.5) |
+| 9 | 2 | random | 1 | 4 (0.8) | 4 (0.8) | 4 (0.8) |
+| 9 | 2 | random | 2 | 4 (0.8) | 4 (0.8) | 4 (0.9) |
+| 11 | 1 | P1only | 1 | 4 (0.3) | 4 (0.3) | 4 (0.3) |
+| 11 | 1 | P1only | 2 | 4 (0.7) | 4 (0.7) | 4 (0.7) |
+| 11 | 1 | S_quad | 1 | 4 (0.3) | 4 (0.3) | 4 (0.3) |
+| 11 | 1 | S_quad | 2 | 4 (0.2) | 4 (0.3) | 4 (0.3) |
+| 11 | 1 | random | 1 | 4 (0.4) | 4 (0.3) | 4 (0.3) |
+| 11 | 1 | random | 2 | 4 (0.3) | 4 (0.3) | 4 (0.3) |
+| 11 | 2 | P1only | 1 | 4 (4.9) | 4 (4.5) | 4 (5.9) |
+| 11 | 2 | P1only | 2 | 4 (4.3) | 4 (4.4) | 4 (4.3) |
+| 11 | 2 | S_quad | 1 | 4 (4.8) | 4 (5.9) | 4 (5.2) |
+| 11 | 2 | S_quad | 2 | 4 (4.6) | 4 (4.5) | 4 (4.4) |
+| 11 | 2 | random | 1 | 4 (2.4) | 4 (2.4) | 4 (2.4) |
+| 11 | 2 | random | 2 | 4 (2.7) | 4 (2.6) | 4 (2.7) |
+| 13 | 1 | P1only | 1 | 4 (0.6) | 4 (0.6) | 4 (0.6) |
+| 13 | 1 | P1only | 2 | 4 (0.6) | 4 (0.6) | 4 (0.6) |
+| 13 | 1 | S_quad | 1 | 4 (0.6) | 4 (0.6) | 4 (0.6) |
+| 13 | 1 | S_quad | 2 | 4 (0.6) | 4 (0.6) | 4 (0.6) |
+| 13 | 1 | random | 1 | 4 (0.7) | 4 (0.6) | 4 (0.6) |
+| 13 | 1 | random | 2 | 4 (0.6) | 4 (0.6) | 4 (0.6) |
+| 13 | 2 | P1only | 1 | 4 (155.3) | 4 (245.6) | 4 (183.8) |
+| 13 | 2 | S_quad | 1 | 4 (144.2) | 4 (169.0) | 4 (119.4) |
+| 15 | 1 | P1only | 1 | 4 (6.5) | 4 (6.2) | 4 (6.6) |
+| 15 | 1 | P1only | 2 | 4 (6.5) | 4 (6.3) | 4 (6.6) |
+| 15 | 1 | S_quad | 1 | 4 (6.5) | 4 (6.6) | 4 (6.6) |
+| 15 | 1 | S_quad | 2 | 4 (6.1) | 4 (6.5) | 4 (6.5) |
+| 15 | 1 | random | 1 | 4 (1.5) | 4 (1.4) | 4 (1.4) |
+| 15 | 1 | random | 2 | 4 (1.3) | 4 (1.4) | 4 (1.5) |
+
+`d_solv` is the same across every order in **50 of 50** instances, and the resulting basis (`gb_size`, `gb_max_degree`) in **50 of 50** — consistent with §5: with a single solution over F₂ the reduced Gröbner basis does not depend on the monomial order, and Magma's F4 phase runs in grevlex regardless.
 
 ### A.7 E05 — resultant of the two-valued-inverse reduced system
 
 | n | exps | ε | Eq1 terms | Eq2 terms | deg_t1(Eq1) | deg_t1(Eq2) | resultant s | deg | terms | roots | key is a root | factors | peak RSS (GB) | censored |
 |---:|---|---|---:|---:|---:|---:|---:|---:|---:|---:|:--:|---:|---:|:--:|
 | 8 |  |  |  |  |  |  |  |  |  |  |  |  | 0.0 | yes |
+| 8 | [3, 5, 7] | [1, 0, 1] | 64 | 678 | 254 | 128 |  |  |  |  |  |  | 0.0 | yes |
 

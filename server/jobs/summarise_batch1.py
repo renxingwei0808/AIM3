@@ -323,14 +323,38 @@ def sec_blocks():
       "is slower than the Boolean one, so the baseline for these rows is `genref` "
       "(= grevlex on the *same* general ring), not the `grevlex` of §5.")
     A("")
-    A("| n | ℓ | system | seed | order | ring | d_solv | steps | max rows | s |")
-    A("|---:|---:|---|---:|---|---|---:|---:|---:|---:|")
-    for r in sorted(rows, key=lambda r: (i(r["n"], 0), i(r["ell"], 0), r["system"],
-                                         i(r["seed"], 0), r["order_label"])):
-        A(f"| {r['n']} | {r['ell']} | {r['system']} | {r['seed']} | `{r['order_label']}` "
-          f"({r['order']}) | {r.get('ring','')} | {r['d_solv'] or '_no F4 step logged_'} | "
-          f"{r['nsteps']} | "
-          f"{r['max_rows']} | {f(r['seconds'], 0):.1f} |")
+    per = defaultdict(dict)
+    for r in rows:
+        per[(i(r["n"], 0), i(r["ell"], -1), r["system"], i(r["seed"], -1))][r["order_label"]] = r
+    labels = ["genref", "blockPT", "blockT", "blockU", "blockW"]
+    present = [l for l in labels if any(l in v for v in per.values())]
+    A("One row per instance; a cell is `d_solv (seconds)`.  `—` means the order does not apply to "
+      "that system's variable layout.")
+    A("")
+    A("| n | ℓ | system | seed | " + " | ".join(f"`{l}`" for l in present) + " |")
+    A("|---:|---:|---|---:|" + "|".join("---:" for _ in present) + "|")
+    same_d = same_gb = total = 0
+    for key in sorted(per, key=lambda k: (k[0], k[1], k[2], k[3])):
+        n, ell, system, seed = key
+        cells, ds, gbs = [], set(), set()
+        for l in present:
+            r = per[key].get(l)
+            if r is None:
+                cells.append("—")
+                continue
+            cells.append(f"{r['d_solv'] or '_no F4 step logged_'} ({f(r['seconds'], 0):.1f})")
+            if r["d_solv"]:
+                ds.add(r["d_solv"])
+            gbs.add((r.get("gb_size"), r.get("gb_max_degree")))
+        total += 1
+        same_d += len(ds) <= 1
+        same_gb += len(gbs) <= 1
+        A(f"| {n} | {ell} | {system} | {seed} | " + " | ".join(cells) + " |")
+    A("")
+    A(f"`d_solv` is the same across every order in **{same_d} of {total}** instances, and the "
+      f"resulting basis (`gb_size`, `gb_max_degree`) in **{same_gb} of {total}** — consistent with "
+      f"§5: with a single solution over F₂ the reduced Gröbner basis does not depend on the "
+      f"monomial order, and Magma's F4 phase runs in grevlex regardless.")
     A("")
 
 
