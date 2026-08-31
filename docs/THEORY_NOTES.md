@@ -166,9 +166,39 @@ extra element of the $2n+1$ classes (which §2.5 says cannot be an $n$-block).
 
 ---
 
-## 3. The kernel model's $6n$ new quadratics at $D=3$
+## 3. The kernel model's $6n$ new quadratics at $D=3$ — fully explained [VERIFIED n=7,9]
 
-TODO_KERNEL
+The kernel model (E06) has, per S-box,
+$$B_i=a_ix_i^{2^{e_i}}+a_i^{2^{e_i}}x_i+a_i,\qquad K_i=t_ia_i+a_i^{2^{e_i}},$$
+all bilinear, $6n$ equations in $6n$ variables. The $D=3$ pass adds exactly $6n=\#\mathrm{eqs}$ new
+quadratics (§1 of the batch-2 wording correction). They are
+
+$$\boxed{\;a_i\cdot K_i=t_ia_i^{2}+a_i^{2^{e_i}+1},\qquad t_i\cdot K_i=t_i^{2}a_i+t_ia_i^{2^{e_i}}\;}
+\qquad i=0,1,2\ \ (t_2=pt+ct),$$
+
+six field polynomials, $n$ coordinates each. Measured: they lie in the $D=3$ row space, they are all
+new modulo the equations, and the unexplained remainder is **0** at both $n=7$ and $n=9$.
+
+**Why they do not raise the degree.** $K_i$ is quadratic and $a_i$, $t_i$ are linear, so a generic
+product would be cubic. It is not, because $a_i^2$ and $t_i^2$ are $\mathbb{F}_2$-linear (Frobenius)
+and $\operatorname{wt}(2^{e}+1)=2$: every monomial of $a_iK_i$ and $t_iK_i$ has exponent weight sum
+$2$. **No cancellation is involved at all** — unlike the $D=4$ falls of §2, this is a pure
+degree-of-the-exponent phenomenon.
+
+**Two consequences worth stating.**
+
+1. It is the **$K$ equations alone** that produce all $6n$; the $B$ equations contribute none. The
+   guess in the batch brief --- "$t_i\cdot(B\text{-equation})$ against $a_i\cdot(K\text{-equation})$"
+   --- is half right: both generators are multiples of $K_i$.
+2. It explains the control. A **random** bilinear system of the same shape has no Frobenius structure,
+   so multiplying an equation by a variable really does give a cubic --- which is exactly why E06
+   measures **0** new elements for the random bilinear control at $D=3$ and $D=4$, against the kernel
+   model's $6n$. The gap is not "the kernel model is more degenerate"; it is "$a^2$ is linear".
+
+**What this is not.** The S-box relations $P_1^{(i)}$ are *implied* by the model through the identity
+$B_i+x_i\,K_i=a_i\,P_1^{(i)}$ (a one-line check: the $a_i^{2^e}x_i$ terms cancel), but $P_1^{(i)}$
+itself is **not** in the $D=3$ row space, and the $P_1^{(i)}$ explain **none** of the $6n$ new
+quadratics (measured). Only the degree-3 multiple $a_iP_1^{(i)}$ is there.
 
 ---
 

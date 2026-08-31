@@ -25,10 +25,17 @@ then try to write them as *field* identities instead of as opaque Boolean row co
     explains modulo Mac_3.
 
 (2) `--kernel n` — the E06 kernel-variable bilinear model, D=3.
-    Measured: the D=3 pass adds #eqs = 6n new quadratics (E06, batch 2 wording).  Candidate
-    description: the field identity  B_i + x_i * K_i = a_i * P1_i  and the S-box relations P1_i
-    themselves.  The script measures the new-quadratic space, tests how much of it the coordinates
-    of P1_0, P1_1, P1_2 span, and reports the variable support of whatever is left.
+    Measured: the D=3 pass adds #eqs = 6n new quadratics (E06, batch 2 wording).  Two candidate
+    descriptions are tested:
+      (a) the S-box relations P1_i, which the model implies via  B_i + x_i * K_i = a_i * P1_i;
+      (b) a_i * K_i  and  t_i * K_i  (i = 0,1,2, with t_2 = pt + ct).
+    (b) is the answer.  K_i = t_i a_i + a_i^{2^e} is quadratic, and multiplying it by the LINEAR
+    form a_i or t_i does not raise the Boolean degree, because
+        a_i * K_i = t_i a_i^2 + a_i^{2^e+1},      t_i * K_i = t_i^2 a_i + t_i a_i^{2^e},
+    and a_i^2, t_i^2 are F_2-linear while wt(2^e+1) = 2.  No cancellation is involved at all: the
+    product is simply of lower degree than a generic one.  That is also why a random bilinear system
+    of the same shape produces nothing (E06): it has no Frobenius structure to exploit.  Note both
+    generators come from the K equations; the B equations contribute none.
 
 Usage:
   python3 fall_generators.py --sbox 11 3 [--track] [--budget SEC]
@@ -305,9 +312,27 @@ def analyse_kernel_model(n):
     inside = span_rank(p1rows + fs["low"]) == span_rank(fs["low"])
     _, p1_new = reduce_modulo(p1rows, mac2)
     resid, resid_dim = reduce_modulo(fs["low"], mac2 + p1rows)
-    print(f"   P1 coordinates inside the D=3 row space: {inside}; new modulo the equations: {p1_new}"
-          f" (3n = {3*n})")
-    print(f"   remaining new quadratics not explained by the P1_i: {resid_dim}")
+    print(f"   (a) P1 coordinates inside the D=3 row space: {inside}; new modulo the equations: "
+          f"{p1_new} (3n = {3*n}); unexplained remainder {resid_dim}"
+          + ("   -> the P1_i are NOT what the pass produces" if resid_dim == new else ""))
+
+    # (b) a_i * K_i and t_i * K_i
+    A = [var_field(F, (3 + i) * n) for i in range(3)]
+    Tall = [T[0], T[1], t2]
+    Ks = [Tall[i] * A[i] + A[i].frob(exps[i]) for i in range(3)]
+    cands, cand_names = [], []
+    for i in range(3):
+        for nm, g in ((f"a{i}*K{i}", A[i] * Ks[i]), (f"t{i}*K{i}", Tall[i] * Ks[i])):
+            cand_names.append(f"{nm}(deg {g.degree()})")
+            for k in range(n):
+                cands.append(poly_to_row(trace_poly(g, 1 << k), col))
+    cand_inside = span_rank(cands + fs["low"]) == span_rank(fs["low"])
+    _, cand_new = reduce_modulo(cands, mac2)
+    _, cand_resid = reduce_modulo(fs["low"], mac2 + cands)
+    print(f"   (b) candidates {cand_names}")
+    print(f"       inside the D=3 row space: {cand_inside}; new modulo the equations: {cand_new}; "
+          f"unexplained remainder: {cand_resid}"
+          + ("   -> FULLY EXPLAINED" if cand_resid == 0 and cand_new == new else ""))
     inv_col = {c: m for m, c in col.items()}
     supp = set()
     for r in resid:
@@ -323,16 +348,17 @@ def analyse_kernel_model(n):
     names = ["pt", "t0", "t1", "a0", "a1", "a2"]
     for j in supp:
         blocks[names[j // n]] += 1
-    print(f"   variable blocks touched by the unexplained part: "
+    print(f"   variable blocks touched by the part (a) leaves unexplained: "
           f"{ {k: v for k, v in blocks.items() if v} }")
     record("E06_theory_fall_generators.csv",
            dict(n=n, exps=";".join(map(str, exps)), nvars=nv, neqs=len(eqs),
                 mac2_rank=st2.rank, mac3_dim_le2=st3.dim_low, new_quadratics=new,
                 new_mod_eqs=q, p1_inside_rowspace=int(inside), p1_new_mod_eqs=p1_new,
-                unexplained=resid_dim,
+                p1_unexplained=resid_dim, aK_tK_inside=int(cand_inside), aK_tK_new=cand_new,
+                aK_tK_unexplained=cand_resid,
                 blocks=";".join(f"{k}={v}" for k, v in blocks.items() if v)),
            seconds=time.time() - t0)
-    return dict(n=n, new=new, p1_new=p1_new, unexplained=resid_dim)
+    return dict(n=n, new=new, p1_new=p1_new, unexplained=cand_resid)
 
 
 if __name__ == "__main__":

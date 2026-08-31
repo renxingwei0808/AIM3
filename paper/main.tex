@@ -69,9 +69,30 @@ Base (this draft), Target and Stretch as in the roadmap.}
 \input{sections/04_ideal}
 
 \section{Twisted-bilinear models}\label{sec:models}
-\todo{Section 5 -- the $(X\mid T)$ twisted-bilinear form of the $P_1$ system, the kernel model,
+\todo{Section 5 -- the $(X\mid T)$ twisted-bilinear form of the $P_1$ system, the
 Dickson/MinRank viewpoint, and the measured solving degrees. Depends on the server batch
 (E04 at $n=13,15$, E06 at $n=11..16$, E10 block orders).}
+
+One statement about the kernel model is already complete and is recorded here.
+%% ledger: T
+\begin{proposition}[what the kernel model's first pass produces]\label{prop:kernel-falls}
+\Verified{$n=7,9$} Let the kernel model have, per S-box,
+$B_i=a_ix_i^{2^{e_i}}+a_i^{2^{e_i}}x_i+a_i$ and $K_i=t_ia_i+a_i^{2^{e_i}}$. Then the degree-3
+Macaulay pass adds exactly $6n=\#\mathrm{eqs}$ new quadratics, and they are the coordinates of
+\[
+  a_i\cdot K_i=t_ia_i^{2}+a_i^{2^{e_i}+1},\qquad
+  t_i\cdot K_i=t_i^{2}a_i+t_ia_i^{2^{e_i}},\qquad i=0,\dots,\ell ,
+\]
+with nothing left over. These products fail to be cubic because $a_i^2$ and $t_i^2$ are
+$\F_2$-linear and $\wt(2^{e_i}+1)=2$; no cancellation occurs. The $B_i$ contribute none.
+\end{proposition}
+\begin{remark}
+This is why the control of \todo{E06 table} sees nothing: a random bilinear system of the same shape
+has no Frobenius structure, so multiplying an equation by a variable does give a cubic. It is also
+worth noting that the S-box relation $P_1^{(i)}$ is \emph{implied} by the model, through the identity
+$B_i+x_iK_i=a_iP_1^{(i)}$, but is not itself in the degree-3 row space --- only the cubic multiple
+$a_iP_1^{(i)}$ is.
+\end{remark}
 
 \section{Reduced-variable systems via two-valued inversion}\label{sec:reduced}
 \todo{Section 6 -- the explicit reduced system (E05) and the cost of non-invertibility.

@@ -90,7 +90,22 @@ in those classes, not a third n-block.
 
 ### 2.3 The kernel model's 6n new quadratics
 
-TODO_KERNEL_SUMMARY
+[VERIFIED n=7,9] The 6n new quadratics the D=3 pass adds to the kernel model are exactly the
+coordinates of
+
+    a_i·K_i = t_i a_i² + a_i^{2^{e_i}+1}   and   t_i·K_i = t_i² a_i + t_i a_i^{2^{e_i}},  i = 0,1,2
+
+(with t₂ = pt + ct) — six field polynomials, n coordinates each. Unexplained remainder: **0**.
+
+They do not raise the degree because a_i² and t_i² are F₂-linear and wt(2^e+1) = 2: **no cancellation
+is involved**, unlike the D=4 falls. Two consequences: (i) it is the **K equations alone** that
+produce all 6n — the B equations contribute none, so the brief's guess "t_i·(B) against a_i·(K)" is
+half right; (ii) it explains E06's control — a random bilinear system has no Frobenius structure, so
+multiplying by a variable really does give a cubic, which is why the control measures 0.
+
+The S-box relations P₁⁽ⁱ⁾ are *implied* by the model (B_i + x_i·K_i = a_i·P₁⁽ⁱ⁾, one line) but
+P₁⁽ⁱ⁾ itself is **not** in the D=3 row space and explains **none** of the 6n — only the cubic
+multiple a_i·P₁⁽ⁱ⁾ is there.
 
 ## 3. ROADMAP §3.3 rewritten (task 3)
 
