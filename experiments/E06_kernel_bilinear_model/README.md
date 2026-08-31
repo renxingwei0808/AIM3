@@ -55,3 +55,19 @@ quadratic control of the S_quad shape: n = 5 and 7 at D ≤ 4, n = 9 at D ≤ 3 
 **Next steps.** Tier B/C: n = 11..16 at D = 3, 4 with M4RI; identify the fall generators (candidate:
 tᵢ·(B-equation) vs aᵢ·(K-equation) cancellations); block orders {U > W} and {W > U} in Magma F4;
 y-XL multiplying only by W-monomials. Feed the fall structure into E04.
+
+## Server log — 2026-08-31 (server batch 1, branch `claude/server-batch-1`)
+
+`kernel_bilinear_toy.py` gained two options: `--backend python|sage` (the M4RI rank engine, verified
+identical to the pure-Python one by `server/jobs/verify_backend.py` at n = 7 for D = 2, 3, 4) and
+`--export DIR`, which writes the kernel model, `S_quad`, `P1only` and both random controls in msolve
+and Magma syntax for the F4 step-degree runs of E04 task 6.
+
+Sizing, measured rather than guessed: the D = 4 Macaulay matrix of the kernel model is
+145992 × 768692 at n = 11 (≈ 14 GB dense) and 240396 × 1505583 at n = 13 (≈ 45 GB) — the n = 15
+matrix would be ≈ 123 GB *and* about a day of M4RI, so it is out of reach for this batch and is
+listed as not done.
+
+Rows: `results/E06_server_kernel.csv`; the D = 3 result `dim_low = 2·#eqs` continues to hold.
+Numbers and the comparison with the random bilinear control:
+`results/REPORT_server_batch1.md` §4.

@@ -23,6 +23,7 @@ import math
 import os
 import re
 import shutil
+import signal
 import subprocess
 import sys
 import time
@@ -99,12 +100,21 @@ def main():
                f"{magma} -b {wrapper}"]
         t0 = time.time()
         censored = 0
-        try:
-            with open(log, "w") as fh:
-                rc = subprocess.run(cmd, stdout=fh, stderr=subprocess.STDOUT,
-                                    stdin=subprocess.DEVNULL, timeout=a.timeout).returncode
-        except subprocess.TimeoutExpired:
-            rc, censored = -9, 1
+        # own process group, killed as a group: otherwise the timeout only reaps the wrapper and
+        # Magma keeps running (and holding its memory) long after we have moved on
+        with open(log, "w") as fh:
+            proc = subprocess.Popen(cmd, stdout=fh, stderr=subprocess.STDOUT,
+                                    stdin=subprocess.DEVNULL, start_new_session=True)
+            try:
+                rc = proc.wait(timeout=a.timeout)
+            except subprocess.TimeoutExpired:
+                censored = 1
+                try:
+                    os.killpg(os.getpgid(proc.pid), signal.SIGKILL)
+                except (ProcessLookupError, PermissionError):
+                    proc.kill()
+                proc.wait()
+                rc = -9
         wall = time.time() - t0
         peak_kb = None
         if os.path.exists(log + ".time"):

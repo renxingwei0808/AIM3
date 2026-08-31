@@ -26,6 +26,7 @@ import json
 import os
 import re
 import shutil
+import signal
 import subprocess
 import sys
 import time
@@ -39,19 +40,30 @@ MAGMA_DRIVER = os.path.join(HERE, "magma", "aim3_f4_degrees.m")
 
 
 def _time_v(cmd, log_path, timeout):
-    """Run `cmd`, tee stdout+stderr to `log_path`, return (rc, seconds, peak_rss_kb, timed_out)."""
+    """Run `cmd`, tee stdout+stderr to `log_path`, return (rc, seconds, peak_rss_kb, timed_out).
+
+    The child runs in its own process group and the whole group is killed on timeout: killing only
+    the direct child would leave `/usr/bin/time`'s grandchild (magma, msolve) running for hours
+    after the driver has moved on.
+    """
     tf = log_path + ".time"
     use_time = shutil.which("/usr/bin/time") is not None
     full = (["/usr/bin/time", "-v", "-o", tf] if use_time else []) + cmd
     t0 = time.time()
     timed_out = False
     with open(log_path, "w") as fh:
+        proc = subprocess.Popen(full, stdout=fh, stderr=subprocess.STDOUT,
+                                stdin=subprocess.DEVNULL, start_new_session=True)
         try:
-            proc = subprocess.run(full, stdout=fh, stderr=subprocess.STDOUT, stdin=subprocess.DEVNULL,
-                                  timeout=timeout)
-            rc = proc.returncode
+            rc = proc.wait(timeout=timeout)
         except subprocess.TimeoutExpired:
-            rc, timed_out = -9, True
+            timed_out = True
+            try:
+                os.killpg(os.getpgid(proc.pid), signal.SIGKILL)
+            except (ProcessLookupError, PermissionError):
+                proc.kill()
+            proc.wait()
+            rc = -9
     secs = time.time() - t0
     peak = None
     if use_time and os.path.exists(tf):
