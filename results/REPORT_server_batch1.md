@@ -181,9 +181,9 @@ re-running Gate 1 should start there and at ℓ = 3, n = 15, 17.
   so Thm T1.3 can be stated — with the ℓ = 3, n = 11 row cited as the one measurement that does not
   fit and the reason it is not believed.
 * **T2** gets no fuel from cross-S-box coupling: the mechanism that would have promoted it is
-  absent.  §5 adds an independent negative from a completely different observable — the measured F4
-  solving degree of `S_quad` equals that of a *random* system of the same shape at every size
-  reached, so the structural falls do not translate into an easier Gröbner computation at toy scale.
+  absent.  §5 measures what the falls *are* worth from a completely different angle — the F4
+  solving degree of `S_quad` is at most one degree below that of a same-shape random system, and
+  only at ℓ = 2 — so the structure helps, but by one degree at toy scale, not by a collapse.
 * The **kernel model** remains T2's live anomaly (§4.2): it produces 2·#eqs elements of degree ≤ 2
   at D = 3 where the same-shape random bilinear control produces none.  That is a variable-choice
   effect, not a cross-S-box one, and it is what T2 should be built on.
@@ -353,11 +353,24 @@ the two seeds (a cell shows every value observed):
 
 **The finding, stated conservatively.**  `d_solv` takes the value 3 and then 4, and the step comes
 one size earlier for three S-boxes than for two: at ℓ = 1 it is 3 at n = 7, 9 and 4 at n = 11, 13,
-15; at ℓ = 2 it is 3 at n = 7 and 4 from n = 9 on.  And — this is the point — **it is the same for
-`S_quad` and for a random Boolean quadratic system of the same shape at every size reached**, with
-`random` occasionally *higher* (4 against 3 at n = 7, ℓ = 2).  The structural degree falls of T1
-(2n per S-box) therefore do **not** buy a lower solving degree at these sizes; whatever the ideal
-structure does to the Hilbert function, F4 does not see it as an easier computation.
+15; at ℓ = 2 it is 3 at n = 7 and 4 from n = 9 on.
+
+Against the same-shape random control the structure is **never a handicap and sometimes worth one
+degree**:
+
+| ℓ | n | `S_quad` | `P1only` | `random`, same shape |
+|---:|---:|---:|---:|---:|
+| 2 | 7 | 3 | 3 | **4** |
+| 2 | 9 | 4 | 4 | 4 |
+| 2 | 11 | 4 | 4 | 4 |
+| 2 | 13 | 4 | 4 | **5** |
+| 1 | 7..15 | 3,3,4,4,4 | 3,3,4,4,4 | 3,3,4,4,4 |
+
+So at ℓ = 2 — the AIM3-I/III shape — `S_quad` solves **one degree below** a random Boolean
+quadratic system of the same shape at n = 7 and n = 13, and ties at n = 9 and 11; at ℓ = 1 the two
+are equal throughout.  The structural degree falls of T1 therefore *do* show up in F4, but as at
+most one degree at these sizes, not as a collapse.  That is a much weaker effect than the
+Hilbert-function anomaly suggests, and it is the honest calibration of what the falls are worth.
 
 Five values of n satisfy the ≥ 4 requirement of `COMPLEXITY_ACCOUNTING §4` for stating that
 observation, but **not** for extrapolating a growth law: the data is a single step from 3 to 4 and
@@ -549,7 +562,7 @@ The ledger is not edited by this batch.  Proposed additions/changes, for a human
 | the ℓ = 3, n = 11 excess | **[OPEN]** — record it, do not build on it; it is 0 at n = 13 and not stable under the exponent choice | `results/E04_server_gate1_pairs.csv` |
 | E06 §2.2-L: kernel model has `dim(span_{D=3} ∩ deg≤2) = 2·#eqs`, the random bilinear control has none | [VERIFIED n = 7, 9, 11, 13, 15] (was n = 7, 9) | `results/E06_server_kernel.csv` |
 | claim K, no cross-S-box relations | [VERIFIED n = 16 at degree ≤ **4**] (was degree 3) | `results/E12_server_criteria_subtract.csv` |
-| measured `d_solv` of `S_quad` equals that of a same-shape random system | [VERIFIED n = 7, 9, 11, 13, 15] — new row | `results/E04_f4_degrees.csv` |
+| measured `d_solv` of `S_quad` is never above, and at ℓ = 2 sometimes one below, that of a same-shape random system | [VERIFIED n = 7, 9, 11, 13, 15] — new row | `results/E04_f4_degrees.csv` |
 | block orders give no advantage on these instances | [VERIFIED, with the tool caveat of §5] — new row, phrased as a limitation of the measurement | `results/E10_server_block_orders.csv` |
 
 ---
@@ -671,6 +684,7 @@ The ledger is not edited by this batch.  Proposed additions/changes, for a human
 | 2 | 15 | 2 | 2;4;7 | 45 | 210 | 105 + 30 + 75 | 210 | **0** | 0.3980 | yes |
 | 2 | 15 | 3 | 2;4;7 | 45 | 210 | 105 + 30 + 75 | 210 | **0** | 0.3980 | yes |
 | 2 | 17 | 1 | 2;3;4 | 51 | 187 | 119 + 34 + 34 | 187 | **0** | 0.3492 | yes |
+| 2 | 17 | 2 | 2;3;4 | 51 | 187 | 119 + 34 + 34 | 187 | **0** | 0.3492 | yes |
 | 3 | 11 | 1 | 2;3;4;5 | 44 | 1826 | 77 + 22 + 22 + 66 | 187 | **1639** | 0.5208 | yes |
 | 3 | 11 | 2 | 2;3;4;5 | 44 | 1826 | 77 + 22 + 22 + 66 | 187 | **1639** | 0.5208 | yes |
 | 3 | 11 | 3 | 2;3;4;5 | 44 | 1826 | 77 + 22 + 22 + 66 | 187 | **1639** | 0.5208 | yes |
@@ -725,6 +739,7 @@ Controls on the same instances (no per-block decomposition is defined for them):
 | 2 | 15 | 3 | random | 0 | 0.4079 |
 | 2 | 17 | 1 | P1only | 4896 | 0.3407 |
 | 2 | 17 | 1 | random | 0 | 0.3592 |
+| 2 | 17 | 2 | P1only | 4896 | 0.3407 |
 | 3 | 11 | 1 | P1only | 3608 | 0.3926 |
 | 3 | 11 | 1 | random | 0 | 0.4173 |
 | 3 | 11 | 2 | P1only | 3608 | 0.3926 |
@@ -972,7 +987,7 @@ At degree 4 it is not enough to ask whether a relation is supported on t₀ only
 | 2 | S_quad | 1 | 3 | 4 | 4 | 4 | – |
 | 2 | S_quad | 2 | 3 | 4 | 4 | 4 | – |
 | 2 | random | 1 | 4 | 4 | 4 | 5 | – |
-| 2 | random | 2 | 4 | 4 | 4 | – | – |
+| 2 | random | 2 | 4 | 4 | 4 | 5 | – |
 
 A cell `a/b` in bold would mean msolve and Magma disagreed; a plain number means they agreed (or only one tool ran).
 
@@ -1080,6 +1095,8 @@ A cell `a/b` in bold would mean msolve and Magma disagreed; a plain number means
 | 13 | 2 | S_quad | 2 | msolve | 4 | 8 | 114090 | 115877 | 936.6 | 6369 |
 | 13 | 2 | random | 1 | magma | 5 | 8 | 886020 | 289354 | 499.4 | 13703 |
 | 13 | 2 | random | 1 | msolve | 5 | 4 | 986289 | 389623 | 3600.0 |  |
+| 13 | 2 | random | 2 | magma | 5 | 8 | 886284 | 289618 | 523.6 | 13733 |
+| 13 | 2 | random | 2 | msolve | 5 | 4 | 986553 | 389887 | 3600.0 |  |
 | 15 | 1 | P1only | 1 | magma | 4 | 7 | 40388 | 30576 | 5.4 | 156 |
 | 15 | 1 | P1only | 1 | msolve | 4 | 8 | 48871 | 39616 | 35.9 | 738 |
 | 15 | 1 | P1only | 2 | magma | 4 | 7 | 40469 | 30657 | 6.8 | 156 |
