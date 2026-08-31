@@ -1,0 +1,7 @@
+__pycache__/
+*.pyc
+results/server/**/*.log
+results/server/**/*.mtx
+results/server/**/*.bin
+*.tmp
+.pytest_cache/
