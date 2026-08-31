@@ -65,7 +65,23 @@ new cubics, at (n,e) = (11,3) and (13,3). Nor does any single one of the 18 mult
 $\{1,x^{2^i},y^{2^j},x^{2^i}y^{2^j},x^{2^i+2^j},y^{2^i+2^j}\}\times\{P_1,P_2,P_3\}$ produce a new
 cubic on its own — all 18 measured, all 0.
 
-TODO_LOO_SUMMARY
+**What does work — leave-one-out.** Dropping one family at a time from the full row space: 16 of the
+18 leave the count at 2n; dropping `x^{2^i}y^{2^j}·P₂` leaves n, and dropping `y^{2^i+2^j}·P₃` leaves
+n. So **falls₄ = 2n splits as n + n**, and both blocks need **weight-2** multipliers on P₂/P₃ — the
+refuted ansatz used weight-1 ones. [VERIFIED (11,3), all 18 families measured.]
+
+**And why those two.** Written as multiples of P₁, `x^{2^k}P₂` and `y^{2^k}P₃` have *no* degree-4 part
+(Boolean degree ≤3 — they are inside Mac₃, which is the first half of why the ansatz fails);
+`x^{2^i}y^{2^j}P₁` has exactly *one* degree-4 monomial, so its only cancellations are the ⌊(n−1)/2⌋
+diagonal Frobenius coincidences, and those were measured to land in Mac₃ too (the second half); while
+
+    x^{2^i}y^{2^j}P₂ = x^{2^i+2}y^{2^j+1} + **x^{2^i+1+2^e}y^{2^j}** + x^{2^i+1}y^{2^j}
+    y^{2^i+2^j}P₃   = x y^{2^i+2^j+2}    + **x^{2^e}y^{2^i+2^j+1}**  + y^{2^i+2^j+1}
+
+each carry **two** degree-4 monomials, the second involving 2^e. Cancellation can happen inside one
+generator, and the condition sees the exponent — **which is how falls₄ can depend on the class of e
+at all**; a single-monomial family could not. This is the concrete starting point Theorem T1.2 needs,
+and it is in `docs/THEORY_NOTES.md` §2.6–2.7 with the symbolic verification.
 
 **A structural obstruction, worth stating in the paper.** falls₄ = 2n invites "two field cubics,
 n coordinates each". That cannot be the general shape: the classes {−3,(−3)⁻¹} and {n/2−1} give
@@ -195,6 +211,11 @@ No attack complexity numbers appear. Server-dependent results are `\todo{}`.
   bibliography. The skeleton compiles as a document; the bibliography is a one-line fix left to
   whoever adds the third-party citations (roadmap §6 requires checking each against the original PDF).
 * Sections 5, 6, 8 of the paper are `\todo{}` — they depend on the server batch.
+* **`results/README.md` was not updated** with rows for the five new `E0*_theory_*.csv` files. That
+  file is not in this batch's write scope (the scope lists `results/E0x_theory_*.csv` and this report
+  only), and it is shared with the server branch. The new files are documented here and in
+  `docs/THEORY_NOTES.md`; adding the rows is a one-commit follow-up for whoever merges the two
+  branches.
 
 ## 8. Open decisions for a human
 

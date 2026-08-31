@@ -116,9 +116,53 @@ shape**: the classes $\{-3,(-3)^{-1}\}$ and $\{n/2-1\}$ give $\mathrm{falls}_4=2
 must therefore produce a lone extra element in those classes — a $\dim$-$1$ phenomenon on top of two
 $n$-blocks, not a third block.
 
-### 2.6 Leave-one-out: which families are indispensable
+### 2.6 Leave-one-out: exactly two families are indispensable
 
-TODO_LOO
+Since the 18 families together span the whole row space, the meaningful question is which of them
+cannot be dropped. Removing one family at a time and recomputing the falls modulo $\mathrm{Mac}_3$:
+
+| dropped family | falls left (of $2n=22$) |
+|---|---|
+| any of the other 16 | 22 |
+| $x^{2^i}y^{2^j}\cdot P_2$ | **11 $=n$** |
+| $y^{2^i+2^j}\cdot P_3$ | **11 $=n$** |
+
+[VERIFIED $(n,e)=(11,3)$, all 18 families measured]
+
+So $\mathrm{falls}_4=2n$ splits as $n+n$: one block needs the multipliers $x^{2^i}y^{2^j}$ on $P_2$,
+the other needs $y^{2^i+2^j}$ on $P_3$. Note both are **weight-2** multipliers on $P_2/P_3$, whereas
+the refuted ansatz used the **weight-1** ones $x^{2^k}P_2$, $y^{2^k}P_3$.
+
+### 2.7 Why exactly those two — the degree-4 count
+
+Expand the three candidate shapes as multiples of $P_1$ and count the degree-4 field monomials:
+
+| generator | $=$ | degree-4 monomials | Boolean degree |
+|---|---|---|---|
+| $x^{2^k}P_2 = x^{2^k+1}P_1$ | $x^{2^k+2}y+x^{2^k+1+2^e}+x^{2^k+1}$ | **0** | $\le3$ |
+| $y^{2^k}P_3$ | (symmetrically) | **0** | $\le3$ |
+| $x^{2^i}y^{2^j}P_1$ | $x^{2^i+1}y^{2^j+1}+x^{2^i+2^e}y^{2^j}+x^{2^i}y^{2^j}$ | **1** | 4 |
+| $x^{2^i}y^{2^j}P_2=x^{2^i+1}y^{2^j}P_1$ | $x^{2^i+2}y^{2^j+1}+\mathbf{x^{2^i+1+2^e}y^{2^j}}+x^{2^i+1}y^{2^j}$ | **2** | 4 |
+| $y^{2^i+2^j}P_3=y^{2^i+2^j+1}P_1$ | $xy^{2^i+2^j+2}+\mathbf{x^{2^e}y^{2^i+2^j+1}}+y^{2^i+2^j+1}$ | **2** | 4 |
+
+(verified symbolically with `src/aim3/fieldpoly.py`). This explains all three observations at once:
+
+* $x^{2^k}P_2$ and $y^{2^k}P_3$ have **no** degree-4 part at all — they are already inside
+  $\mathrm{Mac}_3$ and can contribute nothing. That is one half of why the ansatz fails.
+* $x^{2^i}y^{2^j}P_1$ has a **single** degree-4 monomial, so its only cancellations are the
+  $\lfloor(n-1)/2\rfloor$ diagonal Frobenius coincidences of §2.2 — and those, measured, all land in
+  $\mathrm{Mac}_3$ too. That is the other half.
+* The two indispensable families have **two** degree-4 monomials, and in each case the second one
+  **carries $2^e$** (bold above). Cancellation can therefore happen between the two monomials of one
+  generator, and the condition involves the exponent. **This is the mechanism by which
+  $\mathrm{falls}_4$ depends on the multiplicative class of $e$ modulo $n$** — a single-monomial
+  family could not see $e$ at all.
+
+[CONJ] A proof of Theorem T1.2 should start here: solve
+$\operatorname{Tr}(\gamma\,x^{2^i+2}y^{2^j+1})+\operatorname{Tr}(\gamma'\,x^{2^i+1+2^e}y^{2^j})=0$
+for the exponent coincidences, and the same for the $P_3$ family; the class table of
+`results/E03_summary.md` should drop out, including the sign asymmetry of $3e\equiv\pm1$ and the lone
+extra element of the $2n+1$ classes (which §2.5 says cannot be an $n$-block).
 
 ---
 

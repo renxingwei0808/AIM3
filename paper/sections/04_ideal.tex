@@ -119,9 +119,34 @@ $\{1,x^{2^i},y^{2^j},x^{2^i}y^{2^j},x^{2^i+2^j},y^{2^i+2^j}\}\times\{P_1,P_2,P_3
 new cubic on its own.
 \end{observation}
 
-\todo{Batch 2 leave-one-out analysis: state which families cannot be dropped, and whether a
-two-block description $2n=n+n$ survives. Note that the $2n+1$ classes already rule out a description
-of the fall space as a union of full $n$-dimensional trace spaces.}
+Dropping one family at a time from the full row space isolates the two that matter.
+%% ledger: R
+\begin{observation}[two indispensable families]\label{obs:two-families}
+\Verified{$(n,e)=(11,3)$; all 18 families measured} Removing any of 16 families leaves the fall count
+at $2n$; removing $x^{2^i}y^{2^j}\cdot P_2$, or removing $y^{2^i+2^j}\cdot P_3$, leaves exactly $n$.
+Hence $\mathrm{falls}_4=2n$ splits as $n+n$, and both blocks need \emph{weight-two} multipliers on
+$P_2$, $P_3$ --- not the weight-one ones of Observation~\ref{obs:ansatz}.
+\end{observation}
+
+The reason is visible in the degree-4 count. Writing every generator as a multiple of $P_1$:
+$x^{2^k}P_2=x^{2^k+2}y+x^{2^k+1+2^e}+x^{2^k+1}$ has \emph{no} degree-4 part at all (Boolean degree
+$\le3$), so it lies in $\Mac_3$ and can contribute nothing; $x^{2^i}y^{2^j}P_1$ has exactly
+\emph{one} degree-4 monomial, so its only cancellations are the $\lfloor(n-1)/2\rfloor$ diagonal
+Frobenius coincidences, and those were measured to land in $\Mac_3$ as well; whereas
+\[
+  x^{2^i}y^{2^j}P_2=x^{2^i+2}y^{2^j+1}+\mathbf{x^{2^i+1+2^e}y^{2^j}}+x^{2^i+1}y^{2^j},\qquad
+  y^{2^i+2^j}P_3=xy^{2^i+2^j+2}+\mathbf{x^{2^e}y^{2^i+2^j+1}}+y^{2^i+2^j+1}
+\]
+each carry \emph{two} degree-4 monomials, the second of which involves $2^e$. Cancellation can
+therefore occur inside a single generator, and the condition sees the exponent --- which is how
+$\mathrm{falls}_4$ can depend on the class of $e$ at all. A single-monomial family could not.
+
+\begin{remark}[an obstruction to the obvious shape]\label{rem:obstruction}
+$\mathrm{falls}_4=2n$ invites the description ``two field cubics, $n$ coordinates each''. That cannot
+be the general shape: the classes $\{-3,(-3)^{-1}\}$ and $\{n/2-1\}$ give $2n+1$
+(Table~\ref{tab:classes}), and $2n+1$ is not a multiple of $n$. Any correct statement of
+Theorem~\ref{thm:firstfall} must produce a lone extra element there, not a third $n$-block.
+\end{remark}
 
 \subsection{Across S-boxes: no cubic relations, and the direct sum}
 
