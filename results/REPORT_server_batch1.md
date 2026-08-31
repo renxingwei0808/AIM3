@@ -71,12 +71,14 @@ default.
 ### 2.1 Verdict
 
 **The D=4 degree falls of the full AIM3 system are a direct sum over the S-boxes.  `cross_excess`
-is exactly 0 at every non-saturated size measured — ℓ = 1 at n = 17, 19; ℓ = 2 at n = 13, 15, 17;
-ℓ = 3 at n = 13 — on up to three seeds each, and not only for the whole system but at *every
-subset* of the S-box blocks.  The single exception is ℓ = 3 at n = 11, the smallest size at which four S-boxes can be
+is exactly 0 in **19 of the 22 non-saturated runs** — ℓ = 1 at n = 17, 19; ℓ = 2 at n = **13, 15,
+17, 19**; ℓ = 3 at n = 13 — three seeds each except ℓ = 2 at n = 19, and not only for the whole
+system but at *every subset* of the S-box blocks.  The other three runs are the three seeds of
+ℓ = 3 at n = 11.  The single exception is ℓ = 3 at n = 11, the smallest size at which four S-boxes can be
 run at all, and it does not survive to n = 13 (§2.4).**
 
-Tag: **[VERIFIED n = 13, 15, 17, 19 for ℓ ≤ 2; VERIFIED n = 13 for ℓ = 3; the n = 11 ℓ = 3
+Tag: **[VERIFIED ℓ = 2 at n = 13, 15, 17, 19 — four sizes, the ≥ 4 of COMPLEXITY_ACCOUNTING §4;
+ℓ = 1 at n = 17, 19; ℓ = 3 at n = 13; the n = 11 ℓ = 3
 exception is read as a small-parameter effect, [OPEN] as a mechanism]**.
 
 Gate 1 therefore closes the way the Tier-A batch guessed it would, but now on evidence that meets
@@ -91,7 +93,8 @@ the size of the monomial basis, not the structure, and the batch rule admits a r
 only below 0.9.  The sizes Tier A could reach are all saturated, and so is ℓ = 2 at n = 11:
 
 * ℓ = 1: n = 13 → 0.998, n = 15 → 0.978 (both discarded), n = 17 → 0.525, n = 19 → 0.470 (used)
-* ℓ = 2: n = 11 → 0.9997 (discarded), n = 13 → 0.455, n = 15 → 0.398, n = 17 → 0.349 (used)
+* ℓ = 2: n = 11 → 0.9997 (discarded), n = 13 → 0.455, n = 15 → 0.398, n = 17 → 0.349,
+  n = 19 → 0.313 (used)
 * ℓ = 3: n = 11 → 0.521, n = 13 → 0.342 (both below the threshold, see §2.4)
 
 That is the whole reason this job needed a server: the first usable size for ℓ = 1 is n = 17 and
@@ -107,8 +110,9 @@ Full tables in §A.2.  In summary, for every run with saturation < 0.9:
 | 1 | 19 | 1,2,3 | 2;3 | 171 | 133 + 38 | **0** |
 | 2 | 13 | 1,2,3 | 2;3;4 | 144 | 91 + 26 + 27 | **0** |
 | 2 | 15 | 1,2,3 | 2;4;7 | 210 | 105 + 30 + 75 | **0** |
-| 2 | 17 | 1 | 2;3;4 | 187 | 119 + 34 + 34 | **0** |
-| 3 | 13 | 1 | 2;3;4;5 | 170 | 91 + 26 + 27 + 26 | **0** |
+| 2 | 17 | 1,2,3 | 2;3;4 | 187 | 119 + 34 + 34 | **0** |
+| 2 | 19 | 1 | 2;3;4 | 209 | 133 + 38 + 38 | **0** |
+| 3 | 13 | 1,2,3 | 2;3;4;5 | 170 | 91 + 26 + 27 + 26 | **0** |
 | 3 | 11 | 1,2 | 2;3;4;5 | 1826 | 77 + 22 + 22 + 66 | **1639** ← §2.4 |
 
 Three independent strengthenings of that:
@@ -691,12 +695,14 @@ The ledger is not edited by this batch.  Proposed additions/changes, for a human
 | 2 | 15 | 3 | 2;4;7 | 45 | 210 | 105 + 30 + 75 | 210 | **0** | 0.3980 | yes |
 | 2 | 17 | 1 | 2;3;4 | 51 | 187 | 119 + 34 + 34 | 187 | **0** | 0.3492 | yes |
 | 2 | 17 | 2 | 2;3;4 | 51 | 187 | 119 + 34 + 34 | 187 | **0** | 0.3492 | yes |
+| 2 | 17 | 3 | 2;3;4 | 51 | 187 | 119 + 34 + 34 | 187 | **0** | 0.3492 | yes |
 | 2 | 19 | 1 | 2;3;4 | 57 | 209 | 133 + 38 + 38 | 209 | **0** | 0.3128 | yes |
 | 3 | 11 | 1 | 2;3;4;5 | 44 | 1826 | 77 + 22 + 22 + 66 | 187 | **1639** | 0.5208 | yes |
 | 3 | 11 | 2 | 2;3;4;5 | 44 | 1826 | 77 + 22 + 22 + 66 | 187 | **1639** | 0.5208 | yes |
 | 3 | 11 | 3 | 2;3;4;5 | 44 | 1826 | 77 + 22 + 22 + 66 | 187 | **1639** | 0.5208 | yes |
 | 3 | 13 | 1 | 2;3;4;5 | 52 | 170 | 91 + 26 + 27 + 26 | 170 | **0** | 0.3417 | yes |
 | 3 | 13 | 2 | 2;3;4;5 | 52 | 170 | 91 + 26 + 27 + 26 | 170 | **0** | 0.3417 | yes |
+| 3 | 13 | 3 | 2;3;4;5 | 52 | 170 | 91 + 26 + 27 + 26 | 170 | **0** | 0.3417 | yes |
 
 Controls on the same instances (no per-block decomposition is defined for them):
 
@@ -747,6 +753,9 @@ Controls on the same instances (no per-block decomposition is defined for them):
 | 2 | 17 | 1 | P1only | 4896 | 0.3407 |
 | 2 | 17 | 1 | random | 0 | 0.3592 |
 | 2 | 17 | 2 | P1only | 4896 | 0.3407 |
+| 2 | 17 | 2 | random | 0 | 0.3592 |
+| 2 | 17 | 3 | P1only | 4896 | 0.3407 |
+| 2 | 17 | 3 | random | 0 | 0.3592 |
 | 2 | 19 | 1 | P1only | 6156 | 0.3061 |
 | 3 | 11 | 1 | P1only | 3608 | 0.3926 |
 | 3 | 11 | 1 | random | 0 | 0.4173 |
@@ -758,6 +767,8 @@ Controls on the same instances (no per-block decomposition is defined for them):
 | 3 | 13 | 1 | random | 0 | 0.3521 |
 | 3 | 13 | 2 | P1only | 5096 | 0.3344 |
 | 3 | 13 | 2 | random | 0 | 0.3521 |
+| 3 | 13 | 3 | P1only | 5096 | 0.3344 |
+| 3 | 13 | 3 | random | 0 | 0.3521 |
 
 #### A.2.2 The subset lattice, with the random control (`server/jobs/gate1_pairs.py`)
 
