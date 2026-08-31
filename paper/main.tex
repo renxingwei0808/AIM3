@@ -1,0 +1,89 @@
+% AIM3 cryptanalysis -- Base part (batch 2 draft).
+%
+% Portability: this uses stock article + amsthm so that it compiles with any TeX installation.
+% To switch to the IACR ToSC style, replace the documentclass line by
+%     \documentclass[submission,spthm]{iacrtrans}
+% and delete the \title/\author block below (iacrtrans has its own).
+%
+% CONVENTIONS FOR THIS DRAFT
+%  * Every theorem/proposition carries a  %% ledger: <ID>  comment naming its row in
+%    paper/claims_ledger.md.  A statement without such a comment is not allowed in the paper.
+%  * Status macros \Proved, \Verified{...}, \Conj, \Open mirror the ledger's tags and must match it.
+%  * No attack complexity numbers appear in the Base part; results still on the server are \todo{}.
+\documentclass[11pt]{article}
+\usepackage[T1]{fontenc}
+\usepackage[utf8]{inputenc}
+\usepackage{amsmath,amssymb,amsthm}
+\usepackage{booktabs}
+\usepackage{hyperref}
+\usepackage{xcolor}
+
+\newcommand{\todo}[1]{\textcolor{red}{[\textbf{TODO}: #1]}}
+\newcommand{\Proved}{\textsf{[PROVED]}}
+\newcommand{\Verified}[1]{\textsf{[VERIFIED #1]}}
+\newcommand{\Conj}{\textsf{[CONJ]}}
+\newcommand{\Open}{\textsf{[OPEN]}}
+
+\newcommand{\F}{\mathbb{F}}
+\newcommand{\Fq}{\F_{2^n}}
+\newcommand{\Tr}{\operatorname{Tr}}
+\newcommand{\wt}{\operatorname{wt}}
+\newcommand{\Sbox}[1]{S[#1]}
+\newcommand{\Mers}[1]{M[#1]}
+\newcommand{\Ker}{\kappa}
+\newcommand{\Bform}{B}
+\newcommand{\Squad}{\mathcal{S}_{\mathrm{quad}}}
+\newcommand{\Mac}{\mathrm{Mac}}
+\newcommand{\syz}{\operatorname{syz}}
+\newcommand{\Bool}{\mathcal{B}}
+\newcommand{\Ideal}{\mathcal{I}}
+
+\theoremstyle{plain}
+\newtheorem{theorem}{Theorem}[section]
+\newtheorem{proposition}[theorem]{Proposition}
+\newtheorem{lemma}[theorem]{Lemma}
+\newtheorem{corollary}[theorem]{Corollary}
+\newtheorem{conjecture}[theorem]{Conjecture}
+\theoremstyle{definition}
+\newtheorem{definition}[theorem]{Definition}
+\newtheorem{remark}[theorem]{Remark}
+\newtheorem{observation}[theorem]{Observation}
+
+\title{Twisted-Bilinear Structure of AIM3:\\ Kernel Coordinates, Degree Falls, and the Cost of Non-Invertibility}
+\author{\todo{authors}}
+\date{Draft, \today}
+
+\begin{document}
+\maketitle
+
+\begin{abstract}
+\todo{abstract -- write last, after the server batch fixes the solving-degree table.}
+\end{abstract}
+
+\section{Introduction}\label{sec:intro}
+\todo{Introduction: the AIM/AIM2/AIM3 cryptanalysis line; contribution list split into
+Base (this draft), Target and Stretch as in the roadmap.}
+
+\input{sections/02_prelim}
+\input{sections/03_sbox}
+\input{sections/04_ideal}
+
+\section{Twisted-bilinear models}\label{sec:models}
+\todo{Section 5 -- the $(X\mid T)$ twisted-bilinear form of the $P_1$ system, the kernel model,
+Dickson/MinRank viewpoint, and the measured solving degrees. Depends on the server batch
+(E04 at $n=13,15$, E06 at $n=11..16$, E10 block orders).}
+
+\section{Reduced-variable systems via two-valued inversion}\label{sec:reduced}
+\todo{Section 6 -- the explicit reduced system (E05) and the cost of non-invertibility.
+The Tier-A part is done; the resultant timings are server work.}
+
+\section{Parameter audit}\label{sec:audit}
+\todo{Section 8 -- the two closed-form criteria and the weak-exponent classification.}
+
+\section{Conclusion}\label{sec:conclusion}
+\todo{}
+
+\bibliographystyle{plain}
+\bibliography{refs}
+
+\end{document}

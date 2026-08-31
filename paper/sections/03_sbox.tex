@@ -1,0 +1,141 @@
+\section{The enhanced Mersenne S-box}\label{sec:sbox}
+
+This section collects the structural facts about $\Sbox{e}$ that the rest of the paper uses. All of
+them are proved; none depends on a computation. Throughout $\gcd(e,n)=1$,
+\[
+  r=(2^e-1)^{-1}\bmod (2^n-1),\qquad m=e^{-1}\bmod n,\qquad \Mers{e}(z)=z^{2^e-1} .
+\]
+
+\subsection{Closed form and the quadratic relation}
+
+%% ledger: A
+\begin{proposition}[closed form]\label{prop:closed}
+\Proved\ For every $x\in\Fq^\times$,
+\[
+  \Sbox{e}(x)\;=\;\frac{(x+1)^{2^e}}{x} .
+\]
+Consequently, for $x\ne0$ and $y=\Sbox{e}(x)$ the relation
+\begin{equation}\label{eq:P1}
+  xy=x^{2^e}+1
+\end{equation}
+holds; conversely, if $(x,y)$ satisfies \eqref{eq:P1} then $x\ne0$ and $y=\Sbox{e}(x)$.
+\end{proposition}
+\begin{proof}
+By the Frobenius endomorphism $(x+1)^{2^e}=x^{2^e}+1$, so $(x+1)^{2^e}/x=x^{2^e-1}+x^{-1}$, which is
+$\Sbox{e}(x)$ for $x\ne0$. Multiplying by $x$ gives \eqref{eq:P1}. Conversely \eqref{eq:P1} forces
+$x\ne0$ (otherwise $0=1$), and dividing by $x$ returns $y=x^{2^e-1}+x^{-1}$.
+\end{proof}
+
+Equation \eqref{eq:P1} is the single multiplication the proof system verifies, and $P_1=xy+x^{2^e}+1$
+is the quadratic whose $n$ coordinates generate everything below.
+
+\subsection{The image and the trace criterion}
+
+%% ledger: B
+\begin{proposition}[image]\label{prop:image}
+\Proved\ $\operatorname{Im}\Sbox{e}=\{0\}\cup\{y\in\Fq^\times:\Tr(y^{-r})=0\}$, and
+$|\operatorname{Im}\Sbox{e}|=2^{n-1}$. Moreover every $y$ in the image with $y\neq 0$ has exactly two
+preimages, which differ by $y^{r}$.
+\end{proposition}
+\begin{proof}
+Fix $y\ne0$. By Proposition~\ref{prop:closed}, the preimages of $y$ are the nonzero roots of
+$x^{2^e}+yx+1=0$. Substitute $x=y^{r}w$. Since $r(2^e-1)\equiv1 \pmod{2^n-1}$ we have
+$r\cdot2^e\equiv r+1$, hence $x^{2^e}=y^{r+1}w^{2^e}$ and $yx=y^{r+1}w$, so the equation becomes
+\[
+  y^{r+1}\bigl(w^{2^e}+w\bigr)+1=0,\qquad\text{i.e.}\qquad w^{2^e}+w=y^{-(r+1)} .
+\]
+Because $\gcd(e,n)=1$, the $\F_2$-linear map $w\mapsto w^{2^e}+w$ has kernel $\F_2$ and image the
+trace-zero hyperplane; so the equation is solvable iff $\Tr\bigl(y^{-(r+1)}\bigr)=0$, and then it has
+exactly the two solutions $w,w+1$. Since $r+1\equiv r\cdot 2^e$, \eqref{eq:trace-frobenius} gives
+$\Tr\bigl(y^{-(r+1)}\bigr)=\Tr\bigl((y^{-r})^{2^e}\bigr)=\Tr(y^{-r})$, which is the stated criterion.
+The two preimages are $y^{r}w$ and $y^{r}(w+1)$, differing by $y^{r}$. Finally $y\mapsto y^{-r}$
+permutes $\Fq^\times$, so exactly $2^{n-1}-1$ nonzero $y$ satisfy the criterion; adding $y=0$ gives
+$2^{n-1}$.
+\end{proof}
+
+\begin{remark}\label{rem:image-degree}
+As a Boolean function of $y$, the criterion $\Tr(y^{-r})=0$ has degree $\wt(-r\bmod 2^n-1)=n-m$ by
+Proposition~\ref{prop:weight}. This is the quantity that will explain, in
+Section~\ref{sec:ideal}, why a low-degree relation on a \emph{single} S-box output can appear for
+some $(n,e)$ and not for others.
+\end{remark}
+
+\subsection{Kernel coordinates and the alternating form}
+
+%% ledger: D
+\begin{definition}\label{def:kernel}
+The \emph{kernel variable} of $y\ne0$ is $a=\Ker_e(y)=y^{r}$, and
+\[
+  \Bform_e(u,v)=uv^{2^e}+u^{2^e}v .
+\]
+\end{definition}
+
+$\Bform_e$ is symmetric and alternating ($\Bform_e(u,u)=0$), and $\F_2$-bilinear in each argument.
+
+\begin{proposition}[kernel characterisation]\label{prop:kernel}
+\Proved\ Let $x\ne0$ and $y=\Sbox{e}(x)$, $a=y^{r}$. Then
+\[
+  \Bform_e(a,x)=a \qquad\text{and}\qquad ya=a^{2^e} ,
+\]
+and conversely these two relations together with $a\neq 0$ imply $y=\Sbox{e}(x)$. Moreover
+$\Sbox{e}=\Mers{e}\circ\Ker_e^{-1}$ in the sense that $y=\Mers{e}(a)^{\,}$ holds after the
+substitution $a=y^r$, and the two preimages of $y$ are $x$ and $x+a$.
+\end{proposition}
+\begin{proof}
+$a^{2^e}=y^{r2^e}=y^{r+1}=y\cdot y^{r}=ya$, which is the second relation. For the first,
+\[
+  \Bform_e(a,x)=ax^{2^e}+a^{2^e}x=ax^{2^e}+(ya)x=a\bigl(x^{2^e}+yx\bigr)=a\cdot 1=a
+\]
+by \eqref{eq:P1}. Conversely, $ya=a^{2^e}$ with $a\ne0$ gives $y=a^{2^e-1}$, and substituting into
+$\Bform_e(a,x)=a$ yields $a(x^{2^e}+yx+1)=0$, hence \eqref{eq:P1}. The preimage statement is
+Proposition~\ref{prop:image}.
+\end{proof}
+
+%% ledger: D
+\begin{proposition}[polarised form]\label{prop:polarised}
+\Proved\ For all $u,v\in\Fq$, with $\Mers{e}(0):=0$,
+\[
+  \Bform_e(u,v)\;=\;uv\bigl(\Mers{e}(u)+\Mers{e}(v)\bigr) .
+\]
+\end{proposition}
+\begin{proof}
+For $u,v\ne0$, $uv(u^{2^e-1}+v^{2^e-1})=u^{2^e}v+uv^{2^e}=\Bform_e(u,v)$. If $u=0$ or $v=0$ both
+sides vanish.
+\end{proof}
+
+Combining Propositions~\ref{prop:kernel} and \ref{prop:polarised} rewrites the S-box relation as
+\begin{equation}\label{eq:difference-quotient}
+  x\bigl(\Mers{e}(a)+\Mers{e}(x)\bigr)=1 ,
+\end{equation}
+i.e.\ ``the difference quotient of the Mersenne map equals the inverse''. This is the form used by
+the kernel model of Section~\ref{sec:models}: it is $\F_2$-bilinear in the pair $(a,x)$ after the
+substitution $a=y^{r}$, whereas $P_1$ is bilinear in $(x,y)$.
+
+\subsection{The weight theorem}
+
+%% ledger: E
+\begin{proposition}[inverse-exponent weight]\label{prop:weight}
+\Proved\ Let $m=e^{-1}\bmod n$. Then
+\[
+  r=\sum_{i=0}^{m-1}2^{\,ie \bmod n},\qquad \wt(r)=m,\qquad \wt(-r\bmod 2^n-1)=n-m ,
+\]
+and $\operatorname{supp}(r)=\{ie\bmod n: 0\le i<m\}$ is an arithmetic progression of step $e$ in
+$\mathbb{Z}/n$.
+\end{proposition}
+\begin{proof}
+Put $R=\sum_{i=0}^{m-1}2^{ie}$. Telescoping,
+$(2^e-1)R=\sum_{i=0}^{m-1}\bigl(2^{(i+1)e}-2^{ie}\bigr)=2^{me}-1$. Since $me\equiv1\pmod n$ and
+$2^n\equiv1 \pmod{2^n-1}$, we get $2^{me}\equiv 2$, so $(2^e-1)R\equiv1\pmod{2^n-1}$ and $R\equiv r$.
+The exponents $ie\bmod n$, $0\le i<m$, are pairwise distinct because $e$ is invertible modulo $n$ and
+$m\le n$; hence the reduced representative of $r$ in $[0,2^n-1)$ is $\sum_i 2^{ie\bmod n}$ and has
+weight exactly $m$. Finally $-r\equiv (2^n-1)-r$ complements the support, giving weight $n-m$.
+\end{proof}
+
+\begin{corollary}\label{cor:degrees}
+The kernel map $y\mapsto y^{r}$ has Boolean degree $m$, and the image criterion of
+Proposition~\ref{prop:image} has Boolean degree $n-m$. A design rule follows: $e^{-1}\bmod n$ should
+be close to $n/2$, since both degrees are then simultaneously large.
+\end{corollary}
+
+The recommended AIM3 exponents are audited against Corollary~\ref{cor:degrees} in
+Section~\ref{sec:audit}; the final S-box of AIM3-V, with $e=19$ and $m=27$, is the most unbalanced.

@@ -1,0 +1,170 @@
+\section{The ideal structure of \texorpdfstring{$\Squad$}{Squad}}\label{sec:ideal}
+
+The designers' complexity estimate assumes that the $3(\ell+1)n$ quadratics of $\Squad$ behave like a
+semi-regular system. This section shows that they do not: two thirds of them are redundant by
+construction, the degree-3 Macaulay matrix has $8n$ syzygies per S-box, and the first-fall degree is
+$4$ with a fall count that depends only on the multiplicative class of $e$ modulo $n$.
+
+\subsection{Two thirds of \texorpdfstring{$\Squad$}{Squad} is an XL step}
+
+%% ledger: F
+\begin{proposition}\label{prop:ideal-P1}
+\Proved\ In the Boolean ring, $\langle P_1,P_2,P_3\rangle=\langle P_1\rangle$; more precisely each
+coordinate of $P_2$ and of $P_3$ lies in the $\F_2$-span of $\{z\cdot p : z \text{ a variable},\ p
+\text{ a coordinate of } P_1\}$. Hence $\Squad$ is exactly the first XL step applied to the $P_1$
+system, and $d_{\mathrm{solv}}(\Squad)\ge d_{\mathrm{solv}}(P_1)-1$.
+\end{proposition}
+\begin{proof}
+$P_2=xP_1$ and $P_3=yP_1$ as elements of $\Fq[x,y]$. For any $\gamma$,
+$\Tr(\gamma\, xP_1)=\sum_j x_j\,\Tr(\gamma\beta_j P_1)$ where $x=\sum_j \beta_j x_j$ is the expansion
+of $x$ in the chosen basis; each $\Tr(\gamma\beta_j P_1)$ is a coordinate of $P_1$. The same argument
+applies to $P_3$. The converse inclusion is trivial.
+\end{proof}
+
+\subsection{Syzygies at degree three}
+
+%% ledger: G
+\begin{theorem}[$8n$ syzygies]\label{thm:syz}
+For one S-box, $\syz_3\bigl(\{P_1,P_2,P_3\}\bigr)=8n$. Of these, $3n$ are proved
+(Proposition~\ref{prop:trivial-syz}); the remaining $5n$ are \Verified{$n=11..16$, every admissible
+$e$} --- $36$ runs, no exception --- and \Conj\ in general.
+\end{theorem}
+
+%% ledger: G
+\begin{proposition}[the $3n$ structural syzygies]\label{prop:trivial-syz}
+\Proved\ The relations $x\cdot P_1=P_2$, $y\cdot P_1=P_3$ and $y\cdot P_2=x\cdot P_3$ each contribute
+$n$ independent linear dependencies among the rows of $\Mac_3$.
+\end{proposition}
+\begin{proof}
+As in Proposition~\ref{prop:ideal-P1}, every coordinate of $P_2$ is an $\F_2$-combination of the rows
+$x_j\cdot(\text{coordinate of }P_1)$; the $n$ coordinates of $P_2$ therefore give $n$ dependencies
+between the degree-$0$-multiplier rows of $P_2$ and the degree-$1$-multiplier rows of $P_1$, and they
+are independent because the coordinates of $P_2$ are. The same for $P_3$, and again for
+$yP_2=xyP_1=xP_3$.
+\end{proof}
+
+The mechanism behind the remaining $5n$ is Frobenius-orbit cancellation in the sense of
+\eqref{eq:trace-frobenius}. \todo{Write the $5n$ generators explicitly. The batch-2 search
+(Section~\ref{sec:falls}) shows that the analogous question at $D=4$ has no small structured answer,
+so this is expected to be delicate.}
+
+\subsection{First-fall degree four}\label{sec:falls}
+
+%% ledger: H
+\begin{theorem}[first-fall degree and fall count]\label{thm:firstfall}
+\Verified{$n=11..16$, every admissible $e$; $36$ runs} For one S-box the first-fall degree is $4$,
+and the number of new cubics is
+\[
+  \mathrm{falls}_4 = 2n+\Delta(e),
+\]
+where $\Delta$ depends only on the unordered pair $\{e,\,e^{-1}\bmod n\}$ and is given by
+Table~\ref{tab:classes}. In particular $\Delta(e)=0$ --- i.e.\ exactly $2n$ falls --- for every
+exponent of every recommended parameter set.
+\end{theorem}
+
+%% ledger: I
+\begin{table}[t]\centering
+\caption{The measured fall count as a function of the class of $e$. Source:
+\texttt{results/E03\_summary.md} (36 runs, $n=11..16$). The rule reproduces every measured count;
+it is a fit to $n\le16$, hence \Conj.}\label{tab:classes}
+\begin{tabular}{ll}
+\toprule
+class of $e$ (as a pair $\{e,e^{-1}\}$) & $\mathrm{falls}_4$\\
+\midrule
+$\{2,\,2^{-1}\}$ & $7n$\\
+$\{-2,\,(-2)^{-1}\}$ & $4n$\\
+$\{1+n/2\}$ ($n$ even, self-inverse) & $17n/2$\\
+$\{-3,\,(-3)^{-1}\}$ & $2n+1$\\
+$\{n/2-1\}$ ($n$ even, self-inverse) & $2n+1$\\
+generic & $2n$\\
+\bottomrule
+\end{tabular}
+\end{table}
+
+%% ledger: I2
+\begin{observation}[the sign matters]\label{obs:sign}
+The extra fall of the $2n+1$ class appears exactly when $3e\equiv-1$ or $3e^{-1}\equiv-1 \pmod n$, or
+$e=n/2-1$. The congruence $3e\equiv+1$ does \emph{not} produce it: $(n,e)=(11,4),(13,9),(14,5),(16,11)$
+all satisfy it and all give exactly $2n$. Every other family tested --- $k\cdot e\equiv\pm1,\pm2$ for
+$k\le6$, for $e$ and for $e^{-1}$; $e$ against $n/2$; $e^2\equiv\pm1$ --- fails to separate the two
+classes.
+\end{observation}
+
+%% ledger: H2, H3
+\begin{theorem}[no cubic generators outside the quadratic ideal]\label{thm:outside}
+\Verified{$n=11..16$, every admissible $e$ with $e\ne2$} The degree-$4$ Macaulay matrix exhausts the
+cubic part of the vanishing ideal of the S-box graph: $\dim I(V_e)_{\le3}=\mathrm{low}_4$. The
+exception is $e=2$, where exactly $2n$ cubics of $I(V_e)$ are not reached at $D=4$ ($n=11,13,15$).
+Curiously $\mathrm{falls}_4$ is symmetric under $e\leftrightarrow e^{-1}$ but this defect is not:
+$e=2^{-1}$ has no unreachable cubics. \Open
+\end{theorem}
+
+\subsection{What generates the falls}
+
+The natural guess is that the $2n$ new cubics come from a small, structured family of field
+identities, in the same way that $3n$ of the syzygies come from $P_2=xP_1$ and $P_3=yP_1$. Because a
+squarefree Boolean monomial of degree $\le2$ is itself a Boolean-degree-$\le2$ function of $(x,y)$,
+every row of $\Mac_4$ is of the form $\Tr(\gamma\,M\,P_k)$ for a \emph{field} monomial $M=x^ay^b$ with
+$\wt(a)+\wt(b)\le2$; and the degree-$4$ part of $\Tr(\gamma\,x^{2^i}y^{2^j}P_1)$ is
+$\Tr\bigl(\gamma\,x^{2^i+1}y^{2^j+1}\bigr)$, which is homogeneous of degree $\wt(2^i+1)+\wt(2^j+1)$.
+A fall is therefore a solution of a pure Frobenius-cancellation condition, and the question is which
+multiplier families are needed to realise one.
+
+\begin{observation}[the natural ansatz is refuted]\label{obs:ansatz}
+\Verified{$(n,e)=(11,3),(13,3)$} The $\Fq$-module generated by
+$\{x^{2^i}y^{2^j}P_1\}\cup\{x^{2^k}P_2\}\cup\{y^{2^k}P_3\}$ does produce degree-$4$ cancellations,
+but every cubic it yields already lies in $\Mac_3$: it explains \emph{none} of the $2n$ new cubics.
+Moreover none of the $18$ multiplier families
+$\{1,x^{2^i},y^{2^j},x^{2^i}y^{2^j},x^{2^i+2^j},y^{2^i+2^j}\}\times\{P_1,P_2,P_3\}$ produces a single
+new cubic on its own.
+\end{observation}
+
+\todo{Batch 2 leave-one-out analysis: state which families cannot be dropped, and whether a
+two-block description $2n=n+n$ survives. Note that the $2n+1$ classes already rule out a description
+of the fall space as a union of full $n$-dimensional trace spaces.}
+
+\subsection{Across S-boxes: no cubic relations, and the direct sum}
+
+%% ledger: K, K2
+\begin{theorem}[no cross-S-box cubic]\label{thm:cross}
+\Verified{$n=14,16$} Let $t_0,t_1$ be the outputs of two first-layer S-boxes driven by the same $pt$.
+The space of Boolean cubics vanishing on $\{(t_0,t_1)\}$ consists exactly of the univariate image
+criteria of Proposition~\ref{prop:image}; its dimension is $\#\{i:\ n-m_i\le3\}$. There is no cubic
+relation involving both $t_0$ and $t_1$.
+\end{theorem}
+\begin{remark}
+At $n=14$ with $e=(3,5)$ the criteria have Boolean degree $9$ and $11$ and the dimension is $0$; at
+$n=16$ with the same exponents, $e_1=5$ has $m_1=13$ so the criterion has degree $n-m_1=3$ and the
+dimension is $1$. Reading that $1$ as a cross relation would be a mistake: the relation is supported
+on the $t_1$ variables alone. This is the same quantity $n-m$ that Corollary~\ref{cor:degrees}
+identifies as a design criterion.
+\end{remark}
+
+%% ledger: M, M2, M3
+\begin{theorem}[direct sum at low degree]\label{thm:directsum}
+For the full system, $\syz_3(\Squad)=(\ell+1)\cdot 8n$ \Verified{$n=7,9,11$; $\ell=1,2$}. At $D=4$,
+for the two-S-box first layer the falls are the exact direct sum of the per-S-box falls
+(\Verified{$n=11$}: $44=22+22$ with zero cross excess), and ideal-theoretically
+$\dim I(V)_{\le3}-\operatorname{rank}\Mac_3=4n$ exactly \Verified{$n=14$}.
+\end{theorem}
+
+%% ledger: M4
+\begin{remark}[why the full three-S-box system is not measured here]\label{rem:e04}
+For $\Squad$ itself the degree-$4$ row space saturates the degree-$\le3$ space at every size
+reachable without a dedicated linear-algebra backend ($0.9936$--$0.9997$ of $\binom{N}{\le3}$ for
+$n\le11$), and a random quadratic system of the same shape saturates identically. The fall count
+there measures the monomial basis, not the algebra (Remark~\ref{rem:saturation}), so no conclusion is
+drawn from it. \todo{Server batch: $n=13,15$, where the matrix is no longer saturated.}
+\end{remark}
+
+\subsection{The linear layer is not the source of any of this}
+
+%% ledger: P
+\begin{observation}[matrix distribution is irrelevant]\label{obs:distribution}
+\Verified{$n=9,11$; two seeds} Replacing the specification's unit-LU matrices by uniform random
+elements of $GL_n(\F_2)$, or by random invertible matrices of the same density, changes neither the
+degree-3 rank and syzygy count nor the degree-4 fall count of the first-layer system. At $n=11$ all
+three distributions give rank $2068$, $\syz_3=176=2\cdot 8n$ and $\mathrm{falls}_4=44=4n$.
+\end{observation}
+
+Everything in this section is therefore a property of the S-box, not of the key schedule.
