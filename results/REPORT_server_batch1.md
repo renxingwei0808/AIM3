@@ -290,20 +290,26 @@ bilinear control produces none**.  That is the one live anomaly T2 has, and it i
 variable-choice effect, not a cross-S-box one.  Tag: **[VERIFIED n = 7, 9, 11, 13, 15]** (was
 n = 7, 9).
 
-**But the kernel model is much *harder* for F4, not easier.**  On the same ring and with the same
-field equations, at n = 7:
+**What F4 makes of the kernel model cuts two ways, and both directions matter to T2.**  On the same
+ring, with the same field equations, at n = 7:
 
-| system | variables | equations | `d_solv` | F4 steps | largest F4 matrix | GB size |
-|---|---:|---:|---:|---:|---:|---:|
-| `S_quad` | 21 | 63 | 3 | 5 | 3 471 | 24 |
-| kernel model | 42 | 42 | **7** | 13 | **443 507** | 4 432 |
+| system | variables | equations | `d_solv` | F4 steps | largest F4 matrix | GB size | seconds |
+|---|---:|---:|---:|---:|---:|---:|---:|
+| `S_quad` | 21 | 63 | 3 | 5 | 3 471 | 24 | 0.1 |
+| **kernel model** | 42 | 42 | 7 | 13 | 443 507 | 4 432 | **131.5** |
+| **random bilinear**, same shape | 42 | 42 | ≥ 5 | ≥ 4 | ≥ 492 672 | — | **censored at 1800** |
 
-Twice the variables, but more than twice the solving degree and a 128× larger F4 matrix — and,
-unlike `S_quad`, the kernel model does not have a unique solution, so its Gröbner basis is large
-and order-dependent (§5).  The two observations have to be held together: **the kernel
-re-parameterisation produces degree falls that the random bilinear control does not have, and at
-the same time makes the Gröbner computation dramatically more expensive.**  Whatever T2 builds on
-the kernel model has to explain the second fact as well as the first.
+* Against a **random system of its own shape** the kernel model is a large win: the control does not
+  finish in half an hour where the kernel model finishes in two minutes.  That is consistent with
+  the degree-fall anomaly — the structure is doing real work.
+* Against the **official `S_quad`** it is a large loss: half the equations but twice the variables,
+  `d_solv` 7 against 3, a 128× larger F4 matrix, and 1000× the time.  At n = 11 the gap has become
+  decisive: `S_quad` takes 4.3 s and the kernel model is **censored at one hour by both tools**
+  (msolve `d_solv ≥ 4`, Magma `d_solv ≥ 5`).
+
+So the kernel re-parameterisation buys a great deal relative to a generic bilinear system and
+nothing at all relative to the system AIM3 actually presents.  T2 has to account for both halves
+before the D = 3 anomaly can be turned into an attack.
 
 At D = 4 the kernel model was run at n = 11 only, and the control there is just as sharp: the
 kernel model reaches `dim_low = 9075` — **4653 new elements of degree ≤ 3** — on a
@@ -401,6 +407,9 @@ The block orders give a **smaller** basis (2357 and 2772 against 4432) and cost 
 more time**; `d_solv` and the F4 matrix are identical across the three because, as fact 2 above
 says, the F4 phase runs in grevlex and the order is applied afterwards — all of the extra time is
 in that conversion.  So on the one instance where a block order could have helped, it does not.
+(The same-shape random bilinear control is censored at 1800 s under *all three* orders, so it
+contributes only the observation that the kernel model is far easier than a generic system of its
+shape — §4.2.)
 
 **T2.2 therefore gets no traction here**, on either kind of instance.  A step-degree comparison
 *inside* a block order still needs a tool that computes directly in it (Sage/PolyBoRi does — §8).
@@ -666,6 +675,7 @@ The ledger is not edited by this batch.  Proposed additions/changes, for a human
 | 3 | 11 | 2 | 2;3;4;5 | 44 | 1826 | 77 + 22 + 22 + 66 | 187 | **1639** | 0.5208 | yes |
 | 3 | 11 | 3 | 2;3;4;5 | 44 | 1826 | 77 + 22 + 22 + 66 | 187 | **1639** | 0.5208 | yes |
 | 3 | 13 | 1 | 2;3;4;5 | 52 | 170 | 91 + 26 + 27 + 26 | 170 | **0** | 0.3417 | yes |
+| 3 | 13 | 2 | 2;3;4;5 | 52 | 170 | 91 + 26 + 27 + 26 | 170 | **0** | 0.3417 | yes |
 
 Controls on the same instances (no per-block decomposition is defined for them):
 
@@ -723,6 +733,7 @@ Controls on the same instances (no per-block decomposition is defined for them):
 | 3 | 11 | 3 | random | 0 | 0.4173 |
 | 3 | 13 | 1 | P1only | 5096 | 0.3344 |
 | 3 | 13 | 1 | random | 0 | 0.3521 |
+| 3 | 13 | 2 | P1only | 5096 | 0.3344 |
 
 #### A.2.2 The subset lattice, with the random control (`server/jobs/gate1_pairs.py`)
 
@@ -1041,6 +1052,8 @@ A cell `a/b` in bold would mean msolve and Magma disagreed; a plain number means
 | 11 | 2 | S_quad | 1 | msolve | 4 | 6 | 65618 | 59396 | 56.2 | 924 |
 | 11 | 2 | S_quad | 2 | magma | 4 | 5 | 49156 | 42950 | 5.4 | 228 |
 | 11 | 2 | S_quad | 2 | msolve | 4 | 6 | 60278 | 54072 | 69.4 | 914 |
+| 11 | 2 | kernel | 1 | magma | 5 | 12 | 321685 | 531306 | 3600.0 |  |
+| 11 | 2 | kernel | 1 | msolve | 4 | 6 | 258815 | 535114 | 3600.0 |  |
 | 11 | 2 | random | 1 | magma | 4 | 5 | 53245 | 38125 | 5.4 | 295 |
 | 11 | 2 | random | 1 | msolve | 4 | 6 | 64108 | 48988 | 115.6 | 1593 |
 | 11 | 2 | random | 2 | magma | 4 | 5 | 53245 | 38125 | 5.2 | 295 |
@@ -1079,6 +1092,8 @@ A cell `a/b` in bold would mean msolve and Magma disagreed; a plain number means
 | 15 | 1 | random | 1 | msolve | 4 | 6 | 48345 | 32966 | 30.9 | 563 |
 | 15 | 1 | random | 2 | magma | 4 | 5 | 40310 | 24946 | 1.6 | 164 |
 | 15 | 1 | random | 2 | msolve | 4 | 6 | 48126 | 32762 | 29.3 | 562 |
+| 15 | 2 | P1only | 1 | magma | 5 | 8 | 134734 | 161360 | 3600.0 |  |
+| 15 | 2 | P1only | 1 | msolve | 4 | 7 | 166632 | 194076 | 3600.0 |  |
 
 ### A.6 Block orders (E10)
 
@@ -1101,6 +1116,8 @@ One row per instance; a cell is `d_solv (seconds)`.  `—` means the order does 
 | 7 | 2 | kernel | 1 | 7 (131.5) | — | — | 7 (485.3) | 7 (1127.0) |
 | 7 | 2 | random | 1 | 4 (0.2) | 4 (0.3) | 4 (0.3) | — | — |
 | 7 | 2 | random | 2 | 4 (0.3) | 4 (0.3) | 4 (0.4) | — | — |
+| 7 | 2 | random_bilinear | 1 | 5 (1800.0) | — | — | 5 (1800.0) | 5 (1800.0) |
+| 7 | 2 | random_quadratic | 1 | 4 (0.3) | — | — | — | — |
 | 9 | 1 | P1only | 1 | 3 (0.1) | 3 (0.1) | 3 (0.1) | — | — |
 | 9 | 1 | P1only | 2 | 3 (0.2) | 3 (0.2) | 3 (0.2) | — | — |
 | 9 | 1 | S_quad | 1 | 3 (0.1) | 3 (0.1) | 3 (0.1) | — | — |
@@ -1140,7 +1157,7 @@ One row per instance; a cell is `d_solv (seconds)`.  `—` means the order does 
 | 15 | 1 | random | 1 | 4 (1.5) | 4 (1.4) | 4 (1.4) | — | — |
 | 15 | 1 | random | 2 | 4 (1.3) | 4 (1.4) | 4 (1.5) | — | — |
 
-`d_solv` is the same across every order in **51 of 51** instances, and the resulting basis (`gb_size`, `gb_max_degree`) in **50 of 51** — consistent with §5: with a single solution over F₂ the reduced Gröbner basis does not depend on the monomial order, and Magma's F4 phase runs in grevlex regardless.
+`d_solv` is the same across every order in **53 of 53** instances, and the resulting basis (`gb_size`, `gb_max_degree`) in **52 of 53** — consistent with §5: with a single solution over F₂ the reduced Gröbner basis does not depend on the monomial order, and Magma's F4 phase runs in grevlex regardless.
 
 ### A.7 E05 — resultant of the two-valued-inverse reduced system
 
