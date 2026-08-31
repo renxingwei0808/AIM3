@@ -17,9 +17,19 @@ exactly a basis of rowspace ∩ (degree ≤ D−1), hence
 implementation on small systems; do not change the column ordering without re-running it.
 """
 from __future__ import annotations
-import itertools
+import itertools, time
 
-__all__ = ["monomial_columns", "poly_rows", "macaulay_stats", "MacaulayResult"]
+__all__ = ["monomial_columns", "poly_rows", "macaulay_stats", "MacaulayResult", "MacaulayTimeout"]
+
+
+class MacaulayTimeout(Exception):
+    """Raised when a run exceeds its deadline. `.partial` is a MacaulayResult whose rank/dim_low are
+    LOWER BOUNDS (rows counted so far), never values -- CLAUDE.md ground rule 4."""
+
+    def __init__(self, partial, seconds):
+        super().__init__(f"Macaulay elimination exceeded {seconds:.0f}s; partial (lower bound): {partial}")
+        self.partial = partial
+        self.seconds = seconds
 
 
 class MacaulayResult(tuple):
@@ -109,13 +119,31 @@ def poly_rows(eqs, nv: int, D: int, col=None, mult_deg=None):
             yield row
 
 
-def _eliminate(row_iter, top_start):
-    """Streamed GF(2) echelon: returns (nrows_seen, rank, #pivots below top_start)."""
+def _eliminate(row_iter, top_start, ncol=None, deadline=None):
+    """Streamed GF(2) echelon: returns (nrows_seen, rank, #pivots below top_start).
+
+    Two shortcuts that do not change the result:
+    * once every column is a pivot the matrix has full rank, so the remaining rows only need
+      counting (they are all dependent);
+    * `deadline` (an absolute time.monotonic() value) aborts with MacaulayTimeout carrying the
+      partial counts as lower bounds.
+    """
     piv = {}
     nrows = 0
     low = 0
+    full = False
+    check = 0
     for r in row_iter:
         nrows += 1
+        if full:
+            continue
+        if deadline is not None:
+            check += 1
+            if check >= 256:
+                check = 0
+                if time.monotonic() > deadline:
+                    raise MacaulayTimeout(MacaulayResult(nrows, ncol if ncol else 0, len(piv), low),
+                                          time.monotonic() - deadline)
         while r:
             b = r.bit_length() - 1
             p = piv.get(b)
@@ -123,13 +151,21 @@ def _eliminate(row_iter, top_start):
                 piv[b] = r
                 if b < top_start:
                     low += 1
+                if ncol is not None and len(piv) == ncol:
+                    full = True
                 break
             r ^= p
     return nrows, len(piv), low
 
 
-def macaulay_stats(eqs, nv: int, D: int, mult_deg=None) -> MacaulayResult:
-    """Rows / columns / rank / syzygies / dim(span ∩ deg<=D-1) of the degree-D Macaulay matrix."""
+def macaulay_stats(eqs, nv: int, D: int, mult_deg=None, budget=None) -> MacaulayResult:
+    """Rows / columns / rank / syzygies / dim(span ∩ deg<=D-1) of the degree-D Macaulay matrix.
+
+    `budget` (seconds) raises MacaulayTimeout instead of running forever; the exception carries
+    the partial counts as lower bounds.
+    """
     col, ncol, top_start = monomial_columns(nv, D)
-    nrows, rank, low = _eliminate(poly_rows(eqs, nv, D, col=col, mult_deg=mult_deg), top_start)
+    deadline = None if budget is None else time.monotonic() + budget
+    nrows, rank, low = _eliminate(poly_rows(eqs, nv, D, col=col, mult_deg=mult_deg),
+                                  top_start, ncol=ncol, deadline=deadline)
     return MacaulayResult(nrows, ncol, rank, low)

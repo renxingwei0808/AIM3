@@ -8,4 +8,4 @@ aim3_ref    : spec-faithful AIM3 (GenerateLinear = Alg.4, NoZeroInpSB = Alg.5) w
 structures  : kernel variable a=y^r, linear section H_e, two-valued inverse, weight theorem, exponent audit helpers
 """
 from .gf2n import GF2n, SPEC_MODULI, TOY_MODULI
-from .aim3_ref import AIM3, Conventions, AIM3_PARAMS
+from .aim3_ref import AIM3, Conventions, ALL_CONVENTIONS, AIM3_PARAMS

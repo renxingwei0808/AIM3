@@ -40,3 +40,17 @@ def test_boolmac_matches_legacy():
         rk, low, nrow, ncol = macaulay(P1 + P2 + P3, 18, D)
         f = macaulay_stats(P1 + P2 + P3, 18, D)
         assert (rk, low, nrow, ncol) == (f.rank, f.dim_low, f.rows, f.cols)
+
+def test_kat_conventions_pinned():
+    """AIM3 with the DEFAULT Conventions must reproduce the official AIMer v3.0 KAT records
+    (experiments/E00_reference_and_facts/kat_vectors.json, extracted by kat_pin.py)."""
+    import json
+    from aim3 import AIM3, AIM3_PARAMS
+    path = os.path.join(ROOT, "experiments", "E00_reference_and_facts", "kat_vectors.json")
+    data = json.load(open(path))
+    by_n = {p["n"]: p["exps"] for p in AIM3_PARAMS.values()}
+    for name, s in data["sets"].items():
+        A = AIM3(s["n"], by_n[s["n"]])
+        for r in s["records"]:
+            assert A.evaluate(int(r["pt"], 16), bytes.fromhex(r["iv"])) == int(r["ct"], 16), \
+                f"{name}: KAT mismatch — the pinned Conventions no longer reproduce the official vectors"

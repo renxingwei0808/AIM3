@@ -1,0 +1,2 @@
+n,exps,deg,seed,npoints,dim_t0t1,mono_t0t1,dim_pt_t0_t1,mono_pt_t0_t1,tier,host,commit,seconds,censored
+16,3;5,3,1,65534,1,5489,4513,18473,A,vm,a913fa2,462.0,0
