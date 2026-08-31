@@ -25,12 +25,15 @@ import sys
 
 ROOT = os.path.abspath(os.path.join(os.path.dirname(__file__), "..", ".."))
 
-# per-job CSV name  ->  (glob of job directories, output file in results/)
+# per-job CSV name -> (glob of job directories, output file in results/, optional dedupe key).
+# The dedupe key keeps ONE row per key, preferring a complete row (no empty cells) over a partial
+# one: the E03 sweeps were run twice at n = 19, 20 -- once with the O(2^n) point matrix and once
+# with `--no-points` to finish the fall-count table -- and only the (n, e) pair identifies a run.
 MERGE = [
-    ("E03_sbox_degree_fall.csv", "E03_sweep_n*", "E03_server_n17_20.csv"),
+    ("E03_sbox_degree_fall.csv", "E03_sweep_n*", "E03_server_n17_20.csv", ("n", "e")),
     ("E03_server_D5.csv", "E03_D5_n*", "E03_server_D5.csv"),
     ("E04_full_system_falls.csv", "E04_gate1_l*", "E04_server_gate1.csv"),
-    ("E04_server_gate1_pairs.csv", "E04_gate1pairs_*", "E04_server_gate1_pairs.csv"),
+    ("E04_server_gate1_pairs.csv", "E04_gate1pairs_*", "E04_server_gate1_pairs.csv"),  # noqa
     ("E04_f4_degrees.csv", "E04_f4_degrees_*", "E04_f4_degrees.csv"),
     ("E10_block_orders.csv", "E10_blockorder_*", "E10_server_block_orders.csv"),
     ("E12_first_layer_ideal.csv", "E12_first_layer_n*", "E12_server_first_layer.csv"),
@@ -86,7 +89,9 @@ def main():
             run(cmd)
 
     # ---- 2. per-job CSVs, merged
-    for csvname, jobglob, outname in MERGE:
+    for entry in MERGE:
+        csvname, jobglob, outname = entry[:3]
+        dedupe = entry[3] if len(entry) > 3 else None
         dirs = remote_ls(a.host, a.ssh_config, f"{a.base}/out/{jobglob}/")
         rows, header = [], None
         used = []
@@ -106,6 +111,19 @@ def main():
             n0 = len(rows)
             rows.extend(r for r in rdr if r)
             used.append(f"{os.path.basename(d.rstrip('/'))}(+{len(rows)-n0})")
+        if dedupe and rows:
+            idx = {c: k for k, c in enumerate(header)}
+            best = {}
+            for r in rows:
+                key = tuple(r[idx[c]] for c in dedupe)
+                score = sum(1 for v in r if v != "")
+                if key not in best or score > best[key][0]:
+                    best[key] = (score, r)
+            dropped = len(rows) - len(best)
+            rows = [v[1] for v in best.values()]
+            if dropped:
+                print(f"     ({dropped} duplicate rows dropped on {dedupe}, "
+                      f"the most complete kept)")
         if not rows:
             print(f"  -- {outname}: nothing yet")
             continue

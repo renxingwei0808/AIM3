@@ -68,6 +68,9 @@ Sizing, measured rather than guessed: the D = 4 Macaulay matrix of the kernel mo
 matrix would be ≈ 123 GB *and* about a day of M4RI, so it is out of reach for this batch and is
 listed as not done.
 
-Rows: `results/E06_server_kernel.csv`; the D = 3 result `dim_low = 2·#eqs` continues to hold.
+Rows: `results/E06_server_kernel.csv`.  D ≤ 4 was run at n = 11; at n = 13 and n = 15 only D ≤ 3,
+because the D = 4 matrices are 45 GB / 123 GB and 6 h / ~1 day of M4RI — out of proportion to this
+batch and, at n = 15, above the one-Tier-C-job cap.  The D = 3 result `dim_low = 2·#eqs` continues
+to hold, and the same-shape random bilinear control continues to show none of it.
 Numbers and the comparison with the random bilinear control:
 `results/REPORT_server_batch1.md` §4.

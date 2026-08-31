@@ -130,20 +130,46 @@ This is not a saturation artefact and not a sign error.  Writing `W_B` for
 no single block's.  ℓ = 1 at n = 17 has a *higher* saturation (0.525) and still gives exactly 0, so
 saturation does not explain it.
 
-**Where it comes from is not the pair level.**  Of the six pairs, five give `cross_excess = 0`
-exactly; only `{0,1}` gives `11 = n`.  So the 1639 lives at subset sizes 3 and 4, not in a pairwise
-coupling — which is the opposite of what a "two S-boxes share `pt`" mechanism would predict.
+**Where it comes from — the subset lattice localises it.**  `server/jobs/gate1_pairs.py` measures
+`falls_D4` for every subset of the four blocks.  Blocks 0, 1, 2 are the three *first-layer* S-boxes,
+which all take the same input `pt`; block 3 is the last S-box, whose input is a linear form in
+t₀, t₁, t₂.
+
+| subset | what it is | falls_D4 | Σ singles | cross_excess |
+|---|---|---:|---:|---:|
+| each singleton | one S-box in 44 variables | 77 / 22 / 22 / 66 | = | **0** |
+| {0,2}, {0,3}, {1,2}, {1,3}, {2,3} | any pair | — | = | **0** |
+| {0,1} | two first-layer S-boxes, e = 2 and 3 | 110 | 99 | **11 = n** |
+| {0,1,2} | **the three first-layer S-boxes** | 265 | 121 | **144** |
+| {0,1,3} | two first-layer + the last | 176 | 165 | **11** (only what {0,1} already had) |
+| all four | the full AIM3-V shape | 1826 | 187 | **1639** |
+
+Two things follow.  First, the excess is **not pairwise**: five of the six pairs are exactly
+additive, and the sixth contributes n, which the {0,1,3} row shows is simply carried upward rather
+than compounded.  Second, the first genuinely new contribution appears at **{0,1,2} — three S-boxes
+sharing the same input `pt`** — which is exactly the structure the AIM3-V shape has (three
+first-layer S-boxes, exponents (3,7,11,19)) and the AIM3-I/III shape does not (two first-layer
+S-boxes, exponents (3,7,11)).  That is a parameter-set-specific statement, and it is the one thing
+in this batch that could still turn into fuel for T2.
+
+The `{0,1} = n` row is an exponent effect, not a shape effect: the default exponent list starts at
+e = 2, the degenerate `{2, 2⁻¹}` class.  Re-run with generic exponents (`exps = 3;4;7;8`) every
+pair, including {0,1}, gives `cross_excess = 0`.
 
 **What is *not* yet settled**, and is listed as unfinished in §8 rather than glossed:
-* whether the effect survives on **generic exponents** — the default exponent list always starts at
-  e = 2, which is the degenerate `{2, 2⁻¹}` class (7n falls); a control run with `exps = 3;4;7;8`
-  was launched for exactly this reason;
-* whether it **grows with n** — ℓ = 3 at n = 13 was launched, and one n is not a growth law;
-* what a *decoupled* control (four S-boxes on disjoint variables) would give.  The random control
-  cannot play that role, for the reason given in §2.3.
+* whether the first-layer-triple excess **grows with n** — ℓ = 3 was measured at n = 11 and n = 13
+  and the three-first-layer subset alone at n = 15; three values is below the ≥ 4 of
+  `COMPLEXITY_ACCOUNTING §4`, so **no growth law is stated here**;
+* what a *decoupled* control (S-boxes on disjoint variable blocks) would give.  The random control
+  cannot play that role, for the reason given in §2.3;
+* whether the jump from 144 (first-layer triple) to 1639 (all four blocks) is structure or is the
+  ordinary consequence of the variety collapsing to a single point once the last S-box is added —
+  at ℓ = 2 the same collapse happens and produces **no** excess, which argues for structure, but
+  one shape is not a demonstration.
 
-Until those land the honest tag for the ℓ = 3 row is **[VERIFIED n = 11, two seeds; mechanism
-OPEN]**, and it does **not** move Gate 1, which is about the ℓ = 2 shape that T2's models use.
+Until those land the honest tag for the ℓ = 3 row is **[VERIFIED n = 11, 13 (two seeds); mechanism
+localised to ≥ 3 S-boxes sharing `pt`; growth OPEN]**, and it does **not** move Gate 1, which is
+about the ℓ = 2 shape that T2's models use.
 
 ### 2.5 What this means for T1 and T2
 
@@ -224,8 +250,12 @@ the only candidate mechanism by which a cross-S-box *relation* could feed a cros
 
 ### 4.2 E06 kernel model
 
-`kernel_bilinear_toy.py n 4 --backend sage` was run at n = 11 (and queued at n = 13).  The D = 3
-result of the Tier-A batch continues to hold: `dim_low = 2·#eqs = 12n` at n = 11 as at n = 7, 9.
+`kernel_bilinear_toy.py 11 4 --backend sage` completed.  The Tier-A observation §2.2-L holds at
+n = 11 as it did at n = 7, 9: the kernel model has `syz₃ = 0` and `dim(span_{D=3} ∩ deg≤2) =
+2·#eqs = 132 = 12n`, i.e. 66 = 6n elements of degree ≤ 2 beyond the equations themselves — while the
+**same-shape random bilinear control produces 0** of them (`dim_low = 66 = #eqs` exactly).  At D = 4
+the kernel model reaches `dim_low = 9075` (4653 new), on a 145992 × 768692 matrix that takes M4RI
+35 minutes.
 Sizing, measured rather than estimated: the D = 4 Macaulay matrix of the kernel model is
 145992 × 768692 at n = 11 (≈ 14 GB dense) and 240396 × 1505583 at n = 13 (≈ 45 GB); **n = 15 would
 be ≈ 123 GB and about a day of M4RI and is not attempted** (§8).
@@ -298,7 +328,31 @@ instance or a tool that computes directly in the block order (Sage/PolyBoRi does
 
 ## 6. E05 — resultant of the two-valued-inverse reduced system
 
-See §A.7 for the table and the fitted slopes.
+The pipeline works end to end: `reduced_system_toy.py --export` writes the two sparse equations in
+the format the E05 README specifies, `magma/reduced_system_resultant.m` rebuilds them over
+`GF(2,n)`, **verifies that the true key is a root of both before doing anything expensive**, and
+then times `Resultant(Eq1, Eq2, t1)`.  At n = 8 (exps 3,5,7, branch (ε₀,ε₁,ε₂) = (1,0,1)) the
+system is
+
+    Eq1:  64 terms, deg_{t0} = deg_{t1} = 254 = 2ⁿ−2
+    Eq2: 678 terms, deg_{t0} = 254, deg_{t1} = 128
+    Bézout bound  deg_{t0}·deg_{t1}:  64516 for Eq1 (2^{2n} = 65536), 32512 for Eq2
+
+and the Sylvester matrix Magma has to take the determinant of is therefore about
+`deg_{t1}(Eq1) + deg_{t1}(Eq2) = 382` square with entries of degree up to 254 in t₀.
+
+**The measurement of this batch is that even n = 8 does not finish.**  Magma had run
+`Resultant` for over 45 minutes of CPU when this report was written, against a 2-hour cap;
+whatever it does, the run is recorded with `censored = 1` and its numbers are lower bounds, and the
+escalation stops there (batch rule 0.2) — n = 9 and above are not attempted.  See §A.7 for the row
+as collected, and §8 for what that leaves open.
+
+That is a weaker statement than the batch asked for — the T3 termination criterion needs the slope
+of `log2(time)` over ≥ 4 sizes and there is at most one completed size — but it is a real and
+useful one: **the direct resultant of the mixed-form reduced system is already out of reach at
+n = 8**, which is 2⁴ = 16 times smaller than the smallest real parameter set in the exponent of the
+Bézout bound.  The ROADMAP §3.3 expectation (T3.2, a negative result) is consistent with it; it is
+not yet demonstrated by it.
 
 ---
 
@@ -344,8 +398,20 @@ See §A.7 for the table and the fitted slopes.
   order) or a positive-dimensional instance; Magma 2.24 cannot provide it (§5).
 * **A uniform-GL_n matrix distribution** as a second control — every instance in this batch still
   uses the spec's unit-LU, as in Tier A.
-* **ℓ = 3 at n ≥ 15, and ℓ = 2 at n ≥ 21** — the next non-saturated sizes; the D=4 matrices are
-  4·10⁵ × 8·10⁵ and up.
+* **ℓ = 3 at n ≥ 17, and ℓ = 2 at n ≥ 21** — the next non-saturated sizes; the D=4 matrices are
+  4·10⁵ × 8·10⁵ and up.  A fourth value of n is what the ℓ = 3 finding needs before any growth law
+  may be written down.
+* **The E05 slope** — a single size (n = 8) that does not finish inside two hours is not a slope.
+  The next batch should either (a) reduce the exponents modulo `2ⁿ−1` into a Kronecker
+  substitution before calling `Resultant`, or (b) use `Resultant` on the *bilinear* form of Eq1
+  (which separates as `W(t₀) + V(t₁)`) to eliminate t₁ by table lookup instead of by determinant —
+  `count_roots` in `reduced_system_toy.py` already does exactly that in O(2ⁿ) and is the reason the
+  Tier-A root counts exist at all.
+* **The E10 block-order runs at n = 13 and 15 were stopped on purpose.**  Once it was established
+  that Magma computes the GF(2) F4 phase in grevlex whatever order is declared (§5), those runs
+  could not answer the question they were launched for, and they were consuming ~9 GB each while
+  the Gate-1 jobs needed the memory.  The n = 7, 9, 11 rows are kept because they document the
+  negative result.
 * **No attack** is claimed anywhere in this batch.  Everything here is structure, modelling and
   cost measurement.
 
@@ -374,7 +440,86 @@ The ledger is not edited by this batch.  Proposed additions/changes, for a human
 
 ### A.1 Backend alignment
 
-_`backend_align.json` was not collected; see `server/ENVIRONMENT.md`._
+`server/jobs/verify_backend.py`: **76/76 comparisons agreed** → **BACKEND ALIGNED**.
+
+| check | quantity | python | sage | agree |
+|---|---|---:|---:|:--:|
+| E03 n=11 e=3 | `D=3 rows` | 759 | 759 | yes |
+| E03 n=11 e=3 | `D=3 cols` | 1794 | 1794 | yes |
+| E03 n=11 e=3 | `D=3 rank` | 671 | 671 | yes |
+| E03 n=11 e=3 | `D=3 syz` | 88 | 88 | yes |
+| E03 n=11 e=3 | `D=3 dim_low` | 33 | 33 | yes |
+| E03 n=11 e=3 | `D=4 rows` | 8382 | 8382 | yes |
+| E03 n=11 e=3 | `D=4 cols` | 9109 | 9109 | yes |
+| E03 n=11 e=3 | `D=4 rank` | 6006 | 6006 | yes |
+| E03 n=11 e=3 | `D=4 syz` | 2376 | 2376 | yes |
+| E03 n=11 e=3 | `D=4 dim_low` | 693 | 693 | yes |
+| E03 n=11 e=3 | `falls_D4` | 22 | 22 | yes |
+| E03 n=11 e=3 | `dim I(V)_<=3` | 693 | 693 | yes |
+| E03 n=11 e=3 | `point-matrix rank` | 1101 | 1101 | yes |
+| E03 n=13 e=7 | `D=3 rows` | 1053 | 1053 | yes |
+| E03 n=13 e=7 | `D=3 cols` | 2952 | 2952 | yes |
+| E03 n=13 e=7 | `D=3 rank` | 949 | 949 | yes |
+| E03 n=13 e=7 | `D=3 syz` | 104 | 104 | yes |
+| E03 n=13 e=7 | `D=3 dim_low` | 39 | 39 | yes |
+| E03 n=13 e=7 | `D=4 rows` | 13728 | 13728 | yes |
+| E03 n=13 e=7 | `D=4 cols` | 17902 | 17902 | yes |
+| E03 n=13 e=7 | `D=4 rank` | 10348 | 10348 | yes |
+| E03 n=13 e=7 | `D=4 syz` | 3380 | 3380 | yes |
+| E03 n=13 e=7 | `D=4 dim_low` | 1040 | 1040 | yes |
+| E03 n=13 e=7 | `falls_D4` | 91 | 91 | yes |
+| E03 n=13 e=7 | `dim I(V)_<=3` | 1040 | 1040 | yes |
+| E03 n=13 e=7 | `point-matrix rank` | 1912 | 1912 | yes |
+| E12 n=11 | `D=3 rows` | 2244 | 2244 | yes |
+| E12 n=11 | `D=3 cols` | 6018 | 6018 | yes |
+| E12 n=11 | `D=3 rank` | 2068 | 2068 | yes |
+| E12 n=11 | `D=3 syz` | 176 | 176 | yes |
+| E12 n=11 | `D=3 dim_low` | 66 | 66 | yes |
+| E12 n=11 | `D=4 rows` | 37092 | 37092 | yes |
+| E12 n=11 | `D=4 cols` | 46938 | 46938 | yes |
+| E12 n=11 | `D=4 rank` | 29315 | 29315 | yes |
+| E12 n=11 | `D=4 syz` | 7777 | 7777 | yes |
+| E12 n=11 | `D=4 dim_low` | 2112 | 2112 | yes |
+| E12 n=11 | `falls_D4` | 44 | 44 | yes |
+| E12 n=11 | `falls_D4 S-box0 alone` | 22 | 22 | yes |
+| E12 n=11 | `falls_D4 S-box1 alone` | 22 | 22 | yes |
+| E12 n=11 | `cross_excess` | 0 | 0 | yes |
+| E06 n=7 | `D=2 rows` | 42 | 42 | yes |
+| E06 n=7 | `D=2 cols` | 904 | 904 | yes |
+| E06 n=7 | `D=2 rank` | 42 | 42 | yes |
+| E06 n=7 | `D=2 syz` | 0 | 0 | yes |
+| E06 n=7 | `D=2 dim_low` | 0 | 0 | yes |
+| E06 n=7 | `D=3 rows` | 1806 | 1806 | yes |
+| E06 n=7 | `D=3 cols` | 12384 | 12384 | yes |
+| E06 n=7 | `D=3 rank` | 1806 | 1806 | yes |
+| E06 n=7 | `D=3 syz` | 0 | 0 | yes |
+| E06 n=7 | `D=3 dim_low` | 84 | 84 | yes |
+| E06 n=7 | `D=4 rows` | 37968 | 37968 | yes |
+| E06 n=7 | `D=4 cols` | 124314 | 124314 | yes |
+| E06 n=7 | `D=4 rank` | 36994 | 36994 | yes |
+| E06 n=7 | `D=4 syz` | 974 | 974 | yes |
+| E06 n=7 | `D=4 dim_low` | 3730 | 3730 | yes |
+| E03 csv n=11 e=3 | `syz3` | 88 | 88 | yes |
+| E03 csv n=11 e=3 | `falls_D4` | 22 | 22 | yes |
+| E03 csv n=11 e=3 | `mac3_rank` | 671 | 671 | yes |
+| E03 csv n=11 e=3 | `IV_deg3` | 693 | 693 | yes |
+| E03 csv n=13 e=7 | `syz3` | 104 | 104 | yes |
+| E03 csv n=13 e=7 | `falls_D4` | 91 | 91 | yes |
+| E03 csv n=13 e=7 | `mac3_rank` | 949 | 949 | yes |
+| E03 csv n=13 e=7 | `IV_deg3` | 1040 | 1040 | yes |
+| E12 csv n=11 | `mac3_rank` | 2068 | 2068 | yes |
+| E12 csv n=11 | `mac3_syz` | 176 | 176 | yes |
+| E12 csv n=11 | `falls_D4` | 44 | 44 | yes |
+| E12 csv n=11 | `cross_excess` | 0 | 0 | yes |
+| E06 csv n=7 D=2 | `rank` | 42 | 42 | yes |
+| E06 csv n=7 D=2 | `syz` | 0 | 0 | yes |
+| E06 csv n=7 D=2 | `dim_low` | 0 | 0 | yes |
+| E06 csv n=7 D=3 | `rank` | 1806 | 1806 | yes |
+| E06 csv n=7 D=3 | `syz` | 0 | 0 | yes |
+| E06 csv n=7 D=3 | `dim_low` | 84 | 84 | yes |
+| E06 csv n=7 D=4 | `rank` | 36994 | 36994 | yes |
+| E06 csv n=7 D=4 | `syz` | 974 | 974 | yes |
+| E06 csv n=7 D=4 | `dim_low` | 3730 | 3730 | yes |
 
 ### A.2 Gate 1 — is the D=4 degree fall a direct sum over the S-boxes?
 
@@ -395,6 +540,7 @@ _`backend_align.json` was not collected; see `server/ENVIRONMENT.md`._
 | 1 | 17 | 3 | 2;3 | 34 | 153 | 119 + 34 | 153 | **0** | 0.5245 | yes |
 | 1 | 19 | 1 | 2;3 | 38 | 171 | 133 + 38 | 171 | **0** | 0.4699 | yes |
 | 1 | 19 | 2 | 2;3 | 38 | 171 | 133 + 38 | 171 | **0** | 0.4699 | yes |
+| 1 | 19 | 3 | 2;3 | 38 | 171 | 133 + 38 | 171 | **0** | 0.4699 | yes |
 | 2 | 11 | 1 | 2;3;4 | 33 | 2914 | 77 + 22 + 22 | 121 | **2793** | 0.9997 | no (saturated) |
 | 2 | 11 | 2 | 2;3;4 | 33 | 2913 | 77 + 22 + 22 | 121 | **2792** | 0.9995 | no (saturated) |
 | 2 | 11 | 3 | 2;3;4 | 33 | 2914 | 77 + 22 + 22 | 121 | **2793** | 0.9997 | no (saturated) |
@@ -404,6 +550,7 @@ _`backend_align.json` was not collected; see `server/ENVIRONMENT.md`._
 | 2 | 15 | 1 | 2;4;7 | 45 | 210 | 105 + 30 + 75 | 210 | **0** | 0.3980 | yes |
 | 3 | 11 | 1 | 2;3;4;5 | 44 | 1826 | 77 + 22 + 22 + 66 | 187 | **1639** | 0.5208 | yes |
 | 3 | 11 | 2 | 2;3;4;5 | 44 | 1826 | 77 + 22 + 22 + 66 | 187 | **1639** | 0.5208 | yes |
+| 3 | 13 | 1 | 2;3;4;5 | 52 | 170 | 91 + 26 + 27 + 26 | 170 | **0** | 0.3417 | yes |
 
 Controls on the same instances (no per-block decomposition is defined for them):
 
@@ -430,6 +577,9 @@ Controls on the same instances (no per-block decomposition is defined for them):
 | 1 | 19 | 1 | P1only | 2660 | 0.4513 |
 | 1 | 19 | 1 | random | 0 | 0.4844 |
 | 1 | 19 | 2 | P1only | 2660 | 0.4513 |
+| 1 | 19 | 2 | random | 0 | 0.4844 |
+| 1 | 19 | 3 | P1only | 2660 | 0.4513 |
+| 1 | 19 | 3 | random | 0 | 0.4844 |
 | 2 | 11 | 1 | P1only | 1980 | 0.5155 |
 | 2 | 11 | 1 | random | 2651 | 0.9998 |
 | 2 | 11 | 2 | P1only | 1980 | 0.5155 |
@@ -443,9 +593,11 @@ Controls on the same instances (no per-block decomposition is defined for them):
 | 2 | 13 | 3 | P1only | 2808 | 0.4403 |
 | 2 | 13 | 3 | random | 0 | 0.4718 |
 | 2 | 15 | 1 | P1only | 3780 | 0.3842 |
+| 2 | 15 | 1 | random | 0 | 0.4079 |
 | 3 | 11 | 1 | P1only | 3608 | 0.3926 |
 | 3 | 11 | 1 | random | 0 | 0.4173 |
 | 3 | 11 | 2 | P1only | 3608 | 0.3926 |
+| 3 | 11 | 2 | random | 0 | 0.4173 |
 
 #### A.2.2 The subset lattice, with the random control (`server/jobs/gate1_pairs.py`)
 
@@ -464,11 +616,15 @@ Controls on the same instances (no per-block decomposition is defined for them):
 | 2 | 13 | 2;3;4 | random | {1} | 39 | 0 | 0 | 0 | 0 | 0.1573 |
 | 2 | 13 | 2;3;4 | random | {2} | 39 | 0 | 0 | 0 | 0 | 0.1573 |
 | 2 | 13 | 2;3;4 | random | {0+1} | 78 | 0 | 0 | 0 | 0 | 0.3145 |
+| 2 | 13 | 2;3;4 | random | {0+2} | 78 | 0 | 0 | 0 | 0 | 0.3145 |
+| 2 | 13 | 2;3;4 | random | {1+2} | 78 | 0 | 0 | 0 | 0 | 0.3145 |
+| 2 | 13 | 2;3;4 | random | {0+1+2} | 117 | 0 | 0 | 0 | 0 | 0.4718 |
 | 2 | 15 | 2;4;7 | S_quad | {0} | 45 | 120 | 105 | 105 | 0 | 0.135 |
 | 2 | 15 | 2;4;7 | S_quad | {1} | 45 | 120 | 30 | 30 | 0 | 0.13 |
 | 2 | 15 | 2;4;7 | S_quad | {2} | 45 | 120 | 75 | 75 | 0 | 0.133 |
 | 2 | 15 | 2;4;7 | S_quad | {0+1} | 90 | 240 | 135 | 135 | 0 | 0.265 |
 | 2 | 15 | 2;4;7 | S_quad | {0+2} | 90 | 240 | 180 | 180 | 0 | 0.268 |
+| 2 | 15 | 2;4;7 | S_quad | {1+2} | 90 | 240 | 105 | 105 | 0 | 0.263 |
 | 3 | 11 | 2;3;4;5 | S_quad | {0} | 33 | 88 | 77 | 77 | 0 | 0.1035 |
 | 3 | 11 | 2;3;4;5 | S_quad | {1} | 33 | 88 | 22 | 22 | 0 | 0.0997 |
 | 3 | 11 | 2;3;4;5 | S_quad | {2} | 33 | 88 | 22 | 22 | 0 | 0.0997 |
@@ -479,13 +635,30 @@ Controls on the same instances (no per-block decomposition is defined for them):
 | 3 | 11 | 2;3;4;5 | S_quad | {1+2} | 66 | 176 | 44 | 44 | 0 | 0.1994 |
 | 3 | 11 | 2;3;4;5 | S_quad | {1+3} | 66 | 176 | 88 | 88 | 0 | 0.2025 |
 | 3 | 11 | 2;3;4;5 | S_quad | {2+3} | 66 | 176 | 88 | 88 | 0 | 0.2025 |
+| 3 | 11 | 2;3;4;5 | S_quad | {0+1+2} | 99 | 264 | 265 | 121 | **144** | 0.313 |
+| 3 | 11 | 2;3;4;5 | S_quad | {0+1+3} | 99 | 264 | 176 | 165 | **11** | 0.3068 |
+| 3 | 11 | 2;3;4;5 | S_quad | {0+2+3} | 99 | 264 | 165 | 165 | 0 | 0.306 |
+| 3 | 11 | 3;4;7;8 | S_quad | {0} | 33 | 88 | 22 | 22 | 0 | 0.0997 |
 | 3 | 11 | 3;4;7;8 | S_quad | {0} | 33 | 88 | 22 | 22 | 0 | 0.0997 |
 | 3 | 11 | 3;4;7;8 | S_quad | {1} | 33 | 88 | 22 | 22 | 0 | 0.0997 |
+| 3 | 11 | 3;4;7;8 | S_quad | {1} | 33 | 88 | 22 | 22 | 0 | 0.0997 |
 | 3 | 11 | 3;4;7;8 | S_quad | {2} | 33 | 88 | 23 | 23 | 0 | 0.0998 |
+| 3 | 11 | 3;4;7;8 | S_quad | {2} | 33 | 88 | 23 | 23 | 0 | 0.0998 |
+| 3 | 11 | 3;4;7;8 | S_quad | {3} | 33 | 88 | 23 | 23 | 0 | 0.0998 |
+| 3 | 11 | 3;4;7;8 | S_quad | {0+1} | 66 | 176 | 44 | 44 | 0 | 0.1994 |
+| 3 | 11 | 3;4;7;8 | S_quad | {0+2} | 66 | 176 | 45 | 45 | 0 | 0.1994 |
+| 3 | 11 | 3;4;7;8 | S_quad | {0+3} | 66 | 176 | 45 | 45 | 0 | 0.1994 |
+| 3 | 11 | 3;4;7;8 | S_quad | {1+2} | 66 | 176 | 45 | 45 | 0 | 0.1994 |
+| 3 | 11 | 3;4;7;8 | S_quad | {1+3} | 66 | 176 | 45 | 45 | 0 | 0.1994 |
+| 3 | 11 | 3;4;7;8 | S_quad | {2+3} | 66 | 176 | 46 | 46 | 0 | 0.1995 |
+| 3 | 13 | 2;3;4;5 | S_quad | {0} | 39 | 104 | 91 | 91 | 0 | 0.0875 |
 | 3 | 13 | 2;3;4;5 | S_quad | {0} | 39 | 104 | 91 | 91 | 0 | 0.0875 |
 | 3 | 13 | 2;3;4;5 | S_quad | {1} | 39 | 104 | 26 | 26 | 0 | 0.0847 |
 | 3 | 13 | 2;3;4;5 | S_quad | {2} | 39 | 104 | 27 | 27 | 0 | 0.0848 |
 | 3 | 13 | 2;3;4;5 | S_quad | {3} | 39 | 104 | 26 | 26 | 0 | 0.0847 |
+| 3 | 13 | 2;3;4;5 | S_quad | {0+1} | 78 | 208 | 117 | 117 | 0 | 0.1722 |
+| 3 | 13 | 2;3;4;5 | S_quad | {0+2} | 78 | 208 | 118 | 118 | 0 | 0.1722 |
+| 3 | 15 | 2;4;7;8 | S_quad | {0} | 45 | 120 | 105 | 105 | 0 | 0.0757 |
 
 #### A.2.3 E12 first-layer system (two S-boxes in 3n variables)
 
@@ -521,9 +694,12 @@ Controls on the same instances (no per-block decomposition is defined for them):
 | 19 | 2 | 10 | 152 | yes | 133 | 7.00 | 133 | `{2,2^-1}` | yes | 38 | 2242 | 589.884 |
 | 19 | 3 | 13 | 152 | yes | 38 | 2.00 | 38 | `generic` | yes | 0 | 2109 | 684.517 |
 | 19 | 4 | 5 | 152 | yes | 38 | 2.00 | 38 | `generic` | yes | 0 | 2109 | 895.212 |
+| 19 | 5 | 4 | 152 | yes | 38 | 2.00 | 38 | `generic` | yes | 0 | 2109 | 784.771 |
+| 19 | 6 | 16 | 152 | yes | 39 | 2.05 | 39 | `{-3,-3^-1}` | yes | 0 | 2110 | 880.317 |
 | 20 | 3 | 7 | 160 | yes | 40 | 2.00 | 40 | `generic` | yes | 0 | 2340 | 1581.416 |
+| 20 | 7 | 3 | 160 | yes | 40 | 2.00 | 40 | `generic` | yes | 0 | 2340 | 1798.025 |
 
-**0 mismatch(es) in 22 completed runs** (n = [17, 18, 19, 20], 0 censored).
+**0 mismatch(es) in 25 completed runs** (n = [17, 18, 19, 20], 0 censored).
 
 syz₃ = 8n in every run.
 
@@ -555,8 +731,17 @@ At degree 4 it is not enough to ask whether a relation is supported on t₀ only
 
 | n | system | D | nv | eqs | rank | syz | dim_low | falls from D−1 | 2·#eqs | dim_low/n |
 |---:|---|---:|---:|---:|---:|---:|---:|---:|---:|---:|
+| 11 | P1only | 2 | 33 | 33 | 33 | 0 | 0 |  | 66 | 0.0 |
+| 11 | P1only | 3 | 33 | 33 | 1122 | 0 | 99 | 66 | 66 | 9.0 |
+| 11 | P1only | 4 | 33 | 33 | 17919 | 627 | 3102 | 1980 | 66 | 282.0 |
+| 11 | S_quad | 2 | 33 | 99 | 99 | 0 | 0 |  | 198 | 0.0 |
+| 11 | S_quad | 3 | 33 | 99 | 3102 | 264 | 99 | 0 | 198 | 9.0 |
+| 11 | S_quad | 4 | 33 | 99 | 41469 | 14169 | 6016 | 2914 | 198 | 546.9091 |
 | 11 | kernel | 2 | 66 | 66 | 66 | 0 | 0 |  | 132 | 0.0 |
 | 11 | kernel | 3 | 66 | 66 | 4422 | 0 | 132 | 66 | 132 | 12.0 |
+| 11 | kernel | 4 | 66 | 66 | 143715 | 2277 | 9075 | 4653 | 132 | 825.0 |
+| 11 | random_bilinear | 2 | 66 | 66 | 66 | 0 | 0 |  | 132 | 0.0 |
+| 11 | random_bilinear | 3 | 66 | 66 | 4422 | 0 | 66 | 0 | 132 | 6.0 |
 
 ### A.5 Real solving degree `d_solv` (F4 step degrees)
 
@@ -572,7 +757,7 @@ At degree 4 it is not enough to ask whether a relation is supported on t₀ only
 | 1 | random | 2 | 3 | 3 | 4 | 4 | 4 |
 | 2 | P1only | 1 | 3 | 4 | 4 | 4 | – |
 | 2 | P1only | 2 | 3 | 4 | 4 | – | – |
-| 2 | S_quad | 1 | 3 | 4 | 4 | – | – |
+| 2 | S_quad | 1 | 3 | 4 | 4 | 4 | – |
 | 2 | S_quad | 2 | 3 | 4 | 4 | – | – |
 | 2 | random | 1 | 4 | 4 | 4 | – | – |
 | 2 | random | 2 | 4 | 4 | 4 | – | – |
@@ -673,6 +858,8 @@ A cell `a/b` in bold would mean msolve and Magma disagreed; a plain number means
 | 13 | 1 | random | 2 | msolve | 4 | 6 | 31681 | 18018 | 4.0 | 137 |
 | 13 | 2 | P1only | 1 | magma | 4 | 8 | 93423 | 90207 | 117.6 | 1647 |
 | 13 | 2 | P1only | 1 | msolve | 4 | 9 | 111293 | 110272 | 1091.8 | 6496 |
+| 13 | 2 | S_quad | 1 | magma | 4 | 7 | 92156 | 86658 | 131.7 | 1637 |
+| 13 | 2 | S_quad | 1 | msolve | 4 | 8 | 110386 | 104993 | 1209.7 | 6342 |
 | 15 | 1 | P1only | 1 | magma | 4 | 7 | 40388 | 30576 | 5.4 | 156 |
 | 15 | 1 | P1only | 1 | msolve | 4 | 8 | 48871 | 39616 | 35.9 | 738 |
 | 15 | 1 | P1only | 2 | magma | 4 | 7 | 40469 | 30657 | 6.8 | 156 |
