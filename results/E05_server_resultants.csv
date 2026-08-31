@@ -1,3 +1,4 @@
 n,seed,exps,eps,eq1_terms,eq2_terms,eq1_deg_t1,eq2_deg_t1,key_is_root_of_system,resultant_seconds,resultant_degree,resultant_terms,resultant_is_zero,n_roots,root_seconds,key_is_root_of_resultant,n_factors,factor_degrees,peak_rss_kb,magma_peak_bytes,wall_seconds,rc,tool,tool_version,tier,host,commit,seconds,censored,eq1_deg_t0,eq2_deg_t0
 8,1,,,,,,,,,,,,,,,,,,,7200.056,-9,magma,,C,luck-Precision-7920-Tower,e7ebb71,7200.056,1,,
+7,1,"[ 2, 3, 4 ]","[ 0, 1, 0 ]",26,260,118,64,True,294.5,22204,21737,False,3,0.01,True,11,"[ 1, 1, 1, 10, 145, 172, 1250, 3931, 4745, 5454, 6494 ]",172624,33652736,829.242,0,magma,2.24-2,C,luck-Precision-7920-Tower,0d06bfb,829.242,0,,
 8,1,"[3, 5, 7]","[1, 0, 1]",64,678,254,128,,,,,,,,,,,,,120.001,-9,magma,,C,luck-Precision-7920-Tower,3b90791,120.001,1,254,254

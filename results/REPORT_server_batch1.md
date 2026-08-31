@@ -278,8 +278,13 @@ bilinear control produces none**.  That is the one live anomaly T2 has, and it i
 variable-choice effect, not a cross-S-box one.  Tag: **[VERIFIED n = 7, 9, 11, 13, 15]** (was
 n = 7, 9).
 
-At D = 4 the kernel model was run at n = 11 only: `dim_low = 9075`, 4653 new elements, on a
-145992 × 768692 matrix that takes M4RI 35 minutes.  n = 13 would be 240396 × 1505583 (≈ 45 GB, ~6 h)
+At D = 4 the kernel model was run at n = 11 only, and the control there is just as sharp: the
+kernel model reaches `dim_low = 9075` — **4653 new elements of degree ≤ 3** — on a
+145992 × 768692 matrix that takes M4RI 35 minutes, while the same-shape random bilinear system
+reaches `dim_low = 4422`, which is exactly its own D = 3 rank, i.e. **0 falls**.  A random
+*quadratic* system of the S_quad shape does fall (2651 at n = 11), so the contrast is specific to
+the bilinear shape: bilinearity alone produces no falls, and the kernel model's variable choice
+produces a great many.  n = 13 would be 240396 × 1505583 (≈ 45 GB, ~6 h)
 and n = 15 240396 × ... ≈ 123 GB and about a day — out of proportion to this batch and, at n = 15,
 above the one-Tier-C-job cap, so D = 4 there is listed as not done (§8).
 Sizing, measured rather than estimated: the D = 4 Macaulay matrix of the kernel model is
@@ -374,20 +379,38 @@ system is
 and the Sylvester matrix Magma has to take the determinant of is therefore about
 `deg_{t1}(Eq1) + deg_{t1}(Eq2) = 382` square with entries of degree up to 254 in t₀.
 
-**The measurement of this batch is that n = 8 does not finish.**  Magma ran `Resultant` for the
-full **2-hour cap** without returning; the run is recorded with `censored = 1`, its numbers are
-lower bounds, and the escalation stopped there (batch rule 0.2) — n = 9 and above were not
-attempted.  `n = 7` was then launched to obtain at least one *completed* size, so that the jump has
-a lower bound rather than nothing at all; see §A.7 for the rows as collected.
+**n = 7 completes; n = 8 does not.**
 
-That is a weaker statement than the batch asked for — the T3 termination criterion needs the slope
-of `log2(time)` over ≥ 4 sizes and there is at most one completed size — but it is a real and
-useful one: **the direct resultant of the mixed-form reduced system is already out of reach at
-n = 8**, which is 2⁴ = 16 times smaller than the smallest real parameter set in the exponent of the
-Bézout bound.  The ROADMAP §3.3 expectation (T3.2, a negative result) is consistent with it; it is
-not yet demonstrated by it.
+| n | Eq1 | Eq2 | resultant | degree | terms | roots | true key a root | factors |
+|---:|---|---|---:|---:|---:|---:|:--:|---|
+| 7 | 26 terms, deg_{t1} 118 | 260 terms, deg_{t1} 64 | **294.5 s** | 22204 | 21737 | 3 | yes | 11, degrees 1,1,1,10,145,172,1250,3931,4745,5454,6494 |
+| 8 | 64 terms, deg_{t1} 254 | 678 terms, deg_{t1} 128 | **> 7200 s** (censored) | — | — | — | — | — |
 
----
+Four things come out of the completed size, and they are worth separating:
+
+1. **No degree drop.**  The resultant has degree 22204 against a Bézout-style bound of
+   `deg_{t1}(Eq1)·deg_{t0}(Eq2) + deg_{t1}(Eq2)·deg_{t0}(Eq1) = 118·126 + 64·122 = 22676` — 98 % of
+   it.  The elimination does not collapse.
+2. **The true key survives elimination**, as it must: the resultant has 3 roots in F_{2⁷} counted
+   with multiplicity, one of which is the true t₀, so this branch carries 2 spurious roots.  Root
+   finding itself is free (0.01 s); all the cost is in producing the resultant.
+3. **It does factor — and that is the T3.3 lead.**  `Factorization` splits it into 11 irreducible
+   factors, three of them linear (those are the three roots).  But the largest factor still has
+   degree 6494, i.e. ≈ 2^{1.86 n}, so the factorisation does *not* reduce the problem to something
+   small; and it costs 534 s, nearly twice the resultant itself.  As a lead it is alive; as an
+   attack it is not, at this size.
+4. **The growth between the two sizes is already steep.**  One step from n = 7 to n = 8 takes the
+   resultant from 294.5 s to more than 7200 s, a factor of at least 24.4, i.e.
+   `log2(time)` rises by at least 4.6 over one unit of n.  The ROADMAP §3.3
+   termination criterion for T3 is a slope ≥ 2, and this **single step clears it by a wide margin**
+   — but one step is a lower bound, not a fit, and `COMPLEXITY_ACCOUNTING §4` requires four sizes
+   before a slope may be quoted.  **No slope is quoted here.**
+
+So the honest summary is: the direct resultant of the mixed-form reduced system is out of reach by
+n = 8, which is 2⁴ times smaller than the smallest real parameter set in the exponent of the Bézout
+bound; the ROADMAP §3.3 expectation (T3.2, a negative result for T3) is consistent with everything
+measured and is **not yet demonstrated**, because a two-point curve is not a curve.  §8 lists the
+two cheaper elimination routes the next batch should try instead.
 
 ## 7. Findings that contradict, or correct, what was expected
 
@@ -640,6 +663,7 @@ Controls on the same instances (no per-block decomposition is defined for them):
 | 2 | 15 | 2 | P1only | 3780 | 0.3842 |
 | 2 | 15 | 2 | random | 0 | 0.4079 |
 | 2 | 15 | 3 | P1only | 3780 | 0.3842 |
+| 2 | 15 | 3 | random | 0 | 0.4079 |
 | 2 | 17 | 1 | P1only | 4896 | 0.3407 |
 | 3 | 11 | 1 | P1only | 3608 | 0.3926 |
 | 3 | 11 | 1 | random | 0 | 0.4173 |
@@ -708,6 +732,7 @@ Controls on the same instances (no per-block decomposition is defined for them):
 | 3 | 11 | 2;3;4;5 | random | {1+3} | 66 | 0 | 0 | 0 | 0 | 0.2086 |
 | 3 | 11 | 2;3;4;5 | random | {2+3} | 66 | 0 | 0 | 0 | 0 | 0.2086 |
 | 3 | 11 | 2;3;4;5 | random | {0+1+2} | 99 | 0 | 0 | 0 | 0 | 0.313 |
+| 3 | 11 | 2;3;4;5 | random | {0+1+3} | 99 | 0 | 0 | 0 | 0 | 0.313 |
 | 3 | 11 | 3;4;7;8 | S_quad | {0} | 33 | 88 | 22 | 22 | 0 | 0.0997 |
 | 3 | 11 | 3;4;7;8 | S_quad | {0} | 33 | 88 | 22 | 22 | 0 | 0.0997 |
 | 3 | 11 | 3;4;7;8 | S_quad | {1} | 33 | 88 | 22 | 22 | 0 | 0.0997 |
@@ -879,7 +904,7 @@ At degree 4 it is not enough to ask whether a relation is supported on t₀ only
 | 2 | P1only | 2 | 3 | 4 | 4 | – | – |
 | 2 | S_quad | 1 | 3 | 4 | 4 | 4 | – |
 | 2 | S_quad | 2 | 3 | 4 | 4 | – | – |
-| 2 | random | 1 | 4 | 4 | 4 | – | – |
+| 2 | random | 1 | 4 | 4 | 4 | 5 | – |
 | 2 | random | 2 | 4 | 4 | 4 | – | – |
 
 A cell `a/b` in bold would mean msolve and Magma disagreed; a plain number means they agreed (or only one tool ran).
@@ -980,6 +1005,8 @@ A cell `a/b` in bold would mean msolve and Magma disagreed; a plain number means
 | 13 | 2 | P1only | 1 | msolve | 4 | 9 | 111293 | 110272 | 1091.8 | 6496 |
 | 13 | 2 | S_quad | 1 | magma | 4 | 7 | 92156 | 86658 | 131.7 | 1637 |
 | 13 | 2 | S_quad | 1 | msolve | 4 | 8 | 110386 | 104993 | 1209.7 | 6342 |
+| 13 | 2 | random | 1 | magma | 5 | 8 | 886020 | 289354 | 499.4 | 13703 |
+| 13 | 2 | random | 1 | msolve | 5 | 4 | 986289 | 389623 | 3600.0 |  |
 | 15 | 1 | P1only | 1 | magma | 4 | 7 | 40388 | 30576 | 5.4 | 156 |
 | 15 | 1 | P1only | 1 | msolve | 4 | 8 | 48871 | 39616 | 35.9 | 738 |
 | 15 | 1 | P1only | 2 | magma | 4 | 7 | 40469 | 30657 | 6.8 | 156 |
@@ -1058,6 +1085,7 @@ One row per instance; a cell is `d_solv (seconds)`.  `—` means the order does 
 
 | n | exps | ε | Eq1 terms | Eq2 terms | deg_t1(Eq1) | deg_t1(Eq2) | resultant s | deg | terms | roots | key is a root | factors | peak RSS (GB) | censored |
 |---:|---|---|---:|---:|---:|---:|---:|---:|---:|---:|:--:|---:|---:|:--:|
+| 7 | [ 2, 3, 4 ] | [ 0, 1, 0 ] | 26 | 260 | 118 | 64 | 294.5 | 22204 | 21737 | 3 | True | 11 | 0.2 | no |
 | 8 |  |  |  |  |  |  |  |  |  |  |  |  | 0.0 | yes |
 | 8 | [3, 5, 7] | [1, 0, 1] | 64 | 678 | 254 | 128 |  |  |  |  |  |  | 0.0 | yes |
 
