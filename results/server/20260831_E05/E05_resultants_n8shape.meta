@@ -6,3 +6,8 @@ ulimit -v: 120 GB
 results : /home/luck/rxw/AIM3_remote/out/E05_resultants_n8shape
 scratch : /home/luck/rxw/AIM3_remote/scratch/E05_resultants_n8shape
 command : python3 experiments/E05_two_valued_inverse/run_resultants.py --ns 8 --seed 1 --timeout 120 --mem-gb 120 --workdir /home/luck/rxw/AIM3_remote/scratch/E05 --csv E05_server_resultants.csv
+finished: 2026-08-31T08:42:21-07:00
+exit    : 0
+time    : Elapsed (wall clock) time (h:mm:ss or m:ss): 2:00.11
+time    : Maximum resident set size (kbytes): 17472
+JOB_DONE_rc=0

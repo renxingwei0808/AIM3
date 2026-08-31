@@ -15,13 +15,15 @@ degree.  This batch builds the Tier-B/C toolchain, adds an M4RI rank backend beh
 
 | question | answer |
 |---|---|
-| Gate 1, ℓ ≤ 2 (AIM3-I/III shape) | `cross_excess = 0` at n = 13, 15, 17, 19 (seeds 1–3), **and at every subset of the S-box blocks**, saturation < 0.53 throughout → **direct sum [VERIFIED]** |
-| Gate 1, ℓ = 3 (AIM3-V shape) | `cross_excess ≠ 0` at n = 11 — a **counterexample**, localised to subsets of three or more first-layer S-boxes, not to any pair |
-| fall-count rule at n = 17..20 | **0 mismatches** over every admissible e; merged with Tier A the rule reproduces all 58 runs, n = 11..20 |
+| **Gate 1** | `cross_excess = 0` at every non-saturated size measured — ℓ = 1 at n = 17, 19; ℓ = 2 at n = 13, 15, 17; ℓ = 3 at n = 13 — up to three seeds each, **and at every subset of the S-box blocks**, not just the whole system → **direct sum, T2 not promoted** |
+| the one exception | ℓ = 3 at n = 11 gives 1639. It is the smallest size four S-boxes can be run at, ℓ = 2 is 99.97 % saturated at the same n, the excess is not stable under the exponent choice, and it is **exactly 0 at n = 13** — reported as measured, read as a small-parameter effect, not folded into the verdict |
+| fall-count rule at n = 17..20 | **0 mismatches** over all 40 admissible (n, e); merged with Tier A the rule reproduces 62 runs over n = 11..20 |
 | `syz₃ = 8n` | holds in every run, n = 11..20 |
-| cross-S-box relations at degree 4 (n = 16) | **0** genuine ones — all 33 quartic relations are multiples of the univariate image criterion Tr(t₁^−r₁) |
-| measured `d_solv` (msolve and Magma agree) | 3 for n ≤ 9, 4 for 11 ≤ n ≤ 15 — **the same as a random system of the same shape** |
+| cross-S-box relations at degree 4 (n = 16) | **0** genuine ones — all 33 quartic relations are multiples of the univariate image criterion Tr(t₁^−r₁), which the degree-3 test in `explain_n16.py` cannot see |
+| measured `d_solv` (msolve and Magma agree everywhere) | 3 then 4; **the same as a random system of the same shape** at every size reached |
+| kernel model (E06) | `dim(span_{D=3} ∩ deg≤2) = 2·#eqs` now at n = 11, 13, 15 as at n = 7, 9, with the random bilinear control showing none of it — T2's live anomaly |
 | block orders (E10) | no advantage; and Magma 2.24 cannot produce a block-order F4 log at all (it computes grevlex and converts) |
+| E05 resultant | n = 8 does not finish in 2 hours; escalation stopped there per the batch rules |
 
 ## Files changed
 
@@ -55,15 +57,21 @@ degree.  This batch builds the Tier-B/C toolchain, adds an M4RI rank backend beh
 `results/REPORT_server_batch1.md`, `results/server/20260831_*/`.
 `docs/`, `paper/`, `legacy/` and every committed Tier-A table are untouched.
 
+The branch also carries one earlier commit, `e7ebb71`, which appended a verified-environment
+section to `CLAUDE.md` (GitHub permissions, the SSH alias and server specs, the mandatory remote
+working directory, the Magma traps).  It predates this batch and is included here because it is
+what the batch's conventions are written against.
+
 ## Needs a human decision
 
-1. **Does the ℓ = 3 counterexample change T1.3's statement?**  The report proposes stating the
-   direct-sum theorem for the AIM3-I/III shape only and marking the AIM3-V shape [OPEN].  It also
-   lists the control that is still missing (four S-boxes on *disjoint* variables) — the random
-   control cannot serve, because it has no degree falls at all to add up.
-2. **Is the ℓ = 3 mechanism worth a dedicated batch?**  The excess appears only for subsets of
-   ≥ 3 first-layer S-boxes, i.e. exactly the structure AIM3-V has and AIM3-I/III does not.  If it
-   grows with n, T2 gets the fuel Gate 1 was looking for — on AIM3-V only.
+1. **Is the ℓ = 3, n = 11 row worth chasing?**  For most of this batch it looked like a shape
+   effect — the excess localises onto the three first-layer S-boxes, exactly what AIM3-V has and
+   AIM3-I/III does not — and §2 was written that way until n = 13 came back with exactly 0.  The
+   report now reads it as a small-parameter effect and says so, while listing the control that
+   would settle it (four S-boxes on *disjoint* variables; the random control cannot serve, having
+   no falls to add up).  Worth a follow-up, or closed?
+2. **Is the 0.9 saturation threshold strict enough?**  ℓ = 3 at n = 11 sits at 0.52, well inside
+   the admissible band, and still produced a number that does not survive one step in n.
 3. **`d_solv` = that of a random system of the same shape.**  This is a negative result for the
    "structure buys a lower solving degree" hypothesis, and it belongs in the paper as such.  It is
    *not* an extrapolation to the real parameters and the report refuses to make one.

@@ -48,7 +48,10 @@ MERGE = [
      "E12_server_cross_relations_explained_deg4.csv"),
     ("E12_server_criteria_subtract.csv", "E12_criteria_*", "E12_server_criteria_subtract.csv"),
     ("E06_kernel_model_falls.csv", "E06_kernel_n*", "E06_server_kernel.csv"),
-    ("E05_server_resultants.csv", "E05_resultants*", "E05_server_resultants.csv", ("n",)),
+        # NOT deduped on n: n = 8 was attempted twice, once under a 2-hour cap (the real lower bound
+    # on the cost) and once under a 2-minute cap purely to record the system's shape.  Both rows
+    # are legitimate records of what was run and collapsing them would throw away the 7200 s bound.
+    ("E05_server_resultants.csv", "E05_resultants*", "E05_server_resultants.csv"),
 ]
 
 
