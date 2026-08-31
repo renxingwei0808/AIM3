@@ -25,6 +25,9 @@ What is measured
 
 Usage:
   python3 first_layer_ideal.py n [--D4] [--no-points] [--seed S] [--budget SEC]
+                                 [--backend python|sage]
+`--backend sage` routes every rank (Macaulay and the point-set matrix) through M4RI; the two
+engines are verified to agree exactly by server/jobs/verify_backend.py.
 Appends to results/E12_first_layer_ideal.csv.
 """
 import sys, os, random, time, argparse
@@ -34,8 +37,11 @@ from _common import record
 from aim3_lab import F, sbox, rand_unit_lu, apply_mat
 from aim3_macaulay import AffExpr, prod_coords, lin_coords, add_polys
 from aim3.boolmac import macaulay_stats, MacaulayTimeout
+from aim3.boolmac_export import macaulay_stats_backend
 sys.path.insert(0, os.path.join(os.path.dirname(__file__), "..", "E03_syzygy_and_degree_fall"))
 from sbox_degree_fall import relation_dim
+
+SCRATCH = os.environ.get("AIM3_SCRATCH")
 
 
 def build_first_layer(n, exps2, seed=1):
@@ -101,10 +107,11 @@ def build_first_layer(n, exps2, seed=1):
     return nv, eqsP1, eqsAll, sol, pts
 
 
-def measure(name, eqs, nv, D, budget):
+def measure(name, eqs, nv, D, budget, backend="python"):
     t0 = time.time()
     try:
-        return macaulay_stats(eqs, nv, D, budget=budget), 0, time.time() - t0
+        return macaulay_stats_backend(eqs, nv, D, backend=backend, budget=budget, workdir=SCRATCH,
+                                      tag=f"e12_{name.replace(' ', '')}_nv{nv}"), 0, time.time() - t0
     except MacaulayTimeout as exc:
         print(f"   !! {name} D={D} exceeded {budget:.0f}s -> lower bound only")
         return exc.partial, 1, time.time() - t0
@@ -117,9 +124,12 @@ if __name__ == "__main__":
     ap.add_argument("--D4", action="store_true", help="also run the D=4 pass (falls_D4)")
     ap.add_argument("--no-points", action="store_true", help="skip the O(2^n) point-set ideal dimension")
     ap.add_argument("--budget", type=float, default=3600.0)
+    ap.add_argument("--backend", choices=["python", "sage"], default="python",
+                    help="rank engine: pure Python (default) or Sage/M4RI")
     a = ap.parse_args()
     es = [e for e in range(3, a.n - 1) if gcd(e, a.n) == 1][:2]     # identical to cross_relations.py
-    print(f"# params: n={a.n} seed={a.seed} exps={es} D4={a.D4} points={not a.no_points} budget={a.budget}s")
+    print(f"# params: n={a.n} seed={a.seed} exps={es} D4={a.D4} points={not a.no_points} "
+          f"budget={a.budget}s backend={a.backend}")
     t_all = time.time()
     nv, eqsP1, eqsAll, sol, pts = build_first_layer(a.n, es, a.seed)
     n = a.n
@@ -130,7 +140,7 @@ if __name__ == "__main__":
               f"{sum(__import__('math').comb(nv, d) for d in range(4))} monomials of degree <=3 — the "
               f"point-set ideal dimension is dominated by the point deficit, not by the ideal "
               f"(meaningful only for 2^n >> C(3n,<=3), i.e. n >= 15).")
-    st3, cens, sc3 = measure("S_quad(first layer)", eqsAll, nv, 3, a.budget)
+    st3, cens, sc3 = measure("S_quad(firstlayer)", eqsAll, nv, 3, a.budget, a.backend)
     print(f"   D=3: rows={st3.rows} cols={st3.cols} rank={st3.rank} syz={st3.syz} "
           f"(2*8n={16*n}) dim(span∩deg<=2)={st3.dim_low}")
     rec = dict(n=n, exps=";".join(map(str, es)), seed=a.seed, nvars=nv, neqs=len(eqsAll),
@@ -140,7 +150,7 @@ if __name__ == "__main__":
                falls_sbox0="", falls_sbox1="", cross_excess="")
     if not a.no_points:
         t0 = time.time()
-        d3, tot3, _ = relation_dim(pts, nv, 3)
+        d3, tot3, _ = relation_dim(pts, nv, 3, backend=a.backend)
         exc = d3 - st3.rank
         rec.update(IV_deg3=d3, excess_over_mac3=exc, excess_over_4n=exc - 4 * n)
         print(f"   point-set ideal: dim I(V)_<=3 = {d3} of {tot3} monomials on {len(pts)} points "
@@ -148,7 +158,7 @@ if __name__ == "__main__":
         print(f"   => excess over the D=3 Macaulay rank = {d3} - {st3.rank} = {exc}   "
               f"(direct-sum prediction 2*2n = {4*n}; difference {exc - 4*n})")
     if a.D4:
-        st4, c4, sc4 = measure("S_quad(first layer)", eqsAll, nv, 4, a.budget)
+        st4, c4, sc4 = measure("S_quad(firstlayer)", eqsAll, nv, 4, a.budget, a.backend)
         cens |= c4
         print(f"   D=4: rows={st4.rows} cols={st4.cols} rank={st4.rank} syz={st4.syz} "
               f"dim(span∩deg<=3)={st4.dim_low}"
@@ -164,8 +174,8 @@ if __name__ == "__main__":
             per = []
             for i in range(2):
                 sub = eqsAll[i * 3 * n:(i + 1) * 3 * n]
-                s3, cc3, _ = measure(f"S-box{i} alone", sub, nv, 3, a.budget)
-                s4, cc4, _ = measure(f"S-box{i} alone", sub, nv, 4, a.budget)
+                s3, cc3, _ = measure(f"S-box{i}alone", sub, nv, 3, a.budget, a.backend)
+                s4, cc4, _ = measure(f"S-box{i}alone", sub, nv, 4, a.budget, a.backend)
                 cens |= cc3 | cc4
                 f_i = s4.dim_low - s3.rank
                 per.append(f_i)

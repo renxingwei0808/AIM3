@@ -10,6 +10,10 @@ ROOT = os.path.abspath(os.path.join(os.path.dirname(__file__), ".."))
 for p in (os.path.join(ROOT, "legacy"), os.path.join(ROOT, "src")):
     if p not in sys.path:
         sys.path.insert(0, p)
+# legacy/aim3_lab.CONWAY stops at n=16; this adds the (verified irreducible) moduli for n=17..24
+# from src/aim3/gf2n.TOY_MODULI without touching legacy/ (CLAUDE.md rule 3).
+import aim3.legacy_fields                                                          # noqa: E402,F401
+
 # Set AIM3_RESULTS to send CSV rows somewhere else -- scripts/smoke_test.sh uses it so that a smoke
 # run does not append throw-away rows to the committed tables.
 RESULTS = os.environ.get("AIM3_RESULTS") or os.path.join(ROOT, "results")

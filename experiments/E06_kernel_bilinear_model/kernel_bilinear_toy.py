@@ -11,7 +11,12 @@ plus a random linear part plus the constant that plants a random root.  This iso
 model's degree-fall behaviour is due to bilinearity alone and what is due to the AIM3 structure.
 
 Usage: python3 kernel_bilinear_toy.py n [Dmax] [--no-control] [--budget SEC]
+                                        [--backend python|sage] [--export DIR]
        (n=5,7 in seconds; n=9 D<=3; larger -> server).  Appends to results/E06_kernel_model_falls.csv.
+  --backend  rank engine; 'sage' routes every Macaulay matrix through M4RI (verified identical to
+             the pure-Python engine by server/jobs/verify_backend.py).  Scratch: $AIM3_SCRATCH.
+  --export   also write the kernel model (and the systems it is compared against) to DIR in msolve
+             and Magma BooleanPolynomialRing syntax, for the F4 step-degree runs of E04 task 6.
 """
 import sys, os, random, itertools, time
 sys.path.insert(0, os.path.join(os.path.dirname(__file__), ".."))
@@ -20,6 +25,10 @@ from math import gcd
 from aim3_lab import F, sbox, rand_unit_lu, apply_mat
 from aim3_macaulay import AffExpr, prod_coords, lin_coords, add_polys, build_aim3, macaulay, random_system
 from aim3.boolmac import macaulay_stats, MacaulayTimeout
+from aim3.boolmac_export import macaulay_stats_backend
+from aim3.polysys_export import write_system
+
+SCRATCH = os.environ.get("AIM3_SCRATCH")
 
 
 def random_bilinear_system(n, seed=3):
@@ -104,10 +113,11 @@ def build_kernel_model(n, exps, seed=1):
     assert all(ev(p) == 0 for p in eqs), "kernel model does not vanish at the key"
     return nv, eqs, sol
 
-def measure(name, eqs, nv, D, budget):
+def measure(name, eqs, nv, D, budget, backend="python"):
     t0 = time.time()
     try:
-        return macaulay_stats(eqs, nv, D, budget=budget), 0, time.time() - t0
+        return macaulay_stats_backend(eqs, nv, D, backend=backend, budget=budget, workdir=SCRATCH,
+                                      tag=f"e06_{name}_nv{nv}"), 0, time.time() - t0
     except MacaulayTimeout as exc:
         print(f"     !! {name} D={D} exceeded {budget:.0f}s -> lower bounds only")
         return exc.partial, 1, time.time() - t0
@@ -117,10 +127,13 @@ if __name__ == "__main__":
     n = int(sys.argv[1])
     Dmax = int(sys.argv[2]) if len(sys.argv) > 2 and not sys.argv[2].startswith("--") else 3
     budget = float(sys.argv[sys.argv.index("--budget") + 1]) if "--budget" in sys.argv else 3600.0
+    backend = sys.argv[sys.argv.index("--backend") + 1] if "--backend" in sys.argv else "python"
+    export_dir = sys.argv[sys.argv.index("--export") + 1] if "--export" in sys.argv else None
     # e up to n-1 (the spec only asks gcd(e,n)=1); needed to get three exponents at n=5.
     # For n=7,9 this is the same list [2,3,4] / [2,4,5] the script used before.
     exps = [e for e in range(2, n) if gcd(e, n) == 1][:3]
-    print(f"# params: n={n} Dmax={Dmax} exps={exps} control={'--no-control' not in sys.argv} budget={budget}s")
+    print(f"# params: n={n} Dmax={Dmax} exps={exps} control={'--no-control' not in sys.argv} "
+          f"budget={budget}s backend={backend} export={export_dir}")
     nv, eqs, sol = build_kernel_model(n, exps)
     print(f"kernel bilinear model: n={n} exps={exps}: {len(eqs)} eqs in {nv} vars (6n) - vanishes at key: OK")
     nv2, eqsP1, eqsAll, _ = build_aim3(n, exps)
@@ -132,11 +145,19 @@ if __name__ == "__main__":
         systems.append(("random_bilinear", "random bilinear control (6n / 6n)", reqs, nv3))
         rq, _ = random_system(nv2, len(eqsAll), seed=7)
         systems.append(("random_quadratic", "random quadratic control (9n / 3n)", rq, nv2))
+    if export_dir:
+        for tag, name, E, V in systems:
+            info = write_system(E, V, export_dir, f"E06_n{n}_{tag}", sysname=tag,
+                                sol=sol if tag == "kernel" else None,
+                                meta=dict(experiment="E06", n=n, ell=2, exps=exps, system=tag,
+                                          seed=1))
+            print(f"  [export] {tag}: {info['neqs']} eqs / {info['nvars']} vars, "
+                  f"{info['terms']} terms -> {export_dir}/E06_n{n}_{tag}.{{ms,magma.m,json}}")
     for tag, name, E, V in systems:
         print(f"  {name}")
         prev_rank = None
         for D in range(2, Dmax + 1):
-            st, cens, sc = measure(tag, E, V, D, budget)
+            st, cens, sc = measure(tag, E, V, D, budget, backend)
             falls = "" if prev_rank is None else st.dim_low - prev_rank
             print(f"     D={D}: rows={st.rows:6d} cols={st.cols:7d} rank={st.rank:6d} syz={st.syz:5d} "
                   f"dim(span\u2229deg<={D-1})={st.dim_low}"
