@@ -4,6 +4,9 @@
 # SIGPIPE/BrokenPipeError of the producer into a script failure.
 set -euo pipefail
 cd "$(dirname "$0")/.."
+# the smoke test must not append throw-away rows to the committed tables in results/
+export AIM3_RESULTS="$(mktemp -d)"
+trap 'rm -rf "$AIM3_RESULTS"' EXIT
 python3 -c "import sys; sys.path.insert(0,'src'); import random; from aim3 import AIM3; A=AIM3(11,(2,3,4)); print('toy selftest', A.selftest(random.Random(1),3))"
 python3 -c "import sys; sys.path.insert(0,'src'); import random; from aim3.structures import SboxStructures; print('structures n=128', SboxStructures(128,11).check_random(random.Random(2),3))"
 python3 experiments/E02_official_baseline/table4_reproduce.py | head -4 || true

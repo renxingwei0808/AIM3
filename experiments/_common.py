@@ -10,7 +10,9 @@ ROOT = os.path.abspath(os.path.join(os.path.dirname(__file__), ".."))
 for p in (os.path.join(ROOT, "legacy"), os.path.join(ROOT, "src")):
     if p not in sys.path:
         sys.path.insert(0, p)
-RESULTS = os.path.join(ROOT, "results")
+# Set AIM3_RESULTS to send CSV rows somewhere else -- scripts/smoke_test.sh uses it so that a smoke
+# run does not append throw-away rows to the committed tables.
+RESULTS = os.environ.get("AIM3_RESULTS") or os.path.join(ROOT, "results")
 
 # provenance columns appended to every row, in this order
 PROVENANCE = ("tier", "host", "commit", "seconds", "censored")
