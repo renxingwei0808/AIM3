@@ -6,10 +6,10 @@ FINDING (verified 2026-08-31): Table 4 = generic semi-regular series (1-z^2)^m/(
 gives *lower* numbers (215.7/308.8/523.6). Both are recorded as baselines B1 (official) and B2 (Boolean).
 Usage: python3 table4_reproduce.py [--csv]
 """
-import sys, os, csv
+import sys, os, time
 from math import comb, log2
 sys.path.insert(0, os.path.join(os.path.dirname(__file__), ".."))
-from _common import RESULTS
+from _common import RESULTS, record_table
 
 PARAMS = [("AIM3-I", 128, 2, 57), ("AIM3-III", 192, 2, 102), ("AIM3-V", 256, 3, 150)]
 
@@ -56,6 +56,8 @@ def best(N, m, series, mono, kmax):
     return out
 
 if __name__ == "__main__":
+    t0 = time.time()
+    print(f"# params: parameter sets {[p[0] for p in PARAMS]}")
     rows = []
     for name, n, ell, koff in PARAMS:
         N, m = (ell + 1) * n, 3 * (ell + 1) * n
@@ -70,7 +72,9 @@ if __name__ == "__main__":
         rows.append(dict(scheme=name, n=n, ell=ell, official_k=koff, official_dreg=d, official_log2T=official,
                          B1=b1, B2=b2, P1only=p1, P1P3=p13))
     if "--csv" in sys.argv:
-        os.makedirs(RESULTS, exist_ok=True)
-        with open(os.path.join(RESULTS, "E02_baselines.csv"), "w", newline="") as f:
-            w = csv.DictWriter(f, fieldnames=rows[0].keys()); w.writeheader(); w.writerows(rows)
+        for r in rows:                      # flatten the (log2T, k, dreg) triples into scalar columns
+            for key in ("B1", "B2", "P1only", "P1P3"):
+                t = r.pop(key)
+                r[key + "_log2T"], r[key + "_k"], r[key + "_dreg"] = t
+        record_table("E02_baselines.csv", rows, seconds=time.time() - t0)
         print("written results/E02_baselines.csv")

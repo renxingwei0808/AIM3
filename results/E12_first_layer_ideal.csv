@@ -1,0 +1,4 @@
+n,exps,seed,nvars,neqs,mac3_rows,mac3_rank,mac3_syz,syz_target,IV_deg3,excess_over_mac3,excess_over_4n,mac4_rows,mac4_rank,mac4_dim_le3,falls_D4,falls_minus_4n,falls_sbox0,falls_sbox1,cross_excess,tier,host,commit,seconds,censored
+9,4;5,1,27,54,1512,1368,144,144,2794,1426,1390,20466,15264,1477,109,73,45,63,1,A,vm,a913fa2,8.628,0
+11,3;4,1,33,66,2244,2068,176,176,3972,1904,1860,37092,29315,2112,44,0,22,22,0,A,vm,a913fa2,48.036,0
+14,3;5,1,42,84,3612,3388,224,224,3444,56,0,,,,,,,,,A,vm,a913fa2,43.898,0

@@ -15,3 +15,43 @@ degree falls to degree ≤2**, versus S_quad (168 syzygies, 175 falls incl. the 
 cancellations). (2) Tier C: F4 with block orders {U > W} and {W > U}; y-XL multiplying only by W-monomials; compare solving
 degrees with S_quad on identical instances. (3) Write the U-linear form N(W)·(U,1)ᵀ = 0 and test Support-Minors / KS modelling.
 (4) Feed the measured fall structure into E04. Success = a model whose d_solv grows slower than S_quad's with n.
+
+---
+
+## Log — 2026-08-31 (Tier A, batch 1)
+
+**Status.** The D=3 fall count of the kernel model is 2·#eqs = 12n [VERIFIED n=7,9] (n=5 gives
+12n−1). New falls do appear at D=4 [VERIFIED n=5,7]. The **random bilinear control of the same shape
+has zero falls at both degrees**, so the behaviour is structural, not a property of bilinearity.
+
+**What was run.** `kernel_bilinear_toy.py n Dmax` with the new `random_bilinear_system(n)` control
+(6n equations, blocks U = 3n / W = 3n, random U×W bilinear + affine, planted root) and a random
+quadratic control of the S_quad shape: n = 5 and 7 at D ≤ 4, n = 9 at D ≤ 3 →
+`results/E06_kernel_model_falls.csv`. `dim_low` below is dim(span ∩ deg ≤ D−1).
+
+| system | n | D=3 syz | D=3 dim_low | 2·#eqs | D=4 syz | D=4 dim_low | D=4 falls |
+|---|---:|---:|---:|---:|---:|---:|---:|
+| kernel (6n/6n) | 5 | 1 | 59 | 60 | 598 | 1866 | 937 |
+| kernel (6n/6n) | 7 | 0 | **84** | 84 | 974 | 3730 | 1924 |
+| kernel (6n/6n) | 9 | 0 | **108** | 108 | — | — | — |
+| random bilinear (6n/6n) | 5 | 0 | 30 | 60 | 465 | 930 | **0** |
+| random bilinear (6n/6n) | 7 | 0 | 42 | 84 | 903 | 1806 | **0** |
+| random bilinear (6n/6n) | 9 | 0 | 54 | 108 | — | — | — |
+| S_quad (9n/3n) | 7 | 168 | 175 | — | 7696 | 1558 | 340 |
+| P1-only (3n/3n) | 7 | 0 | 63 | — | 273 | 1218 | 756 |
+
+**Answers to the three questions.**
+1. *Is the D=3 fall count always 2·#eqs = 12n?* Yes at **n = 7 and n = 9** (84 and 108, exactly).
+   At n = 5 it is 59 = 12n−1, together with a single syzygy — so the identity is [VERIFIED n=7,9]
+   and **fails by one at n=5**; it is not stated for n ≤ 5.
+2. *Does D=4 produce new falls?* Yes, and a lot: dim_low jumps to 1866 (n=5) and 3730 (n=7), i.e.
+   937 and 1924 new elements beyond rank_{D=3}. These runs are **not** saturated (dim_low/C(6n,≤3)
+   = 0.41 and 0.30), unlike every full-system D=4 run in E04.
+3. *What does the random bilinear control do?* Nothing: at D=3 its row space contains only the 6n
+   equations themselves, and at D=4 `dim_low` equals rank_{D=3} exactly — **zero falls at both
+   degrees, for n = 5, 7, 9**. The kernel model's falls are therefore not a generic consequence of
+   the bipartite bilinear shape.
+
+**Next steps.** Tier B/C: n = 11..16 at D = 3, 4 with M4RI; identify the fall generators (candidate:
+tᵢ·(B-equation) vs aᵢ·(K-equation) cancellations); block orders {U > W} and {W > U} in Magma F4;
+y-XL multiplying only by W-monomials. Feed the fall structure into E04.

@@ -1,0 +1,69 @@
+{
+ "_comment": "AIM3 (AIMer v3.0) known-answer vectors, extracted by experiments/E00_reference_and_facts/kat_pin.py from the official reference-implementation archive samsungsds-opensource/AIMer (AIMer.zip, MIT licence), commit 734cc76 'update AIMer V3.0 reference implementation'. pk = iv||ct, sk = pt||iv||ct; field elements are little-endian bytes (field_common.c::gf_from_bytes). Hex strings below are the field elements printed big-endian-as-integer, i.e. int(hex,16) is the field element.",
+ "conventions": "lsb / A / col / LU  (src/aim3/aim3_ref.py::Conventions defaults)",
+ "sets": {
+  "AIM3-I": {
+   "n": 128,
+   "source": "KAT/aimer-128f/PQCsignKAT_48.rsp (records 0..2)",
+   "records": [
+    {
+     "pt": "dd1a6bdbe4106d0caa9476b0a035997c",
+     "iv": "91282214654cb55e7c2cacd53919604d",
+     "ct": "d46c65bf72e9968d032713a4e90eb1ab"
+    },
+    {
+     "pt": "f55ddcf32e2e9f5ac4190135e12d624b",
+     "iv": "6a27fcdfcddaf58cd69b903752d68c20",
+     "ct": "bbcd252f22eb166f54756ac845451a5e"
+    },
+    {
+     "pt": "c58395362bcd1ccd9b25469e886e831d",
+     "iv": "78ac22cac7731a799192df98116cdb73",
+     "ct": "c53e02afaeefd17b421b505f29631211"
+    }
+   ]
+  },
+  "AIM3-III": {
+   "n": 192,
+   "source": "KAT/aimer-192f/PQCsignKAT_72.rsp (records 0..2)",
+   "records": [
+    {
+     "pt": "0348b1cc251ad82fdd1a6bdbe4106d0caa9476b0a035997c",
+     "iv": "8626ed79d451140800e03b59b956f8210e556067407d13dc",
+     "ct": "a198e107d6204c6e9d40f7bd54b8c52d4638136a1ea4d1dd"
+    },
+    {
+     "pt": "64bddf8c139d750af55ddcf32e2e9f5ac4190135e12d624b",
+     "iv": "e82fcc97ca60ccb27bf6938c975658aeb8b4d37cffbde25d",
+     "ct": "530a6261ec4aca558eb899c3ce33406b4e2591d1835f65a8"
+    },
+    {
+     "pt": "722bec19b9fb7cb4c58395362bcd1ccd9b25469e886e831d",
+     "iv": "f333d36590910e7a5a6cbe567bcdd154137eef62b92bf8dc",
+     "ct": "680d3d3564bec1aef7c4e31256dc5415bfc2356d7dbad77e"
+    }
+   ]
+  },
+  "AIM3-V": {
+   "n": 256,
+   "source": "KAT/aimer-256f/PQCsignKAT_96.rsp (records 0..2)",
+   "records": [
+    {
+     "pt": "2d7f73369973cd2d0348b1cc251ad82fdd1a6bdbe4106d0caa9476b0a035997c",
+     "iv": "8626ed79d451140800e03b59b956f8210e556067407d13dc90fa9e8b872bfb8f",
+     "ct": "86d5d269a4738b7915dd52a348b1047304cd210991046092d7a50394c4af1a0a"
+    },
+    {
+     "pt": "4533512fccc71cc864bddf8c139d750af55ddcf32e2e9f5ac4190135e12d624b",
+     "iv": "e82fcc97ca60ccb27bf6938c975658aeb8b4d37cffbde25d97e561f36c219ade",
+     "ct": "a31a5ffabc67c5d6923ed239a6b240778640647ab9e5ac0f4b344fac4497f1fc"
+    },
+    {
+     "pt": "69555ab17c2480c2722bec19b9fb7cb4c58395362bcd1ccd9b25469e886e831d",
+     "iv": "f333d36590910e7a5a6cbe567bcdd154137eef62b92bf8dc1fdc900e7c194e5f",
+     "ct": "f252515dc3e93d43b1c09f5c7066be07bbad797b8574341592854679ba230de2"
+    }
+   ]
+  }
+ }
+}
