@@ -150,21 +150,24 @@ So at n = 11 the excess is not pairwise and first appears at the three-first-lay
 looked like a mechanism — three S-boxes sharing `pt` is exactly what the AIM3-V shape has and the
 AIM3-I/III shape does not.  **The n = 13 run refutes it:**
 
-| exps | n | {0,1,2} falls_D4 | Σ singles | cross_excess |
-|---|---:|---:|---:|---:|
-| 2;3;4;5 | 11 | 265 | 121 | **144** |
-| 3;4;7;8 (all generic / `{−3}`) | 11 | 144 | 67 | **77 = 7n** |
-| 2;3;4;5 | 13 | 144 | 144 | **0** |
+| exps | n | {0,1,2} falls_D4 | Σ singles | cross_excess | saturation |
+|---|---:|---:|---:|---:|---:|
+| 2;3;4;5 | 11 | 265 | 121 | **144** | 0.313 |
+| 3;4;7;8 (all generic / `{−3}`) | 11 | 144 | 67 | **77 = 7n** | 0.305 |
+| 2;3;4;5 | 13 | 144 | 144 | **0** | 0.257 |
+| 2;4;7;8 | 15 | 225 | 225 | **0** | 0.225 |
 
-The same three-first-layer subset, with the same exponent pattern, gives an excess at n = 11 and
-**none** at n = 13; and the whole four-block system gives 1639 at n = 11 and **0** at n = 13.  A
-quantity that is large at one size and exactly zero at the next is not a structural coupling.
+The same three-first-layer subset gives an excess at n = 11 and **none** at n = 13 or n = 15; and
+the whole four-block system gives 1639 at n = 11 and **0** at n = 13.  A quantity that is large at
+one size and exactly zero at the next two is not a structural coupling.
 
-Two further facts point the same way.  n = 11 is the *smallest* size at which ℓ = 3 runs at all,
+Three further facts point the same way.  n = 11 is the *smallest* size at which ℓ = 3 runs at all,
 and at the same n the ℓ = 2 system is 99.97 % saturated — n = 11 is exactly where these
 measurements stop being about structure.  And the excess is not stable under the exponent choice
 (144 vs 77 = 7n for two exponent lists at the same n), which a genuine cross-S-box mechanism would
-have to be, given that `falls_D4` itself depends on e only through the class rule.
+have to be, given that `falls_D4` itself depends on e only through the class rule.  And the
+saturation of the three-first-layer subset falls monotonically with n — 0.31, 0.26, 0.22 — with the
+excess disappearing as it does.
 
 **Honest position.**  The ℓ = 3, n = 11 row is reported as measured and is **not** folded into the
 verdict; the batch reads it as a small-parameter effect and says so, while noting that the control
@@ -284,6 +287,21 @@ bilinear control produces none**.  That is the one live anomaly T2 has, and it i
 variable-choice effect, not a cross-S-box one.  Tag: **[VERIFIED n = 7, 9, 11, 13, 15]** (was
 n = 7, 9).
 
+**But the kernel model is much *harder* for F4, not easier.**  On the same ring and with the same
+field equations, at n = 7:
+
+| system | variables | equations | `d_solv` | F4 steps | largest F4 matrix | GB size |
+|---|---:|---:|---:|---:|---:|---:|
+| `S_quad` | 21 | 63 | 3 | 5 | 3 471 | 24 |
+| kernel model | 42 | 42 | **7** | 13 | **443 507** | 4 432 |
+
+Twice the variables, but more than twice the solving degree and a 128× larger F4 matrix — and,
+unlike `S_quad`, the kernel model does not have a unique solution, so its Gröbner basis is large
+and order-dependent (§5).  The two observations have to be held together: **the kernel
+re-parameterisation produces degree falls that the random bilinear control does not have, and at
+the same time makes the Gröbner computation dramatically more expensive.**  Whatever T2 builds on
+the kernel model has to explain the second fact as well as the first.
+
 At D = 4 the kernel model was run at n = 11 only, and the control there is just as sharp: the
 kernel model reaches `dim_low = 9075` — **4653 new elements of degree ≤ 3** — on a
 145992 × 768692 matrix that takes M4RI 35 minutes, while the same-shape random bilinear system
@@ -361,12 +379,28 @@ hard way:
    this tool.  The `d_solv` column of `results/E10_server_block_orders.csv` is grevlex's value *by
    construction*, not by measurement, and must not be read as an order comparison.
 
-A third fact limits the experiment independently of the tool: these toy instances have a **single**
-solution over F₂, and the reduced Gröbner basis of such an ideal is the same in every monomial
-order.  Consistently, `gb_size` and `gb_max_degree` are identical across `genref`, `blockPT` and
-`blockT` in every completed row, and so are the times to within noise.  **T2.2 gets no traction on
-instances of this kind**; a real block-order comparison needs either a positive-dimensional
-instance or a tool that computes directly in the block order (Sage/PolyBoRi does — §8).
+A third fact limits the experiment on the `S_quad`-shaped instances independently of the tool: they
+have a **single** solution over F₂, and the reduced Gröbner basis of such an ideal is the same in
+every monomial order.  Consistently, `gb_size` and `gb_max_degree` are identical across `genref`,
+`blockPT` and `blockT` in **50 of 50** instances, and so are the times to within noise.
+
+**The kernel model is the one instance where the order does bite — and it bites the wrong way.**
+It does *not* have a unique solution, so its basis is order-dependent, and at n = 7 (42 Boolean
+variables, same ring and same field equations for all three rows):
+
+| order | what it is | `d_solv` | steps | largest F4 matrix | GB size | GB max degree | seconds |
+|---|---|---:|---:|---:|---:|---:|---:|
+| `genref` | grevlex | 7 | 13 | 443507 | 4432 | 4 | **131.5** |
+| `blockU` | U (= pt, t₀, t₁) first | 7 | 13 | 443507 | 2357 | 4 | 485.3 |
+| `blockW` | W (= a₀, a₁, a₂) first | 7 | 13 | 443507 | 2772 | 4 | 1127.0 |
+
+The block orders give a **smaller** basis (2357 and 2772 against 4432) and cost **3.7× and 8.6×
+more time**; `d_solv` and the F4 matrix are identical across the three because, as fact 2 above
+says, the F4 phase runs in grevlex and the order is applied afterwards — all of the extra time is
+in that conversion.  So on the one instance where a block order could have helped, it does not.
+
+**T2.2 therefore gets no traction here**, on either kind of instance.  A step-degree comparison
+*inside* a block order still needs a tool that computes directly in it (Sage/PolyBoRi does — §8).
 
 ---
 
@@ -684,6 +718,7 @@ Controls on the same instances (no per-block decomposition is defined for them):
 | 3 | 11 | 3 | P1only | 3608 | 0.3926 |
 | 3 | 11 | 3 | random | 0 | 0.4173 |
 | 3 | 13 | 1 | P1only | 5096 | 0.3344 |
+| 3 | 13 | 1 | random | 0 | 0.3521 |
 
 #### A.2.2 The subset lattice, with the random control (`server/jobs/gate1_pairs.py`)
 
@@ -718,6 +753,7 @@ Controls on the same instances (no per-block decomposition is defined for them):
 | 2 | 15 | 2;4;7 | random | {0+1} | 90 | 0 | 0 | 0 | 0 | 0.2719 |
 | 2 | 15 | 2;4;7 | random | {0+2} | 90 | 0 | 0 | 0 | 0 | 0.2719 |
 | 2 | 15 | 2;4;7 | random | {1+2} | 90 | 0 | 0 | 0 | 0 | 0.2719 |
+| 2 | 15 | 2;4;7 | random | {0+1+2} | 135 | 0 | 0 | 0 | 0 | 0.4079 |
 | 3 | 11 | 2;3;4;5 | S_quad | {0} | 33 | 88 | 77 | 77 | 0 | 0.1035 |
 | 3 | 11 | 2;3;4;5 | S_quad | {1} | 33 | 88 | 22 | 22 | 0 | 0.0997 |
 | 3 | 11 | 2;3;4;5 | S_quad | {2} | 33 | 88 | 22 | 22 | 0 | 0.0997 |
@@ -745,6 +781,9 @@ Controls on the same instances (no per-block decomposition is defined for them):
 | 3 | 11 | 2;3;4;5 | random | {2+3} | 66 | 0 | 0 | 0 | 0 | 0.2086 |
 | 3 | 11 | 2;3;4;5 | random | {0+1+2} | 99 | 0 | 0 | 0 | 0 | 0.313 |
 | 3 | 11 | 2;3;4;5 | random | {0+1+3} | 99 | 0 | 0 | 0 | 0 | 0.313 |
+| 3 | 11 | 2;3;4;5 | random | {0+2+3} | 99 | 0 | 0 | 0 | 0 | 0.313 |
+| 3 | 11 | 2;3;4;5 | random | {1+2+3} | 99 | 0 | 0 | 0 | 0 | 0.313 |
+| 3 | 11 | 2;3;4;5 | random | {0+1+2+3} | 132 | 0 | 0 | 0 | 0 | 0.4173 |
 | 3 | 11 | 3;4;7;8 | S_quad | {0} | 33 | 88 | 22 | 22 | 0 | 0.0997 |
 | 3 | 11 | 3;4;7;8 | S_quad | {0} | 33 | 88 | 22 | 22 | 0 | 0.0997 |
 | 3 | 11 | 3;4;7;8 | S_quad | {1} | 33 | 88 | 22 | 22 | 0 | 0.0997 |
@@ -777,6 +816,7 @@ Controls on the same instances (no per-block decomposition is defined for them):
 | 3 | 15 | 2;4;7;8 | S_quad | {0} | 45 | 120 | 105 | 105 | 0 | 0.0757 |
 | 3 | 15 | 2;4;7;8 | S_quad | {1} | 45 | 120 | 30 | 30 | 0 | 0.0736 |
 | 3 | 15 | 2;4;7;8 | S_quad | {2} | 45 | 120 | 90 | 90 | 0 | 0.0753 |
+| 3 | 15 | 2;4;7;8 | S_quad | {0+1+2} | 135 | 360 | 225 | 225 | 0 | 0.2247 |
 
 #### A.2.3 E12 first-layer system (two S-boxes in 3n variables)
 
@@ -913,9 +953,9 @@ At degree 4 it is not enough to ask whether a relation is supported on t₀ only
 | 1 | random | 1 | 3 | 3 | 4 | 4 | 4 |
 | 1 | random | 2 | 3 | 3 | 4 | 4 | 4 |
 | 2 | P1only | 1 | 3 | 4 | 4 | 4 | – |
-| 2 | P1only | 2 | 3 | 4 | 4 | – | – |
+| 2 | P1only | 2 | 3 | 4 | 4 | 4 | – |
 | 2 | S_quad | 1 | 3 | 4 | 4 | 4 | – |
-| 2 | S_quad | 2 | 3 | 4 | 4 | – | – |
+| 2 | S_quad | 2 | 3 | 4 | 4 | 4 | – |
 | 2 | random | 1 | 4 | 4 | 4 | 5 | – |
 | 2 | random | 2 | 4 | 4 | 4 | – | – |
 
@@ -1015,8 +1055,12 @@ A cell `a/b` in bold would mean msolve and Magma disagreed; a plain number means
 | 13 | 1 | random | 2 | msolve | 4 | 6 | 31681 | 18018 | 4.0 | 137 |
 | 13 | 2 | P1only | 1 | magma | 4 | 8 | 93423 | 90207 | 117.6 | 1647 |
 | 13 | 2 | P1only | 1 | msolve | 4 | 9 | 111293 | 110272 | 1091.8 | 6496 |
+| 13 | 2 | P1only | 2 | magma | 4 | 8 | 93564 | 90564 | 108.5 | 1651 |
+| 13 | 2 | P1only | 2 | msolve | 4 | 9 | 112559 | 111121 | 831.3 | 6502 |
 | 13 | 2 | S_quad | 1 | magma | 4 | 7 | 92156 | 86658 | 131.7 | 1637 |
 | 13 | 2 | S_quad | 1 | msolve | 4 | 8 | 110386 | 104993 | 1209.7 | 6342 |
+| 13 | 2 | S_quad | 2 | magma | 4 | 7 | 94049 | 90793 | 103.1 | 1658 |
+| 13 | 2 | S_quad | 2 | msolve | 4 | 8 | 114090 | 115877 | 936.6 | 6369 |
 | 13 | 2 | random | 1 | magma | 5 | 8 | 886020 | 289354 | 499.4 | 13703 |
 | 13 | 2 | random | 1 | msolve | 5 | 4 | 986289 | 389623 | 3600.0 |  |
 | 15 | 1 | P1only | 1 | magma | 4 | 7 | 40388 | 30576 | 5.4 | 156 |
@@ -1038,60 +1082,61 @@ Magma 2.24's `BooleanPolynomialRing` takes an order *name* only, so the block or
 
 One row per instance; a cell is `d_solv (seconds)`.  `—` means the order does not apply to that system's variable layout.
 
-| n | ℓ | system | seed | `genref` | `blockPT` | `blockT` |
-|---:|---:|---|---:|---:|---:|---:|
-| 7 | 1 | P1only | 1 | 3 (0.1) | 3 (0.1) | 3 (0.1) |
-| 7 | 1 | P1only | 2 | 3 (0.1) | 3 (0.1) | 3 (0.1) |
-| 7 | 1 | S_quad | 1 | 3 (0.1) | 3 (0.1) | 3 (0.1) |
-| 7 | 1 | S_quad | 2 | 3 (0.1) | 3 (0.1) | 3 (0.1) |
-| 7 | 1 | random | 1 | 3 (0.1) | 3 (0.1) | 3 (0.1) |
-| 7 | 1 | random | 2 | 3 (0.1) | 3 (0.1) | 3 (0.1) |
-| 7 | 2 | P1only | 1 | 3 (0.1) | 3 (0.1) | 3 (0.1) |
-| 7 | 2 | P1only | 2 | 3 (0.1) | 3 (0.1) | 3 (0.1) |
-| 7 | 2 | S_quad | 1 | 3 (0.1) | 3 (0.1) | 3 (0.1) |
-| 7 | 2 | S_quad | 2 | 3 (0.1) | 3 (0.1) | 3 (0.1) |
-| 7 | 2 | random | 1 | 4 (0.2) | 4 (0.3) | 4 (0.3) |
-| 7 | 2 | random | 2 | 4 (0.3) | 4 (0.3) | 4 (0.4) |
-| 9 | 1 | P1only | 1 | 3 (0.1) | 3 (0.1) | 3 (0.1) |
-| 9 | 1 | P1only | 2 | 3 (0.2) | 3 (0.2) | 3 (0.2) |
-| 9 | 1 | S_quad | 1 | 3 (0.1) | 3 (0.1) | 3 (0.1) |
-| 9 | 1 | S_quad | 2 | 3 (0.1) | 3 (0.1) | 3 (0.1) |
-| 9 | 1 | random | 1 | 3 (0.1) | 3 (0.1) | 3 (0.1) |
-| 9 | 1 | random | 2 | 3 (0.1) | 3 (0.1) | 3 (0.1) |
-| 9 | 2 | P1only | 1 | 4 (0.6) | 4 (0.6) | 4 (0.7) |
-| 9 | 2 | P1only | 2 | 4 (0.6) | 4 (0.6) | 4 (0.6) |
-| 9 | 2 | S_quad | 1 | 4 (0.6) | 4 (0.6) | 4 (0.6) |
-| 9 | 2 | S_quad | 2 | 4 (0.6) | 4 (0.6) | 4 (0.5) |
-| 9 | 2 | random | 1 | 4 (0.8) | 4 (0.8) | 4 (0.8) |
-| 9 | 2 | random | 2 | 4 (0.8) | 4 (0.8) | 4 (0.9) |
-| 11 | 1 | P1only | 1 | 4 (0.3) | 4 (0.3) | 4 (0.3) |
-| 11 | 1 | P1only | 2 | 4 (0.7) | 4 (0.7) | 4 (0.7) |
-| 11 | 1 | S_quad | 1 | 4 (0.3) | 4 (0.3) | 4 (0.3) |
-| 11 | 1 | S_quad | 2 | 4 (0.2) | 4 (0.3) | 4 (0.3) |
-| 11 | 1 | random | 1 | 4 (0.4) | 4 (0.3) | 4 (0.3) |
-| 11 | 1 | random | 2 | 4 (0.3) | 4 (0.3) | 4 (0.3) |
-| 11 | 2 | P1only | 1 | 4 (4.9) | 4 (4.5) | 4 (5.9) |
-| 11 | 2 | P1only | 2 | 4 (4.3) | 4 (4.4) | 4 (4.3) |
-| 11 | 2 | S_quad | 1 | 4 (4.8) | 4 (5.9) | 4 (5.2) |
-| 11 | 2 | S_quad | 2 | 4 (4.6) | 4 (4.5) | 4 (4.4) |
-| 11 | 2 | random | 1 | 4 (2.4) | 4 (2.4) | 4 (2.4) |
-| 11 | 2 | random | 2 | 4 (2.7) | 4 (2.6) | 4 (2.7) |
-| 13 | 1 | P1only | 1 | 4 (0.6) | 4 (0.6) | 4 (0.6) |
-| 13 | 1 | P1only | 2 | 4 (0.6) | 4 (0.6) | 4 (0.6) |
-| 13 | 1 | S_quad | 1 | 4 (0.6) | 4 (0.6) | 4 (0.6) |
-| 13 | 1 | S_quad | 2 | 4 (0.6) | 4 (0.6) | 4 (0.6) |
-| 13 | 1 | random | 1 | 4 (0.7) | 4 (0.6) | 4 (0.6) |
-| 13 | 1 | random | 2 | 4 (0.6) | 4 (0.6) | 4 (0.6) |
-| 13 | 2 | P1only | 1 | 4 (155.3) | 4 (245.6) | 4 (183.8) |
-| 13 | 2 | S_quad | 1 | 4 (144.2) | 4 (169.0) | 4 (119.4) |
-| 15 | 1 | P1only | 1 | 4 (6.5) | 4 (6.2) | 4 (6.6) |
-| 15 | 1 | P1only | 2 | 4 (6.5) | 4 (6.3) | 4 (6.6) |
-| 15 | 1 | S_quad | 1 | 4 (6.5) | 4 (6.6) | 4 (6.6) |
-| 15 | 1 | S_quad | 2 | 4 (6.1) | 4 (6.5) | 4 (6.5) |
-| 15 | 1 | random | 1 | 4 (1.5) | 4 (1.4) | 4 (1.4) |
-| 15 | 1 | random | 2 | 4 (1.3) | 4 (1.4) | 4 (1.5) |
+| n | ℓ | system | seed | `genref` | `blockPT` | `blockT` | `blockU` | `blockW` |
+|---:|---:|---|---:|---:|---:|---:|---:|---:|
+| 7 | 1 | P1only | 1 | 3 (0.1) | 3 (0.1) | 3 (0.1) | — | — |
+| 7 | 1 | P1only | 2 | 3 (0.1) | 3 (0.1) | 3 (0.1) | — | — |
+| 7 | 1 | S_quad | 1 | 3 (0.1) | 3 (0.1) | 3 (0.1) | — | — |
+| 7 | 1 | S_quad | 2 | 3 (0.1) | 3 (0.1) | 3 (0.1) | — | — |
+| 7 | 1 | random | 1 | 3 (0.1) | 3 (0.1) | 3 (0.1) | — | — |
+| 7 | 1 | random | 2 | 3 (0.1) | 3 (0.1) | 3 (0.1) | — | — |
+| 7 | 2 | P1only | 1 | 3 (0.1) | 3 (0.1) | 3 (0.1) | — | — |
+| 7 | 2 | P1only | 2 | 3 (0.1) | 3 (0.1) | 3 (0.1) | — | — |
+| 7 | 2 | S_quad | 1 | 3 (0.1) | 3 (0.1) | 3 (0.1) | — | — |
+| 7 | 2 | S_quad | 2 | 3 (0.1) | 3 (0.1) | 3 (0.1) | — | — |
+| 7 | 2 | kernel | 1 | 7 (131.5) | — | — | 7 (485.3) | 7 (1127.0) |
+| 7 | 2 | random | 1 | 4 (0.2) | 4 (0.3) | 4 (0.3) | — | — |
+| 7 | 2 | random | 2 | 4 (0.3) | 4 (0.3) | 4 (0.4) | — | — |
+| 9 | 1 | P1only | 1 | 3 (0.1) | 3 (0.1) | 3 (0.1) | — | — |
+| 9 | 1 | P1only | 2 | 3 (0.2) | 3 (0.2) | 3 (0.2) | — | — |
+| 9 | 1 | S_quad | 1 | 3 (0.1) | 3 (0.1) | 3 (0.1) | — | — |
+| 9 | 1 | S_quad | 2 | 3 (0.1) | 3 (0.1) | 3 (0.1) | — | — |
+| 9 | 1 | random | 1 | 3 (0.1) | 3 (0.1) | 3 (0.1) | — | — |
+| 9 | 1 | random | 2 | 3 (0.1) | 3 (0.1) | 3 (0.1) | — | — |
+| 9 | 2 | P1only | 1 | 4 (0.6) | 4 (0.6) | 4 (0.7) | — | — |
+| 9 | 2 | P1only | 2 | 4 (0.6) | 4 (0.6) | 4 (0.6) | — | — |
+| 9 | 2 | S_quad | 1 | 4 (0.6) | 4 (0.6) | 4 (0.6) | — | — |
+| 9 | 2 | S_quad | 2 | 4 (0.6) | 4 (0.6) | 4 (0.5) | — | — |
+| 9 | 2 | random | 1 | 4 (0.8) | 4 (0.8) | 4 (0.8) | — | — |
+| 9 | 2 | random | 2 | 4 (0.8) | 4 (0.8) | 4 (0.9) | — | — |
+| 11 | 1 | P1only | 1 | 4 (0.3) | 4 (0.3) | 4 (0.3) | — | — |
+| 11 | 1 | P1only | 2 | 4 (0.7) | 4 (0.7) | 4 (0.7) | — | — |
+| 11 | 1 | S_quad | 1 | 4 (0.3) | 4 (0.3) | 4 (0.3) | — | — |
+| 11 | 1 | S_quad | 2 | 4 (0.2) | 4 (0.3) | 4 (0.3) | — | — |
+| 11 | 1 | random | 1 | 4 (0.4) | 4 (0.3) | 4 (0.3) | — | — |
+| 11 | 1 | random | 2 | 4 (0.3) | 4 (0.3) | 4 (0.3) | — | — |
+| 11 | 2 | P1only | 1 | 4 (4.9) | 4 (4.5) | 4 (5.9) | — | — |
+| 11 | 2 | P1only | 2 | 4 (4.3) | 4 (4.4) | 4 (4.3) | — | — |
+| 11 | 2 | S_quad | 1 | 4 (4.8) | 4 (5.9) | 4 (5.2) | — | — |
+| 11 | 2 | S_quad | 2 | 4 (4.6) | 4 (4.5) | 4 (4.4) | — | — |
+| 11 | 2 | random | 1 | 4 (2.4) | 4 (2.4) | 4 (2.4) | — | — |
+| 11 | 2 | random | 2 | 4 (2.7) | 4 (2.6) | 4 (2.7) | — | — |
+| 13 | 1 | P1only | 1 | 4 (0.6) | 4 (0.6) | 4 (0.6) | — | — |
+| 13 | 1 | P1only | 2 | 4 (0.6) | 4 (0.6) | 4 (0.6) | — | — |
+| 13 | 1 | S_quad | 1 | 4 (0.6) | 4 (0.6) | 4 (0.6) | — | — |
+| 13 | 1 | S_quad | 2 | 4 (0.6) | 4 (0.6) | 4 (0.6) | — | — |
+| 13 | 1 | random | 1 | 4 (0.7) | 4 (0.6) | 4 (0.6) | — | — |
+| 13 | 1 | random | 2 | 4 (0.6) | 4 (0.6) | 4 (0.6) | — | — |
+| 13 | 2 | P1only | 1 | 4 (155.3) | 4 (245.6) | 4 (183.8) | — | — |
+| 13 | 2 | S_quad | 1 | 4 (144.2) | 4 (169.0) | 4 (119.4) | — | — |
+| 15 | 1 | P1only | 1 | 4 (6.5) | 4 (6.2) | 4 (6.6) | — | — |
+| 15 | 1 | P1only | 2 | 4 (6.5) | 4 (6.3) | 4 (6.6) | — | — |
+| 15 | 1 | S_quad | 1 | 4 (6.5) | 4 (6.6) | 4 (6.6) | — | — |
+| 15 | 1 | S_quad | 2 | 4 (6.1) | 4 (6.5) | 4 (6.5) | — | — |
+| 15 | 1 | random | 1 | 4 (1.5) | 4 (1.4) | 4 (1.4) | — | — |
+| 15 | 1 | random | 2 | 4 (1.3) | 4 (1.4) | 4 (1.5) | — | — |
 
-`d_solv` is the same across every order in **50 of 50** instances, and the resulting basis (`gb_size`, `gb_max_degree`) in **50 of 50** — consistent with §5: with a single solution over F₂ the reduced Gröbner basis does not depend on the monomial order, and Magma's F4 phase runs in grevlex regardless.
+`d_solv` is the same across every order in **51 of 51** instances, and the resulting basis (`gb_size`, `gb_max_degree`) in **50 of 51** — consistent with §5: with a single solution over F₂ the reduced Gröbner basis does not depend on the monomial order, and Magma's F4 phase runs in grevlex regardless.
 
 ### A.7 E05 — resultant of the two-valued-inverse reduced system
 
