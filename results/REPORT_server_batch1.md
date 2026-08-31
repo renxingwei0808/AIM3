@@ -301,26 +301,33 @@ they differ only in step count and matrix size, as expected from different F4 st
 **`-g 2` matters**: without it msolve continues to a rational parametrisation and re-runs F4 about
 twenty times, so neither the step count nor the wall clock would describe one F4 run.
 
-`d_solv` vs n, grevlex (identical for msolve and Magma; two seeds each):
+`d_solv` vs n, grevlex — identical for msolve and Magma everywhere, and identical across
+the two seeds (a cell shows every value observed):
 
 | system | ℓ | n=7 | n=9 | n=11 | n=13 | n=15 |
 |---|---:|---:|---:|---:|---:|---:|
 | S_quad | 1 | 3 | 3 | 4 | 4 | 4 |
 | P1only | 1 | 3 | 3 | 4 | 4 | 4 |
 | random | 1 | 3 | 3 | 4 | 4 | 4 |
-| S_quad | 2 | 3 | 4 | 4 | — | — |
+| S_quad | 2 | 3 | 4 | 4 | 4 | — |
 | P1only | 2 | 3 | 4 | 4 | 4 | — |
 | random | 2 | 4 | 4 | 4 | — | — |
 
-**The finding, stated conservatively.**  `d_solv` is 3 for n ≤ 9 and 4 for 11 ≤ n ≤ 15, and — this
-is the point — **it is the same for `S_quad` and for a random Boolean quadratic system of the same
-shape at every size reached**, with `random` occasionally *higher* (n = 7, ℓ = 2).  The structural
-degree falls of T1 (2n per S-box) therefore do **not** buy a lower solving degree at these sizes.
+**The finding, stated conservatively.**  `d_solv` takes the value 3 and then 4, and the step comes
+one size earlier for three S-boxes than for two: at ℓ = 1 it is 3 at n = 7, 9 and 4 at n = 11, 13,
+15; at ℓ = 2 it is 3 at n = 7 and 4 from n = 9 on.  And — this is the point — **it is the same for
+`S_quad` and for a random Boolean quadratic system of the same shape at every size reached**, with
+`random` occasionally *higher* (4 against 3 at n = 7, ℓ = 2).  The structural degree falls of T1
+(2n per S-box) therefore do **not** buy a lower solving degree at these sizes; whatever the ideal
+structure does to the Hilbert function, F4 does not see it as an easier computation.
+
 Five values of n satisfy the ≥ 4 requirement of `COMPLEXITY_ACCOUNTING §4` for stating that
-observation, but **not** for extrapolating a growth law: the data is a single step from 3 to 4
-between n = 9 and n = 11 and then a plateau, which is exactly the shape that must not be fitted.
-No comparison with B1's `d_reg = 19/25/44` is drawn here beyond noting that a plateau at 4 over
-n = 11..15 gives no evidence either way at n = 128.
+observation, but **not** for extrapolating a growth law: the data is a single step from 3 to 4 and
+then a plateau, which is exactly the shape that must not be fitted.  No comparison with B1's
+`d_reg = 19/25/44` is drawn here beyond noting that a plateau at 4 over n = 11..15 gives no
+evidence either way at n = 128 — the toy systems are over-determined enough (9n equations in 3n
+variables) that F4 reaches a single solution almost immediately, and that regime may or may not be
+the one the real parameters are in.
 
 The Gröbner bases themselves are essentially linear (`gb_max_degree` 1 or 2, `gb_size ≈ nv`): at
 these toy sizes the systems have a single solution and F4 finds it at degree 4.
@@ -367,11 +374,11 @@ system is
 and the Sylvester matrix Magma has to take the determinant of is therefore about
 `deg_{t1}(Eq1) + deg_{t1}(Eq2) = 382` square with entries of degree up to 254 in t₀.
 
-**The measurement of this batch is that even n = 8 does not finish.**  Magma had run
-`Resultant` for over 45 minutes of CPU when this report was written, against a 2-hour cap;
-whatever it does, the run is recorded with `censored = 1` and its numbers are lower bounds, and the
-escalation stops there (batch rule 0.2) — n = 9 and above are not attempted.  See §A.7 for the row
-as collected, and §8 for what that leaves open.
+**The measurement of this batch is that n = 8 does not finish.**  Magma ran `Resultant` for the
+full **2-hour cap** without returning; the run is recorded with `censored = 1`, its numbers are
+lower bounds, and the escalation stopped there (batch rule 0.2) — n = 9 and above were not
+attempted.  `n = 7` was then launched to obtain at least one *completed* size, so that the jump has
+a lower bound rather than nothing at all; see §A.7 for the rows as collected.
 
 That is a weaker statement than the batch asked for — the T3 termination criterion needs the slope
 of `log2(time)` over ≥ 4 sizes and there is at most one completed size — but it is a real and
