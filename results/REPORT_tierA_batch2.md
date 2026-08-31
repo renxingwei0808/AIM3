@@ -61,14 +61,23 @@ The accounting is complete: 473 = 11·43 kernel dimensions from generators with 
 
 **Every one of those kernel elements already lies in $\mathrm{Mac}_3$.** The module proposed for
 Theorem T1.2 — $\{x^{2^i}y^{2^j}P_1\}\cup\{x^{2^k}P_2\}\cup\{y^{2^k}P_3\}$ — explains **0 of the 2n**
-new cubics, at (n,e) = (11,3) and (13,3). Nor does any single one of the 18 multiplier families
+new cubics, at **all four measured pairs** (n,e) = (11,3), (13,3), (11,4), (13,5). Nor does any
+single one of the 18 multiplier families
 $\{1,x^{2^i},y^{2^j},x^{2^i}y^{2^j},x^{2^i+2^j},y^{2^i+2^j}\}\times\{P_1,P_2,P_3\}$ produce a new
-cubic on its own — all 18 measured, all 0.
+cubic on its own — all 18 measured, all 0, at (11,3) and (11,4).
 
 **What does work — leave-one-out.** Dropping one family at a time from the full row space: 16 of the
 18 leave the count at 2n; dropping `x^{2^i}y^{2^j}·P₂` leaves n, and dropping `y^{2^i+2^j}·P₃` leaves
 n. So **falls₄ = 2n splits as n + n**, and both blocks need **weight-2** multipliers on P₂/P₃ — the
-refuted ansatz used weight-1 ones. [VERIFIED (11,3), all 18 families measured.]
+refuted ansatz used weight-1 ones. [VERIFIED (11,3) **and** (11,4) — all 18 families measured in
+each, and the two indispensable families are **the same pair** for both exponents.]
+
+| (n,e) | falls₄ | ansatz explains | indispensable families | quotient / n |
+|---|---:|---:|---|---:|
+| (11,3) | 22 | 0 | `x^{2^i}y^{2^j}·P₂`, `y^{2^i+2^j}·P₃` | 2.00 |
+| (11,4) | 22 | 0 | `x^{2^i}y^{2^j}·P₂`, `y^{2^i+2^j}·P₃` | 2.00 |
+| (13,3) | 26 | 0 | (leave-one-out not run — cost) | 2.00 |
+| (13,5) | 26 | 0 | (leave-one-out not run — cost) | 2.00 |
 
 **And why those two.** Written as multiples of P₁, `x^{2^k}P₂` and `y^{2^k}P₃` have *no* degree-4 part
 (Boolean degree ≤3 — they are inside Mac₃, which is the first half of why the ansatz fails);
@@ -222,6 +231,10 @@ No attack complexity numbers appear. Server-dependent results are `\todo{}`.
 * **The 5n non-trivial syzygies at D=3 are still [OPEN].** §2's refutation is a reason to expect this
   to be hard too, and the leave-one-out tooling is now in place to test any proposed family cheaply.
 * **The class rule and the C(q,2)·n rule remain [CONJ]** — both are fits within n ≤ 16 / q ≤ 4.
+* **The leave-one-out sweep was run only at n = 11** (both admissible generic exponents, 3 and 4).
+  At n = 13 only the cheap ansatz test was run: one leave-one-out pass there costs ~7 minutes × 18
+  families × 2 exponents, against ~2 minutes × 18 × 2 at n = 11. Confirming the same two families at
+  n = 13, 14 is a natural server task and would turn the n+n split from two data points into four.
 * **`refs.bib` is unchanged**; `main.tex` cites `AIMerV3` which must be added before it compiles with
   bibliography. The skeleton compiles as a document; the bibliography is a one-line fix left to
   whoever adds the third-party citations (roadmap §6 requires checking each against the original PDF).
