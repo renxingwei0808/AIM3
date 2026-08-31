@@ -220,7 +220,8 @@ n = 16, with a same-shape random control and the saturation of the degree-≤4 s
 | 14 | 3 | generic | 28 | yes (2n) | 882 | 63 | 0.583 |
 | 14 | 9 | {−3,(−3)⁻¹} | 29 | yes (2n+1) | 700 | 50 | 0.576 |
 | 16 | 3 | generic | 32 | yes (2n) | 1136 | 71 | 0.517 |
-| 14 | — | **random control** | 0 | — | 7966 | 569 | **1.000** |
+| 14 | — | **random control** | 0 | — | 7966 | 569 | **1.000** (saturated, useless) |
+| 16 | — | **random control** | 0 | — | **0** | 0 | 0.584 |
 
 Three things are worth stating separately.
 
@@ -230,11 +231,13 @@ Three things are worth stating separately.
   — so the first-fall-degree-4 statement of T1.2 is not the end of the story.  It is not constant
   in n/e either (50n, 63n, 71n).  Three points at two values of n is far short of what
   `COMPLEXITY_ACCOUNTING §4` needs, so the numbers are recorded and **no rule is proposed**.
-* **The random control is useless at D = 5**: at n = 14 it is *fully saturated*
-  (`dim(span_{D=5} ∩ deg≤4) = C(28,≤4)` exactly, saturation 1.000), so its 569n has no structural
-  content and cannot serve as a baseline for the S-box's 63n.  A D = 5 comparison needs a control
-  that is not pinned at the top — a larger n, or a control with fewer equations.  Until then the
-  D = 5 fall counts are an observation, not evidence of structure.
+* **The control needs n = 16 to say anything, and there it is decisive.**  At n = 14 the random
+  system is *fully saturated* at D = 5 (`dim(span_{D=5} ∩ deg≤4) = C(28,≤4)` exactly), so its 569n
+  is an artefact and no baseline at all.  At n = 16 it is **not** saturated (0.584, comparable to
+  the S-box's 0.517) and gives **`falls_D5` = 0 exactly** — its degree-≤4 span at D = 5 is
+  precisely its own D = 4 rank.  So the S-box's 1136 = 71n at n = 16 is measured against a control
+  that produces none, exactly as at D = 4.  **The D = 5 falls are structural**; what is still
+  missing is enough sizes to say how they grow.
 
 ---
 
@@ -711,6 +714,7 @@ Controls on the same instances (no per-block decomposition is defined for them):
 | 2 | 15 | 3 | P1only | 3780 | 0.3842 |
 | 2 | 15 | 3 | random | 0 | 0.4079 |
 | 2 | 17 | 1 | P1only | 4896 | 0.3407 |
+| 2 | 17 | 1 | random | 0 | 0.3592 |
 | 3 | 11 | 1 | P1only | 3608 | 0.3926 |
 | 3 | 11 | 1 | random | 0 | 0.4173 |
 | 3 | 11 | 2 | P1only | 3608 | 0.3926 |
