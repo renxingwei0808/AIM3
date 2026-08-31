@@ -100,43 +100,41 @@ def main():
         dedupe = entry[3] if len(entry) > 3 else None
         keep_row = entry[4] if len(entry) > 4 else None
         dirs = remote_ls(a.host, a.ssh_config, f"{a.base}/out/{jobglob}/")
-        rows, header = [], None
+        # Jobs launched before and after a script gained a column have different headers; merge on
+        # the UNION of the columns (missing cells stay empty) instead of dropping the odd file out.
+        chunks, fields = [], []
         used = []
         for d in sorted(dirs):
             text = remote_cat(a.host, a.ssh_config, os.path.join(d, csvname))
             if not text.strip():
                 continue
-            rdr = csv.reader(io.StringIO(text))
-            h = next(rdr, None)
-            if h is None:
+            rdr = csv.DictReader(io.StringIO(text))
+            rows = list(rdr)
+            if not rows:
                 continue
-            if header is None:
-                header = h
-            elif h != header:
-                print(f"  !! {outname}: header mismatch in {d}\n     {h}\n     {header}")
-                continue
-            n0 = len(rows)
-            rows.extend(r for r in rdr if r)
-            used.append(f"{os.path.basename(d.rstrip('/'))}(+{len(rows)-n0})")
+            for c in (rdr.fieldnames or []):
+                if c not in fields:
+                    fields.append(c)
+            chunks.append((os.path.basename(d.rstrip("/")), rows))
+            used.append(f"{os.path.basename(d.rstrip('/'))}(+{len(rows)})")
+        rows = [r for _, part in chunks for r in part]
         if keep_row and rows:
-            idx = {c: k for k, c in enumerate(header)}
+            idx = {c: k for k, c in enumerate(fields)}
             before = len(rows)
-            rows = [r for r in rows if keep_row(r, idx)]
+            rows = [r for r in rows if keep_row([r.get(c, "") for c in fields], idx)]
             if before != len(rows):
                 print(f"     ({before - len(rows)} rows filtered out, see MERGE in collect.py)")
         if dedupe and rows:
-            idx = {c: k for k, c in enumerate(header)}
             best = {}
             for r in rows:
-                key = tuple(r[idx[c]] for c in dedupe)
-                score = sum(1 for v in r if v != "")
+                key = tuple(r.get(c, "") for c in dedupe)
+                score = sum(1 for v in r.values() if v not in ("", None))
                 if key not in best or score > best[key][0]:
                     best[key] = (score, r)
             dropped = len(rows) - len(best)
             rows = [v[1] for v in best.values()]
             if dropped:
-                print(f"     ({dropped} duplicate rows dropped on {dedupe}, "
-                      f"the most complete kept)")
+                print(f"     ({dropped} duplicate rows dropped on {dedupe}, the most complete kept)")
         if not rows:
             print(f"  -- {outname}: nothing yet")
             continue
@@ -144,9 +142,10 @@ def main():
         print(f"  -> {outname}: {len(rows)} rows from {len(used)} jobs [{', '.join(used)}]")
         if not a.dry_run:
             with open(out, "w", newline="") as fh:
-                w = csv.writer(fh)
-                w.writerow(header)
-                w.writerows(rows)
+                w = csv.DictWriter(fh, fieldnames=fields, restval="")
+                w.writeheader()
+                for r in rows:
+                    w.writerow({c: r.get(c, "") for c in fields})
     return 0
 
 

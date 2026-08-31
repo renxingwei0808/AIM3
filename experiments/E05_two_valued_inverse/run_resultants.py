@@ -82,6 +82,26 @@ def main():
                 print(f"  !! export failed: {r.stderr[-800:]}")
                 break
 
+        # Shape of the system, read from the exported file rather than from Magma's output: a
+        # censored run writes no JSON, and a row that says only "censored" tells the next reader
+        # nothing about what was attempted.
+        shape = {}
+        try:
+            txt = open(sysfile).read()
+            for name in ("EQ1", "EQ2"):
+                body = txt.split(name + " := [", 1)[1].split("];", 1)[0]
+                trips = [t for t in body.replace("\n", "").split("<") if t.strip()]
+                degs = [(int(t.split(",")[0]), int(t.split(",")[1])) for t in trips]
+                shape[name.lower() + "_terms"] = len(degs)
+                shape[name.lower() + "_deg_t0"] = max((d[0] for d in degs), default=0)
+                shape[name.lower() + "_deg_t1"] = max((d[1] for d in degs), default=0)
+            for key in ("exps", "eps", "key"):
+                for line in txt.splitlines():
+                    if line.startswith(key + " :="):
+                        shape[key] = line.split(":=", 1)[1].split(";")[0].strip()
+        except Exception as exc:
+            print(f"  (could not read the shape from {sysfile}: {exc})")
+
         wrapper = os.path.join(a.workdir, f"E05_n{n}_s{a.seed}.run.m")
         jsonout = os.path.join(a.workdir, f"E05_n{n}_s{a.seed}.res.json")
         log = os.path.join(a.workdir, f"E05_n{n}_s{a.seed}.magma.log")
@@ -136,9 +156,14 @@ def main():
               f"{'[CENSORED: lower bound]' if censored else ''}", flush=True)
 
         record(a.csv, dict(
-            n=n, seed=a.seed, exps=res.get("exps", ""), eps=res.get("eps", ""),
-            eq1_terms=res.get("eq1_terms", ""), eq2_terms=res.get("eq2_terms", ""),
-            eq1_deg_t1=res.get("eq1_deg_t1", ""), eq2_deg_t1=res.get("eq2_deg_t1", ""),
+            n=n, seed=a.seed,
+            exps=res.get("exps") or shape.get("exps", ""),
+            eps=res.get("eps") or shape.get("eps", ""),
+            eq1_terms=res.get("eq1_terms") or shape.get("eq1_terms", ""),
+            eq2_terms=res.get("eq2_terms") or shape.get("eq2_terms", ""),
+            eq1_deg_t0=shape.get("eq1_deg_t0", ""), eq2_deg_t0=shape.get("eq2_deg_t0", ""),
+            eq1_deg_t1=res.get("eq1_deg_t1") or shape.get("eq1_deg_t1", ""),
+            eq2_deg_t1=res.get("eq2_deg_t1") or shape.get("eq2_deg_t1", ""),
             key_is_root_of_system=res.get("key_is_root_of_system", ""),
             resultant_seconds=res.get("resultant_seconds", ""),
             resultant_degree=res.get("resultant_degree", ""),
