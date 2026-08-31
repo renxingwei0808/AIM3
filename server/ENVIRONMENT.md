@@ -79,9 +79,14 @@ gpu     1x NVIDIA GeForce RTX 3080 (10 GB)   [unused by this batch]
 
 ```
 $ bash scripts/smoke_test.sh                                   # see below
-$ python3 tests/run_tests.py                                   # 6/6
+$ python3 tests/run_tests.py                                   # 6/6 before this batch, 8/8 after
 $ python3 server/jobs/verify_backend.py                        # 76/76, BACKEND ALIGNED
 ```
+
+The two added tests are `test_export_matches_boolmac` (the exported file describes the same matrix
+`boolmac.py` streams, and the Sage backend's column reversal reproduces its `rank`/`dim_low`) and
+`test_legacy_field_table_extended` (the added moduli are irreducible and the shared entries are
+unchanged).
 
 `verify_backend.py` is the gate for task 2: it compares the pure-Python engine and the Sage/M4RI
 engine on the same instances (E03 n=11 e=3 and n=13 e=7, E12 n=11 `--D4`, E06 n=7 D=4), for
