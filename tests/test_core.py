@@ -22,3 +22,21 @@ def test_toy_aim3_selftest():
 
 def test_structures_full_size():
     assert SboxStructures(128, 3).check_random(random.Random(1), 3)
+
+def test_boolmac_matches_legacy():
+    """src/aim3/boolmac.py (one-pass, streamed) must agree with legacy/aim3_macaulay.macaulay."""
+    sys.path.insert(0, os.path.join(ROOT, "legacy"))
+    from aim3_macaulay import build_aim3, macaulay
+    from aim3_sbox_syz import sbox_system
+    from aim3.boolmac import macaulay_stats
+    nv, eqsP1, eqsAll, _ = build_aim3(7, [2, 3, 4], seed=1)
+    for eqs, V in ((eqsAll, nv), (eqsP1, nv)):
+        for D in (2, 3):
+            rk, low, nrow, ncol = macaulay(eqs, V, D)
+            f = macaulay_stats(eqs, V, D)
+            assert (rk, low, nrow, ncol) == (f.rank, f.dim_low, f.rows, f.cols)
+    _, P1, P2, P3 = sbox_system(9, 4)
+    for D in (3, 4):
+        rk, low, nrow, ncol = macaulay(P1 + P2 + P3, 18, D)
+        f = macaulay_stats(P1 + P2 + P3, 18, D)
+        assert (rk, low, nrow, ncol) == (f.rank, f.dim_low, f.rows, f.cols)
