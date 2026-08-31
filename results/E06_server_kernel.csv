@@ -1,0 +1,12 @@
+n,exps,system,D,nvars,neqs,rows,cols,rank,syz,dim_low,falls_from_prev_D,twice_neqs,dim_low_over_n,tier,host,commit,seconds,censored
+11,2;3;4,kernel,2,66,66,66,2212,66,0,0,,132,0.0,A,luck-Precision-7920-Tower,e7ebb71,1.528,0
+11,2;3;4,kernel,3,66,66,4422,47972,4422,0,132,66,132,12.0,A,luck-Precision-7920-Tower,e7ebb71,2.486,0
+11,2;3;4,kernel,4,66,66,145992,768692,143715,2277,9075,4653,132,825.0,A,luck-Precision-7920-Tower,e7ebb71,2112.362,0
+11,2;3;4,S_quad,2,33,99,99,562,99,0,0,,198,0.0,A,luck-Precision-7920-Tower,e7ebb71,2.038,0
+11,2;3;4,S_quad,3,33,99,3366,6018,3102,264,99,0,198,9.0,A,luck-Precision-7920-Tower,e7ebb71,2.467,0
+11,2;3;4,S_quad,4,33,99,55638,46938,41469,14169,6016,2914,198,546.9091,A,luck-Precision-7920-Tower,e7ebb71,44.246,0
+11,2;3;4,P1only,2,33,33,33,562,33,0,0,,66,0.0,A,luck-Precision-7920-Tower,e7ebb71,1.841,0
+11,2;3;4,P1only,3,33,33,1122,6018,1122,0,99,66,66,9.0,A,luck-Precision-7920-Tower,e7ebb71,1.937,0
+11,2;3;4,P1only,4,33,33,18546,46938,17919,627,3102,1980,66,282.0,A,luck-Precision-7920-Tower,e7ebb71,8.17,0
+11,2;3;4,random_bilinear,2,66,66,66,2212,66,0,0,,132,0.0,A,luck-Precision-7920-Tower,e7ebb71,2.398,0
+11,2;3;4,random_bilinear,3,66,66,4422,47972,4422,0,66,0,132,6.0,A,luck-Precision-7920-Tower,e7ebb71,7.623,0

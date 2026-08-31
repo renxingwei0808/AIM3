@@ -1,0 +1,8 @@
+host    : luck-Precision-7920-Tower
+commit  : cc8d6ab
+branch  : claude/server-batch-1
+started : 2026-08-31T06:39:31-07:00
+ulimit -v: 120 GB
+results : /home/luck/rxw/AIM3_remote/out/E04_gate1_l2_n19
+scratch : /home/luck/rxw/AIM3_remote/scratch/E04_gate1_l2_n19
+command : python3 experiments/E04_full_system_hilbert/full_system_falls.py 19 -l 2 --seeds 1,2,3 --systems S_quad,P1only,random --per-block --backend sage --budget 86400

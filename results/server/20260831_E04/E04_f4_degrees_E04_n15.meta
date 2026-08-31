@@ -1,0 +1,8 @@
+host    : luck-Precision-7920-Tower
+commit  : e7ebb71
+branch  : claude/server-batch-1
+started : 2026-08-31T06:31:21-07:00
+ulimit -v: 120 GB
+results : /home/luck/rxw/AIM3_remote/out/E04_f4_degrees_E04_n15
+scratch : /home/luck/rxw/AIM3_remote/scratch/E04_f4_degrees_E04_n15
+command : python3 experiments/E04_full_system_hilbert/run_f4_degrees.py --systems /home/luck/rxw/AIM3_remote/out/E04_systems --tags E04_n15 --tools msolve,magma --orders grevlex,blockPT,blockT,blockU,blockW --threads 8 --timeout 3600 --csv E04_f4_degrees.csv --logdir /home/luck/rxw/AIM3_remote/out/f4logs

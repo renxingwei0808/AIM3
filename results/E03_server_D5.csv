@@ -1,0 +1,2 @@
+n,e,system,nvars,degenerate,D3_rank,D3_syz,D4_rank,D4_syz,D4_dim_low,D5_rows,D5_rank,D5_syz,D5_dim_low,falls_D4,predicted_falls_D4,falls_D5,falls_D5_over_n,cols_le4,saturation_D5,tier,host,commit,seconds,censored
+14,3,S_box,28,,1106,112,13209,3885,1134,154686,94787,59899,14091,28,28,882,63.0,24158,0.5833,B,luck-Precision-7920-Tower,cc8d6ab,649.14,0

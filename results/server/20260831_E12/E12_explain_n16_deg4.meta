@@ -1,0 +1,13 @@
+host    : luck-Precision-7920-Tower
+commit  : e7ebb71
+branch  : claude/server-batch-1
+started : 2026-08-31T06:33:35-07:00
+ulimit -v: 100 GB
+results : /home/luck/rxw/AIM3_remote/out/E12_explain_n16_deg4
+scratch : /home/luck/rxw/AIM3_remote/scratch/E12_explain_n16_deg4
+command : python3 experiments/E12_cross_sbox_relations/explain_n16.py 16 1 --deg 4 --backend sage
+finished: 2026-08-31T06:49:18-07:00
+exit    : 0
+time    : Elapsed (wall clock) time (h:mm:ss or m:ss): 15:42.37
+time    : Maximum resident set size (kbytes): 666288
+JOB_DONE_rc=0

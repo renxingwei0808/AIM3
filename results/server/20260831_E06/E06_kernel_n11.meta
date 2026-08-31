@@ -1,0 +1,8 @@
+host    : luck-Precision-7920-Tower
+commit  : e7ebb71
+branch  : claude/server-batch-1
+started : 2026-08-31T06:31:21-07:00
+ulimit -v: 120 GB
+results : /home/luck/rxw/AIM3_remote/out/E06_kernel_n11
+scratch : /home/luck/rxw/AIM3_remote/scratch/E06_kernel_n11
+command : python3 experiments/E06_kernel_bilinear_model/kernel_bilinear_toy.py 11 4 --backend sage --budget 86400

@@ -77,6 +77,14 @@ def main():
             print(r.stderr[-2000:])
             return 1
 
+    # ---- 1b. the backend-alignment record (the gate for --backend sage)
+    for name in ("backend_align.json", "backend_align.log"):
+        cmd = ["rsync", "-az", "-e", f"ssh -F {a.ssh_config}",
+               f"{a.host}:{a.base}/out/{name}", os.path.join(ROOT, "results", "server", name)]
+        print("+ " + " ".join(cmd))
+        if not a.dry_run:
+            run(cmd)
+
     # ---- 2. per-job CSVs, merged
     for csvname, jobglob, outname in MERGE:
         dirs = remote_ls(a.host, a.ssh_config, f"{a.base}/out/{jobglob}/")

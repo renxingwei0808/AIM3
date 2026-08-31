@@ -1,0 +1,677 @@
+{
+ "ok": true,
+ "checks": [
+  {
+   "check": "E03 n=11 e=3",
+   "quantity": "D=3 rows",
+   "python": 759,
+   "sage": 759,
+   "ok": true,
+   "extra": "(0.0s vs 1.2s)"
+  },
+  {
+   "check": "E03 n=11 e=3",
+   "quantity": "D=3 cols",
+   "python": 1794,
+   "sage": 1794,
+   "ok": true,
+   "extra": ""
+  },
+  {
+   "check": "E03 n=11 e=3",
+   "quantity": "D=3 rank",
+   "python": 671,
+   "sage": 671,
+   "ok": true,
+   "extra": ""
+  },
+  {
+   "check": "E03 n=11 e=3",
+   "quantity": "D=3 syz",
+   "python": 88,
+   "sage": 88,
+   "ok": true,
+   "extra": ""
+  },
+  {
+   "check": "E03 n=11 e=3",
+   "quantity": "D=3 dim_low",
+   "python": 33,
+   "sage": 33,
+   "ok": true,
+   "extra": ""
+  },
+  {
+   "check": "E03 n=11 e=3",
+   "quantity": "D=4 rows",
+   "python": 8382,
+   "sage": 8382,
+   "ok": true,
+   "extra": "(1.0s vs 1.7s)"
+  },
+  {
+   "check": "E03 n=11 e=3",
+   "quantity": "D=4 cols",
+   "python": 9109,
+   "sage": 9109,
+   "ok": true,
+   "extra": ""
+  },
+  {
+   "check": "E03 n=11 e=3",
+   "quantity": "D=4 rank",
+   "python": 6006,
+   "sage": 6006,
+   "ok": true,
+   "extra": ""
+  },
+  {
+   "check": "E03 n=11 e=3",
+   "quantity": "D=4 syz",
+   "python": 2376,
+   "sage": 2376,
+   "ok": true,
+   "extra": ""
+  },
+  {
+   "check": "E03 n=11 e=3",
+   "quantity": "D=4 dim_low",
+   "python": 693,
+   "sage": 693,
+   "ok": true,
+   "extra": ""
+  },
+  {
+   "check": "E03 n=11 e=3",
+   "quantity": "falls_D4",
+   "python": 22,
+   "sage": 22,
+   "ok": true,
+   "extra": ""
+  },
+  {
+   "check": "E03 n=11 e=3",
+   "quantity": "dim I(V)_<=3",
+   "python": 693,
+   "sage": 693,
+   "ok": true,
+   "extra": "(0.5s vs 1.6s)"
+  },
+  {
+   "check": "E03 n=11 e=3",
+   "quantity": "point-matrix rank",
+   "python": 1101,
+   "sage": 1101,
+   "ok": true,
+   "extra": ""
+  },
+  {
+   "check": "E03 n=13 e=7",
+   "quantity": "D=3 rows",
+   "python": 1053,
+   "sage": 1053,
+   "ok": true,
+   "extra": "(0.0s vs 1.3s)"
+  },
+  {
+   "check": "E03 n=13 e=7",
+   "quantity": "D=3 cols",
+   "python": 2952,
+   "sage": 2952,
+   "ok": true,
+   "extra": ""
+  },
+  {
+   "check": "E03 n=13 e=7",
+   "quantity": "D=3 rank",
+   "python": 949,
+   "sage": 949,
+   "ok": true,
+   "extra": ""
+  },
+  {
+   "check": "E03 n=13 e=7",
+   "quantity": "D=3 syz",
+   "python": 104,
+   "sage": 104,
+   "ok": true,
+   "extra": ""
+  },
+  {
+   "check": "E03 n=13 e=7",
+   "quantity": "D=3 dim_low",
+   "python": 39,
+   "sage": 39,
+   "ok": true,
+   "extra": ""
+  },
+  {
+   "check": "E03 n=13 e=7",
+   "quantity": "D=4 rows",
+   "python": 13728,
+   "sage": 13728,
+   "ok": true,
+   "extra": "(3.8s vs 2.8s)"
+  },
+  {
+   "check": "E03 n=13 e=7",
+   "quantity": "D=4 cols",
+   "python": 17902,
+   "sage": 17902,
+   "ok": true,
+   "extra": ""
+  },
+  {
+   "check": "E03 n=13 e=7",
+   "quantity": "D=4 rank",
+   "python": 10348,
+   "sage": 10348,
+   "ok": true,
+   "extra": ""
+  },
+  {
+   "check": "E03 n=13 e=7",
+   "quantity": "D=4 syz",
+   "python": 3380,
+   "sage": 3380,
+   "ok": true,
+   "extra": ""
+  },
+  {
+   "check": "E03 n=13 e=7",
+   "quantity": "D=4 dim_low",
+   "python": 1040,
+   "sage": 1040,
+   "ok": true,
+   "extra": ""
+  },
+  {
+   "check": "E03 n=13 e=7",
+   "quantity": "falls_D4",
+   "python": 91,
+   "sage": 91,
+   "ok": true,
+   "extra": ""
+  },
+  {
+   "check": "E03 n=13 e=7",
+   "quantity": "dim I(V)_<=3",
+   "python": 1040,
+   "sage": 1040,
+   "ok": true,
+   "extra": "(3.0s vs 3.7s)"
+  },
+  {
+   "check": "E03 n=13 e=7",
+   "quantity": "point-matrix rank",
+   "python": 1912,
+   "sage": 1912,
+   "ok": true,
+   "extra": ""
+  },
+  {
+   "check": "E12 n=11",
+   "quantity": "D=3 rows",
+   "python": 2244,
+   "sage": 2244,
+   "ok": true,
+   "extra": "(0.1s vs 1.4s)"
+  },
+  {
+   "check": "E12 n=11",
+   "quantity": "D=3 cols",
+   "python": 6018,
+   "sage": 6018,
+   "ok": true,
+   "extra": ""
+  },
+  {
+   "check": "E12 n=11",
+   "quantity": "D=3 rank",
+   "python": 2068,
+   "sage": 2068,
+   "ok": true,
+   "extra": ""
+  },
+  {
+   "check": "E12 n=11",
+   "quantity": "D=3 syz",
+   "python": 176,
+   "sage": 176,
+   "ok": true,
+   "extra": ""
+  },
+  {
+   "check": "E12 n=11",
+   "quantity": "D=3 dim_low",
+   "python": 66,
+   "sage": 66,
+   "ok": true,
+   "extra": ""
+  },
+  {
+   "check": "E12 n=11",
+   "quantity": "D=4 rows",
+   "python": 37092,
+   "sage": 37092,
+   "ok": true,
+   "extra": "(24.0s vs 16.0s)"
+  },
+  {
+   "check": "E12 n=11",
+   "quantity": "D=4 cols",
+   "python": 46938,
+   "sage": 46938,
+   "ok": true,
+   "extra": ""
+  },
+  {
+   "check": "E12 n=11",
+   "quantity": "D=4 rank",
+   "python": 29315,
+   "sage": 29315,
+   "ok": true,
+   "extra": ""
+  },
+  {
+   "check": "E12 n=11",
+   "quantity": "D=4 syz",
+   "python": 7777,
+   "sage": 7777,
+   "ok": true,
+   "extra": ""
+  },
+  {
+   "check": "E12 n=11",
+   "quantity": "D=4 dim_low",
+   "python": 2112,
+   "sage": 2112,
+   "ok": true,
+   "extra": ""
+  },
+  {
+   "check": "E12 n=11",
+   "quantity": "falls_D4",
+   "python": 44,
+   "sage": 44,
+   "ok": true,
+   "extra": ""
+  },
+  {
+   "check": "E12 n=11",
+   "quantity": "falls_D4 S-box0 alone",
+   "python": 22,
+   "sage": 22,
+   "ok": true,
+   "extra": ""
+  },
+  {
+   "check": "E12 n=11",
+   "quantity": "falls_D4 S-box1 alone",
+   "python": 22,
+   "sage": 22,
+   "ok": true,
+   "extra": ""
+  },
+  {
+   "check": "E12 n=11",
+   "quantity": "cross_excess",
+   "python": 0,
+   "sage": 0,
+   "ok": true,
+   "extra": ""
+  },
+  {
+   "check": "E06 n=7",
+   "quantity": "D=2 rows",
+   "python": 42,
+   "sage": 42,
+   "ok": true,
+   "extra": "(0.0s vs 1.2s)"
+  },
+  {
+   "check": "E06 n=7",
+   "quantity": "D=2 cols",
+   "python": 904,
+   "sage": 904,
+   "ok": true,
+   "extra": ""
+  },
+  {
+   "check": "E06 n=7",
+   "quantity": "D=2 rank",
+   "python": 42,
+   "sage": 42,
+   "ok": true,
+   "extra": ""
+  },
+  {
+   "check": "E06 n=7",
+   "quantity": "D=2 syz",
+   "python": 0,
+   "sage": 0,
+   "ok": true,
+   "extra": ""
+  },
+  {
+   "check": "E06 n=7",
+   "quantity": "D=2 dim_low",
+   "python": 0,
+   "sage": 0,
+   "ok": true,
+   "extra": ""
+  },
+  {
+   "check": "E06 n=7",
+   "quantity": "D=3 rows",
+   "python": 1806,
+   "sage": 1806,
+   "ok": true,
+   "extra": "(0.0s vs 1.3s)"
+  },
+  {
+   "check": "E06 n=7",
+   "quantity": "D=3 cols",
+   "python": 12384,
+   "sage": 12384,
+   "ok": true,
+   "extra": ""
+  },
+  {
+   "check": "E06 n=7",
+   "quantity": "D=3 rank",
+   "python": 1806,
+   "sage": 1806,
+   "ok": true,
+   "extra": ""
+  },
+  {
+   "check": "E06 n=7",
+   "quantity": "D=3 syz",
+   "python": 0,
+   "sage": 0,
+   "ok": true,
+   "extra": ""
+  },
+  {
+   "check": "E06 n=7",
+   "quantity": "D=3 dim_low",
+   "python": 84,
+   "sage": 84,
+   "ok": true,
+   "extra": ""
+  },
+  {
+   "check": "E06 n=7",
+   "quantity": "D=4 rows",
+   "python": 37968,
+   "sage": 37968,
+   "ok": true,
+   "extra": "(2.4s vs 26.4s)"
+  },
+  {
+   "check": "E06 n=7",
+   "quantity": "D=4 cols",
+   "python": 124314,
+   "sage": 124314,
+   "ok": true,
+   "extra": ""
+  },
+  {
+   "check": "E06 n=7",
+   "quantity": "D=4 rank",
+   "python": 36994,
+   "sage": 36994,
+   "ok": true,
+   "extra": ""
+  },
+  {
+   "check": "E06 n=7",
+   "quantity": "D=4 syz",
+   "python": 974,
+   "sage": 974,
+   "ok": true,
+   "extra": ""
+  },
+  {
+   "check": "E06 n=7",
+   "quantity": "D=4 dim_low",
+   "python": 3730,
+   "sage": 3730,
+   "ok": true,
+   "extra": ""
+  },
+  {
+   "check": "E03 csv n=11 e=3",
+   "quantity": "syz3",
+   "python": 88,
+   "sage": 88,
+   "ok": true,
+   "extra": ""
+  },
+  {
+   "check": "E03 csv n=11 e=3",
+   "quantity": "falls_D4",
+   "python": 22,
+   "sage": 22,
+   "ok": true,
+   "extra": ""
+  },
+  {
+   "check": "E03 csv n=11 e=3",
+   "quantity": "mac3_rank",
+   "python": 671,
+   "sage": 671,
+   "ok": true,
+   "extra": ""
+  },
+  {
+   "check": "E03 csv n=11 e=3",
+   "quantity": "IV_deg3",
+   "python": 693,
+   "sage": 693,
+   "ok": true,
+   "extra": ""
+  },
+  {
+   "check": "E03 csv n=13 e=7",
+   "quantity": "syz3",
+   "python": 104,
+   "sage": 104,
+   "ok": true,
+   "extra": ""
+  },
+  {
+   "check": "E03 csv n=13 e=7",
+   "quantity": "falls_D4",
+   "python": 91,
+   "sage": 91,
+   "ok": true,
+   "extra": ""
+  },
+  {
+   "check": "E03 csv n=13 e=7",
+   "quantity": "mac3_rank",
+   "python": 949,
+   "sage": 949,
+   "ok": true,
+   "extra": ""
+  },
+  {
+   "check": "E03 csv n=13 e=7",
+   "quantity": "IV_deg3",
+   "python": 1040,
+   "sage": 1040,
+   "ok": true,
+   "extra": ""
+  },
+  {
+   "check": "E12 csv n=11",
+   "quantity": "mac3_rank",
+   "python": 2068,
+   "sage": 2068,
+   "ok": true,
+   "extra": ""
+  },
+  {
+   "check": "E12 csv n=11",
+   "quantity": "mac3_syz",
+   "python": 176,
+   "sage": 176,
+   "ok": true,
+   "extra": ""
+  },
+  {
+   "check": "E12 csv n=11",
+   "quantity": "falls_D4",
+   "python": 44,
+   "sage": 44,
+   "ok": true,
+   "extra": ""
+  },
+  {
+   "check": "E12 csv n=11",
+   "quantity": "cross_excess",
+   "python": 0,
+   "sage": 0,
+   "ok": true,
+   "extra": ""
+  },
+  {
+   "check": "E06 csv n=7 D=2",
+   "quantity": "rank",
+   "python": 42,
+   "sage": 42,
+   "ok": true,
+   "extra": ""
+  },
+  {
+   "check": "E06 csv n=7 D=2",
+   "quantity": "syz",
+   "python": 0,
+   "sage": 0,
+   "ok": true,
+   "extra": ""
+  },
+  {
+   "check": "E06 csv n=7 D=2",
+   "quantity": "dim_low",
+   "python": 0,
+   "sage": 0,
+   "ok": true,
+   "extra": ""
+  },
+  {
+   "check": "E06 csv n=7 D=3",
+   "quantity": "rank",
+   "python": 1806,
+   "sage": 1806,
+   "ok": true,
+   "extra": ""
+  },
+  {
+   "check": "E06 csv n=7 D=3",
+   "quantity": "syz",
+   "python": 0,
+   "sage": 0,
+   "ok": true,
+   "extra": ""
+  },
+  {
+   "check": "E06 csv n=7 D=3",
+   "quantity": "dim_low",
+   "python": 84,
+   "sage": 84,
+   "ok": true,
+   "extra": ""
+  },
+  {
+   "check": "E06 csv n=7 D=4",
+   "quantity": "rank",
+   "python": 36994,
+   "sage": 36994,
+   "ok": true,
+   "extra": ""
+  },
+  {
+   "check": "E06 csv n=7 D=4",
+   "quantity": "syz",
+   "python": 974,
+   "sage": 974,
+   "ok": true,
+   "extra": ""
+  },
+  {
+   "check": "E06 csv n=7 D=4",
+   "quantity": "dim_low",
+   "python": 3730,
+   "sage": 3730,
+   "ok": true,
+   "extra": ""
+  }
+ ],
+ "measured": {
+  "E03": [
+   {
+    "n": 11,
+    "e": 3,
+    "syz3": 88,
+    "falls_D4": 22,
+    "mac3_rank": 671,
+    "mac4_dim_le3": 693,
+    "IV_deg3": 693
+   },
+   {
+    "n": 13,
+    "e": 7,
+    "syz3": 104,
+    "falls_D4": 91,
+    "mac3_rank": 949,
+    "mac4_dim_le3": 1040,
+    "IV_deg3": 1040
+   }
+  ],
+  "E12": [
+   {
+    "n": 11,
+    "exps": [
+     3,
+     4
+    ],
+    "mac3_rank": 2068,
+    "mac3_syz": 176,
+    "falls_D4": 44,
+    "falls_sbox0": 22,
+    "falls_sbox1": 22,
+    "cross_excess": 0
+   }
+  ],
+  "E06": [
+   {
+    "n": 7,
+    "exps": [
+     2,
+     3,
+     4
+    ],
+    "per_D": {
+     "2": {
+      "rank": 42,
+      "syz": 0,
+      "dim_low": 0
+     },
+     "3": {
+      "rank": 1806,
+      "syz": 0,
+      "dim_low": 84
+     },
+     "4": {
+      "rank": 36994,
+      "syz": 974,
+      "dim_low": 3730
+     }
+    }
+   }
+  ]
+ }
+}

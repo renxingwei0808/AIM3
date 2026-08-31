@@ -1,0 +1,8 @@
+host    : luck-Precision-7920-Tower
+commit  : e7ebb71
+branch  : claude/server-batch-1
+started : 2026-08-31T06:35:23-07:00
+ulimit -v: 100 GB
+results : /home/luck/rxw/AIM3_remote/out/E10_blockorder_E06
+scratch : /home/luck/rxw/AIM3_remote/scratch/E10_blockorder_E06
+command : python3 experiments/E04_full_system_hilbert/run_f4_degrees.py --systems /home/luck/rxw/AIM3_remote/out/E04_systems --tags E06 --tools magma --orders genref,blockPT,blockT,blockU,blockW --threads 8 --timeout 3600 --csv E10_block_orders.csv --logdir /home/luck/rxw/AIM3_remote/out/f4logs_block

@@ -76,6 +76,10 @@ def main():
                          "check that the verdict does not depend on that choice)")
     ap.add_argument("--max-size", type=int, default=0,
                     help="largest subset size to measure (0 = all, i.e. up to ell+1)")
+    ap.add_argument("--blocks", default=None,
+                    help="comma-separated list of subsets to measure instead of the whole "
+                         "lattice, e.g. '0,1,2,0+1+2'.  Singletons of every listed subset are "
+                         "added automatically, since cross_excess needs them.")
     ap.add_argument("--backend", choices=["python", "sage"], default="sage")
     ap.add_argument("--budget", type=float, default=86400.0)
     ap.add_argument("--csv", default="E04_server_gate1_pairs.csv")
@@ -103,8 +107,19 @@ def main():
         eqs = pool[sysname]
         print(f"\n== {sysname}: {len(eqs)} equations")
         single = {}
-        for size in range(1, maxsize + 1):
-            for sub in itertools.combinations(range(nblocks), size):
+        if a.blocks:
+            wanted = [tuple(int(v) for v in b.split("+")) for b in a.blocks.split(",")]
+            for w in list(wanted):                       # cross_excess needs every singleton
+                for j in w:
+                    if (j,) not in wanted:
+                        wanted.append((j,))
+            subsets = sorted(set(wanted), key=lambda t: (len(t), t))
+        else:
+            subsets = [t for size in range(1, maxsize + 1)
+                       for t in itertools.combinations(range(nblocks), size)]
+        for sub in subsets:
+            if True:
+                size = len(sub)
                 part = [e for i in sub for e in eqs[i * blocksize:(i + 1) * blocksize]]
                 tag = f"g1_{sysname}_{''.join(map(str, sub))}"
                 f, low, r3, syz3, cens, secs = falls_of(part, nv, a.backend, a.budget, tag)

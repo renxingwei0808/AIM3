@@ -1,0 +1,2 @@
+n,exps,seed,deg,npoints,monomials,dim_cubic,dim_t0_only,dim_t1_only,wt_minus_r0,wt_minus_r1,cross_cubics,tier,host,commit,seconds,censored
+16,3;5,1,4,65534,41449,33,0,17,5,3,16,A,luck-Precision-7920-Tower,e7ebb71,942.233,0
