@@ -34,7 +34,13 @@ MERGE = [
     ("E03_server_D5.csv", "E03_D5_n*", "E03_server_D5.csv"),
     ("E04_full_system_falls.csv", "E04_gate1_l*", "E04_server_gate1.csv"),
     ("E04_server_gate1_pairs.csv", "E04_gate1pairs_*", "E04_server_gate1_pairs.csv"),  # noqa
-    ("E04_f4_degrees.csv", "E04_f4_degrees_*", "E04_f4_degrees.csv"),
+    # The F4 jobs were launched with the block orders in their order list, before the Magma driver
+    # could build a block-order ring at all (BooleanPolynomialRing refuses one -- see the E10
+    # README).  Those rows are duplicates of E10_server_block_orders.csv, where they were measured
+    # with the corrected driver, so only the grevlex rows are kept here and E04_f4_degrees.csv
+    # stays what task 6 asks for: the d_solv table.
+    ("E04_f4_degrees.csv", "E04_f4_degrees_*", "E04_f4_degrees.csv", None,
+     lambda row, idx: row[idx["order"]].startswith("grevlex")),
     ("E10_block_orders.csv", "E10_blockorder_*", "E10_server_block_orders.csv"),
     ("E12_first_layer_ideal.csv", "E12_first_layer_n*", "E12_server_first_layer.csv"),
     ("E12_cross_relations.csv", "E12_cross_rel_*", "E12_server_cross_relations_deg4.csv"),
@@ -42,7 +48,7 @@ MERGE = [
      "E12_server_cross_relations_explained_deg4.csv"),
     ("E12_server_criteria_subtract.csv", "E12_criteria_*", "E12_server_criteria_subtract.csv"),
     ("E06_kernel_model_falls.csv", "E06_kernel_n*", "E06_server_kernel.csv"),
-    ("E05_server_resultants.csv", "E05_resultants*", "E05_server_resultants.csv"),
+    ("E05_server_resultants.csv", "E05_resultants*", "E05_server_resultants.csv", ("n",)),
 ]
 
 
@@ -92,6 +98,7 @@ def main():
     for entry in MERGE:
         csvname, jobglob, outname = entry[:3]
         dedupe = entry[3] if len(entry) > 3 else None
+        keep_row = entry[4] if len(entry) > 4 else None
         dirs = remote_ls(a.host, a.ssh_config, f"{a.base}/out/{jobglob}/")
         rows, header = [], None
         used = []
@@ -111,6 +118,12 @@ def main():
             n0 = len(rows)
             rows.extend(r for r in rdr if r)
             used.append(f"{os.path.basename(d.rstrip('/'))}(+{len(rows)-n0})")
+        if keep_row and rows:
+            idx = {c: k for k, c in enumerate(header)}
+            before = len(rows)
+            rows = [r for r in rows if keep_row(r, idx)]
+            if before != len(rows):
+                print(f"     ({before - len(rows)} rows filtered out, see MERGE in collect.py)")
         if dedupe and rows:
             idx = {c: k for k, c in enumerate(header)}
             best = {}

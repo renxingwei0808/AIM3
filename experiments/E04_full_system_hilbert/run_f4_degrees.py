@@ -88,8 +88,11 @@ def run_msolve(info, sysdir, logdir, threads, timeout, gb_only=True):
         cmd += ["-g", "2"]
     rc, secs, peak, to = _time_v(cmd, log, timeout)
     parsed = parse_msolve_log(open(log, errors="replace").read())
+    # a run that produced no F4 step is a failed run even when the tool exits 0 (Magma prints a
+    # runtime error and carries on); recording it as complete would put an empty d_solv in the
+    # table with censored=0, which reads as "measured and blank"
     return dict(tool="msolve", order="grevlex(drl)", rc=rc, seconds=secs, peak_rss_kb=peak,
-                censored=int(to or rc != 0), log=log, **parsed)
+                censored=int(to or rc != 0 or parsed["d_solv"] is None), log=log, **parsed)
 
 
 def run_magma(info, sysdir, logdir, order, threads, timeout):
@@ -117,7 +120,8 @@ def run_magma(info, sysdir, logdir, order, threads, timeout):
         except Exception:
             extra = {}
     return dict(tool="magma", order=order, rc=rc, seconds=secs, peak_rss_kb=peak,
-                censored=int(to or rc != 0), log=log, gb_size=extra.get("gb_size"),
+                censored=int(to or rc != 0 or parsed["d_solv"] is None), log=log,
+                gb_size=extra.get("gb_size"),
                 gb_max_degree=extra.get("gb_max_degree"), magma_seconds=extra.get("seconds"),
                 ring=extra.get("ring"),
                 **parsed)

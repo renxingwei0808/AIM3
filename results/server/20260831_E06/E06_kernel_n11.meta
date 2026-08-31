@@ -6,3 +6,8 @@ ulimit -v: 120 GB
 results : /home/luck/rxw/AIM3_remote/out/E06_kernel_n11
 scratch : /home/luck/rxw/AIM3_remote/scratch/E06_kernel_n11
 command : python3 experiments/E06_kernel_bilinear_model/kernel_bilinear_toy.py 11 4 --backend sage --budget 86400
+finished: 2026-08-31T08:26:39-07:00
+exit    : 0
+time    : Elapsed (wall clock) time (h:mm:ss or m:ss): 1:55:18
+time    : Maximum resident set size (kbytes): 13969552
+JOB_DONE_rc=0

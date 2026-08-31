@@ -6,3 +6,8 @@ ulimit -v: 120 GB
 results : /home/luck/rxw/AIM3_remote/out/E04_gate1pairs_l3_n11_generic
 scratch : /home/luck/rxw/AIM3_remote/scratch/E04_gate1pairs_l3_n11_generic
 command : python3 server/jobs/gate1_pairs.py 11 -l 3 --seed 1 --exps 3,4,7,8 --systems S_quad --backend sage --budget 86400
+finished: 2026-08-31T08:00:58-07:00
+exit    : 0
+time    : Elapsed (wall clock) time (h:mm:ss or m:ss): 59:41.58
+time    : Maximum resident set size (kbytes): 2823548
+JOB_DONE_rc=0

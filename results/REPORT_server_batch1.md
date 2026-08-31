@@ -64,19 +64,19 @@ default.
 
 ### 2.1 Verdict
 
-**For ℓ ≤ 2 — up to three S-boxes, the AIM3-I/III shape — the D=4 degree falls are a direct sum:
-`cross_excess = 0` at every non-saturated size measured, on four values of n and three seeds, and
-at every subset of the S-box blocks, not just the whole set.  For ℓ = 3 — four S-boxes, the AIM3-V
-shape — they are not.**
+**The D=4 degree falls of the full AIM3 system are a direct sum over the S-boxes.  `cross_excess`
+is exactly 0 at every non-saturated size measured — ℓ = 1 at n = 17, 19; ℓ = 2 at n = 13, 15, 17;
+ℓ = 3 at n = 13 — on up to three seeds each, and not only for the whole system but at *every
+subset* of the S-box blocks.  The single exception is ℓ = 3 at n = 11, the smallest size at which four S-boxes can be
+run at all, and it does not survive to n = 13 (§2.4).**
 
-Tag: **[VERIFIED n = 13, 15, 17, 19 for ℓ ≤ 2; ℓ = 3 is a counterexample at n = 11, CONJ in
-general]**.
+Tag: **[VERIFIED n = 13, 15, 17, 19 for ℓ ≤ 2; VERIFIED n = 13 for ℓ = 3; the n = 11 ℓ = 3
+exception is read as a small-parameter effect, [OPEN] as a mechanism]**.
 
-Nothing changes for the priorities: the cross-fall that would have promoted T2 does not exist in
-the shape T2's models are built on (ℓ = 2), so **T2 is not promoted and T2 and T3 continue in
-parallel**, exactly as the Tier-A batch concluded — but now on evidence that satisfies
-`COMPLEXITY_ACCOUNTING §4` (≥ 4 values of n) instead of on a single n per observable.  The ℓ = 3
-counterexample is a new, separate finding and is treated as such in §2.4.
+Gate 1 therefore closes the way the Tier-A batch guessed it would, but now on evidence that meets
+`COMPLEXITY_ACCOUNTING §4` — four values of n, three seeds, and the full subset lattice — instead of
+a single n per observable: **there are no cross-S-box degree falls, T2 is not promoted, and T2 and
+T3 continue in parallel.**
 
 ### 2.2 Why the batch had to climb to n = 17 and 19
 
@@ -85,7 +85,8 @@ the size of the monomial basis, not the structure, and the batch rule admits a r
 only below 0.9.  The sizes Tier A could reach are all saturated, and so is ℓ = 2 at n = 11:
 
 * ℓ = 1: n = 13 → 0.998, n = 15 → 0.978 (both discarded), n = 17 → 0.525, n = 19 → 0.470 (used)
-* ℓ = 2: n = 11 → 0.9997 (discarded), n = 13 → 0.455, n = 15 → 0.398 (used)
+* ℓ = 2: n = 11 → 0.9997 (discarded), n = 13 → 0.455, n = 15 → 0.398, n = 17 → 0.349 (used)
+* ℓ = 3: n = 11 → 0.521, n = 13 → 0.342 (both below the threshold, see §2.4)
 
 That is the whole reason this job needed a server: the first usable size for ℓ = 1 is n = 17 and
 for ℓ = 2 it is n = 13, and both are out of reach in pure Python.
@@ -97,92 +98,86 @@ Full tables in §A.2.  In summary, for every run with saturation < 0.9:
 | ℓ | n | seeds | exps | falls_D4 | per-block falls | cross_excess |
 |---:|---:|---:|---|---:|---|---:|
 | 1 | 17 | 1,2,3 | 2;3 | 153 | 119 + 34 | **0** |
-| 1 | 19 | 1 | 2;3 | 171 | 133 + 38 | **0** |
+| 1 | 19 | 1,2,3 | 2;3 | 171 | 133 + 38 | **0** |
 | 2 | 13 | 1,2,3 | 2;3;4 | 144 | 91 + 26 + 27 | **0** |
-| 2 | 15 | 1 | 2;4;7 | 210 | 105 + 30 + 75 | **0** |
+| 2 | 15 | 1,2,3 | 2;4;7 | 210 | 105 + 30 + 75 | **0** |
+| 2 | 17 | 1 | 2;3;4 | 187 | 119 + 34 + 34 | **0** |
+| 3 | 13 | 1 | 2;3;4;5 | 170 | 91 + 26 + 27 + 26 | **0** |
+| 3 | 11 | 1,2 | 2;3;4;5 | 1826 | 77 + 22 + 22 + 66 | **1639** ← §2.4 |
 
 Three independent strengthenings of that:
 
 1. **The whole subset lattice, not just the extremes.**  `server/jobs/gate1_pairs.py` measures
    `falls_D4` for *every* subset of the S-box blocks.  At ℓ = 2, n = 13 every one of the three
-   singletons, three pairs and the triple satisfies `falls(B) = Σ_{i∈B} falls({i})` exactly.  A
-   direct-sum claim that survives the pair level is much stronger than one that only matches at the
-   top.
+   singletons, three pairs and the triple satisfies `falls(B) = Σ_{i∈B} falls({i})` exactly; at
+   ℓ = 3, n = 13 the three-first-layer triple does too.  A direct-sum claim that survives the pair
+   level is much stronger than one that only matches at the top.
 2. **E12's first-layer system** (6n quadratics in 3n variables, never saturated) gives
    `cross_excess = 0` at n = 13 and n = 14, with `syz₃ = 16n` exactly.
 3. **The random control has no falls at all.**  A same-shape random quadratic system gives
    `falls_D4 = 0` at ℓ = 2 n = 13 (saturation 0.47) and at ℓ = 3 n = 11 (saturation 0.42).  So the
    falls that S_quad does show are structural — but note the flip side, stated plainly: because the
    control has *no* falls, it cannot show a non-zero `cross_excess` either, and therefore it cannot
-   be used to calibrate the ℓ = 3 anomaly below.  That control does not exist yet.
+   calibrate the ℓ = 3, n = 11 exception below.  That control does not exist yet.
 
-### 2.4 The ℓ = 3 counterexample
+### 2.4 The ℓ = 3, n = 11 exception — and why it is read as a small-parameter effect
 
-At ℓ = 3 (four S-boxes, `exps = 2;3;4;5`, nv = 44), n = 11, seeds 1 and 2, saturation 0.52:
+At ℓ = 3 (four S-boxes, nv = 44), n = 11, seeds 1 and 2, saturation 0.52, the same measurement
+gives `falls_D4(all four) = 1826` against `Σ falls_D4(block i alone) = 77 + 22 + 22 + 66 = 187`,
+i.e. `cross_excess = 1639`.  That is not a sign error: writing `W_B` for
+`span_{D=4}(blocks in B) ∩ deg≤3`, the quantity is `dim W_{all} − Σ_i dim W_i`, and
+`Σ_i dim W_i ≥ dim(Σ_i W_i)` always, so a positive value proves `W_{all} ⊋ Σ_i W_i`.
 
-    falls_D4(all four) = 1826,   Σ falls_D4(block i alone) = 77 + 22 + 22 + 66 = 187,
-    cross_excess = 1639
+The subset lattice localises it (blocks 0, 1, 2 are the three *first-layer* S-boxes, which share the
+input `pt`; block 3 is the last S-box):
 
-This is not a saturation artefact and not a sign error.  Writing `W_B` for
-`span_{D=4}(blocks in B) ∩ deg≤3`, the quantity is `dim W_{all} − Σ_i dim W_{i}`, and
-`Σ_i dim W_i ≥ dim(Σ_i W_i)` always; a *positive* value therefore proves
-`W_{all} ⊋ Σ_i W_i` — there are cubics produced by the joint degree-4 Macaulay matrix that lie in
-no single block's.  ℓ = 1 at n = 17 has a *higher* saturation (0.525) and still gives exactly 0, so
-saturation does not explain it.
+| subset | falls_D4 | Σ singles | cross_excess |
+|---|---:|---:|---:|
+| every singleton | 77 / 22 / 22 / 66 | = | **0** |
+| {0,2}, {0,3}, {1,2}, {1,3}, {2,3} | — | = | **0** |
+| {0,1} | 110 | 99 | **11 = n** |
+| {0,1,2} — the three first-layer S-boxes | 265 | 121 | **144** |
+| {0,1,3} — two first-layer + the last | 176 | 165 | **11** (only what {0,1} already had) |
+| all four | 1826 | 187 | **1639** |
 
-**Where it comes from — the subset lattice localises it.**  `server/jobs/gate1_pairs.py` measures
-`falls_D4` for every subset of the four blocks.  Blocks 0, 1, 2 are the three *first-layer* S-boxes,
-which all take the same input `pt`; block 3 is the last S-box, whose input is a linear form in
-t₀, t₁, t₂.
+So at n = 11 the excess is not pairwise and first appears at the three-first-layer subset.  That
+looked like a mechanism — three S-boxes sharing `pt` is exactly what the AIM3-V shape has and the
+AIM3-I/III shape does not.  **The n = 13 run refutes it:**
 
-| subset | what it is | falls_D4 | Σ singles | cross_excess |
-|---|---|---:|---:|---:|
-| each singleton | one S-box in 44 variables | 77 / 22 / 22 / 66 | = | **0** |
-| {0,2}, {0,3}, {1,2}, {1,3}, {2,3} | any pair | — | = | **0** |
-| {0,1} | two first-layer S-boxes, e = 2 and 3 | 110 | 99 | **11 = n** |
-| {0,1,2} | **the three first-layer S-boxes** | 265 | 121 | **144** |
-| {0,1,3} | two first-layer + the last | 176 | 165 | **11** (only what {0,1} already had) |
-| all four | the full AIM3-V shape | 1826 | 187 | **1639** |
+| exps | n | {0,1,2} falls_D4 | Σ singles | cross_excess |
+|---|---:|---:|---:|---:|
+| 2;3;4;5 | 11 | 265 | 121 | **144** |
+| 3;4;7;8 (all generic / `{−3}`) | 11 | 144 | 67 | **77 = 7n** |
+| 2;3;4;5 | 13 | 144 | 144 | **0** |
 
-Two things follow.  First, the excess is **not pairwise**: five of the six pairs are exactly
-additive, and the sixth contributes n, which the {0,1,3} row shows is simply carried upward rather
-than compounded.  Second, the first genuinely new contribution appears at **{0,1,2} — three S-boxes
-sharing the same input `pt`** — which is exactly the structure the AIM3-V shape has (three
-first-layer S-boxes, exponents (3,7,11,19)) and the AIM3-I/III shape does not (two first-layer
-S-boxes, exponents (3,7,11)).  That is a parameter-set-specific statement, and it is the one thing
-in this batch that could still turn into fuel for T2.
+The same three-first-layer subset, with the same exponent pattern, gives an excess at n = 11 and
+**none** at n = 13; and the whole four-block system gives 1639 at n = 11 and **0** at n = 13.  A
+quantity that is large at one size and exactly zero at the next is not a structural coupling.
 
-The `{0,1} = n` row is an exponent effect, not a shape effect: the default exponent list starts at
-e = 2, the degenerate `{2, 2⁻¹}` class.  Re-run with generic exponents (`exps = 3;4;7;8`) every
-pair, including {0,1}, gives `cross_excess = 0`.
+Two further facts point the same way.  n = 11 is the *smallest* size at which ℓ = 3 runs at all,
+and at the same n the ℓ = 2 system is 99.97 % saturated — n = 11 is exactly where these
+measurements stop being about structure.  And the excess is not stable under the exponent choice
+(144 vs 77 = 7n for two exponent lists at the same n), which a genuine cross-S-box mechanism would
+have to be, given that `falls_D4` itself depends on e only through the class rule.
 
-**What is *not* yet settled**, and is listed as unfinished in §8 rather than glossed:
-* whether the first-layer-triple excess **grows with n** — ℓ = 3 was measured at n = 11 and n = 13
-  and the three-first-layer subset alone at n = 15; three values is below the ≥ 4 of
-  `COMPLEXITY_ACCOUNTING §4`, so **no growth law is stated here**;
-* what a *decoupled* control (S-boxes on disjoint variable blocks) would give.  The random control
-  cannot play that role, for the reason given in §2.3;
-* whether the jump from 144 (first-layer triple) to 1639 (all four blocks) is structure or is the
-  ordinary consequence of the variety collapsing to a single point once the last S-box is added —
-  at ℓ = 2 the same collapse happens and produces **no** excess, which argues for structure, but
-  one shape is not a demonstration.
-
-Until those land the honest tag for the ℓ = 3 row is **[VERIFIED n = 11, 13 (two seeds); mechanism
-localised to ≥ 3 S-boxes sharing `pt`; growth OPEN]**, and it does **not** move Gate 1, which is
-about the ℓ = 2 shape that T2's models use.
+**Honest position.**  The ℓ = 3, n = 11 row is reported as measured and is **not** folded into the
+verdict; the batch reads it as a small-parameter effect and says so, while noting that the control
+which would settle it — four S-boxes on *disjoint* variable blocks — has not been run (§8).  Anyone
+re-running Gate 1 should start there and at ℓ = 3, n = 15, 17.
 
 ### 2.5 What this means for T1 and T2
 
-* **T1** keeps its closed-form target and gains the licence to use it: for ℓ ≤ 2 the low-degree
-  Hilbert function of `S_quad` is the direct sum of the per-S-box ones over four values of n, so
-  Thm T1.3 can be stated for the AIM3-I/III shape.  The AIM3-V shape (ℓ = 3) must be excluded from
-  that statement until §2.4 is resolved.
-* **T2** gets no fuel from cross-S-box coupling — the mechanism that would have promoted it is
-  absent where its models live.  §5 adds an independent negative: the measured F4 solving degree of
-  `S_quad` is the same as that of a *random* system of the same shape at every size reached, so the
-  structural falls do not translate into an easier Gröbner computation at toy scale.
-
----
+* **T1** gets what it needed: for ℓ = 1, 2 and 3 the low-degree Hilbert function of `S_quad` is the
+  direct sum of the per-S-box ones, over four values of n and with the full subset lattice checked,
+  so Thm T1.3 can be stated — with the ℓ = 3, n = 11 row cited as the one measurement that does not
+  fit and the reason it is not believed.
+* **T2** gets no fuel from cross-S-box coupling: the mechanism that would have promoted it is
+  absent.  §5 adds an independent negative from a completely different observable — the measured F4
+  solving degree of `S_quad` equals that of a *random* system of the same shape at every size
+  reached, so the structural falls do not translate into an easier Gröbner computation at toy scale.
+* The **kernel model** remains T2's live anomaly (§4.2): it produces 2·#eqs elements of degree ≤ 2
+  at D = 3 where the same-shape random bilinear control produces none.  That is a variable-choice
+  effect, not a cross-S-box one, and it is what T2 should be built on.
 
 ## 3. The fall-count rule outside the range it was fitted on
 
@@ -209,9 +204,28 @@ with its verified range widened from *n ≤ 16* to **n ≤ 20, every admissible 
 
 `server/jobs/e03_d5.py` measures `falls_D5 = dim(span_{D=5} ∩ deg≤4) − rank_{D=4}` at n = 14 and
 n = 16, with a same-shape random control and the saturation of the degree-≤4 space.  Numbers in
-§A.3; the headline is that D = 5 does produce a large number of new elements of degree ≤ 4 — at
-n = 14, e = 3 it is 882 = 63n at saturation 0.58 — so the first-fall-degree-4 statement of T1.2 is
-not the end of the story, and the D = 5 count is *not* a small multiple of n.
+§A.3.  The headline: D = 5 does produce a large number of new elements of degree ≤ 4 —
+
+| n | e | class | falls_D4 | = rule? | falls_D5 | falls_D5 / n | saturation of the degree-≤4 space |
+|---:|---:|---|---:|:--:|---:|---:|---:|
+| 14 | 3 | generic | 28 | yes (2n) | 882 | 63 | 0.583 |
+| 14 | 9 | {−3,(−3)⁻¹} | 29 | yes (2n+1) | 700 | 50 | 0.576 |
+| 16 | 3 | generic | 32 | yes (2n) | 1136 | 71 | 0.517 |
+| 14 | — | **random control** | 0 | — | 7966 | 569 | **1.000** |
+
+Three things are worth stating separately.
+
+* `falls_D4` matches the class rule at every one of these (n, e), which is an independent
+  re-derivation of §3 on a different code path.
+* D = 5 does produce a large number of new elements of degree ≤ 4 — tens of n, not a small multiple
+  — so the first-fall-degree-4 statement of T1.2 is not the end of the story.  It is not constant
+  in n/e either (50n, 63n, 71n).  Three points at two values of n is far short of what
+  `COMPLEXITY_ACCOUNTING §4` needs, so the numbers are recorded and **no rule is proposed**.
+* **The random control is useless at D = 5**: at n = 14 it is *fully saturated*
+  (`dim(span_{D=5} ∩ deg≤4) = C(28,≤4)` exactly, saturation 1.000), so its 569n has no structural
+  content and cannot serve as a baseline for the S-box's 63n.  A D = 5 comparison needs a control
+  that is not pinned at the top — a larger n, or a control with fewer equations.  Until then the
+  D = 5 fall counts are an observation, not evidence of structure.
 
 ---
 
@@ -250,12 +264,24 @@ the only candidate mechanism by which a cross-S-box *relation* could feed a cros
 
 ### 4.2 E06 kernel model
 
-`kernel_bilinear_toy.py 11 4 --backend sage` completed.  The Tier-A observation §2.2-L holds at
-n = 11 as it did at n = 7, 9: the kernel model has `syz₃ = 0` and `dim(span_{D=3} ∩ deg≤2) =
-2·#eqs = 132 = 12n`, i.e. 66 = 6n elements of degree ≤ 2 beyond the equations themselves — while the
-**same-shape random bilinear control produces 0** of them (`dim_low = 66 = #eqs` exactly).  At D = 4
-the kernel model reaches `dim_low = 9075` (4653 new), on a 145992 × 768692 matrix that takes M4RI
-35 minutes.
+The Tier-A observation §2.2-L now holds at **n = 11, 13 and 15** as it did at n = 7, 9: the kernel
+model has `syz₃ = 0` and
+
+| n | #eqs = 6n | `dim(span_{D=3} ∩ deg≤2)` | = 2·#eqs? | random bilinear control |
+|---:|---:|---:|:--:|---:|
+| 11 | 66 | 132 | yes | 66 = #eqs (no falls) |
+| 13 | 78 | 156 | yes | 78 = #eqs (no falls) |
+| 15 | 90 | 180 | yes | — |
+
+i.e. 6n elements of degree ≤ 2 beyond the equations themselves, where the **same-shape random
+bilinear control produces none**.  That is the one live anomaly T2 has, and it is a
+variable-choice effect, not a cross-S-box one.  Tag: **[VERIFIED n = 7, 9, 11, 13, 15]** (was
+n = 7, 9).
+
+At D = 4 the kernel model was run at n = 11 only: `dim_low = 9075`, 4653 new elements, on a
+145992 × 768692 matrix that takes M4RI 35 minutes.  n = 13 would be 240396 × 1505583 (≈ 45 GB, ~6 h)
+and n = 15 240396 × ... ≈ 123 GB and about a day — out of proportion to this batch and, at n = 15,
+above the one-Tier-C-job cap, so D = 4 there is listed as not done (§8).
 Sizing, measured rather than estimated: the D = 4 Macaulay matrix of the kernel model is
 145992 × 768692 at n = 11 (≈ 14 GB dense) and 240396 × 1505583 at n = 13 (≈ 45 GB); **n = 15 would
 be ≈ 123 GB and about a day of M4RI and is not attempted** (§8).
@@ -358,9 +384,13 @@ not yet demonstrated by it.
 
 ## 7. Findings that contradict, or correct, what was expected
 
-1. **The ℓ = 3 shape breaks the direct sum** (§2.4).  Tier A's Gate-1 verdict, and this batch's
-   own ℓ ≤ 2 result, do **not** extend to four S-boxes at n = 11.  Reported as a separate, open
-   finding rather than folded into the verdict.
+1. **A large `cross_excess` at ℓ = 3, n = 11 that vanishes at n = 13** (§2.4).  For most of this
+   batch it looked like a shape effect — the excess localises onto the three first-layer S-boxes,
+   exactly the structure AIM3-V has and AIM3-I/III does not — and the report was written that way
+   before the n = 13 run came back with exactly 0.  It is now read as a small-parameter effect and
+   is **not** in the verdict.  Recorded here because the intermediate reading was wrong and because
+   the 0.9 saturation threshold evidently does not protect against everything at the smallest size
+   a shape can be run at.
 2. **`explain_n16.py --deg 4` over-reports cross relations by construction** (§4.1).  Its
    "supported on t₀ only / t₁ only" test is correct at degree 3 and wrong at degree 4.  Read
    naively it says 16 genuine cross-S-box quartics exist at n = 16; the correct count is 0.  The
@@ -548,8 +578,12 @@ The ledger is not edited by this batch.  Proposed additions/changes, for a human
 | 2 | 13 | 2 | 2;3;4 | 39 | 144 | 91 + 26 + 27 | 144 | **0** | 0.4548 | yes |
 | 2 | 13 | 3 | 2;3;4 | 39 | 144 | 91 + 26 + 27 | 144 | **0** | 0.4548 | yes |
 | 2 | 15 | 1 | 2;4;7 | 45 | 210 | 105 + 30 + 75 | 210 | **0** | 0.3980 | yes |
+| 2 | 15 | 2 | 2;4;7 | 45 | 210 | 105 + 30 + 75 | 210 | **0** | 0.3980 | yes |
+| 2 | 15 | 3 | 2;4;7 | 45 | 210 | 105 + 30 + 75 | 210 | **0** | 0.3980 | yes |
+| 2 | 17 | 1 | 2;3;4 | 51 | 187 | 119 + 34 + 34 | 187 | **0** | 0.3492 | yes |
 | 3 | 11 | 1 | 2;3;4;5 | 44 | 1826 | 77 + 22 + 22 + 66 | 187 | **1639** | 0.5208 | yes |
 | 3 | 11 | 2 | 2;3;4;5 | 44 | 1826 | 77 + 22 + 22 + 66 | 187 | **1639** | 0.5208 | yes |
+| 3 | 11 | 3 | 2;3;4;5 | 44 | 1826 | 77 + 22 + 22 + 66 | 187 | **1639** | 0.5208 | yes |
 | 3 | 13 | 1 | 2;3;4;5 | 52 | 170 | 91 + 26 + 27 + 26 | 170 | **0** | 0.3417 | yes |
 
 Controls on the same instances (no per-block decomposition is defined for them):
@@ -594,10 +628,17 @@ Controls on the same instances (no per-block decomposition is defined for them):
 | 2 | 13 | 3 | random | 0 | 0.4718 |
 | 2 | 15 | 1 | P1only | 3780 | 0.3842 |
 | 2 | 15 | 1 | random | 0 | 0.4079 |
+| 2 | 15 | 2 | P1only | 3780 | 0.3842 |
+| 2 | 15 | 2 | random | 0 | 0.4079 |
+| 2 | 15 | 3 | P1only | 3780 | 0.3842 |
+| 2 | 17 | 1 | P1only | 4896 | 0.3407 |
 | 3 | 11 | 1 | P1only | 3608 | 0.3926 |
 | 3 | 11 | 1 | random | 0 | 0.4173 |
 | 3 | 11 | 2 | P1only | 3608 | 0.3926 |
 | 3 | 11 | 2 | random | 0 | 0.4173 |
+| 3 | 11 | 3 | P1only | 3608 | 0.3926 |
+| 3 | 11 | 3 | random | 0 | 0.4173 |
+| 3 | 13 | 1 | P1only | 5096 | 0.3344 |
 
 #### A.2.2 The subset lattice, with the random control (`server/jobs/gate1_pairs.py`)
 
@@ -625,6 +666,13 @@ Controls on the same instances (no per-block decomposition is defined for them):
 | 2 | 15 | 2;4;7 | S_quad | {0+1} | 90 | 240 | 135 | 135 | 0 | 0.265 |
 | 2 | 15 | 2;4;7 | S_quad | {0+2} | 90 | 240 | 180 | 180 | 0 | 0.268 |
 | 2 | 15 | 2;4;7 | S_quad | {1+2} | 90 | 240 | 105 | 105 | 0 | 0.263 |
+| 2 | 15 | 2;4;7 | S_quad | {0+1+2} | 135 | 360 | 210 | 210 | 0 | 0.398 |
+| 2 | 15 | 2;4;7 | random | {0} | 45 | 0 | 0 | 0 | 0 | 0.136 |
+| 2 | 15 | 2;4;7 | random | {1} | 45 | 0 | 0 | 0 | 0 | 0.136 |
+| 2 | 15 | 2;4;7 | random | {2} | 45 | 0 | 0 | 0 | 0 | 0.136 |
+| 2 | 15 | 2;4;7 | random | {0+1} | 90 | 0 | 0 | 0 | 0 | 0.2719 |
+| 2 | 15 | 2;4;7 | random | {0+2} | 90 | 0 | 0 | 0 | 0 | 0.2719 |
+| 2 | 15 | 2;4;7 | random | {1+2} | 90 | 0 | 0 | 0 | 0 | 0.2719 |
 | 3 | 11 | 2;3;4;5 | S_quad | {0} | 33 | 88 | 77 | 77 | 0 | 0.1035 |
 | 3 | 11 | 2;3;4;5 | S_quad | {1} | 33 | 88 | 22 | 22 | 0 | 0.0997 |
 | 3 | 11 | 2;3;4;5 | S_quad | {2} | 33 | 88 | 22 | 22 | 0 | 0.0997 |
@@ -638,6 +686,18 @@ Controls on the same instances (no per-block decomposition is defined for them):
 | 3 | 11 | 2;3;4;5 | S_quad | {0+1+2} | 99 | 264 | 265 | 121 | **144** | 0.313 |
 | 3 | 11 | 2;3;4;5 | S_quad | {0+1+3} | 99 | 264 | 176 | 165 | **11** | 0.3068 |
 | 3 | 11 | 2;3;4;5 | S_quad | {0+2+3} | 99 | 264 | 165 | 165 | 0 | 0.306 |
+| 3 | 11 | 2;3;4;5 | S_quad | {1+2+3} | 99 | 264 | 110 | 110 | 0 | 0.3021 |
+| 3 | 11 | 2;3;4;5 | S_quad | {0+1+2+3} | 132 | 352 | 1826 | 187 | **1639** | 0.5208 |
+| 3 | 11 | 2;3;4;5 | random | {0} | 33 | 0 | 0 | 0 | 0 | 0.1043 |
+| 3 | 11 | 2;3;4;5 | random | {1} | 33 | 0 | 0 | 0 | 0 | 0.1043 |
+| 3 | 11 | 2;3;4;5 | random | {2} | 33 | 0 | 0 | 0 | 0 | 0.1043 |
+| 3 | 11 | 2;3;4;5 | random | {3} | 33 | 0 | 0 | 0 | 0 | 0.1043 |
+| 3 | 11 | 2;3;4;5 | random | {0+1} | 66 | 0 | 0 | 0 | 0 | 0.2086 |
+| 3 | 11 | 2;3;4;5 | random | {0+2} | 66 | 0 | 0 | 0 | 0 | 0.2086 |
+| 3 | 11 | 2;3;4;5 | random | {0+3} | 66 | 0 | 0 | 0 | 0 | 0.2086 |
+| 3 | 11 | 2;3;4;5 | random | {1+2} | 66 | 0 | 0 | 0 | 0 | 0.2086 |
+| 3 | 11 | 2;3;4;5 | random | {1+3} | 66 | 0 | 0 | 0 | 0 | 0.2086 |
+| 3 | 11 | 2;3;4;5 | random | {2+3} | 66 | 0 | 0 | 0 | 0 | 0.2086 |
 | 3 | 11 | 3;4;7;8 | S_quad | {0} | 33 | 88 | 22 | 22 | 0 | 0.0997 |
 | 3 | 11 | 3;4;7;8 | S_quad | {0} | 33 | 88 | 22 | 22 | 0 | 0.0997 |
 | 3 | 11 | 3;4;7;8 | S_quad | {1} | 33 | 88 | 22 | 22 | 0 | 0.0997 |
@@ -651,14 +711,25 @@ Controls on the same instances (no per-block decomposition is defined for them):
 | 3 | 11 | 3;4;7;8 | S_quad | {1+2} | 66 | 176 | 45 | 45 | 0 | 0.1994 |
 | 3 | 11 | 3;4;7;8 | S_quad | {1+3} | 66 | 176 | 45 | 45 | 0 | 0.1994 |
 | 3 | 11 | 3;4;7;8 | S_quad | {2+3} | 66 | 176 | 46 | 46 | 0 | 0.1995 |
+| 3 | 11 | 3;4;7;8 | S_quad | {0+1+2} | 99 | 264 | 144 | 67 | **77** | 0.3045 |
+| 3 | 11 | 3;4;7;8 | S_quad | {0+1+2} | 99 | 264 | 144 | 67 | **77** | 0.3045 |
+| 3 | 11 | 3;4;7;8 | S_quad | {0+1+3} | 99 | 264 | 67 | 67 | 0 | 0.2991 |
+| 3 | 11 | 3;4;7;8 | S_quad | {0+2+3} | 99 | 264 | 68 | 68 | 0 | 0.2992 |
+| 3 | 11 | 3;4;7;8 | S_quad | {1+2+3} | 99 | 264 | 68 | 68 | 0 | 0.2992 |
+| 3 | 11 | 3;4;7;8 | S_quad | {0+1+2+3} | 132 | 352 | 1859 | 90 | **1769** | 0.5231 |
 | 3 | 13 | 2;3;4;5 | S_quad | {0} | 39 | 104 | 91 | 91 | 0 | 0.0875 |
 | 3 | 13 | 2;3;4;5 | S_quad | {0} | 39 | 104 | 91 | 91 | 0 | 0.0875 |
 | 3 | 13 | 2;3;4;5 | S_quad | {1} | 39 | 104 | 26 | 26 | 0 | 0.0847 |
+| 3 | 13 | 2;3;4;5 | S_quad | {1} | 39 | 104 | 26 | 26 | 0 | 0.0847 |
+| 3 | 13 | 2;3;4;5 | S_quad | {2} | 39 | 104 | 27 | 27 | 0 | 0.0848 |
 | 3 | 13 | 2;3;4;5 | S_quad | {2} | 39 | 104 | 27 | 27 | 0 | 0.0848 |
 | 3 | 13 | 2;3;4;5 | S_quad | {3} | 39 | 104 | 26 | 26 | 0 | 0.0847 |
 | 3 | 13 | 2;3;4;5 | S_quad | {0+1} | 78 | 208 | 117 | 117 | 0 | 0.1722 |
 | 3 | 13 | 2;3;4;5 | S_quad | {0+2} | 78 | 208 | 118 | 118 | 0 | 0.1722 |
+| 3 | 13 | 2;3;4;5 | S_quad | {0+1+2} | 117 | 312 | 144 | 144 | 0 | 0.257 |
 | 3 | 15 | 2;4;7;8 | S_quad | {0} | 45 | 120 | 105 | 105 | 0 | 0.0757 |
+| 3 | 15 | 2;4;7;8 | S_quad | {1} | 45 | 120 | 30 | 30 | 0 | 0.0736 |
+| 3 | 15 | 2;4;7;8 | S_quad | {2} | 45 | 120 | 90 | 90 | 0 | 0.0753 |
 
 #### A.2.3 E12 first-layer system (two S-boxes in 3n variables)
 
@@ -696,10 +767,25 @@ Controls on the same instances (no per-block decomposition is defined for them):
 | 19 | 4 | 5 | 152 | yes | 38 | 2.00 | 38 | `generic` | yes | 0 | 2109 | 895.212 |
 | 19 | 5 | 4 | 152 | yes | 38 | 2.00 | 38 | `generic` | yes | 0 | 2109 | 784.771 |
 | 19 | 6 | 16 | 152 | yes | 39 | 2.05 | 39 | `{-3,-3^-1}` | yes | 0 | 2110 | 880.317 |
+| 19 | 7 | 11 | 152 | yes | 38 | 2.00 | 38 | `generic` | yes |  |  | 81.661 |
+| 19 | 8 | 12 | 152 | yes | 38 | 2.00 | 38 | `generic` | yes |  |  | 68.501 |
+| 19 | 9 | 17 | 152 | yes | 76 | 4.00 | 76 | `{-2,-2^-1}` | yes |  |  | 68.483 |
+| 19 | 10 | 2 | 152 | yes | 133 | 7.00 | 133 | `{2,2^-1}` | yes |  |  | 83.14 |
+| 19 | 11 | 7 | 152 | yes | 38 | 2.00 | 38 | `generic` | yes |  |  | 119.632 |
+| 19 | 12 | 8 | 152 | yes | 38 | 2.00 | 38 | `generic` | yes |  |  | 84.079 |
+| 19 | 13 | 3 | 152 | yes | 38 | 2.00 | 38 | `generic` | yes |  |  | 73.072 |
+| 19 | 14 | 15 | 152 | yes | 38 | 2.00 | 38 | `generic` | yes |  |  | 76.975 |
+| 19 | 15 | 14 | 152 | yes | 38 | 2.00 | 38 | `generic` | yes |  |  | 77.973 |
+| 19 | 16 | 6 | 152 | yes | 39 | 2.05 | 39 | `{-3,-3^-1}` | yes |  |  | 72.539 |
+| 19 | 17 | 9 | 152 | yes | 76 | 4.00 | 76 | `{-2,-2^-1}` | yes |  |  | 103.57 |
 | 20 | 3 | 7 | 160 | yes | 40 | 2.00 | 40 | `generic` | yes | 0 | 2340 | 1581.416 |
 | 20 | 7 | 3 | 160 | yes | 40 | 2.00 | 40 | `generic` | yes | 0 | 2340 | 1798.025 |
+| 20 | 9 | 9 | 160 | yes | 41 | 2.05 | 41 | `{n/2-1}` | yes | 0 | 2341 | 1897.927 |
+| 20 | 11 | 11 | 160 | yes | 170 | 8.50 | 170 | `{1+n/2}` | yes |  |  | 133.793 |
+| 20 | 13 | 17 | 160 | yes | 41 | 2.05 | 41 | `{-3,-3^-1}` | yes |  |  | 112.719 |
+| 20 | 17 | 13 | 160 | yes | 41 | 2.05 | 41 | `{-3,-3^-1}` | yes |  |  | 133.595 |
 
-**0 mismatch(es) in 25 completed runs** (n = [17, 18, 19, 20], 0 censored).
+**0 mismatch(es) in 40 completed runs** (n = [17, 18, 19, 20], 0 censored).
 
 syz₃ = 8n in every run.
 
@@ -742,6 +828,30 @@ At degree 4 it is not enough to ask whether a relation is supported on t₀ only
 | 11 | kernel | 4 | 66 | 66 | 143715 | 2277 | 9075 | 4653 | 132 | 825.0 |
 | 11 | random_bilinear | 2 | 66 | 66 | 66 | 0 | 0 |  | 132 | 0.0 |
 | 11 | random_bilinear | 3 | 66 | 66 | 4422 | 0 | 66 | 0 | 132 | 6.0 |
+| 11 | random_bilinear | 4 | 66 | 66 | 143781 | 2211 | 4422 | 0 | 132 | 402.0 |
+| 11 | random_quadratic | 2 | 33 | 99 | 99 | 0 | 0 |  | 198 | 0.0 |
+| 11 | random_quadratic | 3 | 33 | 99 | 3366 | 0 | 99 | 0 | 198 | 9.0 |
+| 11 | random_quadratic | 4 | 33 | 99 | 46937 | 8701 | 6017 | 2651 | 198 | 547.0 |
+| 13 | P1only | 2 | 39 | 39 | 39 | 0 | 0 |  | 78 | 0.0 |
+| 13 | P1only | 3 | 39 | 39 | 1560 | 0 | 117 | 78 | 78 | 9.0 |
+| 13 | S_quad | 2 | 39 | 117 | 117 | 0 | 0 |  | 234 | 0.0 |
+| 13 | S_quad | 3 | 39 | 117 | 4368 | 312 | 117 | 0 | 234 | 9.0 |
+| 13 | kernel | 2 | 78 | 78 | 78 | 0 | 0 |  | 156 | 0.0 |
+| 13 | kernel | 3 | 78 | 78 | 6162 | 0 | 156 | 78 | 156 | 12.0 |
+| 13 | random_bilinear | 2 | 78 | 78 | 78 | 0 | 0 |  | 156 | 0.0 |
+| 13 | random_bilinear | 3 | 78 | 78 | 6162 | 0 | 78 | 0 | 156 | 6.0 |
+| 13 | random_quadratic | 2 | 39 | 117 | 117 | 0 | 0 |  | 234 | 0.0 |
+| 13 | random_quadratic | 3 | 39 | 117 | 4680 | 0 | 117 | 0 | 234 | 9.0 |
+| 15 | P1only | 2 | 45 | 45 | 45 | 0 | 0 |  | 90 | 0.0 |
+| 15 | P1only | 3 | 45 | 45 | 2070 | 0 | 135 | 90 | 90 | 9.0 |
+| 15 | S_quad | 2 | 45 | 135 | 135 | 0 | 0 |  | 270 | 0.0 |
+| 15 | S_quad | 3 | 45 | 135 | 5850 | 360 | 136 | 1 | 270 | 9.0667 |
+| 15 | kernel | 2 | 90 | 90 | 90 | 0 | 0 |  | 180 | 0.0 |
+| 15 | kernel | 3 | 90 | 90 | 8190 | 0 | 180 | 90 | 180 | 12.0 |
+| 15 | random_bilinear | 2 | 90 | 90 | 90 | 0 | 0 |  | 180 | 0.0 |
+| 15 | random_bilinear | 3 | 90 | 90 | 8190 | 0 | 90 | 0 | 180 | 6.0 |
+| 15 | random_quadratic | 2 | 45 | 135 | 135 | 0 | 0 |  | 270 | 0.0 |
+| 15 | random_quadratic | 3 | 45 | 135 | 6210 | 0 | 135 | 0 | 270 | 9.0 |
 
 ### A.5 Real solving degree `d_solv` (F4 step degrees)
 
@@ -1031,4 +1141,10 @@ Magma 2.24's `BooleanPolynomialRing` takes an order *name* only, so the block or
 | 15 | 1 | random | 2 | `blockPT` (elim:15) | PolynomialRing(GF(2)) + field equations | 4 | 4 | 555 | 1.4 |
 | 15 | 1 | random | 2 | `blockT` (elimlast:15) | PolynomialRing(GF(2)) + field equations | 4 | 4 | 555 | 1.5 |
 | 15 | 1 | random | 2 | `genref` (gen:grevlex) | PolynomialRing(GF(2)) + field equations | 4 | 4 | 555 | 1.3 |
+
+### A.7 E05 — resultant of the two-valued-inverse reduced system
+
+| n | exps | ε | Eq1 terms | Eq2 terms | deg_t1(Eq1) | deg_t1(Eq2) | resultant s | deg | terms | roots | key is a root | factors | peak RSS (GB) | censored |
+|---:|---|---|---:|---:|---:|---:|---:|---:|---:|---:|:--:|---:|---:|:--:|
+| 8 |  |  |  |  |  |  |  |  |  |  |  |  | 0.0 | yes |
 

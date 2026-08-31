@@ -1,0 +1,2 @@
+n,seed,exps,eps,eq1_terms,eq2_terms,eq1_deg_t1,eq2_deg_t1,key_is_root_of_system,resultant_seconds,resultant_degree,resultant_terms,resultant_is_zero,n_roots,root_seconds,key_is_root_of_resultant,n_factors,factor_degrees,peak_rss_kb,magma_peak_bytes,wall_seconds,rc,tool,tool_version,tier,host,commit,seconds,censored
+8,1,,,,,,,,,,,,,,,,,,,7200.056,-9,magma,,C,luck-Precision-7920-Tower,e7ebb71,7200.056,1

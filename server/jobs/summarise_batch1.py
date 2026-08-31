@@ -306,8 +306,8 @@ def sec_dsolv():
         peak = i(r["peak_rss_kb"])
         peaks = f"{peak/1024:.0f}" if peak else ""
         A(f"| {r['n']} | {r['ell']} | {r['system']} | {r['seed']} | {r['tool']} | "
-          f"{r['d_solv'] or '_censored_'} | {r['nsteps']} | {r['max_rows']} | {r['max_cols']} | "
-          f"{f(r['seconds'], 0):.1f} | {peaks} |")
+          f"{r['d_solv'] or '_no F4 step logged_'} | {r['nsteps']} | {r['max_rows']} | "
+          f"{r['max_cols']} | {f(r['seconds'], 0):.1f} | {peaks} |")
     A("")
 
 
@@ -328,7 +328,8 @@ def sec_blocks():
     for r in sorted(rows, key=lambda r: (i(r["n"], 0), i(r["ell"], 0), r["system"],
                                          i(r["seed"], 0), r["order_label"])):
         A(f"| {r['n']} | {r['ell']} | {r['system']} | {r['seed']} | `{r['order_label']}` "
-          f"({r['order']}) | {r.get('ring','')} | {r['d_solv'] or '_censored_'} | {r['nsteps']} | "
+          f"({r['order']}) | {r.get('ring','')} | {r['d_solv'] or '_no F4 step logged_'} | "
+          f"{r['nsteps']} | "
           f"{r['max_rows']} | {f(r['seconds'], 0):.1f} |")
     A("")
 

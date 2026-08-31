@@ -6,3 +6,8 @@ ulimit -v: 120 GB
 results : /home/luck/rxw/AIM3_remote/out/E04_gate1_l3_n11
 scratch : /home/luck/rxw/AIM3_remote/scratch/E04_gate1_l3_n11
 command : python3 experiments/E04_full_system_hilbert/full_system_falls.py 11 -l 3 --seeds 1,2,3 --systems S_quad,P1only,random --per-block --backend sage --budget 86400
+finished: 2026-08-31T08:02:56-07:00
+exit    : 0
+time    : Elapsed (wall clock) time (h:mm:ss or m:ss): 1:46:59
+time    : Maximum resident set size (kbytes): 3023072
+JOB_DONE_rc=0
