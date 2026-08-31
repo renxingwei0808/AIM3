@@ -59,6 +59,51 @@ def poly_to_row(poly, col):
     return r
 
 
+def orbit_report(nmax=20, nmin=5):
+    """The Frobenius-orbit structure of the degree-4 exponent pairs, and the resulting closed form
+    for the ansatz module's top-degree rank and kernel dimension.
+
+    LEMMA.  For 1 <= i,j <= n-1 the pairs (2^i+1, 2^j+1) and (2^{i'}+1, 2^{j'}+1) lie in the same
+    Frobenius orbit iff (i',j') = (i,j), or i = j and (i',j') = (n-i, n-i).
+    Proof: 2^s(2^i+1) reduces mod 2^n-1 to the element with support {i+s, s} (mod n), which is of the
+    form {i', 0} only if s = 0 (giving (i,j) back) or i+s = 0, i.e. s = n-i.  In the second case the
+    second coordinate 2^s(2^j+1) has support {j-i, n-i}, which contains 0 only if j = i.  QED
+
+    So there are exactly floor((n-1)/2) coincidences, one per diagonal pair {i, n-i}, and the ansatz
+    module (n^2 + 2n generators, n trace coefficients each) has
+
+        top-degree rank  = n * ((n-1)^2 - c),      kernel = n * (n^2 + 2n - (n-1)^2 + c),
+        c = floor((n-1)/2).
+
+    Checked against the measured values at n = 11 (rank 1045, kernel 528) inside `analyse_sbox`.
+    """
+    rows = []
+    print(f"{'n':>3}{'pairs':>7}{'orbits':>8}{'coinc':>7}{'predicted':>10}{'gens':>6}"
+          f"{'top rank':>10}{'kernel':>8}{'formula':>9}{'ok':>4}")
+    for n in range(nmin, nmax + 1):
+        orb = {}
+        for i in range(1, n):
+            for j in range(1, n):
+                orb.setdefault(orbit_of((1 << i) + 1, (1 << j) + 1, n), []).append((i, j))
+        coinc = sum(len(v) - 1 for v in orb.values())
+        nontrivial = [v for v in orb.values() if len(v) > 1]
+        pred = [(i, n - i) for i in range(1, n) if i < n - i]
+        lemma_ok = (len(nontrivial) == len(pred) and
+                    all(sorted(v) == sorted([(v[0][0], v[0][0]), (n - v[0][0], n - v[0][0])])
+                        for v in nontrivial))
+        gens = n * n + 2 * n
+        top = n * ((n - 1) ** 2 - coinc)
+        ker = n * gens - top
+        formula = n * (gens - (n - 1) ** 2 + coinc)
+        ok = (ker == formula) and lemma_ok
+        print(f"{n:>3}{(n-1)**2:>7}{len(orb):>8}{coinc:>7}{len(pred):>10}{gens:>6}"
+              f"{top:>10}{ker:>8}{formula:>9}{'OK' if ok else 'NO':>4}")
+        rows.append(dict(n=n, deg4_pairs=(n - 1) ** 2, orbits=len(orb), coincidences=coinc,
+                         lemma_predicted=len(pred), lemma_holds=int(lemma_ok), gens=gens,
+                         module_rows=n * gens, top_rank=top, kernel=ker, kernel_formula=formula))
+    return rows
+
+
 def orbit_of(a, b, n):
     """the Frobenius orbit {(2^s a, 2^s b) mod 2^n-1} as a canonical (minimal) representative."""
     q1 = (1 << n) - 1
@@ -295,12 +340,19 @@ if __name__ == "__main__":
     ap.add_argument("--sbox", nargs=2, type=int, metavar=("N", "E"))
     ap.add_argument("--kernel", type=int, metavar="N")
     ap.add_argument("--all", action="store_true")
+    ap.add_argument("--orbits", action="store_true",
+                    help="only print the Frobenius-orbit lemma check and the closed form (cheap)")
     ap.add_argument("--track", action="store_true")
     ap.add_argument("--no-sweep", action="store_true",
                     help="only test the proposed ansatz (cheap); skip the per-family and "
                          "leave-one-out sweeps (expensive at n=13)")
     a = ap.parse_args()
-    print(f"# params: sbox={a.sbox} kernel={a.kernel} all={a.all} track={a.track}")
+    print(f"# params: sbox={a.sbox} kernel={a.kernel} all={a.all} orbits={a.orbits} track={a.track}")
+    if a.orbits:
+        from _common import record_table
+        record_table("E03_theory_orbit_lemma.csv", orbit_report(), seconds=0)
+        print("written results/E03_theory_orbit_lemma.csv")
+        sys.exit(0)
     if a.all:
         for n, e in ((11, 3), (13, 3), (11, 4), (13, 5)):
             analyse_sbox(n, e, do_sweep=(n <= 11))
