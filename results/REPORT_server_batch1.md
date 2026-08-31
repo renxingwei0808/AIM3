@@ -215,31 +215,37 @@ with its verified range widened from *n ≤ 16* to **n ≤ 20, every admissible 
 n = 16, with a same-shape random control and the saturation of the degree-≤4 space.  Numbers in
 §A.3.  The headline: D = 5 does produce a large number of new elements of degree ≤ 4 —
 
-| n | e | class | falls_D4 | = rule? | falls_D5 | falls_D5 / n | saturation of the degree-≤4 space |
+| n | e | class | falls_D4 | = D=4 rule? | falls_D5 | falls_D5 / n | saturation of the degree-≤4 space |
 |---:|---:|---|---:|:--:|---:|---:|---:|
-| 14 | 3 | generic | 28 | yes (2n) | 882 | 63 | 0.583 |
-| 14 | 9 | {−3,(−3)⁻¹} | 29 | yes (2n+1) | 700 | 50 | 0.576 |
-| 16 | 3 | generic | 32 | yes (2n) | 1136 | 71 | 0.517 |
-| 14 | — | **random control** | 0 | — | 7966 | 569 | **1.000** (saturated, useless) |
-| 16 | — | **random control** | 0 | — | **0** | 0 | 0.584 |
+| 14 | 3 | generic | 28 | yes (2n) | 882 | **63 = 4n+7** | 0.583 |
+| 16 | 3 | generic | 32 | yes (2n) | 1136 | **71 = 4n+7** | 0.517 |
+| 14 | 9 | {−3,(−3)⁻¹} | 29 | yes (2n+1) | 700 | **50 = 4n−6** | 0.576 |
+| 16 | 5 | {−3,(−3)⁻¹} | 33 | yes (2n+1) | 928 | **58 = 4n−6** | 0.512 |
+| 14 | — | random control | 0 | — | 7966 | 569 | **1.000** (saturated, useless) |
+| 16 | — | random control | 0 | — | **0** | 0 | 0.584 |
 
-Three things are worth stating separately.
+Four things, in decreasing order of confidence.
 
-* `falls_D4` matches the class rule at every one of these (n, e), which is an independent
-  re-derivation of §3 on a different code path.
-* D = 5 does produce a large number of new elements of degree ≤ 4 — tens of n, not a small multiple
-  — so the first-fall-degree-4 statement of T1.2 is not the end of the story.  It is not constant
-  in n/e either (50n, 63n, 71n).  Three points at two values of n is far short of what
-  `COMPLEXITY_ACCOUNTING §4` needs, so the numbers are recorded and **no rule is proposed**.
+* `falls_D4` matches the class rule of §3 at every one of these (n, e) — an independent
+  re-derivation on a different code path.
 * **The control needs n = 16 to say anything, and there it is decisive.**  At n = 14 the random
   system is *fully saturated* at D = 5 (`dim(span_{D=5} ∩ deg≤4) = C(28,≤4)` exactly), so its 569n
   is an artefact and no baseline at all.  At n = 16 it is **not** saturated (0.584, comparable to
-  the S-box's 0.517) and gives **`falls_D5` = 0 exactly** — its degree-≤4 span at D = 5 is
-  precisely its own D = 4 rank.  So the S-box's 1136 = 71n at n = 16 is measured against a control
-  that produces none, exactly as at D = 4.  **The D = 5 falls are structural**; what is still
-  missing is enough sizes to say how they grow.
+  the S-box's 0.517) and gives **`falls_D5` = 0 exactly**, for *both* exponents — its degree-≤4
+  span at D = 5 is precisely its own D = 4 rank.  So the S-box's 71n is measured against a control
+  that produces none, exactly as at D = 4: **the D = 5 falls are structural.**
+* **A candidate closed form, on 2 sizes per class — not a law.**  All four runs land exactly on
 
----
+      falls_D5 = n·(4n + 7)    for generic e,        falls_D5 = n·(4n − 6)    for the {−3, (−3)⁻¹} class.
+
+  Two values of n per class fixes a linear coefficient but cannot test it; `COMPLEXITY_ACCOUNTING
+  §4` needs four.  It is recorded here as the shape a T1.2 extension to D = 5 would have to
+  reproduce, **not** as a verified rule, and `predicted_falls_D4`'s counterpart for D = 5 is
+  deliberately not written into `src/aim3/structures.py`.
+* **The sign flips between the two degrees**, which is the part worth a theorist's attention: the
+  `{−3}` class gets *one more* cubic than generic at D = 4 (2n+1 against 2n) and *13n fewer*
+  quartics at D = 5 (4n−6 against 4n+7), at both sizes.  Whatever mechanism produces the extra
+  first fall evidently costs a great deal at the next degree.
 
 ## 4. E12 and E06 extensions
 
@@ -685,6 +691,7 @@ The ledger is not edited by this batch.  Proposed additions/changes, for a human
 | 2 | 15 | 3 | 2;4;7 | 45 | 210 | 105 + 30 + 75 | 210 | **0** | 0.3980 | yes |
 | 2 | 17 | 1 | 2;3;4 | 51 | 187 | 119 + 34 + 34 | 187 | **0** | 0.3492 | yes |
 | 2 | 17 | 2 | 2;3;4 | 51 | 187 | 119 + 34 + 34 | 187 | **0** | 0.3492 | yes |
+| 2 | 19 | 1 | 2;3;4 | 57 | 209 | 133 + 38 + 38 | 209 | **0** | 0.3128 | yes |
 | 3 | 11 | 1 | 2;3;4;5 | 44 | 1826 | 77 + 22 + 22 + 66 | 187 | **1639** | 0.5208 | yes |
 | 3 | 11 | 2 | 2;3;4;5 | 44 | 1826 | 77 + 22 + 22 + 66 | 187 | **1639** | 0.5208 | yes |
 | 3 | 11 | 3 | 2;3;4;5 | 44 | 1826 | 77 + 22 + 22 + 66 | 187 | **1639** | 0.5208 | yes |
@@ -740,6 +747,7 @@ Controls on the same instances (no per-block decomposition is defined for them):
 | 2 | 17 | 1 | P1only | 4896 | 0.3407 |
 | 2 | 17 | 1 | random | 0 | 0.3592 |
 | 2 | 17 | 2 | P1only | 4896 | 0.3407 |
+| 2 | 19 | 1 | P1only | 6156 | 0.3061 |
 | 3 | 11 | 1 | P1only | 3608 | 0.3926 |
 | 3 | 11 | 1 | random | 0 | 0.4173 |
 | 3 | 11 | 2 | P1only | 3608 | 0.3926 |
@@ -749,6 +757,7 @@ Controls on the same instances (no per-block decomposition is defined for them):
 | 3 | 13 | 1 | P1only | 5096 | 0.3344 |
 | 3 | 13 | 1 | random | 0 | 0.3521 |
 | 3 | 13 | 2 | P1only | 5096 | 0.3344 |
+| 3 | 13 | 2 | random | 0 | 0.3521 |
 
 #### A.2.2 The subset lattice, with the random control (`server/jobs/gate1_pairs.py`)
 
