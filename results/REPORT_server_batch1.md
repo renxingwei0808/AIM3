@@ -425,9 +425,10 @@ not yet demonstrated by it.
 
 ## 8. Not done, and why
 
-* **E06 at n = 15** — the kernel model's D = 4 matrix is ≈ 123 GB dense and roughly a day of M4RI;
-  above the one-job-at-a-time cap of `server/README.md` and out of proportion to the rest of the
-  batch.  n = 11 and n = 13 are reported.
+* **E06 at D = 4 for n = 13 and 15** — the kernel model's degree-4 Macaulay matrix is
+  240396 × 1505583 (≈ 45 GB, ~6 h of M4RI) at n = 13 and ≈ 123 GB and about a day at n = 15, the
+  latter above the one-Tier-C-job cap of `server/README.md`.  D = 4 is reported at n = 11 only;
+  n = 13 and 15 were run to D = 3, which is where the `2·#eqs` claim lives.
 * **A decoupled control for the ℓ = 3 anomaly** — four S-boxes on disjoint variable blocks, which
   is the only control that can prove the measurement itself is sound.  The random control cannot
   play that role because it has no falls at all.
@@ -463,8 +464,9 @@ The ledger is not edited by this batch.  Proposed additions/changes, for a human
 | `syz₃(S_e) = 8n` for a single S-box | [VERIFIED n = 11..20, every admissible e] (was n ≤ 16) | `results/E03_server_n17_20.csv` |
 | first fall degree 4 with `2n + Δ(e)` new cubics, Δ given by the class rule | [CONJ], verified range widened to **n ≤ 20** | `results/server/20260831_E03/E03_summary_with_n17_20.md` |
 | `outside_ideal = 2n` iff e = 2 (not e = 2⁻¹) | [OPEN], reproduced at n = 17, 19 | same |
-| T1.3 direct sum of the D=4 falls, ℓ ≤ 2 | [VERIFIED n = 13, 15, 17, 19, seeds 1–3, all subsets] (was n = 11, 14) | `results/E04_server_gate1.csv`, `results/E04_server_gate1_pairs.csv` |
-| T1.3 direct sum, ℓ = 3 (AIM3-V shape) | **[OPEN — counterexample at n = 11]**, do not state T1.3 for four S-boxes | `results/E04_server_gate1_pairs.csv` |
+| T1.3 direct sum of the D=4 falls | [VERIFIED ℓ = 1 at n = 17, 19; ℓ = 2 at n = 13, 15, 17; ℓ = 3 at n = 13; seeds 1–3; all subsets of the blocks] (was n = 11, 14) | `results/E04_server_gate1.csv`, `results/E04_server_gate1_pairs.csv` |
+| the ℓ = 3, n = 11 excess | **[OPEN]** — record it, do not build on it; it is 0 at n = 13 and not stable under the exponent choice | `results/E04_server_gate1_pairs.csv` |
+| E06 §2.2-L: kernel model has `dim(span_{D=3} ∩ deg≤2) = 2·#eqs`, the random bilinear control has none | [VERIFIED n = 7, 9, 11, 13, 15] (was n = 7, 9) | `results/E06_server_kernel.csv` |
 | claim K, no cross-S-box relations | [VERIFIED n = 16 at degree ≤ **4**] (was degree 3) | `results/E12_server_criteria_subtract.csv` |
 | measured `d_solv` of `S_quad` equals that of a same-shape random system | [VERIFIED n = 7, 9, 11, 13, 15] — new row | `results/E04_f4_degrees.csv` |
 | block orders give no advantage on these instances | [VERIFIED, with the tool caveat of §5] — new row, phrased as a limitation of the measurement | `results/E10_server_block_orders.csv` |
