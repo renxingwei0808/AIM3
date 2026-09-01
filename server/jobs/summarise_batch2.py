@@ -410,6 +410,46 @@ def sec_e05():
         A("")
 
 
+def sec_t4():
+    A("### B.11 T4 cross-validation in Sage, and the degree in t₀ (task 4)")
+    A("")
+    rows = load("E07_server_ore_scale.csv")
+    if not rows:
+        A("_not collected_")
+        A("")
+        return
+    A("Independent re-computation of the Tier-A T4 measurement with Sage's `OrePolynomialRing`, on "
+      "**the same instances** (they are exported by the Tier-A probe itself, same seed), then "
+      "scaled past its n = 14.  `D_sym` is the degree in t₀ of the coefficients of the monic lclm "
+      "computed **symbolically** over K(t₀); `D_interp` is the degree of the same coefficients as "
+      "**functions** on F_{2ⁿ}, obtained by evaluating at all 2ⁿ values — two different quantities "
+      "that must agree whenever `D_sym < 2ⁿ`.")
+    A("")
+    A("| n | e₀,e₁ | deg Λ | gcrd | lclm | ker∩ | solvable | gcrd (rand) | **D_sym** | den | "
+      "**D_interp** | ANF | log₂ deg E | Tier-A |")
+    A("|---:|---|---|---:|---:|---:|:--:|---:|---:|---:|---:|---:|---:|---|")
+    for r in sorted(rows, key=lambda r: i(r["n"], 0)):
+        if not r.get("deg_lclm_true"):
+            A(f"| {r['n']} | — | — | — | — | — | — | — | — | — | — | — | — | "
+              f"censored ({r.get('detail','')}) |")
+            continue
+        ta = (r.get("tierA_checks") or "0")
+        bad = i(r.get("tierA_disagreements"), 0)
+        tacol = ("—" if ta == "0" else (f"**{ta}/{ta} agree**" if not bad
+                                        else f"**{bad} DISAGREE**"))
+        A(f"| {r['n']} | {r['e0']},{r['e1']} | {r['deg_Lambda'].replace(';', ',')} | "
+          f"{r['deg_gcrd_true']} | {r['deg_lclm_true']} | {r['kerint_true']} | "
+          f"{'yes' if r['affine_solvable_true'] == '1' else 'no'} | {r['deg_gcrd_rand']} | "
+          f"**{r['D_sym_lclm'] or '—'}** | {r['D_sym_lclm_den'] or '—'} | "
+          f"**{r['D_interp_lclm'] or '—'}** | {r['anf_deg_lclm'] or '—'} | "
+          f"{r['log2_deg_E_formal'] or '—'} | {tacol} |")
+    A("")
+    A("`solvable` is the affine predicate at the true (t₀,t₁); `gcrd (rand)` is the range of "
+      "`deg gcrd` over random pairs, which the Tier-A branch found to be 0 — the statistic that "
+      "does **not** separate the true key.")
+    A("")
+
+
 def main():
     ap = argparse.ArgumentParser()
     ap.add_argument("--out", default=None)
@@ -420,7 +460,7 @@ def main():
     A("## Appendix B — generated tables")
     A("")
     for fn in (sec_decoupled, sec_dsolv, sec_hybrid, sec_hilbert, sec_calibrated, sec_pointset,
-               sec_d5dec, sec_multblock, sec_minrank, sec_polybori, sec_e05):
+               sec_d5dec, sec_multblock, sec_minrank, sec_polybori, sec_e05, sec_t4):
         fn()
     md = "\n".join(OUT) + "\n"
     if a.out:
