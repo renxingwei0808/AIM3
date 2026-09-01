@@ -1,28 +1,34 @@
 #!/usr/bin/env python3
-"""Zero-dependency test runner (no pytest needed): runs every `test_*` function of tests/test_core.py.
+"""Zero-dependency test runner (no pytest needed): runs every `test_*` function of every
+`tests/test_*.py` module.
 
-Usage: python3 tests/run_tests.py        -> prints one line per test, exits 1 on the first failure count.
+Usage: python3 tests/run_tests.py        -> prints one line per test, exits 1 if any failed.
 """
-import os, sys, time, traceback
+import glob, importlib, os, sys, time, traceback
 
 ROOT = os.path.abspath(os.path.join(os.path.dirname(__file__), ".."))
-sys.path.insert(0, os.path.join(ROOT, "tests"))
-import test_core
+HERE = os.path.join(ROOT, "tests")
+sys.path.insert(0, HERE)
+
 
 def main():
-    names = sorted(n for n in dir(test_core) if n.startswith("test_"))
-    failed = 0
-    for name in names:
-        t0 = time.time()
-        try:
-            getattr(test_core, name)()
-            print(f"PASS {name} ({time.time()-t0:.2f}s)")
-        except Exception:
-            failed += 1
-            print(f"FAIL {name} ({time.time()-t0:.2f}s)")
-            traceback.print_exc()
-    print(f"{len(names)-failed}/{len(names)} tests passed")
+    mods = sorted(os.path.basename(p)[:-3] for p in glob.glob(os.path.join(HERE, "test_*.py")))
+    total = failed = 0
+    for mname in mods:
+        mod = importlib.import_module(mname)
+        for name in sorted(n for n in dir(mod) if n.startswith("test_")):
+            total += 1
+            t0 = time.time()
+            try:
+                getattr(mod, name)()
+                print(f"PASS {mname}.{name} ({time.time()-t0:.2f}s)")
+            except Exception:
+                failed += 1
+                print(f"FAIL {mname}.{name} ({time.time()-t0:.2f}s)")
+                traceback.print_exc()
+    print(f"{total-failed}/{total} tests passed")
     return 1 if failed else 0
+
 
 if __name__ == "__main__":
     sys.exit(main())
