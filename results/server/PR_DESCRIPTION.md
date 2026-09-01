@@ -62,6 +62,16 @@ section to `CLAUDE.md` (GitHub permissions, the SSH alias and server specs, the 
 working directory, the Magma traps).  It predates this batch and is included here because it is
 what the batch's conventions are written against.
 
+## Work beyond the prompt
+
+Seven of the runs in this branch were not asked for by the batch prompt.  They are documented, with
+cost and justification, in [`results/server/EXTRA_EXPERIMENTS.md`](EXTRA_EXPERIMENTS.md) — please
+read that before merging.  In short, three of them corrected conclusions this branch had already
+written down (the ℓ = 3 "cross-S-box mechanism", the 16 "genuine" quartic relations, and a
+block-order comparison Magma never performed), and four were needed to reach thresholds the prompt
+itself sets (four values of n for Gate 1, a usable D = 5 control, one completed E05 size, and every
+admissible e at n = 19, 20).  §10 of that file lists the additional compute that produced nothing.
+
 ## Needs a human decision
 
 1. **Is the ℓ = 3, n = 11 row worth chasing?**  For most of this batch it looked like a shape

@@ -12,6 +12,7 @@ left alone on purpose: it is a shared file and this branch may only add files (b
 20260831_E03/E03_summary_with_n17_20.md   E03's own summariser over Tier A + n = 17..20
 backend_align.json / .log    server/jobs/verify_backend.py, the gate for --backend sage
 PR_DESCRIPTION.md            draft pull-request body
+EXTRA_EXPERIMENTS.md         everything run beyond the batch prompt, with cost and justification
 ```
 
 Matrices, exported systems and intermediate bases stay on the server under
