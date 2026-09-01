@@ -19,7 +19,8 @@ implementation on small systems; do not change the column ordering without re-ru
 from __future__ import annotations
 import itertools, time
 
-__all__ = ["monomial_columns", "poly_rows", "macaulay_stats", "MacaulayResult", "MacaulayTimeout"]
+__all__ = ["monomial_columns", "poly_rows", "labelled_rows", "macaulay_stats", "fall_space", "span_rank", "reduce_modulo",
+           "MacaulayResult", "MacaulayTimeout"]
 
 
 class MacaulayTimeout(Exception):
@@ -169,3 +170,121 @@ def macaulay_stats(eqs, nv: int, D: int, mult_deg=None, budget=None) -> Macaulay
     nrows, rank, low = _eliminate(poly_rows(eqs, nv, D, col=col, mult_deg=mult_deg),
                                   top_start, ncol=ncol, deadline=deadline)
     return MacaulayResult(nrows, ncol, rank, low)
+
+
+def labelled_rows(eqs, nv: int, D: int, col=None, mult_deg=None):
+    """Like `poly_rows`, but yields (row, eq_index, multiplier_mask) so a degree fall can be traced
+    back to the multiplier x equation combinations that produced it."""
+    if col is None:
+        col, _, _ = monomial_columns(nv, D)
+    if mult_deg is None:
+        mult_deg = D - 2
+    mults = []
+    for d in range(mult_deg + 1):
+        for m in itertools.combinations(range(nv), d):
+            mask = 0
+            for i in m:
+                mask |= 1 << i
+            mults.append(mask)
+    for ei, f in enumerate(eqs):
+        fm = _as_masks(f)
+        for mu in mults:
+            acc = set()
+            for vm in fm:
+                acc ^= {vm | mu}
+            if not acc:
+                continue
+            row = 0
+            over = False
+            for key in acc:
+                if key.bit_count() > D:
+                    over = True
+                    break
+                row |= 1 << col[key]
+            if over or row == 0:
+                continue
+            yield row, ei, mu
+
+
+def fall_space(eqs, nv: int, D: int, mult_deg=None, track=False):
+    """Basis of rowspace(Mac_D) n {degree <= D-1}, i.e. the elements whose top-degree part cancels.
+
+    Eliminates using ONLY the degree-D columns as pivots (they are the highest bit positions, see
+    `monomial_columns`); a row that reduces to zero there has fallen, and what is left is its
+    degree-<=D-1 part.  Returns a dict with
+
+        low        list of ints (bit i = column i), spanning the fall space
+        combos     with track=True, the matching list of combination masks over the labelled rows,
+                   so combos[k] bit r means "labelled row r took part in fall k"
+        labels     with track=True, the (eq_index, multiplier_mask) of labelled row r
+        rank_top   rank of the degree-D projection
+        cols       total number of columns
+        top_start  first degree-D column index
+
+    dim(span(low)) equals `macaulay_stats(...).dim_low`; the test in tests/test_core.py checks it.
+    """
+    col, ncol, top_start = monomial_columns(nv, D)
+    topmask = ((1 << ncol) - 1) ^ ((1 << top_start) - 1)
+    piv = {}                      # top-region leading bit -> (row, combo)
+    low, combos, labels = [], [], []
+    src = (labelled_rows(eqs, nv, D, col=col, mult_deg=mult_deg) if track
+           else ((r, None, None) for r in poly_rows(eqs, nv, D, col=col, mult_deg=mult_deg)))
+    for idx, (r, ei, mu) in enumerate(src):
+        if track:
+            labels.append((ei, mu))
+        c = 1 << idx if track else 0
+        top = r & topmask
+        while top:
+            b = top.bit_length() - 1
+            p = piv.get(b)
+            if p is None:
+                piv[b] = (r, c)
+                break
+            r ^= p[0]
+            c ^= p[1]
+            top = r & topmask
+        else:
+            if r:
+                low.append(r)
+                if track:
+                    combos.append(c)
+    return dict(low=low, combos=combos if track else None, labels=labels if track else None,
+                rank_top=len(piv), cols=ncol, top_start=top_start)
+
+
+def span_rank(rows):
+    """rank of a list of ints over GF(2)."""
+    piv = {}
+    for r in rows:
+        while r:
+            b = r.bit_length() - 1
+            if b in piv:
+                r ^= piv[b]
+            else:
+                piv[b] = r
+                break
+    return len(piv)
+
+
+def reduce_modulo(rows, basis):
+    """Return (independent representatives of `rows` modulo span(basis), quotient dimension)."""
+    piv = {}
+    for r in basis:
+        while r:
+            b = r.bit_length() - 1
+            if b in piv:
+                r ^= piv[b]
+            else:
+                piv[b] = r
+                break
+    reps = []
+    for r in rows:
+        while r:
+            b = r.bit_length() - 1
+            if b in piv:
+                r ^= piv[b]
+            else:
+                piv[b] = r
+                reps.append(r)
+                break
+    return reps, len(reps)

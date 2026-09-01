@@ -56,6 +56,37 @@ def test_kat_conventions_pinned():
                 f"{name}: KAT mismatch — the pinned Conventions no longer reproduce the official vectors"
 
 
+
+def test_fieldpoly_matches_legacy_coordinates():
+    """src/aim3/fieldpoly.py must produce exactly the coordinate polynomials that
+    legacy/aim3_sbox_syz.sbox_system builds, and Boolean degree must equal the exponent weight."""
+    sys.path.insert(0, os.path.join(ROOT, "legacy"))
+    from aim3_sbox_syz import sbox_system
+    from aim3.gf2n import GF2n
+    from aim3.fieldpoly import FieldPoly, var_field, boolean_coords
+    for n, e in ((7, 2), (9, 4), (11, 3)):
+        F = GF2n(n)
+        X, Y = var_field(F, 0), var_field(F, n)
+        P1 = X * Y + X.frob(e) + FieldPoly.constant(F, 1)
+        _, L1, L2, L3 = sbox_system(n, e)
+        for mine, legacy in ((P1, L1), (X * P1, L2), (Y * P1, L3)):
+            got = boolean_coords(mine)
+            assert all(got[i] == legacy[i] for i in range(n))
+        for i in range(n):
+            assert (X.frob(i) * X).degree() == bin((1 << i) + 1).count("1")
+
+
+def test_boolmac_fall_space_matches_dim_low():
+    """fall_space's basis must span exactly dim(rowspace n deg<=D-1) as reported by macaulay_stats."""
+    sys.path.insert(0, os.path.join(ROOT, "legacy"))
+    from aim3_sbox_syz import sbox_system
+    from aim3.boolmac import fall_space, macaulay_stats, span_rank
+    _, P1, P2, P3 = sbox_system(9, 4)
+    eqs = P1 + P2 + P3
+    for D in (3, 4):
+        assert span_rank(fall_space(eqs, 18, D)["low"]) == macaulay_stats(eqs, 18, D).dim_low
+
+
 def test_export_matches_boolmac():
     """src/aim3/boolmac_export.py must describe the SAME matrix boolmac.py streams, and the column
     reversal the Sage backend performs must reproduce boolmac's rank / dim_low exactly.

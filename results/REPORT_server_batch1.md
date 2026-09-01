@@ -286,19 +286,21 @@ the only candidate mechanism by which a cross-S-box *relation* could feed a cros
 
 ### 4.2 E06 kernel model
 
-The Tier-A observation §2.2-L now holds at **n = 11, 13 and 15** as it did at n = 7, 9: the kernel
-model has `syz₃ = 0` and
+The Tier-A observation §2.2-L now holds at **n = 11, 13 and 15** as it did at n = 7, 9.  The
+wording is the one Tier-A batch 2 corrected (`E06/README.md`, commit `922902b`): `dim_low` is the
+*whole* degree-≤2 part of the row space, and 6n of it is the 6n bilinear equations themselves, so
+the **new** quadratics the D = 3 pass produces are `dim_low − rank_{D=2}` = 6n, not 12n.
 
-| n | #eqs = 6n | `dim(span_{D=3} ∩ deg≤2)` | = 2·#eqs? | random bilinear control |
-|---:|---:|---:|:--:|---:|
-| 11 | 66 | 132 | yes | 66 = #eqs (no falls) |
-| 13 | 78 | 156 | yes | 78 = #eqs (no falls) |
-| 15 | 90 | 180 | yes | — |
+| n | #eqs = 6n | `syz₃` | `dim(span_{D=3} ∩ deg≤2)` | = 2·#eqs? | **new** at D=3 | random bilinear control, new |
+|---:|---:|---:|---:|:--:|---:|---:|
+| 11 | 66 | 0 | 132 | yes | **66 = 6n** | **0** |
+| 13 | 78 | 0 | 156 | yes | **78 = 6n** | **0** |
+| 15 | 90 | 0 | 180 | yes | **90 = 6n** | **0** |
 
-i.e. 6n elements of degree ≤ 2 beyond the equations themselves, where the **same-shape random
-bilinear control produces none**.  That is the one live anomaly T2 has, and it is a
-variable-choice effect, not a cross-S-box one.  Tag: **[VERIFIED n = 7, 9, 11, 13, 15]** (was
-n = 7, 9).
+So the kernel model adds 6n quadratics beyond its own equations at D = 3 while the **same-shape
+random bilinear control adds none** — its `dim_low` is exactly its #eqs.  That is the one live
+anomaly T2 has, and it is a variable-choice effect, not a cross-S-box one.  Tag:
+**[VERIFIED n = 7, 9, 11, 13, 15]** (was n = 7, 9).
 
 **What F4 makes of the kernel model cuts two ways, and both directions matter to T2.**  On the same
 ring, with the same field equations, at n = 7:
