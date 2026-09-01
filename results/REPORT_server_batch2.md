@@ -199,6 +199,25 @@ free.
 
 ### 3.3 Block orders, computed properly this time
 
+Batch 1 could not measure a block-order solving degree at all: Magma 2.24 runs its GF(2) F4 in
+grevlex whatever order the ring declares and converts afterwards.  Sage/PolyBoRi computes
+**directly** in the declared order and, with `prot=True`, prints one `Current Degree: d` line per
+degree, so `max d` is a genuine per-order solving degree.  Block orders are built as
+`TermOrder('degrevlex', k) + TermOrder('degrevlex', nv−k)`; "W first" is obtained by rotating the
+variables so the W block occupies the leading positions, which is a renaming and leaves the algebra
+untouched.
+
+**Two caveats that must be read with the table (§B.9).**
+
+1. **PolyBoRi's `d_solv` is not comparable with Magma's or msolve's.**  Its protocol reports the
+   degree at which it is *processing pairs*, and its algorithm is not F4; on the same system it
+   reports 5 where both F4 implementations report 4.  The comparison this table supports is
+   **across orders within PolyBoRi**, which is exactly the comparison batch 1 could not make.
+2. **PolyBoRi aborts on the kernel model under a block order.**  At n = 7, 42 variables,
+   `block:21` terminates with `Unhandled SIGABRT: An abort() occurred… a *compiled* module has a
+   bug`, after emitting four degree lines.  That is a crash inside PolyBoRi, not a timeout and not
+   a fault in the driver; the row is recorded with the degrees it did emit as a lower bound.
+
 <!--Q33-->
 
 ---
