@@ -451,6 +451,13 @@ is formed; the route that does form one is censored from n = 8 (batch 1).  The �
    an excellent independent check and a poor workhorse; the task-4 plan had to be split accordingly.
 7. **T4 and T3 fail for the same reason, reached by different routes** (§4, §5): the elimination
    step is cheap and exact in both, and in both the object it produces costs Θ(2ⁿ) to exploit.
+8. **A 29× step in the E05 curve was the field implementation, not the algorithm** (§5).
+   `src/aim3/gf2n.py` drops its log/antilog tables above n = 16; fitting a slope across that step
+   would have produced a fabricated exponent.  Two other measurement defects were found and fixed
+   the same way: the PolyBoRi driver counted SIGABRT crashes as completed runs (§3.3), and the T4
+   degree driver wrote a censored row with a different set of columns, which killed its own
+   escalation at the first timeout.  All three are the same failure mode — **a run that did not
+   finish, or did not finish the way it looks, being recorded as a value.**
 
 ---
 
