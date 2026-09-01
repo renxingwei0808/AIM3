@@ -311,6 +311,47 @@ def sec_dsolv():
     A("")
 
 
+def sec_dsolv_vs_b2():
+    """Measured d_solv against the Boolean semi-regular degree of regularity that defines B2."""
+    rows = load("E04_f4_degrees.csv")
+    if not rows:
+        return
+    sys.path.insert(0, os.path.join(ROOT, "experiments", "E02_official_baseline"))
+    try:
+        from table4_reproduce import dreg_boolean
+    except Exception as exc:
+        A(f"_(B2 comparison skipped: {exc})_")
+        A("")
+        return
+    A("#### A.5.3 Measured `d_solv` against B2's degree of regularity")
+    A("")
+    A("`dreg_boolean` is the same function `E02/table4_reproduce.py` uses to produce the B2 "
+      "baseline: the degree of regularity of a semi-regular system of the same shape over the "
+      "Boolean quotient ring.  `neq` counts the quadratics only (the field equations are what makes "
+      "the ring Boolean, not extra equations).")
+    A("")
+    A("| ℓ | system | n | nv | neq | measured `d_solv` | B2 `d_reg` | difference |")
+    A("|---:|---|---:|---:|---:|---:|---:|---:|")
+    seen = {}
+    for r in rows:
+        if not r["order"].startswith("grevlex") or r.get("censored") == "1" or not r["d_solv"]:
+            continue
+        if r["system"] not in ("S_quad", "P1only", "random") or i(r["ell"], -1) not in (1, 2):
+            continue
+        key = (i(r["ell"]), r["system"], i(r["n"]))
+        seen.setdefault(key, set()).add(i(r["d_solv"]))
+    for key in sorted(seen, key=lambda k: (k[0], {"S_quad": 0, "P1only": 1, "random": 2}[k[1]], k[2])):
+        ell, system, n = key
+        nv = (ell + 1) * n
+        neq = n * (ell + 1) if system == "P1only" else 3 * n * (ell + 1)
+        dr = dreg_boolean(nv, neq)
+        got = sorted(seen[key])
+        diff = ", ".join(str(g - dr) for g in got)
+        A(f"| {ell} | `{system}` | {n} | {nv} | {neq} | {'/'.join(map(str, got))} | {dr} | "
+          f"{'**' + diff + '**' if diff != '0' else diff} |")
+    A("")
+
+
 # ---------------------------------------------------------------------- 6. block orders
 def sec_blocks():
     rows = load("E10_server_block_orders.csv")
@@ -419,6 +460,7 @@ def main():
     sec_e03()
     sec_e12_e06()
     sec_dsolv()
+    sec_dsolv_vs_b2()
     sec_blocks()
     sec_e05()
     md = "\n".join(OUT) + "\n"

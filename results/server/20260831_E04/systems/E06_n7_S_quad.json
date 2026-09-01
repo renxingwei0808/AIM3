@@ -1,0 +1,28 @@
+{
+ "ell": 2,
+ "experiment": "E06",
+ "exps": [
+  2,
+  3,
+  4
+ ],
+ "magma": {
+  "path": "/home/luck/rxw/AIM3_remote/out/E04_systems/E06_n7_S_quad.magma.m",
+  "polynomials": 63
+ },
+ "max_degree": 2,
+ "msolve": {
+  "field_equations": true,
+  "path": "/home/luck/rxw/AIM3_remote/out/E04_systems/E06_n7_S_quad.ms",
+  "polynomials": 84,
+  "terms": 3146
+ },
+ "n": 7,
+ "neqs": 63,
+ "nvars": 21,
+ "seed": 1,
+ "system": "S_quad",
+ "tag": "E06_n7_S_quad",
+ "terms": 3146,
+ "terms_per_eq": 49.94
+}

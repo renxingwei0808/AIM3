@@ -54,8 +54,12 @@ gpu     1x NVIDIA GeForce RTX 3080 (10 GB)   [unused by this batch]
    `run_f4_degrees.py` and `run_resultants.py` generate a three-line wrapper `.m` instead.
 5. `GetMemoryLimit()` is `0` (unlimited) — the per-tier memory caps of `server/README.md` are
    enforced by `server/jobs/run_job.sh` with `ulimit -v`, not by Magma.
-6. `SetNthreads(k)` works (verified up to 4 here, 52 available); Magma's F4 uses it for linear
-   algebra only.
+6. `SetNthreads(k)` works and **imposes no upper limit of its own** — it accepts 128 as readily as
+   1, above the machine's 104 hardware threads (measured: 1, 2, 4, 8, 16, 26, 32, 52, 64, 104, 128
+   all accepted, `GetNthreads()` echoing each).  So the ceiling is the hardware, not Magma, and a
+   job that asks for more than 104 will oversubscribe silently.  Magma's F4 uses the threads for
+   linear algebra only; the jobs in this batch ran single-threaded Magma with 8 msolve threads,
+   because the batch is a farm of many small jobs rather than one large one.
 
 ### Sage notes
 
