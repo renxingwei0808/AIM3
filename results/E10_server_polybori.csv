@@ -13,10 +13,10 @@ n,ell,seed,exps,system,experiment,tag,nvars,neqs,order_label,order,ring_order,to
 11,2,2,3;4;7,P1only,E04,E04b2_n11_l2_s2_P1only,33,33,blockT,blocklast:22,,polybori,4,7,2;2;3;2;3;3;4,,,,626640,134,B,luck-Precision-7920-Tower,db7e5b6,63.483,1
 11,2,2,3;4;7,S_quad,E04,E04b2_n11_l2_s2_S_quad,33,99,grevlex,grevlex,degrevlex,polybori,5,9,2;3;4;4;1;2;3;4;5,33,1,False,962436,0,B,luck-Precision-7920-Tower,db7e5b6,76.947,0
 11,2,2,3;4;7,S_quad,E04,E04b2_n11_l2_s2_S_quad,33,99,blockPT,block:11,,polybori,2,2,2;2,,,,6337884,134,B,luck-Precision-7920-Tower,db7e5b6,1002.617,1
-11,2,2,3;4;7,S_quad,E04,E04b2_n11_l2_s2_S_quad,33,99,blockT,blocklast:22,,polybori,5,8,2;2;3;3;4;3;4;5,,,,5355928,134,B,luck-Precision-7920-Tower,db7e5b6,245.757,0
+11,2,2,3;4;7,S_quad,E04,E04b2_n11_l2_s2_S_quad,33,99,blockT,blocklast:22,,polybori,5,8,2;2;3;3;4;3;4;5,,,,5355928,134,B,luck-Precision-7920-Tower,db7e5b6,245.757,1
 11,2,2,3;4;7,random,E04,E04b2_n11_l2_s2_random,33,99,grevlex,grevlex,degrevlex,polybori,5,8,2;3;4;2;3;4;4;5,33,1,False,921912,0,B,luck-Precision-7920-Tower,db7e5b6,66.832,0
-11,2,2,3;4;7,random,E04,E04b2_n11_l2_s2_random,33,99,blockPT,block:11,,polybori,2,2,2;2,,,,4388952,134,B,luck-Precision-7920-Tower,db7e5b6,472.355,0
-11,2,2,3;4;7,random,E04,E04b2_n11_l2_s2_random,33,99,blockT,blocklast:22,,polybori,3,3,2;3;3,,,,5067248,134,B,luck-Precision-7920-Tower,db7e5b6,513.701,0
+11,2,2,3;4;7,random,E04,E04b2_n11_l2_s2_random,33,99,blockPT,block:11,,polybori,2,2,2;2,,,,4388952,134,B,luck-Precision-7920-Tower,db7e5b6,472.355,1
+11,2,2,3;4;7,random,E04,E04b2_n11_l2_s2_random,33,99,blockT,blocklast:22,,polybori,3,3,2;3;3,,,,5067248,134,B,luck-Precision-7920-Tower,db7e5b6,513.701,1
 9,2,1,2;4;5,P1only,E04,E04b2_n9_l2_s1_P1only,27,27,grevlex,grevlex,degrevlex,polybori,5,10,2;3;3;3;4;1;2;3;4;5,27,1,False,433988,0,B,luck-Precision-7920-Tower,db7e5b6,26.569,0
 9,2,1,2;4;5,P1only,E04,E04b2_n9_l2_s1_P1only,27,27,blockPT,block:9,,polybori,4,6,2;2;3;4;4;4,,,,5940372,134,B,luck-Precision-7920-Tower,db7e5b6,2628.488,1
 9,2,1,2;4;5,P1only,E04,E04b2_n9_l2_s1_P1only,27,27,blockT,blocklast:18,"Block term order with blocks:

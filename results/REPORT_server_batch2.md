@@ -263,14 +263,14 @@ untouched.
    the fix the table appeared to show block orders cutting `d_solv` from 5 to 2; that reading was
    an artefact of counting a crash as a result, and it is withdrawn.
 
-**What survives (§B.9): 17 completed runs of 43.**  All grevlex runs complete; all `blockPT`
-(pt-block first) runs abort; all six kernel-model runs abort; `blockT` completes at n = 9 and
-aborts at n = 11.
+**What survives (§B.9): 18 completed runs of 43.**  12 of the 15 grevlex runs complete (the three
+kernel-model ones abort); **all 12 `blockPT` (pt-first) runs abort**; `blockT` completes 6 of 12 —
+all six at n = 9, none at n = 11; both `blockU` and `blockW` on the kernel model abort.
 
 | system | order | `d_solv` (PolyBoRi) | note |
 |---|---|---|---|
-| `S_quad`/`P1only`/random, ℓ = 2, n = 9 and 11 | grevlex | **5** at every one of the 9 completed runs | complete |
-| same, n = 9 | `blockT` (t-blocks first) | **14, 15, 15, 16, 17** over 5 completed runs | complete |
+| `S_quad`/`P1only`/random, ℓ = 2, n = 9 and 11 | grevlex | **5** at every one of the 12 completed runs | complete |
+| same, n = 9 | `blockT` (t-blocks first) | **14, 15, 15, 15, 16, 17** over 6 completed runs | complete |
 | same | `blockPT` (pt first) | — | **every run aborts** |
 | kernel model, n = 7 and 9 | grevlex, `blockU`, `blockW` | — | **every run aborts** |
 

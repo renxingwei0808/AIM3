@@ -339,18 +339,34 @@ def sec_polybori():
         A("_not collected_")
         A("")
         return
+    done = [r for r in rows if r.get("censored") != "1"]
     A("PolyBoRi works **in** the declared order and prints one `Current Degree: d` line per degree, "
       "so `d_solv` here is a genuine per-order solving degree — the measurement batch 1 could not "
-      "make, because Magma's GF(2) F4 runs in grevlex whatever order the ring declares.")
+      "make, because Magma's GF(2) F4 runs in grevlex whatever order the ring declares.  "
+      f"**{len(done)} of {len(rows)} runs completed**; the rest hit the timeout or aborted inside "
+      "PolyBoRi (`rc = 134`, SIGABRT), and their `≥ d` entries are lower bounds taken from the "
+      "degree lines printed before the crash.")
     A("")
-    A("| system | n | order | ring order | `d_solv` | steps | GB size | GB max deg | s | censored |")
-    A("|---|---:|---|---|---:|---:|---:|---:|---:|:--:|")
+    A("| system | n | order | ring order | `d_solv` | steps | GB size | GB max deg | s | outcome |")
+    A("|---|---:|---|---|---:|---:|---:|---:|---:|---|")
     for r in sorted(rows, key=lambda r: (r["tag"], r["order_label"])):
+        cens = r.get("censored") == "1"
+        rc = r.get("rc", "")
+        outcome = "complete" if not cens else ("**abort**" if rc == "134" else "**timeout**")
+        d = r["d_solv"]
+        d = ("_no degree line_" if not d else (f"≥ {d}" if cens else f"**{d}**"))
         A(f"| `{r['tag']}` | {r['n']} | `{r['order_label']}` ({r['order']}) | "
-          f"{r.get('ring_order','')[:28]} | {r['d_solv'] or '_lower bound_'} | {r['nsteps']} | "
-          f"{r['gb_size']} | {r['gb_max_degree']} | {f(r['seconds'], 0):.0f} | "
-          f"{'yes' if r.get('censored') == '1' else 'no'} |")
+          f"{r.get('ring_order','')[:28]} | {d} | {r['nsteps']} | "
+          f"{r['gb_size']} | {r['gb_max_degree']} | {f(r['seconds'], 0):.0f} | {outcome} |")
     A("")
+    by = {}
+    for r in done:
+        by.setdefault(r["order_label"], []).append(r["d_solv"])
+    if by:
+        A("Completed runs only, by order: "
+          + "; ".join(f"`{k}` → {', '.join(sorted(set(v), key=lambda x: int(x)))}"
+                      for k, v in sorted(by.items())) + ".")
+        A("")
 
 
 # ------------------------------------------------------------------------ A.10 E05 cheap
