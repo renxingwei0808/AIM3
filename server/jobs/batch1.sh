@@ -35,6 +35,9 @@ launch() {          # launch <session> <exp> <name> <mem_gb> <command...>
     echo "export AIM3_RESULTS=$(printf %q "$out")"
     echo "export AIM3_SCRATCH=$(printf %q "$BASE/scratch/$name")"
     echo "export AIM3_SAGE=$(printf %q "$AIM3_SAGE")"
+    # run_job.sh files its log by AIM3_DATE; without this the runner falls back to today and a
+    # batch launched across midnight scatters its logs over two directories
+    echo "export AIM3_DATE=$(printf %q "$DATE")"
     echo "export PATH=$(printf %q "$BASE/opt/bin"):\$PATH"
     echo "cd $(printf %q "$ROOT")"
     printf 'bash server/jobs/run_job.sh %q %q %q --' "$exp" "$name" "$mem"

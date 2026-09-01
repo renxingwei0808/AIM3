@@ -64,10 +64,24 @@ def main():
     ap.add_argument("--budget", type=float, default=3600.0,
                     help="per-n wall-clock cap; a size over it is recorded censored and stops the "
                          "escalation, as in batch 1")
+    ap.add_argument("--tables", action="store_true",
+                    help="force GF2n log/antilog tables above its n<=16 default.  The tables cost "
+                         "2*2^n words (16 MB at n=20), which is nothing next to the 2^n table this "
+                         "method already builds, and without them the timing curve has a 29x step "
+                         "at n=17 that is an artefact of the field implementation, not of the "
+                         "algorithm.  The algorithm is identical either way.")
     ap.add_argument("--csv", default="E05_server_cheap_elimination.csv")
     a = ap.parse_args()
+    if a.tables:
+        import aim3.gf2n as _g
+        _orig_init = _g.GF2n.__init__
+
+        def _init(self, n, modulus=None, tables=None):
+            _orig_init(self, n, modulus, True if tables is None else tables)
+
+        _g.GF2n.__init__ = _init
     ns = [int(v) for v in a.ns.split(",")]
-    print(f"# params: ns={ns} seed={a.seed} budget={a.budget}s")
+    print(f"# params: ns={ns} seed={a.seed} budget={a.budget}s tables={a.tables}")
     print("# method: tabulate V(t1) over F_q*, look up W(t0), test each hit against Eq2 -- "
           "Theta(2^n) field ops, no eliminated polynomial is formed")
 
@@ -93,7 +107,8 @@ def main():
                                roots="", spurious="", key_is_root="",
                                eq1_terms=s1["terms"], eq2_terms=s2["terms"],
                                eq1_deg_t1=s1["deg_t1"], eq2_deg_t1=s2["deg_t1"],
-                               method="separable table lookup"),
+                               method="separable table lookup",
+                               gf_tables=int(a.tables)),
                    seconds=t_build, censored=1, tier="B")
             break
 
@@ -109,7 +124,8 @@ def main():
                            roots=len(roots), spurious=len(roots) - 1, key_is_root=int(ok),
                            eq1_terms=s1["terms"], eq2_terms=s2["terms"],
                            eq1_deg_t1=s1["deg_t1"], eq2_deg_t1=s2["deg_t1"],
-                           method="separable table lookup"),
+                           method="separable table lookup",
+                           gf_tables=int(a.tables)),
                seconds=t_build + t_elim, censored=0, tier="B")
         pts.append((n, t_elim))
 

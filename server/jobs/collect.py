@@ -43,6 +43,10 @@ MERGE = [
     ("E06_server_minrank.csv", "B2_minrank*", "E06_server_minrank.csv"),
     ("E10_server_polybori.csv", "B2_polybori*", "E10_server_polybori.csv"),
     ("E05_server_cheap_elimination.csv", "B2_e05cheap*", "E05_server_cheap_elimination.csv"),
+    # the --tables re-run is a SEPARATE table: same algorithm, different field arithmetic, and
+    # mixing the two would put a 29x implementation step in the middle of one timing curve
+    ("E05_server_cheap_elimination.csv", "B2_e05tab*",
+     "E05_server_cheap_elimination_tables.csv"),
     ("E04_server_hilbert.csv", "B2_hilbert_*", "E04_server_hilbert.csv", ("n", "system", "D")),
     # the D = 5 subset lattice is a separate table from the D = 4 one: same script,
     # different degree, and mixing them in one file would make the `falls` column mean
