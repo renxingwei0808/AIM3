@@ -349,46 +349,37 @@ they differ only in step count and matrix size, as expected from different F4 st
 **`-g 2` matters**: without it msolve continues to a rational parametrisation and re-runs F4 about
 twenty times, so neither the step count nor the wall clock would describe one F4 run.
 
-`d_solv` vs n, grevlex — identical for msolve and Magma everywhere, and identical across
-the two seeds (a cell shows every value observed):
+`d_solv` vs n, grevlex.  A cell is blank where the run was censored at the 1-hour cap; the two
+tools never disagree on a completed cell, and neither do the two seeds.
 
 | system | ℓ | n=7 | n=9 | n=11 | n=13 | n=15 |
 |---|---:|---:|---:|---:|---:|---:|
-| S_quad | 1 | 3 | 3 | 4 | 4 | 4 |
-| P1only | 1 | 3 | 3 | 4 | 4 | 4 |
-| random | 1 | 3 | 3 | 4 | 4 | 4 |
-| S_quad | 2 | 3 | 4 | 4 | 4 | — |
-| P1only | 2 | 3 | 4 | 4 | 4 | — |
-| random | 2 | 4 | 4 | 4 | — | — |
+| `S_quad` | 1 | 3 | 3 | 4 | 4 | 4 |
+| `P1only` | 1 | 3 | 3 | 4 | 4 | 4 |
+| `random` | 1 | 3 | 3 | 4 | 4 | 4 |
+| `S_quad` | 2 | 3 | 4 | 4 | 4 | **5** |
+| `P1only` | 2 | 3 | 4 | 4 | 4 | — |
+| `random` | 2 | **4** | 4 | 4 | **5** | 5 |
 
-**The finding, stated conservatively.**  `d_solv` takes the value 3 and then 4, and the step comes
-one size earlier for three S-boxes than for two: at ℓ = 1 it is 3 at n = 7, 9 and 4 at n = 11, 13,
-15; at ℓ = 2 it is 3 at n = 7 and 4 from n = 9 on.
+**The finding, stated conservatively.**
 
-Against the same-shape random control the structure is **never a handicap and sometimes worth one
-degree**:
-
-| ℓ | n | `S_quad` | `P1only` | `random`, same shape |
-|---:|---:|---:|---:|---:|
-| 2 | 7 | 3 | 3 | **4** |
-| 2 | 9 | 4 | 4 | 4 |
-| 2 | 11 | 4 | 4 | 4 |
-| 2 | 13 | 4 | 4 | **5** |
-| 1 | 7..15 | 3,3,4,4,4 | 3,3,4,4,4 | 3,3,4,4,4 |
-
-So at ℓ = 2 — the AIM3-I/III shape — `S_quad` solves **one degree below** a random Boolean
-quadratic system of the same shape at n = 7 and n = 13, and ties at n = 9 and 11; at ℓ = 1 the two
-are equal throughout.  The structural degree falls of T1 therefore *do* show up in F4, but as at
-most one degree at these sizes, not as a collapse.  That is a much weaker effect than the
-Hilbert-function anomaly suggests, and it is the honest calibration of what the falls are worth.
-
-Five values of n satisfy the ≥ 4 requirement of `COMPLEXITY_ACCOUNTING §4` for stating that
-observation, but **not** for extrapolating a growth law: the data is a single step from 3 to 4 and
-then a plateau, which is exactly the shape that must not be fitted.  No comparison with B1's
-`d_reg = 19/25/44` is drawn here beyond noting that a plateau at 4 over n = 11..15 gives no
-evidence either way at n = 128 — the toy systems are over-determined enough (9n equations in 3n
-variables) that F4 reaches a single solution almost immediately, and that regime may or may not be
-the one the real parameters are in.
+* **Growth.**  At ℓ = 1, `d_solv` is 3 at n = 7, 9 and 4 at n = 11, 13, 15 — one step, then a
+  plateau over three sizes.  At ℓ = 2 it is 3, 4, 4, 4, **5**: a second step at n = 15, so the
+  quantity is not flat.  Two steps over five sizes is still not a law — `COMPLEXITY_ACCOUNTING §4`
+  wants a stable regularity, and "roughly one degree per four in n" is a description of five
+  points, not a fit.  **No extrapolation to n = 128 is made**, and none of B1's
+  `d_reg = 19/25/44` is compared against these numbers.
+* **Against the same-shape random control the structure is never a handicap and is sometimes worth
+  one degree.**  At ℓ = 2 `S_quad` is one below `random` at n = 7 (3 vs 4) and n = 13 (4 vs 5), and
+  equal at n = 9, 11, 15; at ℓ = 1 the two are equal throughout.  So the structural degree falls of
+  T1 do reach F4 — but as at most one degree at these sizes, not as a collapse.  That is the honest
+  calibration of what the falls are worth, and it is much less than the Hilbert-function anomaly
+  might suggest.
+* **What the censoring costs.**  Twelve runs hit the 1-hour cap and are recorded as lower bounds:
+  msolve at ℓ = 2 for n = 13 `random` and all three n = 15 systems, and both tools on the E06 kernel
+  model at n = 11 and 13.  Magma completed several of these where msolve did not (it is 10–30×
+  faster on the Boolean ring here), which is why the n = 15 `S_quad` cell exists at all — at
+  1509385 rows and 79 GB peak it is the largest F4 matrix of the batch.
 
 The Gröbner bases themselves are essentially linear (`gb_max_degree` 1 or 2, `gb_size ≈ nv`): at
 these toy sizes the systems have a single solution and F4 finds it at degree 4.
@@ -697,6 +688,7 @@ The ledger is not edited by this batch.  Proposed additions/changes, for a human
 | 2 | 17 | 2 | 2;3;4 | 51 | 187 | 119 + 34 + 34 | 187 | **0** | 0.3492 | yes |
 | 2 | 17 | 3 | 2;3;4 | 51 | 187 | 119 + 34 + 34 | 187 | **0** | 0.3492 | yes |
 | 2 | 19 | 1 | 2;3;4 | 57 | 209 | 133 + 38 + 38 | 209 | **0** | 0.3128 | yes |
+| 2 | 19 | 2 | 2;3;4 | 57 | 209 | 133 + 38 + 38 | 209 | **0** | 0.3128 | yes |
 | 3 | 11 | 1 | 2;3;4;5 | 44 | 1826 | 77 + 22 + 22 + 66 | 187 | **1639** | 0.5208 | yes |
 | 3 | 11 | 2 | 2;3;4;5 | 44 | 1826 | 77 + 22 + 22 + 66 | 187 | **1639** | 0.5208 | yes |
 | 3 | 11 | 3 | 2;3;4;5 | 44 | 1826 | 77 + 22 + 22 + 66 | 187 | **1639** | 0.5208 | yes |
@@ -757,6 +749,8 @@ Controls on the same instances (no per-block decomposition is defined for them):
 | 2 | 17 | 3 | P1only | 4896 | 0.3407 |
 | 2 | 17 | 3 | random | 0 | 0.3592 |
 | 2 | 19 | 1 | P1only | 6156 | 0.3061 |
+| 2 | 19 | 1 | random | 0 | 0.3208 |
+| 2 | 19 | 2 | P1only | 6156 | 0.3061 |
 | 3 | 11 | 1 | P1only | 3608 | 0.3926 |
 | 3 | 11 | 1 | random | 0 | 0.4173 |
 | 3 | 11 | 2 | P1only | 3608 | 0.3926 |
@@ -1004,10 +998,11 @@ At degree 4 it is not enough to ask whether a relation is supported on t₀ only
 | 1 | random | 2 | 3 | 3 | 4 | 4 | 4 |
 | 2 | P1only | 1 | 3 | 4 | 4 | 4 | – |
 | 2 | P1only | 2 | 3 | 4 | 4 | 4 | – |
-| 2 | S_quad | 1 | 3 | 4 | 4 | 4 | – |
+| 2 | S_quad | 1 | 3 | 4 | 4 | 4 | 5 |
 | 2 | S_quad | 2 | 3 | 4 | 4 | 4 | – |
-| 2 | random | 1 | 4 | 4 | 4 | 5 | – |
+| 2 | random | 1 | 4 | 4 | 4 | 5 | 5 |
 | 2 | random | 2 | 4 | 4 | 4 | 5 | – |
+| 2 | random_quadratic | 1 | – | – | 4 | – | – |
 
 A cell `a/b` in bold would mean msolve and Magma disagreed; a plain number means they agreed (or only one tool ran).
 
@@ -1093,6 +1088,10 @@ A cell `a/b` in bold would mean msolve and Magma disagreed; a plain number means
 | 11 | 2 | random | 1 | msolve | 4 | 6 | 64108 | 48988 | 115.6 | 1593 |
 | 11 | 2 | random | 2 | magma | 4 | 5 | 53245 | 38125 | 5.2 | 295 |
 | 11 | 2 | random | 2 | msolve | 4 | 6 | 64108 | 48988 | 160.1 | 1590 |
+| 11 | 2 | random_bilinear | 1 | magma | 5 | 4 | 148434 | 674389 | 3600.0 |  |
+| 11 | 2 | random_bilinear | 1 | msolve | 4 | 3 | 250670 | 776625 | 3600.0 |  |
+| 11 | 2 | random_quadratic | 1 | magma | 4 | 5 | 53245 | 38125 | 4.1 | 296 |
+| 11 | 2 | random_quadratic | 1 | msolve | 4 | 6 | 64108 | 48988 | 71.5 | 1600 |
 | 13 | 1 | P1only | 1 | magma | 4 | 6 | 26151 | 16904 | 0.6 | 65 |
 | 13 | 1 | P1only | 1 | msolve | 4 | 7 | 30561 | 21732 | 5.2 | 178 |
 | 13 | 1 | P1only | 2 | magma | 4 | 6 | 26218 | 16971 | 0.6 | 65 |
@@ -1106,13 +1105,19 @@ A cell `a/b` in bold would mean msolve and Magma disagreed; a plain number means
 | 13 | 1 | random | 2 | magma | 4 | 5 | 27000 | 13337 | 0.6 | 71 |
 | 13 | 1 | random | 2 | msolve | 4 | 6 | 31681 | 18018 | 4.0 | 137 |
 | 13 | 2 | P1only | 1 | magma | 4 | 8 | 93423 | 90207 | 117.6 | 1647 |
+| 13 | 2 | P1only | 1 | magma | 4 | 8 | 93423 | 90207 | 75.2 | 1656 |
 | 13 | 2 | P1only | 1 | msolve | 4 | 9 | 111293 | 110272 | 1091.8 | 6496 |
+| 13 | 2 | P1only | 1 | msolve | 4 | 9 | 111293 | 110272 | 659.0 | 6505 |
 | 13 | 2 | P1only | 2 | magma | 4 | 8 | 93564 | 90564 | 108.5 | 1651 |
 | 13 | 2 | P1only | 2 | msolve | 4 | 9 | 112559 | 111121 | 831.3 | 6502 |
 | 13 | 2 | S_quad | 1 | magma | 4 | 7 | 92156 | 86658 | 131.7 | 1637 |
+| 13 | 2 | S_quad | 1 | magma | 4 | 7 | 92156 | 86658 | 75.1 | 1647 |
 | 13 | 2 | S_quad | 1 | msolve | 4 | 8 | 110386 | 104993 | 1209.7 | 6342 |
+| 13 | 2 | S_quad | 1 | msolve | 4 | 8 | 110386 | 104993 | 642.7 | 6362 |
 | 13 | 2 | S_quad | 2 | magma | 4 | 7 | 94049 | 90793 | 103.1 | 1658 |
 | 13 | 2 | S_quad | 2 | msolve | 4 | 8 | 114090 | 115877 | 936.6 | 6369 |
+| 13 | 2 | kernel | 1 | magma | 4 | 9 | 467418 | 1039969 | 3600.0 |  |
+| 13 | 2 | kernel | 1 | msolve | 4 | 5 | 431468 | 1034181 | 3132.7 | 89594 |
 | 13 | 2 | random | 1 | magma | 5 | 8 | 886020 | 289354 | 499.4 | 13703 |
 | 13 | 2 | random | 1 | msolve | 5 | 4 | 986289 | 389623 | 3600.0 |  |
 | 13 | 2 | random | 2 | magma | 5 | 8 | 886284 | 289618 | 523.6 | 13733 |
@@ -1131,6 +1136,10 @@ A cell `a/b` in bold would mean msolve and Magma disagreed; a plain number means
 | 15 | 1 | random | 2 | msolve | 4 | 6 | 48126 | 32762 | 29.3 | 562 |
 | 15 | 2 | P1only | 1 | magma | 5 | 8 | 134734 | 161360 | 3600.0 |  |
 | 15 | 2 | P1only | 1 | msolve | 4 | 7 | 166632 | 194076 | 3600.0 |  |
+| 15 | 2 | S_quad | 1 | magma | 5 | 9 | 1614513 | 1115721 | 3501.2 | 67345 |
+| 15 | 2 | S_quad | 1 | msolve | 4 | 6 | 165285 | 192970 | 3600.0 |  |
+| 15 | 2 | random | 1 | magma | 5 | 6 | 1509385 | 728129 | 3108.8 | 79247 |
+| 15 | 2 | random | 1 | msolve | 4 | 3 | 161441 | 174327 | 3600.0 |  |
 
 ### A.6 Block orders (E10)
 

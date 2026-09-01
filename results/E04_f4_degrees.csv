@@ -61,6 +61,10 @@ n,ell,exps,seed,system,experiment,tag,nvars,neqs,order,order_label,tool,d_solv,n
 15,1,2;4,2,random,E04,E04_n15_l1_s2_random,30,90,grevlex,grevlex,magma,4,5,40310,24946,30,1,168064,0,E04_n15_l1_s2_random.grevlex.magma.log,B,luck-Precision-7920-Tower,e7ebb71,1.619,0
 15,2,2;4;7,1,P1only,E04,E04_n15_l2_s1_P1only,45,45,grevlex(drl),grevlex(drl),msolve,4,7,166632,194076,,,,-9,E04_n15_l2_s1_P1only.msolve.log,B,luck-Precision-7920-Tower,e7ebb71,3600.001,1
 15,2,2;4;7,1,P1only,E04,E04_n15_l2_s1_P1only,45,45,grevlex,grevlex,magma,5,8,134734,161360,,,,-9,E04_n15_l2_s1_P1only.grevlex.magma.log,B,luck-Precision-7920-Tower,e7ebb71,3600.003,1
+15,2,2;4;7,1,S_quad,E04,E04_n15_l2_s1_S_quad,45,135,grevlex(drl),grevlex(drl),msolve,4,6,165285,192970,,,,-9,E04_n15_l2_s1_S_quad.msolve.log,B,luck-Precision-7920-Tower,e7ebb71,3600.02,1
+15,2,2;4;7,1,S_quad,E04,E04_n15_l2_s1_S_quad,45,135,grevlex,grevlex,magma,5,9,1614513,1115721,44,1,68961236,0,E04_n15_l2_s1_S_quad.grevlex.magma.log,B,luck-Precision-7920-Tower,e7ebb71,3501.224,0
+15,2,2;4;7,1,random,E04,E04_n15_l2_s1_random,45,135,grevlex(drl),grevlex(drl),msolve,4,3,161441,174327,,,,-9,E04_n15_l2_s1_random.msolve.log,B,luck-Precision-7920-Tower,e7ebb71,3600.001,1
+15,2,2;4;7,1,random,E04,E04_n15_l2_s1_random,45,135,grevlex,grevlex,magma,5,6,1509385,728129,45,1,81149388,0,E04_n15_l2_s1_random.grevlex.magma.log,B,luck-Precision-7920-Tower,e7ebb71,3108.811,0
 7,1,2;3,1,P1only,E04,E04_n7_l1_s1_P1only,14,14,grevlex(drl),grevlex(drl),msolve,3,5,784,652,,,6656,0,E04_n7_l1_s1_P1only.msolve.log,B,luck-Precision-7920-Tower,e7ebb71,0.064,0
 7,1,2;3,1,P1only,E04,E04_n7_l1_s1_P1only,14,14,grevlex,grevlex,magma,3,5,602,470,13,2,16640,0,E04_n7_l1_s1_P1only.grevlex.magma.log,B,luck-Precision-7920-Tower,e7ebb71,0.064,0
 7,1,2;3,1,S_quad,E04,E04_n7_l1_s1_S_quad,14,42,grevlex(drl),grevlex(drl),msolve,3,4,826,666,,,6656,0,E04_n7_l1_s1_S_quad.msolve.log,B,luck-Precision-7920-Tower,e7ebb71,0.032,0
@@ -115,3 +119,13 @@ n,ell,exps,seed,system,experiment,tag,nvars,neqs,order,order_label,tool,d_solv,n
 11,2,"[2, 3, 4]",1,S_quad,E06,E06_n11_S_quad,33,99,grevlex,grevlex,magma,4,5,52152,45930,32,1,237120,0,E06_n11_S_quad.grevlex.magma.log,B,luck-Precision-7920-Tower,e7ebb71,4.28,0
 11,2,"[2, 3, 4]",1,kernel,E06,E06_n11_kernel,66,66,grevlex(drl),grevlex(drl),msolve,4,6,258815,535114,,,,-9,E06_n11_kernel.msolve.log,B,luck-Precision-7920-Tower,e7ebb71,3600.002,1
 11,2,"[2, 3, 4]",1,kernel,E06,E06_n11_kernel,66,66,grevlex,grevlex,magma,5,12,321685,531306,,,,-9,E06_n11_kernel.grevlex.magma.log,B,luck-Precision-7920-Tower,e7ebb71,3600.002,1
+11,2,"[2, 3, 4]",1,random_bilinear,E06,E06_n11_random_bilinear,66,66,grevlex(drl),grevlex(drl),msolve,4,3,250670,776625,,,,-9,E06_n11_random_bilinear.msolve.log,B,luck-Precision-7920-Tower,e7ebb71,3600.002,1
+11,2,"[2, 3, 4]",1,random_bilinear,E06,E06_n11_random_bilinear,66,66,grevlex,grevlex,magma,5,4,148434,674389,,,,-9,E06_n11_random_bilinear.grevlex.magma.log,B,luck-Precision-7920-Tower,e7ebb71,3600.002,1
+11,2,"[2, 3, 4]",1,random_quadratic,E06,E06_n11_random_quadratic,33,99,grevlex(drl),grevlex(drl),msolve,4,6,64108,48988,,,1638036,0,E06_n11_random_quadratic.msolve.log,B,luck-Precision-7920-Tower,e7ebb71,71.514,0
+11,2,"[2, 3, 4]",1,random_quadratic,E06,E06_n11_random_quadratic,33,99,grevlex,grevlex,magma,4,5,53245,38125,33,1,302848,0,E06_n11_random_quadratic.grevlex.magma.log,B,luck-Precision-7920-Tower,e7ebb71,4.128,0
+13,2,"[2, 3, 4]",1,P1only,E06,E06_n13_P1only,39,39,grevlex(drl),grevlex(drl),msolve,4,9,111293,110272,,,6661420,0,E06_n13_P1only.msolve.log,B,luck-Precision-7920-Tower,e7ebb71,658.964,0
+13,2,"[2, 3, 4]",1,P1only,E06,E06_n13_P1only,39,39,grevlex,grevlex,magma,4,8,93423,90207,39,1,1695616,0,E06_n13_P1only.grevlex.magma.log,B,luck-Precision-7920-Tower,e7ebb71,75.188,0
+13,2,"[2, 3, 4]",1,S_quad,E06,E06_n13_S_quad,39,117,grevlex(drl),grevlex(drl),msolve,4,8,110386,104993,,,6514940,0,E06_n13_S_quad.msolve.log,B,luck-Precision-7920-Tower,e7ebb71,642.71,0
+13,2,"[2, 3, 4]",1,S_quad,E06,E06_n13_S_quad,39,117,grevlex,grevlex,magma,4,7,92156,86658,39,1,1686464,0,E06_n13_S_quad.grevlex.magma.log,B,luck-Precision-7920-Tower,e7ebb71,75.077,0
+13,2,"[2, 3, 4]",1,kernel,E06,E06_n13_kernel,78,78,grevlex(drl),grevlex(drl),msolve,4,5,431468,1034181,,,91744288,143,E06_n13_kernel.msolve.log,B,luck-Precision-7920-Tower,e7ebb71,3132.7,1
+13,2,"[2, 3, 4]",1,kernel,E06,E06_n13_kernel,78,78,grevlex,grevlex,magma,4,9,467418,1039969,,,,-9,E06_n13_kernel.grevlex.magma.log,B,luck-Precision-7920-Tower,e7ebb71,3600.002,1
