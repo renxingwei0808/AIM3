@@ -47,7 +47,18 @@
 4. **Extrapolation discipline.** Extrapolate only when the same model shows a stable law across ≥ 4 values of n and ≥ 2 exponents;
    censored (timed-out / out-of-memory) runs are lower bounds only; never fit an exponential to a single small-n point; separate
    field ops / bit ops / memory; separate single-key and multi-target models.
-5. **Spurious solutions.** Every model must report its number of solutions on toy instances (2-to-1 S-boxes create extra
+5. **Toy exponents must be generic.** Every toy instance used for a *quantitative* claim must take its
+   exponents from the generic class, i.e. `aim3.structures.degenerate_class(n, e) == []`, unless the
+   experiment's purpose is precisely to study a degenerate class — in which case say so in the row.
+   The default exponent list `[e for e in range(2, n) if gcd(e,n)==1][:l+1]` starts at **e = 2**, which
+   is the most degenerate class there is (7n falls instead of 2n, and the only class with cubics of
+   the ideal unreachable at D=4), so a script that uses the default is not automatically compliant.
+   **Consequence already on the record:** the `d_solv` table of `results/REPORT_server_batch1.md` §5
+   was produced with the default list and therefore contains e = 2 in every instance; it is a valid
+   *measurement of those instances* but **must not be used for extrapolation** or compared against
+   B1's `d_reg`. The server branch re-runs it with generic exponents.
+
+6. **Spurious solutions.** Every model must report its number of solutions on toy instances (2-to-1 S-boxes create extra
    solutions at small n); an attack cost includes the filtering.
-6. **Guessing.** Hybrid costs are min over k of 2^k · (solver cost with k bits fixed) *plus* the cost of detecting wrong guesses.
-7. **Provenance.** Every table row links to a results CSV with commit hash, tier, machine, and wall-clock time.
+7. **Guessing.** Hybrid costs are min over k of 2^k · (solver cost with k bits fixed) *plus* the cost of detecting wrong guesses.
+8. **Provenance.** Every table row links to a results CSV with commit hash, tier, machine, and wall-clock time.
