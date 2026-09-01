@@ -1,0 +1,79 @@
+n,e0,e1,measurement,trials,value,unit,exact,detail,tier,host,commit,seconds,censored
+6,5,5,deg_lclm_true,32,20,phi-degree,exact,"deg Lambda = [10, 10]; deg gcrd = 0",A,vm,07fb752,0.015,0
+6,5,5,deg_lclm_rand,32,20..20,phi-degree,exact,"deg gcrd in 0..0 over 32 random (t0,t1)",A,vm,07fb752,0.015,0
+6,5,5,kerint_true,32,0,F2-dim,exact,random: 0..0,A,vm,07fb752,0.015,0
+6,5,5,affine_solvable,32,1,0/1,exact,"random (t0,t1): 0/32 solvable",A,vm,07fb752,0.015,0
+6,5,5,bool_deg_E,32,6,of n=6 bits,exact,|Z(E)|=2 |C|=2 C = predicted 2-set: 1 true in Z(E)/C = 1/1 C<=Z(E)=1 Z(E)<=C=1 degenerate t0 = 1,A,vm,07fb752,0.035,0
+6,5,5,univ_deg_E,32,63,of q-1=63,exact,deg lclm = 20,A,vm,07fb752,0.036,0
+6,5,5,bool_deg_C,32,5,of n=6 bits,exact,|Z(E)|=2 |C|=2 C = predicted 2-set: 1 true in Z(E)/C = 1/1 C<=Z(E)=1 Z(E)<=C=1 degenerate t0 = 1,A,vm,07fb752,0.036,0
+6,5,5,control_bool_deg_C,32,5,of n=6 bits,exact,WRONG t_1: |C|=2 |Z(E)|=2 true t_0 in C = 0,A,vm,07fb752,0.036,0
+7,6,6,deg_lclm_true,32,24,phi-degree,exact,"deg Lambda = [12, 12]; deg gcrd = 0",A,vm,07fb752,0.019,0
+7,6,6,deg_lclm_rand,32,24..24,phi-degree,exact,"deg gcrd in 0..0 over 32 random (t0,t1)",A,vm,07fb752,0.02,0
+7,6,6,kerint_true,32,0,F2-dim,exact,random: 0..0,A,vm,07fb752,0.02,0
+7,6,6,affine_solvable,32,1,0/1,exact,"random (t0,t1): 0/32 solvable",A,vm,07fb752,0.02,0
+7,6,6,bool_deg_E,32,7,of n=7 bits,exact,|Z(E)|=2 |C|=2 C = predicted 2-set: 1 true in Z(E)/C = 1/1 C<=Z(E)=1 Z(E)<=C=1 degenerate t0 = 1,A,vm,07fb752,0.098,0
+7,6,6,univ_deg_E,32,127,of q-1=127,exact,deg lclm = 24,A,vm,07fb752,0.098,0
+7,6,6,bool_deg_C,32,6,of n=7 bits,exact,|Z(E)|=2 |C|=2 C = predicted 2-set: 1 true in Z(E)/C = 1/1 C<=Z(E)=1 Z(E)<=C=1 degenerate t0 = 1,A,vm,07fb752,0.098,0
+7,6,6,control_bool_deg_C,32,-1,of n=7 bits,exact,WRONG t_1: |C|=0 |Z(E)|=0 true t_0 in C = 0,A,vm,07fb752,0.101,0
+8,7,7,deg_lclm_true,32,28,phi-degree,exact,"deg Lambda = [14, 14]; deg gcrd = 0",A,vm,07fb752,0.028,0
+8,7,7,deg_lclm_rand,32,27..28,phi-degree,exact,"deg gcrd in 0..1 over 32 random (t0,t1)",A,vm,07fb752,0.028,0
+8,7,7,kerint_true,32,0,F2-dim,exact,random: 0..1,A,vm,07fb752,0.028,0
+8,7,7,affine_solvable,32,1,0/1,exact,"random (t0,t1): 0/32 solvable",A,vm,07fb752,0.028,0
+8,7,7,bool_deg_E,32,8,of n=8 bits,exact,|Z(E)|=2 |C|=2 C = predicted 2-set: 1 true in Z(E)/C = 1/1 C<=Z(E)=1 Z(E)<=C=1 degenerate t0 = 1,A,vm,07fb752,0.268,0
+8,7,7,univ_deg_E,32,255,of q-1=255,exact,deg lclm = 28,A,vm,07fb752,0.269,0
+8,7,7,bool_deg_C,32,7,of n=8 bits,exact,|Z(E)|=2 |C|=2 C = predicted 2-set: 1 true in Z(E)/C = 1/1 C<=Z(E)=1 Z(E)<=C=1 degenerate t0 = 1,A,vm,07fb752,0.269,0
+8,7,7,control_bool_deg_C,32,7,of n=8 bits,exact,WRONG t_1: |C|=2 |Z(E)|=2 true t_0 in C = 0,A,vm,07fb752,0.27,0
+9,8,8,deg_lclm_true,32,32,phi-degree,exact,"deg Lambda = [16, 16]; deg gcrd = 0",A,vm,07fb752,0.033,0
+9,8,8,deg_lclm_rand,32,31..32,phi-degree,exact,"deg gcrd in 0..1 over 32 random (t0,t1)",A,vm,07fb752,0.034,0
+9,8,8,kerint_true,32,0,F2-dim,exact,random: 0..1,A,vm,07fb752,0.034,0
+9,8,8,affine_solvable,32,1,0/1,exact,"random (t0,t1): 1/32 solvable",A,vm,07fb752,0.034,0
+9,8,8,bool_deg_E,32,9,of n=9 bits,exact,|Z(E)|=2 |C|=2 C = predicted 2-set: 1 true in Z(E)/C = 1/1 C<=Z(E)=1 Z(E)<=C=1 degenerate t0 = 1,A,vm,07fb752,0.744,0
+9,8,8,univ_deg_E,32,511,of q-1=511,exact,deg lclm = 32,A,vm,07fb752,0.745,0
+9,8,8,bool_deg_C,32,8,of n=9 bits,exact,|Z(E)|=2 |C|=2 C = predicted 2-set: 1 true in Z(E)/C = 1/1 C<=Z(E)=1 Z(E)<=C=1 degenerate t0 = 1,A,vm,07fb752,0.745,0
+9,8,8,control_bool_deg_C,32,-1,of n=9 bits,exact,WRONG t_1: |C|=0 |Z(E)|=0 true t_0 in C = 0,A,vm,07fb752,0.73,0
+10,9,9,deg_lclm_true,32,36,phi-degree,exact,"deg Lambda = [18, 18]; deg gcrd = 0",A,vm,07fb752,0.041,0
+10,9,9,deg_lclm_rand,32,36..36,phi-degree,exact,"deg gcrd in 0..0 over 32 random (t0,t1)",A,vm,07fb752,0.041,0
+10,9,9,kerint_true,32,0,F2-dim,exact,random: 0..0,A,vm,07fb752,0.041,0
+10,9,9,affine_solvable,32,1,0/1,exact,"random (t0,t1): 0/32 solvable",A,vm,07fb752,0.041,0
+10,9,9,bool_deg_E,32,10,of n=10 bits,exact,|Z(E)|=2 |C|=2 C = predicted 2-set: 1 true in Z(E)/C = 1/1 C<=Z(E)=1 Z(E)<=C=1 degenerate t0 = 1,A,vm,07fb752,1.817,0
+10,9,9,univ_deg_E,32,1023,of q-1=1023,exact,deg lclm = 36,A,vm,07fb752,1.818,0
+10,9,9,bool_deg_C,32,9,of n=10 bits,exact,|Z(E)|=2 |C|=2 C = predicted 2-set: 1 true in Z(E)/C = 1/1 C<=Z(E)=1 Z(E)<=C=1 degenerate t0 = 1,A,vm,07fb752,1.818,0
+10,9,9,control_bool_deg_C,32,9,of n=10 bits,exact,WRONG t_1: |C|=2 |Z(E)|=2 true t_0 in C = 0,A,vm,07fb752,1.92,0
+11,3,4,deg_lclm_true,32,27,phi-degree,exact,"deg Lambda = [13, 14]; deg gcrd = 0",A,vm,07fb752,0.028,0
+11,3,4,deg_lclm_rand,32,27..27,phi-degree,exact,"deg gcrd in 0..0 over 32 random (t0,t1)",A,vm,07fb752,0.028,0
+11,3,4,kerint_true,32,0,F2-dim,exact,random: 0..0,A,vm,07fb752,0.028,0
+11,3,4,affine_solvable,32,1,0/1,exact,"random (t0,t1): 0/32 solvable",A,vm,07fb752,0.029,0
+11,3,4,bool_deg_E,32,11,of n=11 bits,exact,|Z(E)|=2 |C|=2 C = predicted 2-set: 1 true in Z(E)/C = 1/1 C<=Z(E)=1 Z(E)<=C=1 degenerate t0 = 1,A,vm,07fb752,2.256,0
+11,3,4,univ_deg_E,32,2047,of q-1=2047,exact,deg lclm = 27,A,vm,07fb752,2.256,0
+11,3,4,bool_deg_C,32,10,of n=11 bits,exact,|Z(E)|=2 |C|=2 C = predicted 2-set: 1 true in Z(E)/C = 1/1 C<=Z(E)=1 Z(E)<=C=1 degenerate t0 = 1,A,vm,07fb752,2.256,0
+11,3,4,control_bool_deg_C,32,10,of n=11 bits,exact,WRONG t_1: |C|=2 |Z(E)|=2 true t_0 in C = 0,A,vm,07fb752,2.307,0
+12,11,11,deg_lclm_true,32,44,phi-degree,exact,"deg Lambda = [22, 22]; deg gcrd = 0",A,vm,07fb752,0.062,0
+12,11,11,deg_lclm_rand,32,44..44,phi-degree,exact,"deg gcrd in 0..0 over 32 random (t0,t1)",A,vm,07fb752,0.062,0
+12,11,11,kerint_true,32,0,F2-dim,exact,random: 0..0,A,vm,07fb752,0.062,0
+12,11,11,affine_solvable,32,1,0/1,exact,"random (t0,t1): 0/32 solvable",A,vm,07fb752,0.062,0
+12,11,11,bool_deg_E,32,12,of n=12 bits,exact,|Z(E)|=2 |C|=2 C = predicted 2-set: 1 true in Z(E)/C = 1/1 C<=Z(E)=1 Z(E)<=C=1 degenerate t0 = 1,A,vm,07fb752,11.378,0
+12,11,11,univ_deg_E,32,4095,of q-1=4095,exact,deg lclm = 44,A,vm,07fb752,11.379,0
+12,11,11,bool_deg_C,32,11,of n=12 bits,exact,|Z(E)|=2 |C|=2 C = predicted 2-set: 1 true in Z(E)/C = 1/1 C<=Z(E)=1 Z(E)<=C=1 degenerate t0 = 1,A,vm,07fb752,11.379,0
+12,11,11,control_bool_deg_C,32,11,of n=12 bits,exact,WRONG t_1: |C|=2 |Z(E)|=2 true t_0 in C = 0,A,vm,07fb752,11.455,0
+13,3,5,deg_lclm_true,32,32,phi-degree,exact,"deg Lambda = [15, 17]; deg gcrd = 0",A,vm,07fb752,0.043,0
+13,3,5,deg_lclm_rand,32,32..32,phi-degree,exact,"deg gcrd in 0..0 over 32 random (t0,t1)",A,vm,07fb752,0.043,0
+13,3,5,kerint_true,32,0,F2-dim,exact,random: 0..0,A,vm,07fb752,0.043,0
+13,3,5,affine_solvable,32,1,0/1,exact,"random (t0,t1): 0/32 solvable",A,vm,07fb752,0.043,0
+13,3,5,bool_deg_E,32,13,of n=13 bits,exact,|Z(E)|=2 |C|=2 C = predicted 2-set: 1 true in Z(E)/C = 1/1 C<=Z(E)=1 Z(E)<=C=1 degenerate t0 = 1,A,vm,07fb752,13.228,0
+13,3,5,univ_deg_E,32,8191,of q-1=8191,exact,deg lclm = 32,A,vm,07fb752,13.228,0
+13,3,5,bool_deg_C,32,12,of n=13 bits,exact,|Z(E)|=2 |C|=2 C = predicted 2-set: 1 true in Z(E)/C = 1/1 C<=Z(E)=1 Z(E)<=C=1 degenerate t0 = 1,A,vm,07fb752,13.228,0
+13,3,5,control_bool_deg_C,32,-1,of n=13 bits,exact,WRONG t_1: |C|=0 |Z(E)|=0 true t_0 in C = 0,A,vm,07fb752,13.288,0
+14,3,5,deg_lclm_true,32,34,phi-degree,exact,"deg Lambda = [16, 18]; deg gcrd = 0",A,vm,07fb752,0.049,0
+14,3,5,deg_lclm_rand,32,34..34,phi-degree,exact,"deg gcrd in 0..0 over 32 random (t0,t1)",A,vm,07fb752,0.05,0
+14,3,5,kerint_true,32,0,F2-dim,exact,random: 0..0,A,vm,07fb752,0.05,0
+14,3,5,affine_solvable,32,1,0/1,exact,"random (t0,t1): 0/32 solvable",A,vm,07fb752,0.05,0
+14,3,5,bool_deg_E,32,14,of n=14 bits,exact,|Z(E)|=2 |C|=2 C = predicted 2-set: 1 true in Z(E)/C = 1/1 C<=Z(E)=1 Z(E)<=C=1 degenerate t0 = 1,A,vm,07fb752,32.001,0
+14,3,5,univ_deg_E,32,16383,of q-1=16383,exact,deg lclm = 34,A,vm,07fb752,32.002,0
+14,3,5,bool_deg_C,32,13,of n=14 bits,exact,|Z(E)|=2 |C|=2 C = predicted 2-set: 1 true in Z(E)/C = 1/1 C<=Z(E)=1 Z(E)<=C=1 degenerate t0 = 1,A,vm,07fb752,32.002,0
+14,3,5,control_bool_deg_C,32,13,of n=14 bits,exact,WRONG t_1: |C|=2 |Z(E)|=2 true t_0 in C = 0,A,vm,07fb752,35.433,0
+6,5,5,bool_deg_C_joint,20,11,of 2n=12 bits,exact,|C|=62 of 4096; true pair solvable=1,A,vm,07fb752,0.015,0
+7,6,6,bool_deg_C_joint,20,13,of 2n=14 bits,exact,|C|=126 of 16384; true pair solvable=1,A,vm,07fb752,0.076,0
+8,7,7,bool_deg_C_joint,20,16,of 2n=16 bits,exact,|C|=253 of 65536; true pair solvable=1,A,vm,07fb752,0.299,0
+9,8,8,bool_deg_C_joint,20,18,of 2n=18 bits,exact,|C|=509 of 262144; true pair solvable=1,A,vm,07fb752,1.225,0
+10,9,9,bool_deg_C_joint,20,20,of 2n=20 bits,exact,|C|=1021 of 1048576; true pair solvable=1,A,vm,07fb752,5.569,0
+11,3,4,bool_deg_C_joint,20,21,of 2n=22 bits,exact,|C|=2046 of 4194304; true pair solvable=1,A,vm,07fb752,25.316,0
