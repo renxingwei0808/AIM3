@@ -68,7 +68,20 @@ gpu     1x NVIDIA GeForce RTX 3080 (10 GB)   [unused by this batch]
 * `.sage` files are pre-parsed: integer literals become Sage `Integer`s.  `sys.exit(0)` therefore
   exits with status 1, and `round(x, 3)` returns a `RealDoubleElement` that `json` refuses to
   serialise.  Both are wrapped in `int()` / `float()` in the backend.
+* **`^` is exponentiation, not XOR.**  The preparser rewrites `a ^ b` to `a ** b` and `a ^= b` to
+  `a **= b` inside `.sage` files, so every bitwise XOR must be written `_xor(a, b)`
+  (`from operator import xor as _xor`).  This bit `sage/ore_scale.sage`: a Möbius transform written
+  with `arr[i] ^= arr[i ^ step]` raised `MemoryError` (it was computing a tower of powers).  A
+  `MemoryError` is the *lucky* case — `s ^= f0` on small values preparses to `s **= f0` and returns
+  a wrong number silently.  Grep every new `.sage` file for `^` before trusting its output.
 * `ulimit -v 32G` does **not** break Sage start-up (checked), so the memory caps are usable.
+* `OrePolynomialRing(K, K.frobenius_endomorphism())` works (it is marked experimental and warns), and
+  `f.left_xlcm(g)` returns `(l, u, v)` with `u*f == v*g == l`.  It is **50–1000× slower per `lclm`**
+  than the pure-Python `src/aim3/ore.py`: use it as a correctness reference, not as a workhorse.
+  The same ring over the rational function field `K(T)` (twist `T ↦ T²`, built with
+  `LF.hom([LF(T)^2], base_map=K.frobenius_endomorphism())`) is accepted but does not finish an
+  `lclm` of two degree-14 elements in 6 h at n = 8 — the degree in `T` doubles at every Euclidean
+  step.
 
 ### msolve notes
 

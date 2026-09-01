@@ -399,13 +399,13 @@ Eq1 is **separable** — `W(t₀) + V(t₁)` — so its variety is obtained by t
 looking `W(t₀)` up, then testing each hit against Eq2.  That is Θ(2ⁿ) field operations and forms no
 eliminated polynomial at all:
 
-| n | 7 | 10 | 13 | 16 | 18 | 20 | 22 |
-|---|---:|---:|---:|---:|---:|---:|---:|
-| eliminate (s) | 0.006 | 0.116 | 1.34 | 15.6 | 74.0 | 403 | 1536 |
-| batch 1 `Resultant` (s) | 294.5 | — | — | — | — | — | — |
+| n | 7 | 10 | 13 | 16 | 18 | 20 | 22 | 24 |
+|---|---:|---:|---:|---:|---:|---:|---:|---:|
+| eliminate (s) | 0.006 | 0.116 | 1.34 | 15.6 | 74.0 | 403 | 1536 | 7490 |
+| batch 1 `Resultant` (s) | 294.5 | — | — | — | — | — | — | — |
 
-**16 completed sizes, n = 7..22, no censoring** (full table and the un-tabled first run in §B.10).
-Least squares gives a slope of `log2(seconds)` against n of **1.182**, and every successive ratio
+**18 completed sizes, n = 7..24, no censoring** (full table and the un-tabled first run in §B.10).
+Least squares gives a slope of `log2(seconds)` against n of **1.167**, and every successive ratio
 lies in 1.71..3.00 — no regime change anywhere in the range.  The method is Θ(2ⁿ) by construction,
 so a slope near 1 is the expected answer; it is now measured over 16 sizes rather than assumed.
 

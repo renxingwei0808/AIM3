@@ -15,3 +15,5 @@ n,exps,seed,build_seconds,eliminate_seconds,roots,spurious,key_is_root,eq1_terms
 20,3;7;9,1,1.462,402.905,1,0,1,400,13851,1048574,524288,separable table lookup,1,B,luck-Precision-7920-Tower,db7e5b6,404.367,0
 21,2;4;5,1,2.677,766.789,3,2,1,441,15982,2097150,1048576,separable table lookup,1,B,luck-Precision-7920-Tower,db7e5b6,769.466,0
 22,3;5;7,1,4.167,1536.296,1,0,1,484,18690,4194302,2097152,separable table lookup,1,B,luck-Precision-7920-Tower,db7e5b6,1540.463,0
+23,2;3;4,1,9.984,2854.477,3,2,1,289,12053,8388598,4194304,separable table lookup,1,B,luck-Precision-7920-Tower,db7e5b6,2864.461,0
+24,5;7;11,1,18.63,7490.225,3,2,1,577,24541,16777214,8388608,separable table lookup,1,B,luck-Precision-7920-Tower,db7e5b6,7508.854,0

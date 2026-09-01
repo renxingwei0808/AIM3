@@ -34,6 +34,8 @@
 #   sage ore_scale.sage INSTANCE.json --out OUT.json [--trials 32] [--no-interp] [--no-symbolic]
 #                                     [--interp-budget SECONDS]
 import json, sys, time
+from operator import xor as _xor    # Sage's preparser turns `^` into EXPONENTIATION, so every
+                                   # bitwise XOR in this file has to be written as a function call
 
 try:
     sys.stdout.reconfigure(line_buffering=True)   # a buffered log is unpollable on a long run
@@ -281,7 +283,7 @@ if do_interp:
             while step < q:
                 for i2 in range(q):
                     if i2 & step:
-                        arr[i2] ^= arr[i2 ^ step]
+                        arr[i2] = _xor(arr[i2], arr[_xor(i2, step)])
                 step <<= 1
             d = -1
             for i2, cc in enumerate(arr):
@@ -305,9 +307,9 @@ if do_interp:
                     continue
                 s = 0
                 for lf, la in nz:
-                    s ^= expt[(lf - j * la) % qm]
+                    s = _xor(s, expt[(lf - j * la) % qm])
                 if j == q - 1:
-                    s ^= f0
+                    s = _xor(s, f0)
                 if s:
                     return int(j)
             return int(0) if f0 else int(-1)

@@ -6,3 +6,8 @@ ulimit -v: 64 GB
 results : /home/luck/rxw/AIM3_remote/out/B2_e05tab
 scratch : /home/luck/rxw/AIM3_remote/scratch/B2_e05tab
 command : python3 server/jobs/e05_cheap_elimination.py --ns 7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24 --tables --budget 7200 --csv E05_server_cheap_elimination.csv
+finished: 2026-09-01T06:19:52-07:00
+exit    : 0
+time    : Elapsed (wall clock) time (h:mm:ss or m:ss): 3:42:55
+time    : Maximum resident set size (kbytes): 3691684
+JOB_DONE_rc=0
