@@ -92,6 +92,24 @@ generator, and the condition sees the exponent — **which is how falls₄ can d
 at all**; a single-monomial family could not. This is the concrete starting point Theorem T1.2 needs,
 and it is in `docs/THEORY_NOTES.md` §2.6–2.7 with the symbolic verification.
 
+**An explicit basis and its kernel vectors** (`--basis`, `results/E03_theory_fall_basis.csv`).
+Labelling every Mac₄ row by its (equation, multiplier) pair and eliminating the weight-≤1-multiplier
+rows first (they span Mac₃ exactly), whatever then pivots in the low region is new, and its
+accumulated combination is the kernel vector. Exactly 2n every time, splitting n + n by whether the
+kernel vector uses any weight-1 multiplier:
+
+| (n,e) | 2n | block A (wt-1 used) | block B (none) | P₃ rows in A | P₃ rows in B | kernel-vector size |
+|---|---:|---:|---:|---:|---:|---:|
+| (11,3) | 22 | 11 | 11 | 46–76 | 634–699 | 1645–2677 |
+| (11,4) | 22 | 11 | 11 | 55–73 | 643–701 | 1656–2668 |
+| (13,3) | 26 | 13 | 13 | 53–97 | 1234–1283 | 2774–4734 |
+| (13,5) | 26 | 13 | 13 | 83–107 | 1182–1286 | 2807–4729 |
+
+Same n+n split the leave-one-out finds, seen from the other side (block B is the P₃-heavy half).
+Two caveats: the basis is echelon-derived, so only the counts and the coarse A/B split are canonical;
+and the kernel vectors are **dense** — 1645–4734 of the 8382 (resp. 13728) rows each. So there is no
+sparse identity of the syzygy kind to be found, which independently confirms the refutation above.
+
 **A structural obstruction, worth stating in the paper.** falls₄ = 2n invites "two field cubics,
 n coordinates each". That cannot be the general shape: the classes {−3,(−3)⁻¹} and {n/2−1} give
 **2n+1**, and 2n+1 is not a multiple of n. Any correct description must produce a lone extra element

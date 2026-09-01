@@ -49,8 +49,8 @@ sys.path.insert(0, os.path.join(os.path.dirname(__file__), ".."))
 from _common import record
 from aim3.gf2n import GF2n
 from aim3.fieldpoly import FieldPoly, var_field, trace_poly, boolean_coords
-from aim3.boolmac import (monomial_columns, poly_rows, macaulay_stats, fall_space,
-                          span_rank, reduce_modulo)
+from aim3.boolmac import (monomial_columns, poly_rows, labelled_rows, macaulay_stats,
+                          fall_space, span_rank, reduce_modulo)
 
 
 # ---------------------------------------------------------------- helpers
@@ -64,6 +64,52 @@ def poly_to_row(poly, col):
             mask |= 1 << i
         r |= 1 << col[mask]
     return r
+
+
+def fall_basis(n, e, budget=None):
+    """A BASIS of the 2n new cubics, with the kernel vector of each one.
+
+    This is the deliverable "record the kernel vectors: which multiplier x equation combinations give
+    a degree-3 element".  Every row of Mac_4 is labelled (equation index, multiplier mask).  Rows
+    whose multiplier has weight <= 1 are already of degree <= 3 (a degree-2 equation times a
+    degree-<=1 monomial), so they span Mac_3 exactly and carry no degree-4 part; they are therefore
+    put FIRST in the elimination.  Whatever acquires a pivot after that block is new modulo Mac_3,
+    and its accumulated combination is the kernel vector: the set of (multiplier, equation) pairs
+    whose degree-4 parts cancel.
+
+    Returns (basis, labels) where basis is a list of dicts, one per new cubic.
+    """
+    F = GF2n(n)
+    X, Y = var_field(F, 0), var_field(F, n)
+    one = FieldPoly.constant(F, 1)
+    P1f = X * Y + X.frob(e) + one
+    eqs = boolean_coords(P1f) + boolean_coords(X * P1f) + boolean_coords(Y * P1f)
+    nv = 2 * n
+    col, ncol, top_start = monomial_columns(nv, 4)
+    topmask = ((1 << ncol) - 1) ^ ((1 << top_start) - 1)
+
+    labelled = list(labelled_rows(eqs, nv, 4, col=col, mult_deg=2))
+    # Mac_3 rows first: their multiplier has weight <= 1, so they have no degree-4 part
+    order = sorted(range(len(labelled)), key=lambda i: labelled[i][2].bit_count())
+    n_mac3 = sum(1 for _, _, mu in labelled if mu.bit_count() <= 1)
+
+    piv, basis = {}, []
+    for pos, idx in enumerate(order):
+        row, ei, mu = labelled[idx]
+        r, c = row, 1 << idx
+        while r:
+            b = r.bit_length() - 1
+            pv = piv.get(b)
+            if pv is None:
+                piv[b] = (r, c)
+                # a pivot in the LOW region acquired after the Mac_3 block is a new cubic:
+                # the Mac_3 rows came first, so they have already claimed rank(Mac_3) low pivots
+                if b < top_start and pos >= n_mac3:
+                    basis.append((r, c))
+                break
+            r ^= pv[0]
+            c ^= pv[1]
+    return basis, labelled, n_mac3, len(order)
 
 
 def orbit_report(nmax=20, nmin=5):
@@ -366,6 +412,9 @@ if __name__ == "__main__":
     ap.add_argument("--sbox", nargs=2, type=int, metavar=("N", "E"))
     ap.add_argument("--kernel", type=int, metavar="N")
     ap.add_argument("--all", action="store_true")
+    ap.add_argument("--basis", nargs=2, type=int, metavar=("N", "E"),
+                    help="emit a basis of the 2n new cubics together with the kernel vector "
+                         "(which multiplier x equation combinations) of each")
     ap.add_argument("--orbits", action="store_true",
                     help="only print the Frobenius-orbit lemma check and the closed form (cheap)")
     ap.add_argument("--track", action="store_true")
@@ -374,6 +423,44 @@ if __name__ == "__main__":
                          "leave-one-out sweeps (expensive at n=13)")
     a = ap.parse_args()
     print(f"# params: sbox={a.sbox} kernel={a.kernel} all={a.all} orbits={a.orbits} track={a.track}")
+    if a.basis:
+        import time as _t
+        t0 = _t.time()
+        n, e = a.basis
+        basis, labelled, n_mac3, ntot = fall_basis(n, e)
+        print(f"n={n} e={e}: {ntot} labelled Mac_4 rows, of which {n_mac3} have a weight-<=1 "
+              f"multiplier and span Mac_3; {len(basis)} new cubics (2n = {2*n})")
+        eqname = lambda ei: ("P1", "P2", "P3")[ei // n]
+        print(f"{'#':>3} {'support':>8} {'wt-1 mult':>10} {'wt-2 mult':>10} "
+              f"{'P1':>5} {'P2':>5} {'P3':>5}  families")
+        rows = []
+        for k, (low, combo) in enumerate(basis):
+            idxs, v = [], combo
+            while v:
+                b = (v & -v).bit_length() - 1
+                idxs.append(b)
+                v &= v - 1
+            w1 = sum(1 for i in idxs if labelled[i][2].bit_count() <= 1)
+            w2 = len(idxs) - w1
+            byeq = {"P1": 0, "P2": 0, "P3": 0}
+            fams = {}
+            for i in idxs:
+                _, ei, mu = labelled[i]
+                byeq[eqname(ei)] += 1
+                if mu.bit_count() == 2:
+                    lo = [j for j in range(2 * n) if (mu >> j) & 1]
+                    kind = "xx" if lo[1] < n else ("yy" if lo[0] >= n else "xy")
+                    fams[f"{kind}*{eqname(ei)}"] = fams.get(f"{kind}*{eqname(ei)}", 0) + 1
+            top = ";".join(f"{kk}={vv}" for kk, vv in sorted(fams.items(), key=lambda t: -t[1])[:3])
+            print(f"{k:>3} {len(idxs):>8} {w1:>10} {w2:>10} "
+                  f"{byeq['P1']:>5} {byeq['P2']:>5} {byeq['P3']:>5}  {top}")
+            rows.append(dict(n=n, e=e, index=k, combo_size=len(idxs), mult_wt1=w1, mult_wt2=w2,
+                             from_P1=byeq["P1"], from_P2=byeq["P2"], from_P3=byeq["P3"],
+                             weight2_families=top))
+        for _r in rows:                      # append: one row per basis element, across (n,e) runs
+            record("E03_theory_fall_basis.csv", _r, seconds=_t.time() - t0)
+        print(f"written results/E03_theory_fall_basis.csv ({_t.time()-t0:.0f}s)")
+        sys.exit(0)
     if a.orbits:
         from _common import record_table
         record_table("E03_theory_orbit_lemma.csv", orbit_report(), seconds=0)

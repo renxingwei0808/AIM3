@@ -141,6 +141,19 @@ each carry \emph{two} degree-4 monomials, the second of which involves $2^e$. Ca
 therefore occur inside a single generator, and the condition sees the exponent --- which is how
 $\mathrm{falls}_4$ can depend on the class of $e$ at all. A single-monomial family could not.
 
+%% ledger: R
+\begin{observation}[an explicit basis]\label{obs:basis}
+\Verified{$(n,e)=(11,3),(11,4),(13,3),(13,5)$} Labelling each row of $\Mac_4$ by its (equation,
+multiplier) pair and eliminating the weight-$\le1$-multiplier rows first --- they are of degree
+$\le3$ and span $\Mac_3$ exactly --- the pivots subsequently acquired in the low region are a basis
+of the $2n$ new cubics, and their accumulated combinations are the kernel vectors. The basis splits
+$n+n$ according to whether a kernel vector uses any weight-1 multiplier, the second half being the
+$P_3$-heavy one; this is the split of Observation~\ref{obs:two-families} seen from the other side.
+The kernel vectors are \emph{dense} (between $1645$ and $4734$ of the $8382$, resp.\ $13728$, rows),
+so no sparse identity of the kind that gives the $3n$ syzygies of
+Proposition~\ref{prop:trivial-syz} exists here.
+\end{observation}
+
 \begin{remark}[an obstruction to the obvious shape]\label{rem:obstruction}
 $\mathrm{falls}_4=2n$ invites the description ``two field cubics, $n$ coordinates each''. That cannot
 be the general shape: the classes $\{-3,(-3)^{-1}\}$ and $\{n/2-1\}$ give $2n+1$

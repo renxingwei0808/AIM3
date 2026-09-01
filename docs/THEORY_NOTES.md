@@ -166,6 +166,31 @@ for the exponent coincidences, and the same for the $P_3$ family; the class tabl
 `results/E03_summary.md` should drop out, including the sign asymmetry of $3e\equiv\pm1$ and the lone
 extra element of the $2n+1$ classes (which §2.5 says cannot be an $n$-block).
 
+### 2.8 An explicit basis, and its kernel vectors
+
+`fall_generators.py --basis n e` produces the deliverable directly: every row of $\mathrm{Mac}_4$ is
+labelled by its (equation, multiplier) pair; the rows whose multiplier has weight $\le1$ are already
+of degree $\le3$ and span $\mathrm{Mac}_3$ exactly, so they are eliminated **first**; anything that
+then acquires a pivot in the low region is new modulo $\mathrm{Mac}_3$, and its accumulated
+combination *is* the kernel vector. The count comes out at exactly $2n$ every time, and the basis
+splits cleanly in two ($n$ + $n$), by whether the kernel vector uses any weight-1 multiplier at all:
+
+| $(n,e)$ | $2n$ | block A (uses wt-1 multipliers) | block B (uses none) | $P_3$ rows in A | $P_3$ rows in B | kernel-vector size |
+|---|---:|---:|---:|---:|---:|---:|
+| (11,3) | 22 | 11 | 11 | 46–76 | 634–699 | 1645–2677 |
+| (11,4) | 22 | 11 | 11 | 55–73 | 643–701 | 1656–2668 |
+| (13,3) | 26 | 13 | 13 | 53–97 | 1234–1283 | 2774–4734 |
+| (13,5) | 26 | 13 | 13 | 83–107 | 1182–1286 | 2807–4729 |
+
+(`results/E03_theory_fall_basis.csv`, one row per basis element.) The $n+n$ split is the same one the
+leave-one-out finds, seen from the other side: block B is the $P_3$-heavy half.
+
+**Two caveats, and one more refutation.** The basis is echelon-derived, so an individual element is
+not canonical — only the counts and the coarse A/B split are. And the kernel vectors are **dense**:
+1645–4734 of the 8382 (resp. 13728) labelled rows take part in each one. There is therefore no sparse
+identity of the syzygy kind ($3n$ of the $D=3$ syzygies each use $O(1)$ rows) waiting to be found;
+that is independent confirmation of §2.4, from the kernel side rather than the module side.
+
 ---
 
 ## 3. The kernel model's $6n$ new quadratics at $D=3$ — fully explained [VERIFIED n=7,9]
