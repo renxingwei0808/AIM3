@@ -19,7 +19,7 @@ implementation on small systems; do not change the column ordering without re-ru
 from __future__ import annotations
 import itertools, time
 
-__all__ = ["monomial_columns", "poly_rows", "labelled_rows", "macaulay_stats", "fall_space", "span_rank", "reduce_modulo",
+__all__ = ["monomial_columns", "poly_rows", "multiplier_masks", "labelled_rows", "macaulay_stats", "fall_space", "span_rank", "reduce_modulo",
            "MacaulayResult", "MacaulayTimeout"]
 
 
@@ -82,24 +82,39 @@ def _as_masks(poly):
     return out
 
 
-def poly_rows(eqs, nv: int, D: int, col=None, mult_deg=None):
+def multiplier_masks(nv: int, mult_deg: int, mult_vars=None):
+    """The multiplier monomials, as variable bitmasks, in the canonical order.
+
+    `mult_vars` restricts the multipliers to squarefree monomials in that subset of the variables
+    (the identity multiplier is always present).  It is what a *block-restricted* XL uses: for the
+    E06 kernel model, multiplying only by the W block asks whether the bilinear structure lets the
+    system linearise at a lower degree than the full multiplier set does.  `None` = every variable,
+    which is the historical behaviour.
+    """
+    pool = range(nv) if mult_vars is None else sorted(set(mult_vars))
+    out = []
+    for d in range(mult_deg + 1):
+        for m in itertools.combinations(pool, d):
+            mask = 0
+            for i in m:
+                mask |= 1 << i
+            out.append(mask)
+    return out
+
+
+def poly_rows(eqs, nv: int, D: int, col=None, mult_deg=None, mult_vars=None):
     """Yield the Macaulay rows of `eqs` at degree D as integers (bit i = column i).
 
     Multipliers are all squarefree monomials of degree <= `mult_deg` (default D-2, the
     convention used by legacy/aim3_macaulay.py: an equation of degree 2 times a multiplier of
-    degree <= D-2 lands in degree <= D).  Rows that vanish or exceed degree D are dropped.
+    degree <= D-2 lands in degree <= D), optionally restricted to the variables `mult_vars`.
+    Rows that vanish or exceed degree D are dropped.
     """
     if col is None:
         col, _, _ = monomial_columns(nv, D)
     if mult_deg is None:
         mult_deg = D - 2
-    mults = []
-    for d in range(mult_deg + 1):
-        for m in itertools.combinations(range(nv), d):
-            mask = 0
-            for i in m:
-                mask |= 1 << i
-            mults.append(mask)
+    mults = multiplier_masks(nv, mult_deg, mult_vars)
     for f in eqs:
         fm = _as_masks(f)
         for mu in mults:
@@ -159,7 +174,8 @@ def _eliminate(row_iter, top_start, ncol=None, deadline=None):
     return nrows, len(piv), low
 
 
-def macaulay_stats(eqs, nv: int, D: int, mult_deg=None, budget=None) -> MacaulayResult:
+def macaulay_stats(eqs, nv: int, D: int, mult_deg=None, budget=None,
+                   mult_vars=None) -> MacaulayResult:
     """Rows / columns / rank / syzygies / dim(span ∩ deg<=D-1) of the degree-D Macaulay matrix.
 
     `budget` (seconds) raises MacaulayTimeout instead of running forever; the exception carries
@@ -167,7 +183,8 @@ def macaulay_stats(eqs, nv: int, D: int, mult_deg=None, budget=None) -> Macaulay
     """
     col, ncol, top_start = monomial_columns(nv, D)
     deadline = None if budget is None else time.monotonic() + budget
-    nrows, rank, low = _eliminate(poly_rows(eqs, nv, D, col=col, mult_deg=mult_deg),
+    nrows, rank, low = _eliminate(poly_rows(eqs, nv, D, col=col, mult_deg=mult_deg,
+                                            mult_vars=mult_vars),
                                   top_start, ncol=ncol, deadline=deadline)
     return MacaulayResult(nrows, ncol, rank, low)
 

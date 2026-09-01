@@ -29,7 +29,7 @@ from __future__ import annotations
 import itertools, json, os, struct, subprocess, sys, tempfile, time
 from array import array
 
-from .boolmac import monomial_columns, MacaulayResult
+from .boolmac import monomial_columns, MacaulayResult, multiplier_masks
 
 __all__ = ["poly_row_indices", "export_macaulay", "read_macaulay", "macaulay_stats_sage",
            "SageBackendError", "sage_backend_script"]
@@ -42,19 +42,7 @@ class SageBackendError(RuntimeError):
     """The Sage rank backend failed; the caller must NOT fall back silently to another engine."""
 
 
-def _multipliers(nv: int, mult_deg: int):
-    """The multiplier monomials of `boolmac.poly_rows`, in the same order."""
-    out = []
-    for d in range(mult_deg + 1):
-        for m in itertools.combinations(range(nv), d):
-            mask = 0
-            for i in m:
-                mask |= 1 << i
-            out.append(mask)
-    return out
-
-
-def poly_row_indices(eqs, nv: int, D: int, col=None, mult_deg=None):
+def poly_row_indices(eqs, nv: int, D: int, col=None, mult_deg=None, mult_vars=None):
     """Yield each Macaulay row as a sorted list of column indices.
 
     Mirrors `boolmac.poly_rows` exactly — same multiplier order, same "drop the row if it vanishes
@@ -64,7 +52,7 @@ def poly_row_indices(eqs, nv: int, D: int, col=None, mult_deg=None):
         col, _, _ = monomial_columns(nv, D)
     if mult_deg is None:
         mult_deg = D - 2
-    mults = _multipliers(nv, mult_deg)
+    mults = multiplier_masks(nv, mult_deg, mult_vars)
     for f in eqs:
         fm = []
         for m in f:
@@ -91,7 +79,7 @@ def poly_row_indices(eqs, nv: int, D: int, col=None, mult_deg=None):
             yield idx
 
 
-def export_macaulay(eqs, nv: int, D: int, path: str, mult_deg=None):
+def export_macaulay(eqs, nv: int, D: int, path: str, mult_deg=None, mult_vars=None):
     """Write the degree-D Macaulay matrix of `eqs` to `path`; return the meta dict."""
     col, ncol, top_start = monomial_columns(nv, D)
     if mult_deg is None:
@@ -101,7 +89,8 @@ def export_macaulay(eqs, nv: int, D: int, path: str, mult_deg=None):
     with open(path, "wb") as fh:
         fh.write(MAGIC)
         fh.write(_HDR.pack(0, 0, 0, 0))                     # placeholder, rewritten below
-        for idx in poly_row_indices(eqs, nv, D, col=col, mult_deg=mult_deg):
+        for idx in poly_row_indices(eqs, nv, D, col=col, mult_deg=mult_deg,
+                                    mult_vars=mult_vars):
             fh.write(struct.pack("<I", len(idx)))
             array("I", idx).tofile(fh)
             nrows += 1
@@ -144,7 +133,8 @@ def sage_backend_script():
 
 
 def macaulay_stats_sage(eqs, nv: int, D: int, mult_deg=None, workdir=None, keep=False,
-                        sage=None, timeout=None, tag="mac", verbose=True) -> MacaulayResult:
+                        sage=None, timeout=None, tag="mac", verbose=True,
+                        mult_vars=None) -> MacaulayResult:
     """Same return value as `boolmac.macaulay_stats`, computed by Sage/M4RI.
 
     `workdir` (default: a temp dir, removed unless `keep`) holds the exported matrix; matrices are
@@ -160,7 +150,7 @@ def macaulay_stats_sage(eqs, nv: int, D: int, mult_deg=None, workdir=None, keep=
     mat = os.path.join(tmp, f"{tag}_nv{nv}_D{D}.bin")
     out = mat + ".rank.json"
     try:
-        meta = export_macaulay(eqs, nv, D, mat, mult_deg=mult_deg)
+        meta = export_macaulay(eqs, nv, D, mat, mult_deg=mult_deg, mult_vars=mult_vars)
         if verbose:
             print(f"     [sage] exported {meta['nrows']}x{meta['ncols']} ({meta['nnz']} nnz, "
                   f"{meta['bytes']/2**20:.1f} MiB) in {meta['export_seconds']:.1f}s", flush=True)
@@ -304,7 +294,8 @@ def relation_dim_sage(points, nv: int, deg: int, workdir=None, keep=False, sage=
 
 
 def macaulay_stats_backend(eqs, nv: int, D: int, backend="python", budget=None, mult_deg=None,
-                           workdir=None, keep=False, sage=None, tag="mac", verbose=True):
+                           workdir=None, keep=False, sage=None, tag="mac", verbose=True,
+                           mult_vars=None):
     """Dispatch `boolmac.macaulay_stats` (backend='python') or the Sage/M4RI engine ('sage').
 
     Both raise `boolmac.MacaulayTimeout` when `budget` is exceeded.  For the Sage engine there is no
@@ -313,12 +304,13 @@ def macaulay_stats_backend(eqs, nv: int, D: int, backend="python", budget=None, 
     """
     from .boolmac import macaulay_stats, MacaulayTimeout
     if backend == "python":
-        return macaulay_stats(eqs, nv, D, mult_deg=mult_deg, budget=budget)
+        return macaulay_stats(eqs, nv, D, mult_deg=mult_deg, budget=budget, mult_vars=mult_vars)
     if backend != "sage":
         raise ValueError(f"unknown backend {backend!r} (expected 'python' or 'sage')")
     try:
         return macaulay_stats_sage(eqs, nv, D, mult_deg=mult_deg, workdir=workdir, keep=keep,
-                                   sage=sage, timeout=budget, tag=tag, verbose=verbose)
+                                   sage=sage, timeout=budget, tag=tag, verbose=verbose,
+                                   mult_vars=mult_vars)
     except subprocess.TimeoutExpired:
         _, ncol, _ = monomial_columns(nv, D)
         raise MacaulayTimeout(MacaulayResult(0, ncol, 0, 0), budget or 0.0)

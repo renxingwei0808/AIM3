@@ -53,8 +53,24 @@ from _common import record
 from aim3_macaulay import build_aim3, random_system
 from aim3.boolmac import macaulay_stats, MacaulayTimeout
 from aim3.boolmac_export import macaulay_stats_backend
+from aim3.structures import degenerate_class
 
 SCRATCH = os.environ.get("AIM3_SCRATCH")
+
+
+def generic_exps(n, ell):
+    """The smallest ell+1 admissible exponents whose `degenerate_class` is empty.
+
+    `default_exps` always starts at e = 2, which is the degenerate {2, 2^-1} class (7n falls instead
+    of 2n).  Server batch 1 showed that a measurement can depend on that choice -- the pair excess at
+    ell=3, n=11 was n with e=2 present and 0 without it -- so batch 2 builds every new instance from
+    non-degenerate exponents.  Raises if there are not enough.
+    """
+    cand = [e for e in range(2, n - 1) if gcd(e, n) == 1 and not degenerate_class(n, e)]
+    if len(cand) < ell + 1:
+        raise SystemExit(f"n={n}: only {len(cand)} non-degenerate admissible exponents {cand}, "
+                         f"need {ell+1} (use the default list, or a larger n)")
+    return cand[:ell + 1]
 
 
 def default_exps(n, ell):
@@ -77,9 +93,11 @@ def measure(name, eqs, nv, D, budget, backend="python"):
         return exc.partial, 1, time.time() - t0
 
 
-def run(n, ell, seed, systems, budget, per_block=False, backend="python"):
+def run(n, ell, seed, systems, budget, per_block=False, backend="python", generic=False,
+        exps=None):
     from math import comb
-    exps = default_exps(n, ell)
+    if exps is None:
+        exps = generic_exps(n, ell) if generic else default_exps(n, ell)
     nv, eqsP1, eqsAll, _ = build_aim3(n, exps, seed=seed)
     assert nv == (ell + 1) * n
     target = (ell + 1) * 2 * n
@@ -160,8 +178,19 @@ if __name__ == "__main__":
                     help="also run each S-box's 3n quadratics alone in the same variables (direct-sum control)")
     ap.add_argument("--backend", choices=["python", "sage"], default="python",
                     help="rank engine: pure Python (default) or Sage/M4RI")
+    ap.add_argument("--exps", default=None,
+                    help="explicit comma-separated exponents; needed at the n where fewer than "
+                         "ell+1 non-degenerate exponents exist (n = 9, 11, 15 at ell = 2)")
+    ap.add_argument("--generic-exps", action="store_true",
+                    help="use the smallest ell+1 NON-DEGENERATE exponents instead of the default "
+                         "list, which always starts at the degenerate e=2")
     a = ap.parse_args()
     print(f"# params: n={a.n} ell={a.ell} seeds={a.seeds} systems={a.systems} budget={a.budget}s "
-          f"per_block={a.per_block} backend={a.backend}")
+          f"per_block={a.per_block} backend={a.backend} generic_exps={a.generic_exps} "
+          f"exps={a.exps}")
+    exps = [int(v) for v in a.exps.split(",")] if a.exps else None
+    if exps is not None and len(exps) != a.ell + 1:
+        raise SystemExit(f"--exps needs {a.ell+1} values for ell={a.ell}, got {exps}")
     for seed in [int(s) for s in a.seeds.split(",")]:
-        run(a.n, a.ell, seed, a.systems.split(","), a.budget, a.per_block, a.backend)
+        run(a.n, a.ell, seed, a.systems.split(","), a.budget, a.per_block, a.backend,
+            a.generic_exps, exps)

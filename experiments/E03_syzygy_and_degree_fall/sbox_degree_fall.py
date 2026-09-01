@@ -6,6 +6,12 @@ degree falls to degree 3.  Establishes: first-fall degree 4 with ~2n new cubics 
 Usage: python3 sbox_degree_fall.py n e [--no-mac4] [--no-points] [--censored] [--backend python|sage]
   --no-mac4   skip the (expensive) D=4 pass
   --no-points skip dim I(V)_<=3 (the O(2^n) point matrix); the D=4 fall count is unaffected
+  --pointset-deg D
+              measure dim I(V_e)_<=D instead of <=3 and write the row to
+              results/E03_server_pointset.csv (the D=3 table keeps its own header).  Only
+              meaningful when 2^n - 1 >> C(2n,<=D): at D=4 that needs n >= 16 (at n=14 the graph
+              has 16383 points against C(28,<=4) = 24158 monomials, so ANY instance has >= 7775
+              relations from the point deficit alone).
   --censored  mark the CSV row as a censored run (its D=4 numbers are then missing, never a value)
   --backend   'python' (default, src/aim3/boolmac.py) or 'sage' (M4RI via
               experiments/E04_full_system_hilbert/sage/rank_backend.sage; scratch dir $AIM3_SCRATCH).
@@ -55,15 +61,36 @@ def macaulay(eqs, nv, D, backend=None):
 
 if __name__ == "__main__":
     n, e = int(sys.argv[1]), int(sys.argv[2])
+    PDEG = int(sys.argv[sys.argv.index("--pointset-deg") + 1]) if "--pointset-deg" in sys.argv else 3
     if "--backend" in sys.argv:
         BACKEND = sys.argv[sys.argv.index("--backend") + 1]
         if BACKEND not in ("python", "sage"):
             raise SystemExit(f"--backend must be python or sage, not {BACKEND!r}")
-    print(f"# params: n={n} e={e} backend={BACKEND} flags={[a for a in sys.argv[3:]]}")
+    print(f"# params: n={n} e={e} backend={BACKEND} pointset_deg={PDEG} "
+          f"flags={[a for a in sys.argv[3:]]}")
     fld, P1, P2, P3 = sbox_system(n, e)
     allq = P1 + P2 + P3
     nv = 2 * n
     t0 = time.time()
+    if PDEG != 3:
+        # dim I(V_e)_<=PDEG on its own, written to its own table; the Macaulay side of the
+        # comparison is D=PDEG+1 (results/E03_server_D5.csv) and is produced by server/jobs/e03_d5.py
+        from math import comb as _comb
+        pts = [x | (sbox(fld, x, e) << n) for x in range(1, fld.q)]
+        cols = sum(_comb(nv, d) for d in range(PDEG + 1))
+        meaningful = (fld.q - 1) >= cols
+        print(f"   point set: {len(pts)} points vs C({nv},<={PDEG}) = {cols} monomials -- "
+              f"{'meaningful' if meaningful else 'DOMINATED BY THE POINT DEFICIT, not an ideal statement'}")
+        dimP, totP, rkP = relation_dim(pts, nv, PDEG)
+        print(f"n={n} e={e}: dim I(V)_<={PDEG} = {dimP} of {totP} monomials "
+              f"(point-matrix rank {rkP}); deficit floor = {max(0, cols - (fld.q - 1))}")
+        record("E03_server_pointset.csv",
+               dict(n=n, e=e, deg=PDEG, npoints=len(pts), monomials=totP, point_rank=rkP,
+                    dim_IV=dimP, deficit_floor=max(0, cols - (fld.q - 1)),
+                    meaningful=int(meaningful),
+                    degenerate=";".join(degenerate_class(n, e))),
+               seconds=time.time() - t0, tier="B")
+        raise SystemExit(0)
     if "--no-points" in sys.argv:
         dim3, tot3 = "", ""
     else:

@@ -20,7 +20,8 @@ set -uo pipefail
 ROOT="$(cd "$(dirname "${BASH_SOURCE[0]}")/../.." && pwd)"
 BASE=${AIM3_BASE:-/home/luck/rxw/AIM3_remote}
 export AIM3_SAGE=${AIM3_SAGE:-$BASE/opt/envs/sage10/bin/sage}
-DATE=$(date +%Y%m%d)
+# AIM3_DATE lets a later batch file its artefacts under its own results/server/<date>_<EXP>
+DATE=${AIM3_DATE:-$(date +%Y%m%d)}
 
 launch() {          # launch <session> <exp> <name> <mem_gb> <command...>
   local sess=$1 exp=$2 name=$3 mem=$4; shift 4

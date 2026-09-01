@@ -11,12 +11,20 @@ plus a random linear part plus the constant that plants a random root.  This iso
 model's degree-fall behaviour is due to bilinearity alone and what is due to the AIM3 structure.
 
 Usage: python3 kernel_bilinear_toy.py n [Dmax] [--no-control] [--budget SEC]
-                                        [--backend python|sage] [--export DIR]
+                                        [--backend python|sage] [--export DIR] [--generic-exps]
+                                        [--mult-block W|U]
        (n=5,7 in seconds; n=9 D<=3; larger -> server).  Appends to results/E06_kernel_model_falls.csv.
   --backend  rank engine; 'sage' routes every Macaulay matrix through M4RI (verified identical to
              the pure-Python engine by server/jobs/verify_backend.py).  Scratch: $AIM3_SCRATCH.
   --export   also write the kernel model (and the systems it is compared against) to DIR in msolve
              and Magma BooleanPolynomialRing syntax, for the F4 step-degree runs of E04 task 6.
+  --mult-block W|U
+             restrict the Macaulay multipliers to one block of the kernel model's variables --
+             U = (pt, t0, t1) = variables 0..3n-1, W = (a0, a1, a2) = variables 3n..6n-1 -- instead
+             of using every variable.  This is a block-restricted XL: the question it answers is
+             whether the bilinear structure lets the system linearise (rank = #columns - 1) at a
+             LOWER degree when only one side is multiplied.  Only the 6n/6n systems (kernel and the
+             random bilinear control) have the two blocks; the 3n-variable systems are skipped.
 """
 import sys, os, random, itertools, time
 sys.path.insert(0, os.path.join(os.path.dirname(__file__), ".."))
@@ -27,6 +35,7 @@ from aim3_macaulay import AffExpr, prod_coords, lin_coords, add_polys, build_aim
 from aim3.boolmac import macaulay_stats, MacaulayTimeout
 from aim3.boolmac_export import macaulay_stats_backend
 from aim3.polysys_export import write_system
+from aim3.structures import degenerate_class
 
 SCRATCH = os.environ.get("AIM3_SCRATCH")
 
@@ -113,11 +122,12 @@ def build_kernel_model(n, exps, seed=1):
     assert all(ev(p) == 0 for p in eqs), "kernel model does not vanish at the key"
     return nv, eqs, sol
 
-def measure(name, eqs, nv, D, budget, backend="python"):
+def measure(name, eqs, nv, D, budget, backend="python", mult_vars=None):
     t0 = time.time()
     try:
         return macaulay_stats_backend(eqs, nv, D, backend=backend, budget=budget, workdir=SCRATCH,
-                                      tag=f"e06_{name}_nv{nv}"), 0, time.time() - t0
+                                      tag=f"e06_{name}_nv{nv}",
+                                      mult_vars=mult_vars), 0, time.time() - t0
     except MacaulayTimeout as exc:
         print(f"     !! {name} D={D} exceeded {budget:.0f}s -> lower bounds only")
         return exc.partial, 1, time.time() - t0
@@ -129,11 +139,21 @@ if __name__ == "__main__":
     budget = float(sys.argv[sys.argv.index("--budget") + 1]) if "--budget" in sys.argv else 3600.0
     backend = sys.argv[sys.argv.index("--backend") + 1] if "--backend" in sys.argv else "python"
     export_dir = sys.argv[sys.argv.index("--export") + 1] if "--export" in sys.argv else None
+    mult_block = sys.argv[sys.argv.index("--mult-block") + 1] if "--mult-block" in sys.argv else None
+    if mult_block not in (None, "W", "U"):
+        raise SystemExit("--mult-block must be W or U")
     # e up to n-1 (the spec only asks gcd(e,n)=1); needed to get three exponents at n=5.
     # For n=7,9 this is the same list [2,3,4] / [2,4,5] the script used before.
-    exps = [e for e in range(2, n) if gcd(e, n) == 1][:3]
+    if "--generic-exps" in sys.argv:
+        cand = [e for e in range(2, n) if gcd(e, n) == 1 and not degenerate_class(n, e)]
+        if len(cand) < 3:
+            raise SystemExit(f"n={n}: only {len(cand)} non-degenerate exponents {cand}, need 3")
+        exps = cand[:3]
+    else:
+        exps = [e for e in range(2, n) if gcd(e, n) == 1][:3]
     print(f"# params: n={n} Dmax={Dmax} exps={exps} control={'--no-control' not in sys.argv} "
-          f"budget={budget}s backend={backend} export={export_dir}")
+          f"budget={budget}s backend={backend} export={export_dir} mult_block={mult_block} "
+          f"generic_exps={'--generic-exps' in sys.argv}")
     nv, eqs, sol = build_kernel_model(n, exps)
     print(f"kernel bilinear model: n={n} exps={exps}: {len(eqs)} eqs in {nv} vars (6n) - vanishes at key: OK")
     nv2, eqsP1, eqsAll, _ = build_aim3(n, exps)
@@ -147,24 +167,36 @@ if __name__ == "__main__":
         systems.append(("random_quadratic", "random quadratic control (9n / 3n)", rq, nv2))
     if export_dir:
         for tag, name, E, V in systems:
-            info = write_system(E, V, export_dir, f"E06_n{n}_{tag}", sysname=tag,
+            pfx = "E06g" if "--generic-exps" in sys.argv else "E06"
+            info = write_system(E, V, export_dir, f"{pfx}_n{n}_{tag}", sysname=tag,
                                 sol=sol if tag == "kernel" else None,
                                 meta=dict(experiment="E06", n=n, ell=2, exps=exps, system=tag,
                                           seed=1))
             print(f"  [export] {tag}: {info['neqs']} eqs / {info['nvars']} vars, "
-                  f"{info['terms']} terms -> {export_dir}/E06_n{n}_{tag}.{{ms,magma.m,json}}")
+                  f"{info['terms']} terms -> {export_dir}/{pfx}_n{n}_{tag}.{{ms,magma.m,json}}")
     for tag, name, E, V in systems:
-        print(f"  {name}")
+        mv = None
+        if mult_block:
+            if V != 6 * n:
+                print(f"  {name}: skipped (--mult-block needs the 6n/6n layout, this has {V} vars)")
+                continue
+            mv = range(0, 3 * n) if mult_block == "U" else range(3 * n, 6 * n)
+        print(f"  {name}" + (f"   [multipliers restricted to the {mult_block} block]" if mv else ""))
         prev_rank = None
         for D in range(2, Dmax + 1):
-            st, cens, sc = measure(tag, E, V, D, budget, backend)
+            st, cens, sc = measure(tag, E, V, D, budget, backend, mult_vars=mv)
             falls = "" if prev_rank is None else st.dim_low - prev_rank
             print(f"     D={D}: rows={st.rows:6d} cols={st.cols:7d} rank={st.rank:6d} syz={st.syz:5d} "
                   f"dim(span\u2229deg<={D-1})={st.dim_low}"
                   + (f"  falls={falls} ({falls/n:.2f} n)" if falls != "" else "")
                   + ("   [CENSORED: lower bound]" if cens else ""))
-            record("E06_kernel_model_falls.csv",
+            linearised = (st.cols - st.rank)
+            print(f"        columns {st.cols}, rank {st.rank}, corank {linearised}"
+                  + ("   <-- LINEARISED (corank 1)" if linearised == 1 else ""))
+            record("E06_kernel_model_falls.csv" if not mult_block
+                   else f"E06_server_multblock_{mult_block}.csv",
                    dict(n=n, exps=";".join(map(str, exps)), system=tag, D=D, nvars=V, neqs=len(E),
+                        mult_block=mult_block or "all", corank=linearised,
                         rows=st.rows, cols=st.cols, rank=st.rank, syz=st.syz, dim_low=st.dim_low,
                         falls_from_prev_D=falls, twice_neqs=2 * len(E),
                         dim_low_over_n=round(st.dim_low / n, 4)),
