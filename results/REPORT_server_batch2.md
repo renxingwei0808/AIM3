@@ -113,13 +113,26 @@ guessed system at n = 13 for k ≤ 4, even though §1.4 shows the Macaulay ranks
 semi-regular at all.  These two facts are compatible: `d_reg` is where the rank first suffices, and
 a system can carry thousands of extra syzygies at D = 5 without that degree moving.
 
-**δ = 1 appears at k = 6, and only for the structured system.**  At 33 remaining variables `S_quad`
-solves at degree 3 while the random control of identical shape still needs 4.  This is the one place
-in the batch where guessing exposes something a random system does not have.  It is **one n, one k,
-two seeds** — far short of an extrapolation, and §1.5's table shows what a unit of δ would be worth
-if it survived (8.5–9 bits at ω = 2).  Whether δ grows with k, with n, or neither is exactly the
-question the next batch has to answer, and `n = 15` was launched for it (still censored at k = 0 at
-the time of writing; the k > 0 cells are cheaper and are running).
+**δ = 1 appears once k is large enough, and only for the structured system.**  At n = 13, k = 6
+(33 remaining variables) `S_quad` solves at degree 3 while the random control of identical shape
+still needs 4.  The n = 15 run then reproduced it **at a smaller k**:
+
+| n | k | variables | `S_quad` | random | B2 `d_reg` | **δ** |
+|---:|---:|---:|---:|---:|---:|---:|
+| 13 | 6 | 33 | 3 | 4 | 4 | **1** |
+| 15 | 2 | 43 | 4 | 5 | 5 | **1** |
+
+so at n = 15 two guessed bits already buy what six bought at n = 13.  Magma and msolve agree on both.
+These are the only places in the batch where guessing exposes something a random system of identical
+shape does not have.
+
+**What this is and is not.**  It is two (n,k) cells, and §1.5's table shows what one unit of δ would
+be worth if it persisted (8.5–9 bits at ω = 2 on AIM3-I/III/V).  It is **not** an extrapolation:
+`COMPLEXITY_ACCOUNTING §4` needs four sizes, there are two, and the k at which δ first turns 1 has
+moved once — from 6 to 2 — which is a trend of two points.  The n = 15, k = 0 cells are censored at
+the 2-hour cap in all six runs, so the k = 0 row of that size is missing.  Whether δ keeps growing,
+and whether the threshold k keeps falling, is the single most attack-relevant open question this
+batch produced, and it is stated as open.
 
 **A column that is easy to misread.**  `B2 d_reg` in §B.2 is computed from each row's own shape, so
 the `P1only` rows (3n equations, not 9n) get a much larger `d_reg` and a δ of 3 throughout.  That δ
