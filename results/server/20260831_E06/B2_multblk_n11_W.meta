@@ -6,3 +6,7 @@ ulimit -v: 100 GB
 results : /home/luck/rxw/AIM3_remote/out/B2_multblk_n11_W
 scratch : /home/luck/rxw/AIM3_remote/scratch/B2_multblk_n11_W
 command : python3 experiments/E06_kernel_bilinear_model/kernel_bilinear_toy.py 11 4 --backend sage --mult-block W --budget 86400
+finished: 2026-08-31T21:17:29-07:00
+exit    : 0
+time    : Elapsed (wall clock) time (h:mm:ss or m:ss): 41:38.90
+time    : Maximum resident set size (kbytes): 3773324

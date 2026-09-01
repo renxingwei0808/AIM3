@@ -1,0 +1,7 @@
+n,ell,exps,seed,system,experiment,tag,nvars,neqs,order,order_label,tool,d_solv,nsteps,max_rows,max_cols,gb_size,gb_max_degree,ring,peak_rss_kb,rc,log,tier,host,commit,seconds,censored
+13,2,3;5;8,1,P1only,E04h,E04h_n13_l2_s1_k0_P1only,39,39,grevlex(drl),grevlex(drl),msolve,5,6,890573,559091,,,,29472816,143,E04h_n13_l2_s1_k0_P1only.msolve.log,B,luck-Precision-7920-Tower,11ec8ab,3978.029,1
+13,2,3;5;8,1,P1only,E04h,E04h_n13_l2_s1_k0_P1only,39,39,grevlex,grevlex,magma,5,9,786970,454246,38,2,BooleanPolynomialRing,11484304,0,E04h_n13_l2_s1_k0_P1only.grevlex.magma.log,B,luck-Precision-7920-Tower,11ec8ab,491.819,0
+13,2,3;5;8,1,S_quad,E04h,E04h_n13_l2_s1_k0_S_quad,39,117,grevlex(drl),grevlex(drl),msolve,5,5,880502,549020,,,,29292584,143,E04h_n13_l2_s1_k0_S_quad.msolve.log,B,luck-Precision-7920-Tower,11ec8ab,2662.803,1
+13,2,3;5;8,1,S_quad,E04h,E04h_n13_l2_s1_k0_S_quad,39,117,grevlex,grevlex,magma,5,8,791990,459266,38,2,BooleanPolynomialRing,11485348,0,E04h_n13_l2_s1_k0_S_quad.grevlex.magma.log,B,luck-Precision-7920-Tower,11ec8ab,638.492,0
+15,2,4;11;7,1,P1only,E04h,E04h_n15_l2_s1_k0_P1only,45,45,grevlex(drl),grevlex(drl),msolve,4,6,167066,194553,,,,31265320,143,E04h_n15_l2_s1_k0_P1only.msolve.log,B,luck-Precision-7920-Tower,11ec8ab,5293.761,1
+15,2,4;11;7,1,P1only,E04h,E04h_n15_l2_s1_k0_P1only,45,45,grevlex,grevlex,magma,5,7,134869,161569,,,,27511116,143,E04h_n15_l2_s1_k0_P1only.grevlex.magma.log,B,luck-Precision-7920-Tower,11ec8ab,2046.695,1

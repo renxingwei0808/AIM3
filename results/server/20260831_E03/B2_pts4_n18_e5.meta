@@ -6,3 +6,7 @@ ulimit -v: 100 GB
 results : /home/luck/rxw/AIM3_remote/out/B2_pts4_n18_e5
 scratch : /home/luck/rxw/AIM3_remote/scratch/B2_pts4_n18_e5
 command : python3 experiments/E03_syzygy_and_degree_fall/sbox_degree_fall.py 18 5 --backend sage --pointset-deg 4
+finished: 2026-08-31T21:15:07-07:00
+exit    : 0
+time    : Elapsed (wall clock) time (h:mm:ss or m:ss): 40:48.73
+time    : Maximum resident set size (kbytes): 3050920

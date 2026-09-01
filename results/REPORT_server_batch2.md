@@ -222,12 +222,58 @@ untouched.
 
 ---
 
-## 4. T4 cross-validation — deferred
+## 4. T4 cross-validation, and what the eliminated condition costs (§B.11)
 
-The web branch's Ore-ring prototype and `results/E07_theory_skew_degrees.csv` are **not on `main`**
-at this batch's start (`experiments/E07_ore_skew_elimination/` holds only a README and an empty
-`sage/`).  The batch prompt defers task 4 in exactly this case, so it is not done; tasks 1–3 and 5
-were done instead.
+The Tier-A branch reached `main` while this batch was running (PR #5, `e6cd091`; merged into this
+branch at `2370d74`), which is the condition the prompt attaches to task 4 — so it was done.
+
+**Two instruments, on the same instances.**  Every instance is built by the Tier-A probe itself
+(`skew_elimination_probe.py --export`, same default seed), so Sage and the Tier-A class are compared
+on identical data rather than on two random instances that happen to have the same shape.  The
+division of labour was forced by a measurement: **Sage's `OrePolynomialRing` costs about 1 s per
+`lclm` where `src/aim3/ore.py` costs 0.2–20 ms** — a factor of 50–1000 depending on n.  Sage is
+therefore the independent *check*, and the hand-written class is what carries the 2ⁿ-evaluation
+measurement upward.  (This is worth recording for later batches: for skew-polynomial work Sage's
+`OrePolynomialRing` is a correctness reference, not a workhorse.)
+
+**Result 1 — the Tier-A measurement replicates exactly.**  Over n = 8..14, where the Tier-A CSV has
+rows, Sage reproduces `deg lclm`, `dim(ker Λ₀ ∩ ker Λ₁)`, the affine-solvability bit and the random
+`gcrd` range: **28 comparisons, 0 disagreements**.  In particular the correction Tier-A made to the
+brief's hypothesis is confirmed by an independent implementation — `deg gcrd = 0` and
+`dim(ker Λ₀ ∩ ker Λ₁) = 0` at the *true* key just as at random keys, and the statistic that does
+separate the true key is the **affine** one.
+
+**Result 2 — the ring-level picture holds to n = 24.**  `deg lclm = deg Λ₀ + deg Λ₁` at every
+n ≤ 24 (the gcrd is 0 everywhere), and the affine system is solvable at the true (t₀,t₁) and at
+**0 of 32** random pairs at every one of those sizes.  Tier-A's n = 14 ceiling was a cost ceiling of
+its 2ⁿ measurements, not of the algebra: the ring-level statement costs nothing to check and does
+not weaken.
+
+**Result 3 — D(n) = 2ⁿ − 1, the maximum, at every size measured.**  This is the number T4.3 makes
+the switch of the whole track.  With t₁ at its true value and t₀ ranging over **all** of F_{2ⁿ},
+every coefficient of the monic lclm — not merely the extreme ones — has exact univariate degree
+2ⁿ − 1 and exact ANF degree n.  Both are the largest values possible.
+
+**What that settles.**  Eliminating pt in the Ore ring is exact, cheap and loses nothing (Tier-A
+already showed `Z(E) = C`, so no separate Frobenius-consistency step is needed).  But the object it
+leaves behind is of *full* degree in t₀, so every degree-sensitive way of finishing — a resultant in
+t₀, univariate root-finding, sparse interpolation — costs Ω(2ⁿ) just to write the condition down.
+That is the same order as guessing pt outright (B3), so **the elimination buys nothing**: T4's cost
+does not come from the elimination step being hard, it comes from the eliminated condition being
+dense.  This is the same shape of negative result as E05/T3 in §5, reached independently.
+
+**Caveats, inherited and new.**
+* The exponent pairs are Tier-A's: for n ≤ 12 and a few larger n the generic class contains only
+  `e = n−1`, so both S-boxes get the same exponent — not an AIM3 parameter shape, but it keeps the
+  instance out of the degenerate classes, which is what a degree measurement needs.  The n where
+  two distinct generic exponents exist (11, 13, 14, 15, …) show the same D(n).
+* The symbolic instrument (the same lclm over K(t₀), coefficients as exact rational functions) is
+  reported separately in §B.11.3 and reaches only very small n: the twist sends t₀ ↦ t₀², so the
+  degree in t₀ **doubles at every Euclidean step**, and the formal degrees pass 2¹⁴ by n = 8.  That
+  growth is itself consistent with result 3 — a formal degree far above 2ⁿ reduces, as a function on
+  F_{2ⁿ}, to the full degree 2ⁿ − 1.
+* One instance per n, as in Tier A.  D(n) saturating its maximum is not a statistic that a second
+  seed could improve, but it has not been repeated over seeds.
 
 ---
 
@@ -269,6 +315,10 @@ is formed; the route that does form one is censored from n = 8 (batch 1).  The �
 5. **`N(W)` is measurably less generic than a uniform matrix family** (§3.2), by a consistent
    factor ≈ 2 in the rank-drop probability — an observation that is easy to miss if one only checks
    the true W.
+6. **Sage's `OrePolynomialRing` is 50–1000× slower per `lclm` than `src/aim3/ore.py`** (§4).  It is
+   an excellent independent check and a poor workhorse; the task-4 plan had to be split accordingly.
+7. **T4 and T3 fail for the same reason, reached by different routes** (§4, §5): the elimination
+   step is cheap and exact in both, and in both the object it produces costs Θ(2ⁿ) to exploit.
 
 ---
 
@@ -280,7 +330,11 @@ is formed; the route that does form one is censored from n = 8 (batch 1).  The �
   ≈ 97 GB — the size `SIZING.md` predicts — but ≈ 32 h of M4RI, out of proportion to the batch.
   Run at n = 11 instead, and at n = 13 for `P1only` (32 GB), with the shortfall stated.
 * **Task 2.3** (§2.3), for the reason given there.
-* **Task 4**, deferred by the prompt's own rule because E07 is not merged.
+* **The symbolic (K(t₀)) form of the lclm above n ≈ 10** (§4): the twist squares the degree in t₀
+  at every Euclidean step, so the exact rational functions become unrepresentable almost at once.
+  The evaluation-interpolation instrument answers the same question and is the one reported.
+* **D(n) beyond the sizes in §B.11.2**: the measurement is 2ⁿ `lclm` computations; it was pushed as
+  far as the batch's budget allowed and censored rows are marked as such, never as values.
 * **`ℓ = 2` at n = 17 for `d_solv`**: launched, and expected to be censored — 51 Boolean variables
   is past where Magma finished at n = 15 (3109 s, 79 GB).
 * **No attack** is claimed anywhere in this batch.
@@ -299,6 +353,9 @@ is formed; the route that does form one is censored from n = 8 (batch 1).  The �
 | the first-layer rank defect is real (corank 1 at the true W) but carries ≈ n−1 bits | [VERIFIED n = 7, 9, 11, 13, 20000 samples each] — new row, T2.1 | `results/E06_server_minrank.csv` |
 | the two-valued-inverse reduced system is solvable in Θ(2ⁿ) by the separable structure | [VERIFIED n = 7..], i.e. the same order as B3 — this is T3.2's negative result, demonstrated | `results/E05_server_cheap_elimination.csv` |
 | generic exponents do not exist at n = 9 and are too few at n = 11, 15 for ℓ = 2 | [PROVED] (a finite check of `degenerate_class`) — worth a footnote wherever toy exponents are chosen | `server/jobs/…/generic_exps` |
+| the Tier-A T4 measurement replicates in an independent implementation | [VERIFIED n = 8..14, 28/28 comparisons] — supports the existing E07 rows rather than adding a claim | `results/E07_server_ore_scale.csv` |
+| `deg lclm = deg Λ₀ + deg Λ₁`, gcrd = 0, and the affine predicate separates the true key | [VERIFIED n ≤ 24, 0/32 random pairs solvable] — widens the Tier-A row from n ≤ 14 | same |
+| the pt-eliminated condition has **full** degree in t₀: D(n) = 2ⁿ−1 and ANF degree n | [VERIFIED n = 8..] — T4.3's switch, and it points the same way as T3.2 | `results/E07_server_lclm_degrees.csv` |
 
 <!--TABLES-->
 

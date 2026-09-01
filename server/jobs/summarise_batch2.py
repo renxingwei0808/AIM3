@@ -411,42 +411,93 @@ def sec_e05():
 
 
 def sec_t4():
-    A("### B.11 T4 cross-validation in Sage, and the degree in t₀ (task 4)")
+    A("### B.11 T4 cross-validation in Sage, and the degree of the eliminated condition in t₀ (task 4)")
     A("")
     rows = load("E07_server_ore_scale.csv")
     if not rows:
         A("_not collected_")
         A("")
         return
-    A("Independent re-computation of the Tier-A T4 measurement with Sage's `OrePolynomialRing`, on "
-      "**the same instances** (they are exported by the Tier-A probe itself, same seed), then "
-      "scaled past its n = 14.  `D_sym` is the degree in t₀ of the coefficients of the monic lclm "
-      "computed **symbolically** over K(t₀); `D_interp` is the degree of the same coefficients as "
-      "**functions** on F_{2ⁿ}, obtained by evaluating at all 2ⁿ values — two different quantities "
-      "that must agree whenever `D_sym < 2ⁿ`.")
+    A("**B.11.1 — Sage against the Tier-A branch, on the same instances.**  The instances are exported "
+      "by the Tier-A probe itself (same script, same seed), so the two implementations are compared on "
+      "identical data.  `ker∩` is `dim(ker Λ₀ ∩ ker Λ₁)` and `solvable` the affine predicate "
+      "{Λ₀(v)=c₀, Λ₁(v)=c₁}, at the true (t₀,t₁); `rand` is 32 random pairs.")
     A("")
-    A("| n | e₀,e₁ | deg Λ | gcrd | lclm | ker∩ | solvable | gcrd (rand) | **D_sym** | den | "
-      "**D_interp** | ANF | log₂ deg E | Tier-A |")
-    A("|---:|---|---|---:|---:|---:|:--:|---:|---:|---:|---:|---:|---:|---|")
+    A("| n | e₀,e₁ | deg Λ₀,Λ₁ | gcrd | lclm | ker∩ | solvable (true) | solvable (rand) | "
+      "gcrd (rand) | vs Tier-A |")
+    A("|---:|---|---|---:|---:|---:|:--:|---:|---:|---|")
+    checks = bad = 0
     for r in sorted(rows, key=lambda r: i(r["n"], 0)):
         if not r.get("deg_lclm_true"):
-            A(f"| {r['n']} | — | — | — | — | — | — | — | — | — | — | — | — | "
-              f"censored ({r.get('detail','')}) |")
+            A(f"| {r['n']} | — | — | — | — | — | — | — | — | censored ({r.get('detail','')}) |")
             continue
-        ta = (r.get("tierA_checks") or "0")
-        bad = i(r.get("tierA_disagreements"), 0)
-        tacol = ("—" if ta == "0" else (f"**{ta}/{ta} agree**" if not bad
-                                        else f"**{bad} DISAGREE**"))
+        c, b = i(r.get("tierA_checks"), 0), i(r.get("tierA_disagreements"), 0)
+        checks += c
+        bad += b
+        ta = "—" if not c else (f"{c}/{c} agree" if not b else f"**{b} DISAGREE**")
         A(f"| {r['n']} | {r['e0']},{r['e1']} | {r['deg_Lambda'].replace(';', ',')} | "
           f"{r['deg_gcrd_true']} | {r['deg_lclm_true']} | {r['kerint_true']} | "
-          f"{'yes' if r['affine_solvable_true'] == '1' else 'no'} | {r['deg_gcrd_rand']} | "
-          f"**{r['D_sym_lclm'] or '—'}** | {r['D_sym_lclm_den'] or '—'} | "
-          f"**{r['D_interp_lclm'] or '—'}** | {r['anf_deg_lclm'] or '—'} | "
-          f"{r['log2_deg_E_formal'] or '—'} | {tacol} |")
+          f"{'yes' if r['affine_solvable_true'] == '1' else '**no**'} | "
+          f"{r['affine_solvable_rand']} | {r['deg_gcrd_rand']} | {ta} |")
     A("")
-    A("`solvable` is the affine predicate at the true (t₀,t₁); `gcrd (rand)` is the range of "
-      "`deg gcrd` over random pairs, which the Tier-A branch found to be 0 — the statistic that "
-      "does **not** separate the true key.")
+    A(f"Totals: **{checks} comparisons against `results/E07_theory_skew_degrees.csv`, "
+      f"{bad} disagreements**.  `deg lclm = deg Λ₀ + deg Λ₁` at every n (the gcrd is 0 everywhere, "
+      "true key included), and the affine predicate separates the true key from all 32 random pairs "
+      "at every n up to 24 — the Tier-A finding, now measured ten sizes further.")
+    A("")
+
+    deg = load("E07_server_lclm_degrees.csv")
+    sage_interp = {i(r["n"]): r for r in (load("E07_server_ore_interp.csv") or [])}
+    if deg:
+        A("**B.11.2 — D(n), the degree in t₀ of the eliminated coefficients.**  t₁ is fixed at its "
+          "true value and t₀ runs over **all** of F_{2ⁿ}; each coefficient of the monic lclm is a "
+          "function F_{2ⁿ} → F_{2ⁿ} whose exact univariate degree is read off by interpolation and "
+          "whose exact ANF degree comes from a Möbius transform.  `2ⁿ−1` and `n` are the maxima.")
+        A("")
+        A("| n | e₀,e₁ | deg lclm | values | ms per lclm | **D(n)** | max | **ANF** | max | "
+          "Sage (independent) |")
+        A("|---:|---|---:|---:|---:|---:|---:|---:|---:|---|")
+        for r in sorted(deg, key=lambda r: i(r["n"], 0)):
+            n = i(r["n"])
+            sg = sage_interp.get(n)
+            sgc = "—"
+            if sg and sg.get("D_interp_lclm"):
+                same = sg["D_interp_lclm"] == r.get("D_interp")
+                sgc = f"{sg['D_interp_lclm']} ({'same' if same else '**DIFFERS**'})"
+            if r["censored"] == "1":
+                A(f"| {n} | {r['e0']},{r['e1']} | {r['deg_lclm']} | "
+                  f"{r['values_done']}/{r['nvalues']} | — | _censored_ | {2**n-1} | — | {n} | {sgc} |")
+                continue
+            A(f"| {n} | {r['e0']},{r['e1']} | {r['deg_lclm']} | {r['nvalues']} | "
+              f"{r['ms_per_lclm']} | **{r['D_interp']}** | {2**n-1} | "
+              f"**{r['anf'] or '—'}** | {n} | {sgc} |")
+        A("")
+        full = [r for r in deg if r["censored"] != "1"
+                and i(r["D_interp"], -1) == 2 ** i(r["n"], 0) - 1]
+        if full:
+            A(f"**D(n) = 2ⁿ − 1 — the maximum — at every completed size "
+              f"(n = {', '.join(str(i(r['n'])) for r in sorted(full, key=lambda r: i(r['n'], 0)))}), "
+              f"and for every one of the deg-lclm + 1 coefficients, not just the extreme ones.**  "
+              "The ANF degree is n, also the maximum.  Eliminating pt in the Ore ring is exact and "
+              "cheap; what it leaves behind is a condition in t₀ of full degree, so recovering t₀ "
+              "from it by any degree-sensitive method (resultant, univariate root finding, "
+              "interpolation) costs at least 2ⁿ — the same order as guessing pt outright.")
+            A("")
+    sym = load("E07_server_ore_symbolic.csv")
+    if sym:
+        A("**B.11.3 — the symbolic instrument.**  The same lclm computed over K(t₀) (twist "
+          "t₀ ↦ t₀², which is what φ·t₀ = t₀²·φ forces), so the coefficients are exact rational "
+          "functions rather than sampled values.")
+        A("")
+        A("| n | deg lclm | D_sym (numerator) | denominator | D_sym(u) | log₂ formal deg E | s |")
+        A("|---:|---:|---:|---:|---:|---:|---:|")
+        for r in sorted(sym, key=lambda r: i(r["n"], 0)):
+            if not r.get("D_sym_lclm"):
+                A(f"| {r['n']} | — | _censored_ | — | — | — | {r['seconds']} |")
+                continue
+            A(f"| {r['n']} | {r['deg_lclm_sym']} | {r['D_sym_lclm']} | {r['D_sym_lclm_den']} | "
+              f"{r['D_sym_u']} | {r['log2_deg_E_formal']} | {r['seconds']} |")
+        A("")
     A("")
 
 

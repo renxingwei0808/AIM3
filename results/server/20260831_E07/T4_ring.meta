@@ -1,0 +1,13 @@
+host    : luck-Precision-7920-Tower
+commit  : db7e5b6
+branch  : claude/server-batch-2
+started : 2026-08-31T22:41:38-07:00
+ulimit -v: 32 GB
+results : /home/luck/rxw/AIM3_remote/out/T4_ring
+scratch : /home/luck/rxw/AIM3_remote/scratch/T4_ring
+command : python3 server/jobs/t4_ore_scale.py --ns 8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24 --interp-max 0 --symbolic-max 0 --trials 32 --csv E07_server_ore_scale.csv
+finished: 2026-08-31T22:43:44-07:00
+exit    : 0
+time    : Elapsed (wall clock) time (h:mm:ss or m:ss): 2:05.70
+time    : Maximum resident set size (kbytes): 228800
+JOB_DONE_rc=0

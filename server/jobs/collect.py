@@ -43,6 +43,10 @@ MERGE = [
     ("E06_server_minrank.csv", "B2_minrank*", "E06_server_minrank.csv"),
     ("E10_server_polybori.csv", "B2_polybori*", "E10_server_polybori.csv"),
     ("E05_server_cheap_elimination.csv", "B2_e05cheap*", "E05_server_cheap_elimination.csv"),
+    ("E07_server_ore_scale.csv", "T4_ring*", "E07_server_ore_scale.csv", ("n",)),
+    ("E07_server_ore_interp.csv", "T4_sage_interp*", "E07_server_ore_interp.csv", ("n",)),
+    ("E07_server_ore_symbolic.csv", "T4_sage_symbolic*", "E07_server_ore_symbolic.csv", ("n",)),
+    ("E07_server_lclm_degrees.csv", "T4_deg_*", "E07_server_lclm_degrees.csv", ("n",)),
     ("E04_full_system_falls.csv", "E04_gate1_l*", "E04_server_gate1.csv"),
     ("E04_server_gate1_pairs.csv", "E04_gate1pairs_*", "E04_server_gate1_pairs.csv"),  # noqa
     # The F4 jobs were launched with the block orders in their order list, before the Magma driver
