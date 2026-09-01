@@ -1,0 +1,5 @@
+n,ell,seed,exps,system,experiment,tag,nvars,neqs,order_label,order,ring_order,tool,d_solv,nsteps,steps,gb_size,gb_max_degree,trivial_gb,peak_rss_kb,rc,tier,host,commit,seconds,censored
+9,2,1,2;4;5,P1only,E04,E04b2_n9_l2_s1_P1only,27,27,grevlex,grevlex,degrevlex,polybori,5,10,2;3;3;3;4;1;2;3;4;5,27,1,False,433988,0,B,luck-Precision-7920-Tower,db7e5b6,26.569,0
+7,2,1,"[2, 3, 4]",kernel,E06,E06_n7_kernel,42,42,grevlex,grevlex,,polybori,4,31,2;3;3;4;4;3;4;4;4;4;3;4;4;4;4;4;4;4;4;4;4;4;4;4;4;4;4;4;4;4;4,,,,1745620,134,B,luck-Precision-7920-Tower,11ec8ab,502.327,1
+7,2,1,"[2, 3, 4]",kernel,E06,E06_n7_kernel,42,42,blockU,block:21,,polybori,3,4,2;3;3;3,,,,632508,134,B,luck-Precision-7920-Tower,11ec8ab,25.596,1
+7,2,1,"[2, 3, 4]",kernel,E06,E06_n7_kernel,42,42,grevlex,grevlex,,polybori,4,14,2;3;3;4;4;3;4;4;4;4;3;4;4;4,,,,,-9,B,luck-Precision-7920-Tower,11ec8ab,250.003,1

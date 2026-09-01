@@ -1,0 +1,8 @@
+host    : luck-Precision-7920-Tower
+commit  : 11ec8ab
+branch  : claude/server-batch-2
+started : 2026-08-31T20:35:50-07:00
+ulimit -v: 60 GB
+results : /home/luck/rxw/AIM3_remote/out/B2_multblk_n7_U
+scratch : /home/luck/rxw/AIM3_remote/scratch/B2_multblk_n7_U
+command : python3 experiments/E06_kernel_bilinear_model/kernel_bilinear_toy.py 7 5 --backend sage --mult-block U --budget 86400

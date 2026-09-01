@@ -1,0 +1,13 @@
+n,exps,system,D,nvars,neqs,mult_block,corank,rows,cols,rank,syz,dim_low,falls_from_prev_D,twice_neqs,dim_low_over_n,tier,host,commit,seconds,censored
+11,2;3;4,kernel,2,66,66,W,2146,66,2212,66,0,0,,132,0.0,A,luck-Precision-7920-Tower,11ec8ab,1.835,0
+11,2;3;4,kernel,3,66,66,W,45728,2244,47972,2244,0,99,33,132,9.0,A,luck-Precision-7920-Tower,11ec8ab,2.163,0
+11,2;3;4,kernel,4,66,66,W,731600,37092,768692,37092,0,3366,1122,132,306.0,A,luck-Precision-7920-Tower,11ec8ab,239.216,0
+11,2;3;4,random_bilinear,2,66,66,W,2146,66,2212,66,0,0,,132,0.0,A,luck-Precision-7920-Tower,11ec8ab,3.807,0
+11,2;3;4,random_bilinear,3,66,66,W,45728,2244,47972,2244,0,66,0,132,6.0,A,luck-Precision-7920-Tower,11ec8ab,9.633,0
+7,2;3;4,kernel,2,42,42,W,862,42,904,42,0,0,,84,0.0,A,luck-Precision-7920-Tower,11ec8ab,1.817,0
+7,2;3;4,kernel,3,42,42,W,11460,924,12384,924,0,63,21,84,9.0,A,luck-Precision-7920-Tower,11ec8ab,2.381,0
+7,2;3;4,kernel,4,42,42,W,114570,9744,124314,9744,0,1386,462,84,198.0,A,luck-Precision-7920-Tower,11ec8ab,7.109,0
+7,2;3;4,kernel,5,42,42,W,909378,65604,974982,65604,0,14511,4767,84,2073.0,A,luck-Precision-7920-Tower,11ec8ab,670.655,0
+7,2;3;4,random_bilinear,2,42,42,W,862,42,904,42,0,0,,84,0.0,A,luck-Precision-7920-Tower,11ec8ab,1.945,0
+7,2;3;4,random_bilinear,3,42,42,W,11460,924,12384,924,0,42,0,84,6.0,A,luck-Precision-7920-Tower,11ec8ab,2.362,0
+7,2;3;4,random_bilinear,4,42,42,W,114570,9744,124314,9744,0,924,0,84,132.0,A,luck-Precision-7920-Tower,11ec8ab,17.68,0

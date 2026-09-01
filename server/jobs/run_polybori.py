@@ -88,7 +88,10 @@ def run_one(sysfile, order, logpath, jsonpath, sage, timeout):
             res = json.load(open(jsonpath))
         except Exception:
             res = {}
-    return dict(rc=rc, seconds=secs, peak_rss_kb=peak, censored=int(timed_out or not res),
+    # the Sage script's JSON also carries `seconds` and `path`; the driver's own timings win
+    for dup in ("seconds", "path", "nvars", "neqs"):
+        res.pop(dup, None)
+    return dict(rc=rc, seconds=secs, peak_rss_kb=peak, censored=int(timed_out or not degs),
                 d_solv=max(degs) if degs else None, nsteps=len(degs), steps=degs, **res)
 
 

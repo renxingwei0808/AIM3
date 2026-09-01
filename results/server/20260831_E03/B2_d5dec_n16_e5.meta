@@ -1,0 +1,12 @@
+host    : luck-Precision-7920-Tower
+commit  : 11ec8ab
+branch  : claude/server-batch-2
+started : 2026-08-31T20:33:59-07:00
+ulimit -v: 100 GB
+results : /home/luck/rxw/AIM3_remote/out/B2_d5dec_n16_e5
+scratch : /home/luck/rxw/AIM3_remote/scratch/B2_d5dec_n16_e5
+command : python3 server/jobs/d5_decomposition.py --n 16 --e 5 --backend sage
+finished: 2026-08-31T20:36:09-07:00
+exit    : 0
+time    : Elapsed (wall clock) time (h:mm:ss or m:ss): 2:10.33
+time    : Maximum resident set size (kbytes): 374760

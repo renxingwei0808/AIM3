@@ -1,0 +1,8 @@
+host    : luck-Precision-7920-Tower
+commit  : 11ec8ab
+branch  : claude/server-batch-2
+started : 2026-08-31T20:34:18-07:00
+ulimit -v: 150 GB
+results : /home/luck/rxw/AIM3_remote/out/B2_d5_n18
+scratch : /home/luck/rxw/AIM3_remote/scratch/B2_d5_n18
+command : python3 server/jobs/e03_d5.py 18 --exps 5 --backend sage --budget 86400

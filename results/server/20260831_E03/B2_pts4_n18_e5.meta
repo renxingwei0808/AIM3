@@ -1,0 +1,8 @@
+host    : luck-Precision-7920-Tower
+commit  : 11ec8ab
+branch  : claude/server-batch-2
+started : 2026-08-31T20:34:18-07:00
+ulimit -v: 100 GB
+results : /home/luck/rxw/AIM3_remote/out/B2_pts4_n18_e5
+scratch : /home/luck/rxw/AIM3_remote/scratch/B2_pts4_n18_e5
+command : python3 experiments/E03_syzygy_and_degree_fall/sbox_degree_fall.py 18 5 --backend sage --pointset-deg 4

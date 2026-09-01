@@ -1,0 +1,8 @@
+host    : luck-Precision-7920-Tower
+commit  : 11ec8ab
+branch  : claude/server-batch-2
+started : 2026-08-31T20:46:53-07:00
+ulimit -v: 60 GB
+results : /home/luck/rxw/AIM3_remote/out/B2_polybori_E06_n7_kernel
+scratch : /home/luck/rxw/AIM3_remote/scratch/B2_polybori_E06_n7_kernel
+command : python3 server/jobs/run_polybori.py --systems /home/luck/rxw/AIM3_remote/out/E04_systems --tags E06_n7_kernel --orders grevlex,blockU,blockW --timeout 5400 --csv E10_server_polybori.csv --logdir /home/luck/rxw/AIM3_remote/out/B2_pblogs
