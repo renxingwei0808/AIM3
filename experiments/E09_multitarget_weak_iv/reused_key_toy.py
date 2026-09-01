@@ -116,12 +116,20 @@ def build_reused(n, exps, q, seed=1):
 
 
 def profile(n, exps, q, seed, budget):
+    """None if the D=3 pass hit its budget -- a censored run is a lower bound, never a value
+    (CLAUDE.md ground rule 4), and a lower bound on the rank says nothing about the syzygy count,
+    so the row is dropped rather than reported."""
     t0 = time.time()
     ell = len(exps) - 1
     nv, eqs, _ = build_reused(n, exps, q, seed)
     low_cols = sum(comb(nv, d) for d in range(3))
     st2 = macaulay_stats(eqs, nv, 2)
-    st3 = macaulay_stats(eqs, nv, 3, budget=budget)
+    try:
+        st3 = macaulay_stats(eqs, nv, 3, budget=budget)
+    except MacaulayTimeout as ex:
+        print(f"    n={n} ell={ell} q={q} seed={seed}: D=3 pass hit the {budget}s budget ({ex}); "
+              f"reported as NOT MEASURED")
+        return None
     new = st3.dim_low - st2.rank
     sat = st3.dim_low / low_cols
     target = q * (ell + 1) * 8 * n
@@ -141,12 +149,34 @@ if __name__ == "__main__":
     ap.add_argument("-q", "--q", type=int, default=2)
     ap.add_argument("--seeds", default="1,2")
     ap.add_argument("--budget", type=float, default=3600.0)
+    ap.add_argument("--single-only", action="store_true",
+                    help="profile the q=1 instance only (used to compare exponent sets)")
+    ap.add_argument("--exps", default=None,
+                    help="comma-separated exponents (default: the first ell+1 admissible ones, "
+                         "which for most toy n starts at the DEGENERATE e=2 -- see "
+                         "docs/COMPLEXITY_ACCOUNTING.md rule 5)")
     a = ap.parse_args()
-    exps = [e for e in range(2, a.n) if gcd(e, a.n) == 1][:a.ell + 1]
+    if a.exps:
+        exps = [int(e) for e in a.exps.split(",")]
+        assert len(exps) == a.ell + 1, f"--exps needs ell+1 = {a.ell+1} exponents"
+        assert all(gcd(e, a.n) == 1 for e in exps), "spec requires gcd(e,n)=1"
+    else:
+        exps = [e for e in range(2, a.n) if gcd(e, a.n) == 1][:a.ell + 1]
     print(f"# params: n={a.n} ell={a.ell} q={a.q} seeds={a.seeds} exps={exps}")
     for seed in [int(s) for s in a.seeds.split(",")]:
         single = profile(a.n, exps, 1, seed, a.budget)
+        if a.single_only:
+            if single is None:
+                continue
+            print(f"  seed {seed}: q=1 {single['nvars']:3d} vars, {single['neqs']:4d} eqs; "
+                  f"D=3 rank {single['mac3_rank']:6d} syz {single['mac3_syz']:5d} "
+                  f"(baseline {single['syz_direct_sum']}) dim_low {single['mac3_dim_low']:5d}/"
+                  f"{single['low_cols']:5d} sat {single['saturation']:.3f} new {single['new_at_D3']:5d}")
+            record("E09_theory_reused_key.csv", single, seconds=single.pop("seconds"))
+            continue
         multi = profile(a.n, exps, a.q, seed, a.budget)
+        if single is None or multi is None:
+            continue
         print(f"  seed {seed}:")
         for tag, r in (("q=1 (single)", single), (f"q={a.q} (shared pt)", multi)):
             print(f"    {tag:>18}: {r['nvars']:3d} vars, {r['neqs']:4d} eqs; D=3 rank {r['mac3_rank']:6d} "

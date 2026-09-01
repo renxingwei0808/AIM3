@@ -226,3 +226,20 @@ class SkewPoly:
             r0, r1 = r1, r
             u0, u1 = u1, u0 - q * u1
         return (u1 * self).monic()
+
+    def lclm_cofactors(self, other):
+        """(L, u, v) with L = u*self = v*other the monic LCLM -- the skew-resultant cofactors.
+
+        These are what actually eliminates a variable: if self(z) = c0 and other(z) = c1 for some
+        z in F_{2^n}, then applying u and v gives the SCALAR condition u(c0) = v(c1), with z gone.
+        Note the condition is derived in R, where phi^n != 1; it is therefore necessary but not
+        automatically sufficient for the action on F_{2^n} (see the module docstring).
+        """
+        L = self.lclm(other)
+        if L.is_zero():
+            return L, SkewPoly.zero(self.F), SkewPoly.zero(self.F)
+        u, ru = L.divmod_right(self)
+        v, rv = L.divmod_right(other)
+        assert ru.is_zero() and rv.is_zero(), "lclm is not a common left multiple"
+        return L, u, v
+
