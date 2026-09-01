@@ -30,6 +30,7 @@ provenance columns **`tier, host, commit, seconds, censored`** to every row (CLA
 | `E03_theory_fall_basis.csv` | `fall_generators.py --basis` | one row per element of a basis of the 2n new cubics: kernel-vector size, multiplier weights, which of P1/P2/P3 it uses |
 | `E03_theory_orbit_lemma.csv` | `fall_generators.py --orbits` | the Frobenius-orbit lemma and the closed form for the ansatz module's rank/kernel, n = 5..20 |
 | `E06_theory_fall_generators.csv` | `fall_generators.py --kernel` | the kernel model's 6n new quadratics at D=3: the P1_i candidate (fails) vs a_i·K_i and t_i·K_i (explains everything) |
+| `E07_theory_skew_degrees.csv` | `E07_ore_skew_elimination/skew_elimination_probe.py` | track T4: GCRD/LCLM degrees of the two first-layer relations in the Ore ring, and the EXACT Boolean and univariate degree of the scalar condition left after pt is eliminated (n = 6..14) |
 | `E09_theory_reused_key.csv` | `E09_multitarget_weak_iv/reused_key_toy.py` | q instances sharing one pt: D=3 rank, syzygies, saturation, and the excess over the direct sum |
 | `E11_theory_eval_cost.csv` | `E11_hybrid_estimates/aim3_eval_cost.py --csv` | bit cost of one forward AIM3 evaluation from the spec Table 5 addition chains, schoolbook and Karatsuba |
 

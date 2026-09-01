@@ -19,9 +19,10 @@ python3 reused_key_toy.py 11 -l 2 -q Q --seeds 1 --exps 2,3,4   # Q = 2..5
 python3 reused_key_toy.py 11 -l 2 -q Q --seeds 1,2 --exps 3,4,10
 python3 reused_key_toy.py 9  -l 2 --single-only --exps 4,5,8    # exponent-set comparison at q=1
 ```
-Rows go to `results/E09_theory_reused_key.csv`.  **Every run below has saturation ≤ 0.29**, so the D=3 numbers are
-informative (the batch-3 brief's threshold was 0.9); the n = 7 rows already in the CSV are at 0.75–0.99 and are excluded
-from all statements here.  A D=3 pass that hits its `--budget` now returns "NOT MEASURED" instead of a row: a censored rank
+Rows go to `results/E09_theory_reused_key.csv`.  **Every run below has saturation ≤ 0.29 except the one marked †**, so the D=3
+numbers are informative (the batch-3 brief's threshold was 0.9); the n = 7 rows already in the CSV are at 0.75–0.99 and
+are excluded from all statements here, as is the n = 9, q = 2 row at 0.918 — it is shown for continuity with batch 2 but
+carries no weight.  A D=3 pass that hits its `--budget` now returns "NOT MEASURED" instead of a row: a censored rank
 is a lower bound, and a lower bound on the rank says nothing about a syzygy count (CLAUDE.md ground rule 4).
 
 Notation: `syz(q)` is the D=3 syzygy count of the q-instance system, `syz(1)` that of one instance.  "Excess" means
@@ -31,7 +32,7 @@ Notation: `syz(q)` is the D=3 syzygy count of the q-instance system, `syz(1)` th
 
 | n | exps | syz(1) | (ℓ+1)·8n | q | syz(q) | excess | C(q,2)·n | saturation |
 |---|------|--------|----------|---|--------|--------|----------|-----------|
-| 9 | 2,4,5 | 216 | 216 | 2 | 441 | 9 | 9 | 0.918 |
+| 9 | 2,4,5 | 216 | 216 | 2 | 441 | 9 | 9 | 0.918 † |
 | 9 | 2,4,5 | 216 | 216 | 3 | 675 | 27 | 27 | 0.147 |
 | 9 | 2,4,5 | 216 | 216 | 4 | 918 | 54 | 54 | 0.133 |
 | 9 | 2,4,5 | 216 | 216 | 5 | 1170 | 90 | 90 | 0.120 |
@@ -41,7 +42,7 @@ Notation: `syz(q)` is the D=3 syzygy count of the q-instance system, `syz(1)` th
 | 11 | 2,3,4 | 264 | 264 | 4 | 1122 | 66 | 66 | 0.096 |
 | 11 | 2,3,4 | 264 | 264 | 5 | 1430 | 110 | 110 | 0.089 |
 
-**[VERIFIED n ∈ {9,11}, ℓ=2, q ≤ 6]** `syz(q) = q·syz(1) + C(q,2)·n` — one extra syzygy per *pair* of instances per
+**[VERIFIED n=9 q ∈ {3,4,5,6}, n=11 q ∈ {2,3,4,5}, ℓ=2]** `syz(q) = q·syz(1) + C(q,2)·n` — one extra syzygy per *pair* of instances per
 coordinate, exactly what "the q instances share pt and nothing else" predicts.  The count is seed-independent (n = 11,
 seeds 1 and 2 give identical numbers).
 
