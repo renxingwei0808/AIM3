@@ -91,7 +91,12 @@ def run_one(sysfile, order, logpath, jsonpath, sage, timeout):
     # the Sage script's JSON also carries `seconds` and `path`; the driver's own timings win
     for dup in ("seconds", "path", "nvars", "neqs"):
         res.pop(dup, None)
-    return dict(rc=rc, seconds=secs, peak_rss_kb=peak, censored=int(timed_out or not degs),
+    # rc 134 = SIGABRT: PolyBoRi aborts inside a compiled module on many block-order runs.  It
+    # still prints the degrees it reached, so the row is kept -- but as a LOWER BOUND, which is
+    # what censored=1 means (CLAUDE.md rule 4).  Checking only `not degs` recorded those aborts
+    # as completed runs.
+    return dict(rc=rc, seconds=secs, peak_rss_kb=peak,
+                censored=int(timed_out or rc != 0 or not degs),
                 d_solv=max(degs) if degs else None, nsteps=len(degs), steps=degs, **res)
 
 

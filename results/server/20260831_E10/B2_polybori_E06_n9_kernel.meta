@@ -6,3 +6,8 @@ ulimit -v: 60 GB
 results : /home/luck/rxw/AIM3_remote/out/B2_polybori_E06_n9_kernel
 scratch : /home/luck/rxw/AIM3_remote/scratch/B2_polybori_E06_n9_kernel
 command : python3 server/jobs/run_polybori.py --systems /home/luck/rxw/AIM3_remote/out/E04_systems --tags E06_n9_kernel --orders grevlex,blockU,blockW --timeout 5400 --csv E10_server_polybori.csv --logdir /home/luck/rxw/AIM3_remote/out/B2_pblogs
+finished: 2026-08-31T22:55:36-07:00
+exit    : 0
+time    : Elapsed (wall clock) time (h:mm:ss or m:ss): 2:08:42
+time    : Maximum resident set size (kbytes): 4756452
+JOB_DONE_rc=0

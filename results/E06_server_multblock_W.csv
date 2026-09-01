@@ -12,3 +12,4 @@ n,exps,system,D,nvars,neqs,mult_block,corank,rows,cols,rank,syz,dim_low,falls_fr
 7,2;3;4,random_bilinear,2,42,42,W,862,42,904,42,0,0,,84,0.0,A,luck-Precision-7920-Tower,11ec8ab,1.945,0
 7,2;3;4,random_bilinear,3,42,42,W,11460,924,12384,924,0,42,0,84,6.0,A,luck-Precision-7920-Tower,11ec8ab,2.362,0
 7,2;3;4,random_bilinear,4,42,42,W,114570,9744,124314,9744,0,924,0,84,132.0,A,luck-Precision-7920-Tower,11ec8ab,17.68,0
+7,2;3;4,random_bilinear,5,42,42,W,909378,65604,974982,65604,0,9744,0,84,1392.0,A,luck-Precision-7920-Tower,11ec8ab,7709.156,0
