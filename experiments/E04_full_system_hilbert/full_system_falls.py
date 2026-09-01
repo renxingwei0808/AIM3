@@ -38,6 +38,10 @@ TWO CAVEATS, both measured and reported per run rather than assumed away:
 
 Usage:
   python3 full_system_falls.py N [-l ELL] [--seeds 1,2] [--systems S_quad,P1only,random] [--budget SEC]
+                                 [--per-block] [--backend python|sage]
+`--backend sage` routes every Macaulay rank through M4RI (src/aim3/boolmac_export.py +
+experiments/E04_full_system_hilbert/sage/rank_backend.sage); the two engines are verified to agree
+exactly by server/jobs/verify_backend.py.  Scratch matrices go to $AIM3_SCRATCH.
 Every run appends a row to results/E04_full_system_falls.csv; a run that exceeds --budget
 (default 3600 s per Macaulay matrix) is recorded with censored=1 and its rank/fall numbers are
 LOWER BOUNDS, never values (CLAUDE.md ground rule 4).
@@ -48,6 +52,9 @@ sys.path.insert(0, os.path.join(os.path.dirname(__file__), ".."))
 from _common import record
 from aim3_macaulay import build_aim3, random_system
 from aim3.boolmac import macaulay_stats, MacaulayTimeout
+from aim3.boolmac_export import macaulay_stats_backend
+
+SCRATCH = os.environ.get("AIM3_SCRATCH")
 
 
 def default_exps(n, ell):
@@ -57,11 +64,12 @@ def default_exps(n, ell):
     return cand[:ell + 1]
 
 
-def measure(name, eqs, nv, D, budget):
+def measure(name, eqs, nv, D, budget, backend="python"):
     """-> (MacaulayResult, censored, seconds)"""
     t0 = time.time()
     try:
-        st = macaulay_stats(eqs, nv, D, budget=budget)
+        st = macaulay_stats_backend(eqs, nv, D, backend=backend, budget=budget, workdir=SCRATCH,
+                                    tag=f"e04_{name.replace(' ', '')}_nv{nv}")
         return st, 0, time.time() - t0
     except MacaulayTimeout as exc:
         print(f"     !! {name} D={D} exceeded the {budget:.0f}s budget after "
@@ -69,7 +77,7 @@ def measure(name, eqs, nv, D, budget):
         return exc.partial, 1, time.time() - t0
 
 
-def run(n, ell, seed, systems, budget, per_block=False):
+def run(n, ell, seed, systems, budget, per_block=False, backend="python"):
     from math import comb
     exps = default_exps(n, ell)
     nv, eqsP1, eqsAll, _ = build_aim3(n, exps, seed=seed)
@@ -89,7 +97,7 @@ def run(n, ell, seed, systems, budget, per_block=False):
         cens = 0
         secs = 0.0
         for D in (3, 4):
-            st[D], c, sc = measure(name, eqs, nv, D, budget)
+            st[D], c, sc = measure(name, eqs, nv, D, budget, backend)
             cens |= c
             secs += sc
             print(f"     D={D}: rows={st[D].rows:7d} cols={st[D].cols:7d} rank={st[D].rank:7d} "
@@ -125,8 +133,8 @@ def run(n, ell, seed, systems, budget, per_block=False):
                 per = []
                 for i in range(ell + 1):
                     sub = eqs[i * 3 * n:(i + 1) * 3 * n]
-                    b3, c3, _ = measure(f"S-box{i} alone", sub, nv, 3, budget)
-                    b4, c4, _ = measure(f"S-box{i} alone", sub, nv, 4, budget)
+                    b3, c3, _ = measure(f"S-box{i}alone", sub, nv, 3, budget, backend)
+                    b4, c4, _ = measure(f"S-box{i}alone", sub, nv, 4, budget, backend)
                     cens |= c3 | c4
                     per.append(b4.dim_low - b3.rank)
                     print(f"     [control] S-box {i} alone in {nv} vars: D3 rank={b3.rank} syz={b3.syz} "
@@ -150,8 +158,10 @@ if __name__ == "__main__":
     ap.add_argument("--budget", type=float, default=3600.0, help="seconds per Macaulay matrix")
     ap.add_argument("--per-block", action="store_true",
                     help="also run each S-box's 3n quadratics alone in the same variables (direct-sum control)")
+    ap.add_argument("--backend", choices=["python", "sage"], default="python",
+                    help="rank engine: pure Python (default) or Sage/M4RI")
     a = ap.parse_args()
     print(f"# params: n={a.n} ell={a.ell} seeds={a.seeds} systems={a.systems} budget={a.budget}s "
-          f"per_block={a.per_block}")
+          f"per_block={a.per_block} backend={a.backend}")
     for seed in [int(s) for s in a.seeds.split(",")]:
-        run(a.n, a.ell, seed, a.systems.split(","), a.budget, a.per_block)
+        run(a.n, a.ell, seed, a.systems.split(","), a.budget, a.per_block, a.backend)

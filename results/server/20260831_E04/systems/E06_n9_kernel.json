@@ -1,0 +1,29 @@
+{
+ "ell": 2,
+ "experiment": "E06",
+ "exps": [
+  2,
+  4,
+  5
+ ],
+ "magma": {
+  "path": "/home/luck/rxw/AIM3_remote/out/E04_systems/E06_n9_kernel.magma.m",
+  "polynomials": 54
+ },
+ "max_degree": 2,
+ "msolve": {
+  "field_equations": true,
+  "path": "/home/luck/rxw/AIM3_remote/out/E04_systems/E06_n9_kernel.ms",
+  "polynomials": 108,
+  "terms": 2002
+ },
+ "n": 9,
+ "neqs": 54,
+ "nvars": 54,
+ "seed": 1,
+ "solution": "111101111101101101101101011110000110110101011011000100",
+ "system": "kernel",
+ "tag": "E06_n9_kernel",
+ "terms": 2002,
+ "terms_per_eq": 37.07
+}

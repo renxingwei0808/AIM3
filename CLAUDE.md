@@ -31,3 +31,57 @@ all writing tasks (paper/, docs/). Run `bash scripts/smoke_test.sh` before commi
 
 ## Writing
 Paper in English (`paper/`), roadmap and internal notes may be in Chinese. Every paper claim gets a row in `paper/claims_ledger.md`.
+
+---
+
+## Environment — verified 2026-08-31 (checked by Claude Code, WSL laptop)
+
+### Language of interaction
+**All final deliverables, summaries and questions addressed to the user are written in Chinese (中文).**
+Code, identifiers, commit messages, CSV headers and the paper in `paper/` stay in English.
+
+### GitHub (upload target)
+* Repo `renxingwei0808/AIM3` — **private**, default branch `main`.
+* Permission of the authenticated account (`gh` CLI, user `renxingwei0808`):
+  `admin=true, maintain=true, push=true, pull=true, triage=true` → **full admin, push allowed**.
+* Token scopes: `repo`, `workflow`, `read:org`, `gist`. Protocol: HTTPS via `gh`.
+* Local working copy: `/home/star/AIM3_local` (clone of `origin/main`).
+* **Upload policy: never push on my own initiative.** Commit locally in `/home/star/AIM3_local` and push
+  only when the task prompt explicitly asks for it. When it does: branch + PR for anything larger than a
+  doc tweak; never force-push `main`.
+
+### Remote compute server
+* Access: `ssh -F ~/.ssh/config_server server` → `luck@192.168.111.172`
+  (host `luck-Precision-7920-Tower`, key `~/.ssh/server_ed25519`). Connection verified.
+* Ubuntu 22.04.5 LTS, **104 threads**, **251 GB RAM**, `/` = 11 TB with 8.5 TB free, 1× RTX 3080 (10 GB).
+* **All code and runs live in `/home/luck/rxw/AIM3_remote/`.** Do not write outside it
+  (`/home/luck/rxw/` holds unrelated projects: `yuh_*`, `research_MDS`, `benchmarks`, …).
+* Available: `python3` 3.10.12, `sage` 9.5, `gap`, `gp`, `git`, `tmux` 3.2a, `gcc/make/cmake`, `mpirun`,
+  system `libm4ri` and `libflint`.
+* **Missing** (install before the jobs in `server/README.md` that need them): `msolve`, GNU `parallel`,
+  Sage is 9.5 not ≥ 10.
+
+### Magma on the server — available ✅
+* `/home/luck/bin/magma` (wrapper) → `/home/luck/magma-2018`, **Magma V2.24-2**, licence file present.
+* Verified working: `GF(2,127)`, `PolynomialRing(..., "grevlex")`, `GroebnerBasis`, `HilbertSeries`,
+  `SetNthreads(4)` / `GetNthreads()` (multi-threaded F4 linear algebra is usable — scale up to 52 per `server/README.md`).
+* **Three traps found while testing — always follow these:**
+  1. `magma` is only on the **login-shell** `PATH` (`~/.bashrc`). A plain `ssh server '<cmd>'` will not find it.
+     Always wrap: `ssh -F ~/.ssh/config_server server 'bash -lc "..."'`.
+  2. Non-interactive runs must close stdin or Magma hangs forever:
+     `magma -b script.m < /dev/null` (use `-b` for batch, no banner).
+  3. `GetVersion()` returns three values — `a,b,c := GetVersion();` before printing, otherwise
+     `printf` raises "Not enough arguments for % conversions".
+* `GetMemoryLimit()` returns `0` (unlimited) → the memory caps in `server/README.md` must be enforced by us
+  with `ulimit -v` in the launch wrapper, not by Magma.
+
+### Standard remote job recipe
+```bash
+ssh -F ~/.ssh/config_server server 'bash -lc "
+  cd /home/luck/rxw/AIM3_remote/<exp> &&
+  mkdir -p results &&
+  ulimit -v <kb> &&
+  nohup magma -b <script>.m </dev/null > results/<params>.log 2>&1 &
+  echo started \$!"'
+```
+Poll the log; never block on a long job. Copy back only summary CSV/JSON + logs.

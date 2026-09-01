@@ -1,0 +1,3 @@
+n,exps,seed,nvars,neqs,mac3_rows,mac3_rank,mac3_syz,syz_target,IV_deg3,excess_over_mac3,excess_over_4n,mac4_rows,mac4_rank,mac4_dim_le3,falls_D4,falls_minus_4n,falls_sbox0,falls_sbox1,cross_excess,tier,host,commit,seconds,censored
+13,3;4,1,39,78,3120,2912,208,208,2965,53,1,60918,50011,2965,53,1,26,27,0,A,luck-Precision-7920-Tower,e7ebb71,140.215,0
+14,3;5,1,42,84,3612,3388,224,224,3444,56,0,75936,63266,3444,56,0,28,28,0,A,luck-Precision-7920-Tower,e7ebb71,244.115,0

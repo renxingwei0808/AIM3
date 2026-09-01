@@ -1,0 +1,13 @@
+host    : luck-Precision-7920-Tower
+commit  : e7ebb71
+branch  : claude/server-batch-1
+started : 2026-08-31T06:31:21-07:00
+ulimit -v: 150 GB
+results : /home/luck/rxw/AIM3_remote/out/E05_resultants
+scratch : /home/luck/rxw/AIM3_remote/scratch/E05_resultants
+command : python3 experiments/E05_two_valued_inverse/run_resultants.py --ns 8,9,10,11,12,13,14,15,16,17,18,19,20 --seed 1 --timeout 7200 --mem-gb 120 --workdir /home/luck/rxw/AIM3_remote/scratch/E05 --csv E05_server_resultants.csv --factor
+finished: 2026-08-31T08:31:22-07:00
+exit    : 0
+time    : Elapsed (wall clock) time (h:mm:ss or m:ss): 2:00:00
+time    : Maximum resident set size (kbytes): 17472
+JOB_DONE_rc=0

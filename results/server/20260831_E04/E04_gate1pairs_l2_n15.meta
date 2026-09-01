@@ -1,0 +1,13 @@
+host    : luck-Precision-7920-Tower
+commit  : cc8d6ab
+branch  : claude/server-batch-1
+started : 2026-08-31T06:41:14-07:00
+ulimit -v: 120 GB
+results : /home/luck/rxw/AIM3_remote/out/E04_gate1pairs_l2_n15
+scratch : /home/luck/rxw/AIM3_remote/scratch/E04_gate1pairs_l2_n15
+command : python3 server/jobs/gate1_pairs.py 15 -l 2 --seed 1 --systems S_quad,random --backend sage --budget 86400
+finished: 2026-08-31T08:51:41-07:00
+exit    : 0
+time    : Elapsed (wall clock) time (h:mm:ss or m:ss): 2:10:26
+time    : Maximum resident set size (kbytes): 3443616
+JOB_DONE_rc=0

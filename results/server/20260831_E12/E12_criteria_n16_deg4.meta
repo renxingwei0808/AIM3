@@ -1,0 +1,13 @@
+host    : luck-Precision-7920-Tower
+commit  : cc8d6ab
+branch  : claude/server-batch-1
+started : 2026-08-31T06:51:57-07:00
+ulimit -v: 100 GB
+results : /home/luck/rxw/AIM3_remote/out/E12_criteria_n16_deg4
+scratch : /home/luck/rxw/AIM3_remote/scratch/E12_criteria_n16_deg4
+command : python3 server/jobs/e12_criteria_subtract.py 16 --deg 4 --backend sage
+finished: 2026-08-31T06:57:37-07:00
+exit    : 0
+time    : Elapsed (wall clock) time (h:mm:ss or m:ss): 5:40.25
+time    : Maximum resident set size (kbytes): 666152
+JOB_DONE_rc=0

@@ -56,3 +56,25 @@ The `--per-block` control replaces it with `cross_excess = falls(all) − Σᵢ 
   ℓ = 3 for the AIM3-V shape; uniform GL_n as a second matrix distribution.
 * Tier C: the actual d_solv via F4 step degrees (`magma/`, `SetVerbose("Faugere",2)`) — the
   saturation problem does not affect a step-degree log, which is the better observable for Q2.
+
+## Server log — 2026-08-31 (server batch 1, branch `claude/server-batch-1`)
+
+**Gate 1.** `full_system_falls.py --backend sage --per-block` was run for ℓ = 1 (n = 13, 15, 17, 19),
+ℓ = 2 (n = 11, 13, 15, 17, 19) and ℓ = 3 (n = 11, 13), seeds 1–3, systems `S_quad / P1only /
+random`.  Rows: `results/E04_server_gate1.csv`.  A run only enters the verdict when
+`saturation = dim(span_{D=4} ∩ deg≤3)/C(nv,≤3) < 0.9`; ℓ = 1 at n = 13, 15 and ℓ = 2 at n = 11 are
+saturated and were discarded, which is why the batch had to climb to n = 17 and 19.
+
+**The subset lattice.** `server/jobs/gate1_pairs.py` measures `falls_D4` for *every* subset of the
+S-box blocks (not just the singletons and the whole set), together with a same-shape `random`
+control cut into blocks at the same positions.  This is what localises a non-zero `cross_excess`
+onto pairs, and it is the only way to tell a structural excess from "more equations reach further".
+Rows: `results/E04_server_gate1_pairs.csv`.
+
+**F4 step degrees (Q2).** `export_systems.py` writes each instance in msolve and Magma syntax;
+`run_f4_degrees.py` runs `msolve -v 2 -g 2` and Magma `SetVerbose("Faugere",2)` and records
+`d_solv`, the largest F4 matrix, time and peak RSS into `results/E04_f4_degrees.csv`.  The two tools
+were cross-validated at n = 7 (identical `d_solv` and step count).  `-g 2` matters: without it
+msolve continues to a rational parametrisation and re-runs F4 about twenty times.
+
+Verdict, growth law and the ℓ = 3 anomaly: `results/REPORT_server_batch1.md` §2.

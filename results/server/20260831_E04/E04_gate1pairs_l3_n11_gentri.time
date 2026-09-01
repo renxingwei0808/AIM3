@@ -1,0 +1,23 @@
+	Command being timed: "python3 server/jobs/gate1_pairs.py 11 -l 3 --seed 1 --exps 3,4,7,8 --blocks 0+1+2 --systems S_quad --backend sage --budget 86400"
+	User time (seconds): 433.04
+	System time (seconds): 6.09
+	Percent of CPU this job got: 99%
+	Elapsed (wall clock) time (h:mm:ss or m:ss): 7:20.57
+	Average shared text size (kbytes): 0
+	Average unshared data size (kbytes): 0
+	Average stack size (kbytes): 0
+	Average total size (kbytes): 0
+	Maximum resident set size (kbytes): 2063264
+	Average resident set size (kbytes): 0
+	Major (requiring I/O) page faults: 6
+	Minor (reclaiming a frame) page faults: 1470743
+	Voluntary context switches: 1357
+	Involuntary context switches: 1371
+	Swaps: 0
+	File system inputs: 120
+	File system outputs: 116168
+	Socket messages sent: 0
+	Socket messages received: 0
+	Signals delivered: 0
+	Page size (bytes): 4096
+	Exit status: 0

@@ -1,0 +1,23 @@
+	Command being timed: "python3 experiments/E04_full_system_hilbert/full_system_falls.py 11 -l 3 --seeds 1,2,3 --systems S_quad,P1only,random --per-block --backend sage --budget 86400"
+	User time (seconds): 6353.67
+	System time (seconds): 62.42
+	Percent of CPU this job got: 99%
+	Elapsed (wall clock) time (h:mm:ss or m:ss): 1:46:59
+	Average shared text size (kbytes): 0
+	Average unshared data size (kbytes): 0
+	Average stack size (kbytes): 0
+	Average total size (kbytes): 0
+	Maximum resident set size (kbytes): 3023072
+	Average resident set size (kbytes): 0
+	Major (requiring I/O) page faults: 14
+	Minor (reclaiming a frame) page faults: 19079300
+	Voluntary context switches: 7994
+	Involuntary context switches: 19197
+	Swaps: 0
+	File system inputs: 1712
+	File system outputs: 2345472
+	Socket messages sent: 0
+	Socket messages received: 0
+	Signals delivered: 0
+	Page size (bytes): 4096
+	Exit status: 0

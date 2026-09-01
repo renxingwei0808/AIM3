@@ -1,0 +1,28 @@
+{
+ "ell": 2,
+ "experiment": "E06",
+ "exps": [
+  2,
+  3,
+  4
+ ],
+ "magma": {
+  "path": "/home/luck/rxw/AIM3_remote/out/E04_systems/E06_n11_random_bilinear.magma.m",
+  "polynomials": 66
+ },
+ "max_degree": 2,
+ "msolve": {
+  "field_equations": true,
+  "path": "/home/luck/rxw/AIM3_remote/out/E04_systems/E06_n11_random_bilinear.ms",
+  "polynomials": 132,
+  "terms": 38062
+ },
+ "n": 11,
+ "neqs": 66,
+ "nvars": 66,
+ "seed": 1,
+ "system": "random_bilinear",
+ "tag": "E06_n11_random_bilinear",
+ "terms": 38062,
+ "terms_per_eq": 576.7
+}

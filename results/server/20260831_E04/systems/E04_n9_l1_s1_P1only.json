@@ -1,0 +1,28 @@
+{
+ "builder": "legacy/aim3_macaulay.build_aim3",
+ "commit": "e7ebb71",
+ "ell": 1,
+ "experiment": "E04",
+ "exps": "2;4",
+ "host": "luck-Precision-7920-Tower",
+ "magma": {
+  "path": "/home/luck/rxw/AIM3_remote/out/E04_systems/E04_n9_l1_s1_P1only.magma.m",
+  "polynomials": 18
+ },
+ "max_degree": 2,
+ "msolve": {
+  "field_equations": true,
+  "path": "/home/luck/rxw/AIM3_remote/out/E04_systems/E04_n9_l1_s1_P1only.ms",
+  "polynomials": 36,
+  "terms": 870
+ },
+ "n": 9,
+ "neqs": 18,
+ "nvars": 18,
+ "seed": 1,
+ "solution": "100101101001000000",
+ "system": "P1only",
+ "tag": "E04_n9_l1_s1_P1only",
+ "terms": 870,
+ "terms_per_eq": 48.33
+}

@@ -77,3 +77,25 @@ must be run; the true one is printed by the script.
 **Next steps.** Tier C: resultant/Kronecker timings for n = 8..24 and the log₂(time)-vs-n slope
 (the T3 termination criterion is slope ≥ 2); polynomial decomposition attempts on G; comparison with
 the AIM2 reduced system of the same n to state "non-permutation patch = X bits".
+
+## Server log — 2026-08-31 (server batch 1, branch `claude/server-batch-1`)
+
+`reduced_system_toy.py` gained `--export DIR`, which writes the file described under *Input format
+for the server* above: modulus, exponents, the true branch bits, the true key, and both equations as
+`<exp_t0, exp_t1, coefficient>` triples.  `magma/reduced_system_resultant.m` — previously a skeleton
+— rebuilds the two polynomials over `GF(2,n)`, **asserts that the true key is a root of both**
+before doing anything expensive, then times `Resultant(Eq1, Eq2, t1)` and reports the degree, the
+term count, the roots and (with `dofactor:=1`) the factorisation.
+
+`run_resultants.py` drives n = 8, 9, … under a wall-clock and a `ulimit -v` cap, records every run
+with `censored=1` when it hits either, **stops the escalation at the first censored n** (batch rule
+0.2), and fits `log2(time)` and `log2(degree)` against n.  The ROADMAP §3.3 termination criterion
+for T3 is a time slope ≥ 2.
+
+Rows: `results/E05_server_resultants.csv`.  Curve, slope and verdict:
+`results/REPORT_server_batch1.md` §6.
+
+One implementation note worth keeping: Magma's `load` accepts a string *literal* only, so the
+system file cannot be named on the command line; the driver writes a three-line wrapper `.m` and
+runs that.  The Magma subprocess is also started in its own process group and killed as a group on
+timeout — otherwise the wrapper dies and Magma keeps running (and holding its memory) for hours.

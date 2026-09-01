@@ -88,3 +88,28 @@ remain in the generic class (asserted by `exponent_audit.py` and `tests/test_cor
   D = 5 at n = 11..14 (`magma/sbox_macaulay.m`, still an untested skeleton — validate against
   `results/E03_sbox_degree_fall.csv` at n ≤ 13 first).
 * [OPEN] the e = 2 asymmetry in `outside_ideal`.
+
+## Server log — 2026-08-31 (server batch 1, branch `claude/server-batch-1`)
+
+**What ran.** `bash sweep.sh 17 18 19 20` with `AIM3_BACKEND=sage` (M4RI through
+`src/aim3/boolmac_export.py` + `experiments/E04_full_system_hilbert/sage/rank_backend.sage`), every
+admissible e, plus a D = 5 probe at n = 14 and n = 16 (`server/jobs/e03_d5.py`).  Rows go to
+`results/E03_server_n17_20.csv` and `results/E03_server_D5.csv`; the committed Tier-A table
+`results/E03_sbox_degree_fall.csv` and `results/E03_summary.md` are **not** touched — the merged
+summary is regenerated into `results/server/20260831_E03/E03_summary_with_n17_20.md` by
+`bash server/jobs/e03_summary_merged.sh`.
+
+**Two things had to be added to reach n > 16 at all.**
+* `legacy/aim3_lab.CONWAY` stops at n = 16.  `src/aim3/legacy_fields.py` copies the n = 17..24
+  moduli out of `src/aim3/gf2n.TOY_MODULI` after checking each is irreducible (Rabin), and asserts
+  that the entries shared with the legacy table agree — so a server instance at n ≤ 16 is still
+  bit-identical to the Tier-A one.  `legacy/` itself is untouched.
+* `sbox_degree_fall.py` gained `--backend python|sage` and `--no-points`.  The point-set matrix at
+  n = 20 is 1048575 × 10701; the Macaulay ranks do not need it, so it can be skipped when only the
+  fall count is wanted.  `sweep.sh` forwards `AIM3_BACKEND` and `E03_EXTRA`.
+
+**Result.** The calibrated class rule was fitted on n ≤ 16 and predicts every completed run at
+n = 17..20 exactly — see `results/REPORT_server_batch1.md` §3 for the mismatch count and the table.
+`syz₃ = 8n` continues to hold without exception, and `outside_ideal` is again 2n for e = 2 and 0 for
+every other class, including e = 2⁻¹ — the asymmetry noted as [OPEN] in the Tier-A log survives at
+n = 17 and 19.

@@ -69,3 +69,28 @@ by wt(−r) = n − (e⁻¹ mod n), exactly the quantity the exponent audit scor
 65k×41k rank) — the same wt(−r) argument predicts that univariate criteria with wt(−rᵢ) ≤ 4 appear
 there, so the control must subtract them before any cross-relation claim; the first-layer D=4 run at
 n = 13, 14 (the Python run at n=14, D=4 is ~10⁵ rows × 1.2·10⁵ columns — server work).
+
+## Server log — 2026-08-31 (server batch 1, branch `claude/server-batch-1`)
+
+**First-layer system.** `first_layer_ideal.py 13 --D4` and `14 --D4` with `--backend sage`
+(`results/E12_server_first_layer.csv`).
+
+**Degree 4 on (t₀,t₁).** `cross_relations.py 16 4 --backend sage` (65534 × 41449 over F₂) and
+`explain_n16.py 16 --deg 4 --backend sage`.  Both scripts gained the flags they needed; the
+committed Tier-A CSVs are untouched (server rows go to `results/E12_server_*.csv`).
+
+**A correction that matters.** `explain_n16.py` decides "univariate" by asking whether a relation is
+supported on t₀-only or t₁-only monomials.  At degree 3 that is right.  At degree **4** it is not:
+if g = Tr(t₁^{−r₁}) is a cubic relation, then every product `g·t₀ᵢ` is a quartic relation that
+touches both blocks and is *not* a cross relation.  Read naively, the n = 16 deg-4 run reports 16
+"genuine cross" relations; all 16 are exactly those products.  `server/jobs/e12_criteria_subtract.py`
+does what this README prescribes instead — it builds the criteria from their ANF (so their Boolean
+degree is measured, not assumed), spans the whole degree-≤4 part of the ideal they generate, and
+subtracts it.  Rows: `results/E12_server_criteria_subtract.csv`.
+
+**A size caveat, stated so it is not misread later.** At n = 14, deg = 4 the graph has 16382 points
+but C(28,≤4) = 24158 monomials, so *any* instance has ≥ 7776 relations purely from the point
+deficit; the measurement is meaningless there and is reported as such.  n = 16 (65534 points,
+41449 monomials) is the smallest size at which the deg-4 question can be asked at all.
+
+Result: `results/REPORT_server_batch1.md` §4.

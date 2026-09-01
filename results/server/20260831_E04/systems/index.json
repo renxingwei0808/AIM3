@@ -1,0 +1,1662 @@
+[
+ {
+  "builder": "legacy/aim3_macaulay.build_aim3",
+  "commit": "e7ebb71",
+  "ell": 1,
+  "experiment": "E04",
+  "exps": "2;3",
+  "host": "luck-Precision-7920-Tower",
+  "magma": {
+   "path": "/home/luck/rxw/AIM3_remote/out/E04_systems/E04_n7_l1_s1_S_quad.magma.m",
+   "polynomials": 42
+  },
+  "max_degree": 2,
+  "msolve": {
+   "field_equations": true,
+   "path": "/home/luck/rxw/AIM3_remote/out/E04_systems/E04_n7_l1_s1_S_quad.ms",
+   "polynomials": 56,
+   "terms": 1568
+  },
+  "n": 7,
+  "neqs": 42,
+  "nvars": 14,
+  "seed": 1,
+  "solution": "11001110010111",
+  "system": "S_quad",
+  "tag": "E04_n7_l1_s1_S_quad",
+  "terms": 1568,
+  "terms_per_eq": 37.33
+ },
+ {
+  "builder": "legacy/aim3_macaulay.build_aim3",
+  "commit": "e7ebb71",
+  "ell": 1,
+  "experiment": "E04",
+  "exps": "2;3",
+  "host": "luck-Precision-7920-Tower",
+  "magma": {
+   "path": "/home/luck/rxw/AIM3_remote/out/E04_systems/E04_n7_l1_s1_P1only.magma.m",
+   "polynomials": 14
+  },
+  "max_degree": 2,
+  "msolve": {
+   "field_equations": true,
+   "path": "/home/luck/rxw/AIM3_remote/out/E04_systems/E04_n7_l1_s1_P1only.ms",
+   "polynomials": 28,
+   "terms": 490
+  },
+  "n": 7,
+  "neqs": 14,
+  "nvars": 14,
+  "seed": 1,
+  "solution": "11001110010111",
+  "system": "P1only",
+  "tag": "E04_n7_l1_s1_P1only",
+  "terms": 490,
+  "terms_per_eq": 35.0
+ },
+ {
+  "builder": "legacy/aim3_macaulay.build_aim3",
+  "commit": "e7ebb71",
+  "ell": 1,
+  "experiment": "E04",
+  "exps": "2;3",
+  "host": "luck-Precision-7920-Tower",
+  "magma": {
+   "path": "/home/luck/rxw/AIM3_remote/out/E04_systems/E04_n7_l1_s1_random.magma.m",
+   "polynomials": 42
+  },
+  "max_degree": 2,
+  "msolve": {
+   "field_equations": true,
+   "path": "/home/luck/rxw/AIM3_remote/out/E04_systems/E04_n7_l1_s1_random.ms",
+   "polynomials": 56,
+   "terms": 2263
+  },
+  "n": 7,
+  "neqs": 42,
+  "nvars": 14,
+  "seed": 1,
+  "system": "random",
+  "tag": "E04_n7_l1_s1_random",
+  "terms": 2263,
+  "terms_per_eq": 53.88
+ },
+ {
+  "builder": "legacy/aim3_macaulay.build_aim3",
+  "commit": "e7ebb71",
+  "ell": 1,
+  "experiment": "E04",
+  "exps": "2;3",
+  "host": "luck-Precision-7920-Tower",
+  "magma": {
+   "path": "/home/luck/rxw/AIM3_remote/out/E04_systems/E04_n7_l1_s2_S_quad.magma.m",
+   "polynomials": 42
+  },
+  "max_degree": 2,
+  "msolve": {
+   "field_equations": true,
+   "path": "/home/luck/rxw/AIM3_remote/out/E04_systems/E04_n7_l1_s2_S_quad.ms",
+   "polynomials": 56,
+   "terms": 1533
+  },
+  "n": 7,
+  "neqs": 42,
+  "nvars": 14,
+  "seed": 2,
+  "solution": "01111110010111",
+  "system": "S_quad",
+  "tag": "E04_n7_l1_s2_S_quad",
+  "terms": 1533,
+  "terms_per_eq": 36.5
+ },
+ {
+  "builder": "legacy/aim3_macaulay.build_aim3",
+  "commit": "e7ebb71",
+  "ell": 1,
+  "experiment": "E04",
+  "exps": "2;3",
+  "host": "luck-Precision-7920-Tower",
+  "magma": {
+   "path": "/home/luck/rxw/AIM3_remote/out/E04_systems/E04_n7_l1_s2_P1only.magma.m",
+   "polynomials": 14
+  },
+  "max_degree": 2,
+  "msolve": {
+   "field_equations": true,
+   "path": "/home/luck/rxw/AIM3_remote/out/E04_systems/E04_n7_l1_s2_P1only.ms",
+   "polynomials": 28,
+   "terms": 535
+  },
+  "n": 7,
+  "neqs": 14,
+  "nvars": 14,
+  "seed": 2,
+  "solution": "01111110010111",
+  "system": "P1only",
+  "tag": "E04_n7_l1_s2_P1only",
+  "terms": 535,
+  "terms_per_eq": 38.21
+ },
+ {
+  "builder": "legacy/aim3_macaulay.build_aim3",
+  "commit": "e7ebb71",
+  "ell": 1,
+  "experiment": "E04",
+  "exps": "2;3",
+  "host": "luck-Precision-7920-Tower",
+  "magma": {
+   "path": "/home/luck/rxw/AIM3_remote/out/E04_systems/E04_n7_l1_s2_random.magma.m",
+   "polynomials": 42
+  },
+  "max_degree": 2,
+  "msolve": {
+   "field_equations": true,
+   "path": "/home/luck/rxw/AIM3_remote/out/E04_systems/E04_n7_l1_s2_random.ms",
+   "polynomials": 56,
+   "terms": 2289
+  },
+  "n": 7,
+  "neqs": 42,
+  "nvars": 14,
+  "seed": 2,
+  "system": "random",
+  "tag": "E04_n7_l1_s2_random",
+  "terms": 2289,
+  "terms_per_eq": 54.5
+ },
+ {
+  "builder": "legacy/aim3_macaulay.build_aim3",
+  "commit": "e7ebb71",
+  "ell": 2,
+  "experiment": "E04",
+  "exps": "2;3;4",
+  "host": "luck-Precision-7920-Tower",
+  "magma": {
+   "path": "/home/luck/rxw/AIM3_remote/out/E04_systems/E04_n7_l2_s1_S_quad.magma.m",
+   "polynomials": 63
+  },
+  "max_degree": 2,
+  "msolve": {
+   "field_equations": true,
+   "path": "/home/luck/rxw/AIM3_remote/out/E04_systems/E04_n7_l2_s1_S_quad.ms",
+   "polynomials": 84,
+   "terms": 3146
+  },
+  "n": 7,
+  "neqs": 63,
+  "nvars": 21,
+  "seed": 1,
+  "solution": "101011111000001100111",
+  "system": "S_quad",
+  "tag": "E04_n7_l2_s1_S_quad",
+  "terms": 3146,
+  "terms_per_eq": 49.94
+ },
+ {
+  "builder": "legacy/aim3_macaulay.build_aim3",
+  "commit": "e7ebb71",
+  "ell": 2,
+  "experiment": "E04",
+  "exps": "2;3;4",
+  "host": "luck-Precision-7920-Tower",
+  "magma": {
+   "path": "/home/luck/rxw/AIM3_remote/out/E04_systems/E04_n7_l2_s1_P1only.magma.m",
+   "polynomials": 21
+  },
+  "max_degree": 2,
+  "msolve": {
+   "field_equations": true,
+   "path": "/home/luck/rxw/AIM3_remote/out/E04_systems/E04_n7_l2_s1_P1only.ms",
+   "polynomials": 42,
+   "terms": 918
+  },
+  "n": 7,
+  "neqs": 21,
+  "nvars": 21,
+  "seed": 1,
+  "solution": "101011111000001100111",
+  "system": "P1only",
+  "tag": "E04_n7_l2_s1_P1only",
+  "terms": 918,
+  "terms_per_eq": 43.71
+ },
+ {
+  "builder": "legacy/aim3_macaulay.build_aim3",
+  "commit": "e7ebb71",
+  "ell": 2,
+  "experiment": "E04",
+  "exps": "2;3;4",
+  "host": "luck-Precision-7920-Tower",
+  "magma": {
+   "path": "/home/luck/rxw/AIM3_remote/out/E04_systems/E04_n7_l2_s1_random.magma.m",
+   "polynomials": 63
+  },
+  "max_degree": 2,
+  "msolve": {
+   "field_equations": true,
+   "path": "/home/luck/rxw/AIM3_remote/out/E04_systems/E04_n7_l2_s1_random.ms",
+   "polynomials": 84,
+   "terms": 7179
+  },
+  "n": 7,
+  "neqs": 63,
+  "nvars": 21,
+  "seed": 1,
+  "system": "random",
+  "tag": "E04_n7_l2_s1_random",
+  "terms": 7179,
+  "terms_per_eq": 113.95
+ },
+ {
+  "builder": "legacy/aim3_macaulay.build_aim3",
+  "commit": "e7ebb71",
+  "ell": 2,
+  "experiment": "E04",
+  "exps": "2;3;4",
+  "host": "luck-Precision-7920-Tower",
+  "magma": {
+   "path": "/home/luck/rxw/AIM3_remote/out/E04_systems/E04_n7_l2_s2_S_quad.magma.m",
+   "polynomials": 63
+  },
+  "max_degree": 2,
+  "msolve": {
+   "field_equations": true,
+   "path": "/home/luck/rxw/AIM3_remote/out/E04_systems/E04_n7_l2_s2_S_quad.ms",
+   "polynomials": 84,
+   "terms": 3090
+  },
+  "n": 7,
+  "neqs": 63,
+  "nvars": 21,
+  "seed": 2,
+  "solution": "010100101011100111000",
+  "system": "S_quad",
+  "tag": "E04_n7_l2_s2_S_quad",
+  "terms": 3090,
+  "terms_per_eq": 49.05
+ },
+ {
+  "builder": "legacy/aim3_macaulay.build_aim3",
+  "commit": "e7ebb71",
+  "ell": 2,
+  "experiment": "E04",
+  "exps": "2;3;4",
+  "host": "luck-Precision-7920-Tower",
+  "magma": {
+   "path": "/home/luck/rxw/AIM3_remote/out/E04_systems/E04_n7_l2_s2_P1only.magma.m",
+   "polynomials": 21
+  },
+  "max_degree": 2,
+  "msolve": {
+   "field_equations": true,
+   "path": "/home/luck/rxw/AIM3_remote/out/E04_systems/E04_n7_l2_s2_P1only.ms",
+   "polynomials": 42,
+   "terms": 934
+  },
+  "n": 7,
+  "neqs": 21,
+  "nvars": 21,
+  "seed": 2,
+  "solution": "010100101011100111000",
+  "system": "P1only",
+  "tag": "E04_n7_l2_s2_P1only",
+  "terms": 934,
+  "terms_per_eq": 44.48
+ },
+ {
+  "builder": "legacy/aim3_macaulay.build_aim3",
+  "commit": "e7ebb71",
+  "ell": 2,
+  "experiment": "E04",
+  "exps": "2;3;4",
+  "host": "luck-Precision-7920-Tower",
+  "magma": {
+   "path": "/home/luck/rxw/AIM3_remote/out/E04_systems/E04_n7_l2_s2_random.magma.m",
+   "polynomials": 63
+  },
+  "max_degree": 2,
+  "msolve": {
+   "field_equations": true,
+   "path": "/home/luck/rxw/AIM3_remote/out/E04_systems/E04_n7_l2_s2_random.ms",
+   "polynomials": 84,
+   "terms": 7339
+  },
+  "n": 7,
+  "neqs": 63,
+  "nvars": 21,
+  "seed": 2,
+  "system": "random",
+  "tag": "E04_n7_l2_s2_random",
+  "terms": 7339,
+  "terms_per_eq": 116.49
+ },
+ {
+  "builder": "legacy/aim3_macaulay.build_aim3",
+  "commit": "e7ebb71",
+  "ell": 1,
+  "experiment": "E04",
+  "exps": "2;4",
+  "host": "luck-Precision-7920-Tower",
+  "magma": {
+   "path": "/home/luck/rxw/AIM3_remote/out/E04_systems/E04_n9_l1_s1_S_quad.magma.m",
+   "polynomials": 54
+  },
+  "max_degree": 2,
+  "msolve": {
+   "field_equations": true,
+   "path": "/home/luck/rxw/AIM3_remote/out/E04_systems/E04_n9_l1_s1_S_quad.ms",
+   "polynomials": 72,
+   "terms": 2972
+  },
+  "n": 9,
+  "neqs": 54,
+  "nvars": 18,
+  "seed": 1,
+  "solution": "100101101001000000",
+  "system": "S_quad",
+  "tag": "E04_n9_l1_s1_S_quad",
+  "terms": 2972,
+  "terms_per_eq": 55.04
+ },
+ {
+  "builder": "legacy/aim3_macaulay.build_aim3",
+  "commit": "e7ebb71",
+  "ell": 1,
+  "experiment": "E04",
+  "exps": "2;4",
+  "host": "luck-Precision-7920-Tower",
+  "magma": {
+   "path": "/home/luck/rxw/AIM3_remote/out/E04_systems/E04_n9_l1_s1_P1only.magma.m",
+   "polynomials": 18
+  },
+  "max_degree": 2,
+  "msolve": {
+   "field_equations": true,
+   "path": "/home/luck/rxw/AIM3_remote/out/E04_systems/E04_n9_l1_s1_P1only.ms",
+   "polynomials": 36,
+   "terms": 870
+  },
+  "n": 9,
+  "neqs": 18,
+  "nvars": 18,
+  "seed": 1,
+  "solution": "100101101001000000",
+  "system": "P1only",
+  "tag": "E04_n9_l1_s1_P1only",
+  "terms": 870,
+  "terms_per_eq": 48.33
+ },
+ {
+  "builder": "legacy/aim3_macaulay.build_aim3",
+  "commit": "e7ebb71",
+  "ell": 1,
+  "experiment": "E04",
+  "exps": "2;4",
+  "host": "luck-Precision-7920-Tower",
+  "magma": {
+   "path": "/home/luck/rxw/AIM3_remote/out/E04_systems/E04_n9_l1_s1_random.magma.m",
+   "polynomials": 54
+  },
+  "max_degree": 2,
+  "msolve": {
+   "field_equations": true,
+   "path": "/home/luck/rxw/AIM3_remote/out/E04_systems/E04_n9_l1_s1_random.ms",
+   "polynomials": 72,
+   "terms": 4584
+  },
+  "n": 9,
+  "neqs": 54,
+  "nvars": 18,
+  "seed": 1,
+  "system": "random",
+  "tag": "E04_n9_l1_s1_random",
+  "terms": 4584,
+  "terms_per_eq": 84.89
+ },
+ {
+  "builder": "legacy/aim3_macaulay.build_aim3",
+  "commit": "e7ebb71",
+  "ell": 1,
+  "experiment": "E04",
+  "exps": "2;4",
+  "host": "luck-Precision-7920-Tower",
+  "magma": {
+   "path": "/home/luck/rxw/AIM3_remote/out/E04_systems/E04_n9_l1_s2_S_quad.magma.m",
+   "polynomials": 54
+  },
+  "max_degree": 2,
+  "msolve": {
+   "field_equations": true,
+   "path": "/home/luck/rxw/AIM3_remote/out/E04_systems/E04_n9_l1_s2_S_quad.ms",
+   "polynomials": 72,
+   "terms": 3097
+  },
+  "n": 9,
+  "neqs": 54,
+  "nvars": 18,
+  "seed": 2,
+  "solution": "111011101010000000",
+  "system": "S_quad",
+  "tag": "E04_n9_l1_s2_S_quad",
+  "terms": 3097,
+  "terms_per_eq": 57.35
+ },
+ {
+  "builder": "legacy/aim3_macaulay.build_aim3",
+  "commit": "e7ebb71",
+  "ell": 1,
+  "experiment": "E04",
+  "exps": "2;4",
+  "host": "luck-Precision-7920-Tower",
+  "magma": {
+   "path": "/home/luck/rxw/AIM3_remote/out/E04_systems/E04_n9_l1_s2_P1only.magma.m",
+   "polynomials": 18
+  },
+  "max_degree": 2,
+  "msolve": {
+   "field_equations": true,
+   "path": "/home/luck/rxw/AIM3_remote/out/E04_systems/E04_n9_l1_s2_P1only.ms",
+   "polynomials": 36,
+   "terms": 948
+  },
+  "n": 9,
+  "neqs": 18,
+  "nvars": 18,
+  "seed": 2,
+  "solution": "111011101010000000",
+  "system": "P1only",
+  "tag": "E04_n9_l1_s2_P1only",
+  "terms": 948,
+  "terms_per_eq": 52.67
+ },
+ {
+  "builder": "legacy/aim3_macaulay.build_aim3",
+  "commit": "e7ebb71",
+  "ell": 1,
+  "experiment": "E04",
+  "exps": "2;4",
+  "host": "luck-Precision-7920-Tower",
+  "magma": {
+   "path": "/home/luck/rxw/AIM3_remote/out/E04_systems/E04_n9_l1_s2_random.magma.m",
+   "polynomials": 54
+  },
+  "max_degree": 2,
+  "msolve": {
+   "field_equations": true,
+   "path": "/home/luck/rxw/AIM3_remote/out/E04_systems/E04_n9_l1_s2_random.ms",
+   "polynomials": 72,
+   "terms": 4732
+  },
+  "n": 9,
+  "neqs": 54,
+  "nvars": 18,
+  "seed": 2,
+  "system": "random",
+  "tag": "E04_n9_l1_s2_random",
+  "terms": 4732,
+  "terms_per_eq": 87.63
+ },
+ {
+  "builder": "legacy/aim3_macaulay.build_aim3",
+  "commit": "e7ebb71",
+  "ell": 2,
+  "experiment": "E04",
+  "exps": "2;4;5",
+  "host": "luck-Precision-7920-Tower",
+  "magma": {
+   "path": "/home/luck/rxw/AIM3_remote/out/E04_systems/E04_n9_l2_s1_S_quad.magma.m",
+   "polynomials": 81
+  },
+  "max_degree": 2,
+  "msolve": {
+   "field_equations": true,
+   "path": "/home/luck/rxw/AIM3_remote/out/E04_systems/E04_n9_l2_s1_S_quad.ms",
+   "polynomials": 108,
+   "terms": 6209
+  },
+  "n": 9,
+  "neqs": 81,
+  "nvars": 27,
+  "seed": 1,
+  "solution": "111101111101101101101101011",
+  "system": "S_quad",
+  "tag": "E04_n9_l2_s1_S_quad",
+  "terms": 6209,
+  "terms_per_eq": 76.65
+ },
+ {
+  "builder": "legacy/aim3_macaulay.build_aim3",
+  "commit": "e7ebb71",
+  "ell": 2,
+  "experiment": "E04",
+  "exps": "2;4;5",
+  "host": "luck-Precision-7920-Tower",
+  "magma": {
+   "path": "/home/luck/rxw/AIM3_remote/out/E04_systems/E04_n9_l2_s1_P1only.magma.m",
+   "polynomials": 27
+  },
+  "max_degree": 2,
+  "msolve": {
+   "field_equations": true,
+   "path": "/home/luck/rxw/AIM3_remote/out/E04_systems/E04_n9_l2_s1_P1only.ms",
+   "polynomials": 54,
+   "terms": 1757
+  },
+  "n": 9,
+  "neqs": 27,
+  "nvars": 27,
+  "seed": 1,
+  "solution": "111101111101101101101101011",
+  "system": "P1only",
+  "tag": "E04_n9_l2_s1_P1only",
+  "terms": 1757,
+  "terms_per_eq": 65.07
+ },
+ {
+  "builder": "legacy/aim3_macaulay.build_aim3",
+  "commit": "e7ebb71",
+  "ell": 2,
+  "experiment": "E04",
+  "exps": "2;4;5",
+  "host": "luck-Precision-7920-Tower",
+  "magma": {
+   "path": "/home/luck/rxw/AIM3_remote/out/E04_systems/E04_n9_l2_s1_random.magma.m",
+   "polynomials": 81
+  },
+  "max_degree": 2,
+  "msolve": {
+   "field_equations": true,
+   "path": "/home/luck/rxw/AIM3_remote/out/E04_systems/E04_n9_l2_s1_random.ms",
+   "polynomials": 108,
+   "terms": 15114
+  },
+  "n": 9,
+  "neqs": 81,
+  "nvars": 27,
+  "seed": 1,
+  "system": "random",
+  "tag": "E04_n9_l2_s1_random",
+  "terms": 15114,
+  "terms_per_eq": 186.59
+ },
+ {
+  "builder": "legacy/aim3_macaulay.build_aim3",
+  "commit": "e7ebb71",
+  "ell": 2,
+  "experiment": "E04",
+  "exps": "2;4;5",
+  "host": "luck-Precision-7920-Tower",
+  "magma": {
+   "path": "/home/luck/rxw/AIM3_remote/out/E04_systems/E04_n9_l2_s2_S_quad.magma.m",
+   "polynomials": 81
+  },
+  "max_degree": 2,
+  "msolve": {
+   "field_equations": true,
+   "path": "/home/luck/rxw/AIM3_remote/out/E04_systems/E04_n9_l2_s2_S_quad.ms",
+   "polynomials": 108,
+   "terms": 6141
+  },
+  "n": 9,
+  "neqs": 81,
+  "nvars": 27,
+  "seed": 2,
+  "solution": "111011001000100010110010110",
+  "system": "S_quad",
+  "tag": "E04_n9_l2_s2_S_quad",
+  "terms": 6141,
+  "terms_per_eq": 75.81
+ },
+ {
+  "builder": "legacy/aim3_macaulay.build_aim3",
+  "commit": "e7ebb71",
+  "ell": 2,
+  "experiment": "E04",
+  "exps": "2;4;5",
+  "host": "luck-Precision-7920-Tower",
+  "magma": {
+   "path": "/home/luck/rxw/AIM3_remote/out/E04_systems/E04_n9_l2_s2_P1only.magma.m",
+   "polynomials": 27
+  },
+  "max_degree": 2,
+  "msolve": {
+   "field_equations": true,
+   "path": "/home/luck/rxw/AIM3_remote/out/E04_systems/E04_n9_l2_s2_P1only.ms",
+   "polynomials": 54,
+   "terms": 1735
+  },
+  "n": 9,
+  "neqs": 27,
+  "nvars": 27,
+  "seed": 2,
+  "solution": "111011001000100010110010110",
+  "system": "P1only",
+  "tag": "E04_n9_l2_s2_P1only",
+  "terms": 1735,
+  "terms_per_eq": 64.26
+ },
+ {
+  "builder": "legacy/aim3_macaulay.build_aim3",
+  "commit": "e7ebb71",
+  "ell": 2,
+  "experiment": "E04",
+  "exps": "2;4;5",
+  "host": "luck-Precision-7920-Tower",
+  "magma": {
+   "path": "/home/luck/rxw/AIM3_remote/out/E04_systems/E04_n9_l2_s2_random.magma.m",
+   "polynomials": 81
+  },
+  "max_degree": 2,
+  "msolve": {
+   "field_equations": true,
+   "path": "/home/luck/rxw/AIM3_remote/out/E04_systems/E04_n9_l2_s2_random.ms",
+   "polynomials": 108,
+   "terms": 15438
+  },
+  "n": 9,
+  "neqs": 81,
+  "nvars": 27,
+  "seed": 2,
+  "system": "random",
+  "tag": "E04_n9_l2_s2_random",
+  "terms": 15438,
+  "terms_per_eq": 190.59
+ },
+ {
+  "builder": "legacy/aim3_macaulay.build_aim3",
+  "commit": "e7ebb71",
+  "ell": 1,
+  "experiment": "E04",
+  "exps": "2;3",
+  "host": "luck-Precision-7920-Tower",
+  "magma": {
+   "path": "/home/luck/rxw/AIM3_remote/out/E04_systems/E04_n11_l1_s1_S_quad.magma.m",
+   "polynomials": 66
+  },
+  "max_degree": 2,
+  "msolve": {
+   "field_equations": true,
+   "path": "/home/luck/rxw/AIM3_remote/out/E04_systems/E04_n11_l1_s1_S_quad.ms",
+   "polynomials": 88,
+   "terms": 5155
+  },
+  "n": 11,
+  "neqs": 66,
+  "nvars": 22,
+  "seed": 1,
+  "solution": "1011001100101100000111",
+  "system": "S_quad",
+  "tag": "E04_n11_l1_s1_S_quad",
+  "terms": 5155,
+  "terms_per_eq": 78.11
+ },
+ {
+  "builder": "legacy/aim3_macaulay.build_aim3",
+  "commit": "e7ebb71",
+  "ell": 1,
+  "experiment": "E04",
+  "exps": "2;3",
+  "host": "luck-Precision-7920-Tower",
+  "magma": {
+   "path": "/home/luck/rxw/AIM3_remote/out/E04_systems/E04_n11_l1_s1_P1only.magma.m",
+   "polynomials": 22
+  },
+  "max_degree": 2,
+  "msolve": {
+   "field_equations": true,
+   "path": "/home/luck/rxw/AIM3_remote/out/E04_systems/E04_n11_l1_s1_P1only.ms",
+   "polynomials": 44,
+   "terms": 1481
+  },
+  "n": 11,
+  "neqs": 22,
+  "nvars": 22,
+  "seed": 1,
+  "solution": "1011001100101100000111",
+  "system": "P1only",
+  "tag": "E04_n11_l1_s1_P1only",
+  "terms": 1481,
+  "terms_per_eq": 67.32
+ },
+ {
+  "builder": "legacy/aim3_macaulay.build_aim3",
+  "commit": "e7ebb71",
+  "ell": 1,
+  "experiment": "E04",
+  "exps": "2;3",
+  "host": "luck-Precision-7920-Tower",
+  "magma": {
+   "path": "/home/luck/rxw/AIM3_remote/out/E04_systems/E04_n11_l1_s1_random.magma.m",
+   "polynomials": 66
+  },
+  "max_degree": 2,
+  "msolve": {
+   "field_equations": true,
+   "path": "/home/luck/rxw/AIM3_remote/out/E04_systems/E04_n11_l1_s1_random.ms",
+   "polynomials": 88,
+   "terms": 8236
+  },
+  "n": 11,
+  "neqs": 66,
+  "nvars": 22,
+  "seed": 1,
+  "system": "random",
+  "tag": "E04_n11_l1_s1_random",
+  "terms": 8236,
+  "terms_per_eq": 124.79
+ },
+ {
+  "builder": "legacy/aim3_macaulay.build_aim3",
+  "commit": "e7ebb71",
+  "ell": 1,
+  "experiment": "E04",
+  "exps": "2;3",
+  "host": "luck-Precision-7920-Tower",
+  "magma": {
+   "path": "/home/luck/rxw/AIM3_remote/out/E04_systems/E04_n11_l1_s2_S_quad.magma.m",
+   "polynomials": 66
+  },
+  "max_degree": 2,
+  "msolve": {
+   "field_equations": true,
+   "path": "/home/luck/rxw/AIM3_remote/out/E04_systems/E04_n11_l1_s2_S_quad.ms",
+   "polynomials": 88,
+   "terms": 5518
+  },
+  "n": 11,
+  "neqs": 66,
+  "nvars": 22,
+  "seed": 2,
+  "solution": "0000110000111010001010",
+  "system": "S_quad",
+  "tag": "E04_n11_l1_s2_S_quad",
+  "terms": 5518,
+  "terms_per_eq": 83.61
+ },
+ {
+  "builder": "legacy/aim3_macaulay.build_aim3",
+  "commit": "e7ebb71",
+  "ell": 1,
+  "experiment": "E04",
+  "exps": "2;3",
+  "host": "luck-Precision-7920-Tower",
+  "magma": {
+   "path": "/home/luck/rxw/AIM3_remote/out/E04_systems/E04_n11_l1_s2_P1only.magma.m",
+   "polynomials": 22
+  },
+  "max_degree": 2,
+  "msolve": {
+   "field_equations": true,
+   "path": "/home/luck/rxw/AIM3_remote/out/E04_systems/E04_n11_l1_s2_P1only.ms",
+   "polynomials": 44,
+   "terms": 1697
+  },
+  "n": 11,
+  "neqs": 22,
+  "nvars": 22,
+  "seed": 2,
+  "solution": "0000110000111010001010",
+  "system": "P1only",
+  "tag": "E04_n11_l1_s2_P1only",
+  "terms": 1697,
+  "terms_per_eq": 77.14
+ },
+ {
+  "builder": "legacy/aim3_macaulay.build_aim3",
+  "commit": "e7ebb71",
+  "ell": 1,
+  "experiment": "E04",
+  "exps": "2;3",
+  "host": "luck-Precision-7920-Tower",
+  "magma": {
+   "path": "/home/luck/rxw/AIM3_remote/out/E04_systems/E04_n11_l1_s2_random.magma.m",
+   "polynomials": 66
+  },
+  "max_degree": 2,
+  "msolve": {
+   "field_equations": true,
+   "path": "/home/luck/rxw/AIM3_remote/out/E04_systems/E04_n11_l1_s2_random.ms",
+   "polynomials": 88,
+   "terms": 8458
+  },
+  "n": 11,
+  "neqs": 66,
+  "nvars": 22,
+  "seed": 2,
+  "system": "random",
+  "tag": "E04_n11_l1_s2_random",
+  "terms": 8458,
+  "terms_per_eq": 128.15
+ },
+ {
+  "builder": "legacy/aim3_macaulay.build_aim3",
+  "commit": "e7ebb71",
+  "ell": 2,
+  "experiment": "E04",
+  "exps": "2;3;4",
+  "host": "luck-Precision-7920-Tower",
+  "magma": {
+   "path": "/home/luck/rxw/AIM3_remote/out/E04_systems/E04_n11_l2_s1_S_quad.magma.m",
+   "polynomials": 99
+  },
+  "max_degree": 2,
+  "msolve": {
+   "field_equations": true,
+   "path": "/home/luck/rxw/AIM3_remote/out/E04_systems/E04_n11_l2_s1_S_quad.ms",
+   "polynomials": 132,
+   "terms": 10662
+  },
+  "n": 11,
+  "neqs": 99,
+  "nvars": 33,
+  "seed": 1,
+  "solution": "011010101001010000010000110111110",
+  "system": "S_quad",
+  "tag": "E04_n11_l2_s1_S_quad",
+  "terms": 10662,
+  "terms_per_eq": 107.7
+ },
+ {
+  "builder": "legacy/aim3_macaulay.build_aim3",
+  "commit": "e7ebb71",
+  "ell": 2,
+  "experiment": "E04",
+  "exps": "2;3;4",
+  "host": "luck-Precision-7920-Tower",
+  "magma": {
+   "path": "/home/luck/rxw/AIM3_remote/out/E04_systems/E04_n11_l2_s1_P1only.magma.m",
+   "polynomials": 33
+  },
+  "max_degree": 2,
+  "msolve": {
+   "field_equations": true,
+   "path": "/home/luck/rxw/AIM3_remote/out/E04_systems/E04_n11_l2_s1_P1only.ms",
+   "polynomials": 66,
+   "terms": 2879
+  },
+  "n": 11,
+  "neqs": 33,
+  "nvars": 33,
+  "seed": 1,
+  "solution": "011010101001010000010000110111110",
+  "system": "P1only",
+  "tag": "E04_n11_l2_s1_P1only",
+  "terms": 2879,
+  "terms_per_eq": 87.24
+ },
+ {
+  "builder": "legacy/aim3_macaulay.build_aim3",
+  "commit": "e7ebb71",
+  "ell": 2,
+  "experiment": "E04",
+  "exps": "2;3;4",
+  "host": "luck-Precision-7920-Tower",
+  "magma": {
+   "path": "/home/luck/rxw/AIM3_remote/out/E04_systems/E04_n11_l2_s1_random.magma.m",
+   "polynomials": 99
+  },
+  "max_degree": 2,
+  "msolve": {
+   "field_equations": true,
+   "path": "/home/luck/rxw/AIM3_remote/out/E04_systems/E04_n11_l2_s1_random.ms",
+   "polynomials": 132,
+   "terms": 27762
+  },
+  "n": 11,
+  "neqs": 99,
+  "nvars": 33,
+  "seed": 1,
+  "system": "random",
+  "tag": "E04_n11_l2_s1_random",
+  "terms": 27762,
+  "terms_per_eq": 280.42
+ },
+ {
+  "builder": "legacy/aim3_macaulay.build_aim3",
+  "commit": "e7ebb71",
+  "ell": 2,
+  "experiment": "E04",
+  "exps": "2;3;4",
+  "host": "luck-Precision-7920-Tower",
+  "magma": {
+   "path": "/home/luck/rxw/AIM3_remote/out/E04_systems/E04_n11_l2_s2_S_quad.magma.m",
+   "polynomials": 99
+  },
+  "max_degree": 2,
+  "msolve": {
+   "field_equations": true,
+   "path": "/home/luck/rxw/AIM3_remote/out/E04_systems/E04_n11_l2_s2_S_quad.ms",
+   "polynomials": 132,
+   "terms": 10805
+  },
+  "n": 11,
+  "neqs": 99,
+  "nvars": 33,
+  "seed": 2,
+  "solution": "010100011001010000110001101100100",
+  "system": "S_quad",
+  "tag": "E04_n11_l2_s2_S_quad",
+  "terms": 10805,
+  "terms_per_eq": 109.14
+ },
+ {
+  "builder": "legacy/aim3_macaulay.build_aim3",
+  "commit": "e7ebb71",
+  "ell": 2,
+  "experiment": "E04",
+  "exps": "2;3;4",
+  "host": "luck-Precision-7920-Tower",
+  "magma": {
+   "path": "/home/luck/rxw/AIM3_remote/out/E04_systems/E04_n11_l2_s2_P1only.magma.m",
+   "polynomials": 33
+  },
+  "max_degree": 2,
+  "msolve": {
+   "field_equations": true,
+   "path": "/home/luck/rxw/AIM3_remote/out/E04_systems/E04_n11_l2_s2_P1only.ms",
+   "polynomials": 66,
+   "terms": 3055
+  },
+  "n": 11,
+  "neqs": 33,
+  "nvars": 33,
+  "seed": 2,
+  "solution": "010100011001010000110001101100100",
+  "system": "P1only",
+  "tag": "E04_n11_l2_s2_P1only",
+  "terms": 3055,
+  "terms_per_eq": 92.58
+ },
+ {
+  "builder": "legacy/aim3_macaulay.build_aim3",
+  "commit": "e7ebb71",
+  "ell": 2,
+  "experiment": "E04",
+  "exps": "2;3;4",
+  "host": "luck-Precision-7920-Tower",
+  "magma": {
+   "path": "/home/luck/rxw/AIM3_remote/out/E04_systems/E04_n11_l2_s2_random.magma.m",
+   "polynomials": 99
+  },
+  "max_degree": 2,
+  "msolve": {
+   "field_equations": true,
+   "path": "/home/luck/rxw/AIM3_remote/out/E04_systems/E04_n11_l2_s2_random.ms",
+   "polynomials": 132,
+   "terms": 27933
+  },
+  "n": 11,
+  "neqs": 99,
+  "nvars": 33,
+  "seed": 2,
+  "system": "random",
+  "tag": "E04_n11_l2_s2_random",
+  "terms": 27933,
+  "terms_per_eq": 282.15
+ },
+ {
+  "builder": "legacy/aim3_macaulay.build_aim3",
+  "commit": "e7ebb71",
+  "ell": 1,
+  "experiment": "E04",
+  "exps": "2;3",
+  "host": "luck-Precision-7920-Tower",
+  "magma": {
+   "path": "/home/luck/rxw/AIM3_remote/out/E04_systems/E04_n13_l1_s1_S_quad.magma.m",
+   "polynomials": 78
+  },
+  "max_degree": 2,
+  "msolve": {
+   "field_equations": true,
+   "path": "/home/luck/rxw/AIM3_remote/out/E04_systems/E04_n13_l1_s1_S_quad.ms",
+   "polynomials": 104,
+   "terms": 8388
+  },
+  "n": 13,
+  "neqs": 78,
+  "nvars": 26,
+  "seed": 1,
+  "solution": "00100010111110101110111100",
+  "system": "S_quad",
+  "tag": "E04_n13_l1_s1_S_quad",
+  "terms": 8388,
+  "terms_per_eq": 107.54
+ },
+ {
+  "builder": "legacy/aim3_macaulay.build_aim3",
+  "commit": "e7ebb71",
+  "ell": 1,
+  "experiment": "E04",
+  "exps": "2;3",
+  "host": "luck-Precision-7920-Tower",
+  "magma": {
+   "path": "/home/luck/rxw/AIM3_remote/out/E04_systems/E04_n13_l1_s1_P1only.magma.m",
+   "polynomials": 26
+  },
+  "max_degree": 2,
+  "msolve": {
+   "field_equations": true,
+   "path": "/home/luck/rxw/AIM3_remote/out/E04_systems/E04_n13_l1_s1_P1only.ms",
+   "polynomials": 52,
+   "terms": 2417
+  },
+  "n": 13,
+  "neqs": 26,
+  "nvars": 26,
+  "seed": 1,
+  "solution": "00100010111110101110111100",
+  "system": "P1only",
+  "tag": "E04_n13_l1_s1_P1only",
+  "terms": 2417,
+  "terms_per_eq": 92.96
+ },
+ {
+  "builder": "legacy/aim3_macaulay.build_aim3",
+  "commit": "e7ebb71",
+  "ell": 1,
+  "experiment": "E04",
+  "exps": "2;3",
+  "host": "luck-Precision-7920-Tower",
+  "magma": {
+   "path": "/home/luck/rxw/AIM3_remote/out/E04_systems/E04_n13_l1_s1_random.magma.m",
+   "polynomials": 78
+  },
+  "max_degree": 2,
+  "msolve": {
+   "field_equations": true,
+   "path": "/home/luck/rxw/AIM3_remote/out/E04_systems/E04_n13_l1_s1_random.ms",
+   "polynomials": 104,
+   "terms": 13507
+  },
+  "n": 13,
+  "neqs": 78,
+  "nvars": 26,
+  "seed": 1,
+  "system": "random",
+  "tag": "E04_n13_l1_s1_random",
+  "terms": 13507,
+  "terms_per_eq": 173.17
+ },
+ {
+  "builder": "legacy/aim3_macaulay.build_aim3",
+  "commit": "e7ebb71",
+  "ell": 1,
+  "experiment": "E04",
+  "exps": "2;3",
+  "host": "luck-Precision-7920-Tower",
+  "magma": {
+   "path": "/home/luck/rxw/AIM3_remote/out/E04_systems/E04_n13_l1_s2_S_quad.magma.m",
+   "polynomials": 78
+  },
+  "max_degree": 2,
+  "msolve": {
+   "field_equations": true,
+   "path": "/home/luck/rxw/AIM3_remote/out/E04_systems/E04_n13_l1_s2_S_quad.ms",
+   "polynomials": 104,
+   "terms": 8451
+  },
+  "n": 13,
+  "neqs": 78,
+  "nvars": 26,
+  "seed": 2,
+  "solution": "10001110111000000101010111",
+  "system": "S_quad",
+  "tag": "E04_n13_l1_s2_S_quad",
+  "terms": 8451,
+  "terms_per_eq": 108.35
+ },
+ {
+  "builder": "legacy/aim3_macaulay.build_aim3",
+  "commit": "e7ebb71",
+  "ell": 1,
+  "experiment": "E04",
+  "exps": "2;3",
+  "host": "luck-Precision-7920-Tower",
+  "magma": {
+   "path": "/home/luck/rxw/AIM3_remote/out/E04_systems/E04_n13_l1_s2_P1only.magma.m",
+   "polynomials": 26
+  },
+  "max_degree": 2,
+  "msolve": {
+   "field_equations": true,
+   "path": "/home/luck/rxw/AIM3_remote/out/E04_systems/E04_n13_l1_s2_P1only.ms",
+   "polynomials": 52,
+   "terms": 2408
+  },
+  "n": 13,
+  "neqs": 26,
+  "nvars": 26,
+  "seed": 2,
+  "solution": "10001110111000000101010111",
+  "system": "P1only",
+  "tag": "E04_n13_l1_s2_P1only",
+  "terms": 2408,
+  "terms_per_eq": 92.62
+ },
+ {
+  "builder": "legacy/aim3_macaulay.build_aim3",
+  "commit": "e7ebb71",
+  "ell": 1,
+  "experiment": "E04",
+  "exps": "2;3",
+  "host": "luck-Precision-7920-Tower",
+  "magma": {
+   "path": "/home/luck/rxw/AIM3_remote/out/E04_systems/E04_n13_l1_s2_random.magma.m",
+   "polynomials": 78
+  },
+  "max_degree": 2,
+  "msolve": {
+   "field_equations": true,
+   "path": "/home/luck/rxw/AIM3_remote/out/E04_systems/E04_n13_l1_s2_random.ms",
+   "polynomials": 104,
+   "terms": 13831
+  },
+  "n": 13,
+  "neqs": 78,
+  "nvars": 26,
+  "seed": 2,
+  "system": "random",
+  "tag": "E04_n13_l1_s2_random",
+  "terms": 13831,
+  "terms_per_eq": 177.32
+ },
+ {
+  "builder": "legacy/aim3_macaulay.build_aim3",
+  "commit": "e7ebb71",
+  "ell": 2,
+  "experiment": "E04",
+  "exps": "2;3;4",
+  "host": "luck-Precision-7920-Tower",
+  "magma": {
+   "path": "/home/luck/rxw/AIM3_remote/out/E04_systems/E04_n13_l2_s1_S_quad.magma.m",
+   "polynomials": 117
+  },
+  "max_degree": 2,
+  "msolve": {
+   "field_equations": true,
+   "path": "/home/luck/rxw/AIM3_remote/out/E04_systems/E04_n13_l2_s1_S_quad.ms",
+   "polynomials": 156,
+   "terms": 17999
+  },
+  "n": 13,
+  "neqs": 117,
+  "nvars": 39,
+  "seed": 1,
+  "solution": "110011010101001000110001010100011000100",
+  "system": "S_quad",
+  "tag": "E04_n13_l2_s1_S_quad",
+  "terms": 17999,
+  "terms_per_eq": 153.84
+ },
+ {
+  "builder": "legacy/aim3_macaulay.build_aim3",
+  "commit": "e7ebb71",
+  "ell": 2,
+  "experiment": "E04",
+  "exps": "2;3;4",
+  "host": "luck-Precision-7920-Tower",
+  "magma": {
+   "path": "/home/luck/rxw/AIM3_remote/out/E04_systems/E04_n13_l2_s1_P1only.magma.m",
+   "polynomials": 39
+  },
+  "max_degree": 2,
+  "msolve": {
+   "field_equations": true,
+   "path": "/home/luck/rxw/AIM3_remote/out/E04_systems/E04_n13_l2_s1_P1only.ms",
+   "polynomials": 78,
+   "terms": 4882
+  },
+  "n": 13,
+  "neqs": 39,
+  "nvars": 39,
+  "seed": 1,
+  "solution": "110011010101001000110001010100011000100",
+  "system": "P1only",
+  "tag": "E04_n13_l2_s1_P1only",
+  "terms": 4882,
+  "terms_per_eq": 125.18
+ },
+ {
+  "builder": "legacy/aim3_macaulay.build_aim3",
+  "commit": "e7ebb71",
+  "ell": 2,
+  "experiment": "E04",
+  "exps": "2;3;4",
+  "host": "luck-Precision-7920-Tower",
+  "magma": {
+   "path": "/home/luck/rxw/AIM3_remote/out/E04_systems/E04_n13_l2_s1_random.magma.m",
+   "polynomials": 117
+  },
+  "max_degree": 2,
+  "msolve": {
+   "field_equations": true,
+   "path": "/home/luck/rxw/AIM3_remote/out/E04_systems/E04_n13_l2_s1_random.ms",
+   "polynomials": 156,
+   "terms": 45604
+  },
+  "n": 13,
+  "neqs": 117,
+  "nvars": 39,
+  "seed": 1,
+  "system": "random",
+  "tag": "E04_n13_l2_s1_random",
+  "terms": 45604,
+  "terms_per_eq": 389.78
+ },
+ {
+  "builder": "legacy/aim3_macaulay.build_aim3",
+  "commit": "e7ebb71",
+  "ell": 2,
+  "experiment": "E04",
+  "exps": "2;3;4",
+  "host": "luck-Precision-7920-Tower",
+  "magma": {
+   "path": "/home/luck/rxw/AIM3_remote/out/E04_systems/E04_n13_l2_s2_S_quad.magma.m",
+   "polynomials": 117
+  },
+  "max_degree": 2,
+  "msolve": {
+   "field_equations": true,
+   "path": "/home/luck/rxw/AIM3_remote/out/E04_systems/E04_n13_l2_s2_S_quad.ms",
+   "polynomials": 156,
+   "terms": 17970
+  },
+  "n": 13,
+  "neqs": 117,
+  "nvars": 39,
+  "seed": 2,
+  "solution": "001000000101011100010000011010100101011",
+  "system": "S_quad",
+  "tag": "E04_n13_l2_s2_S_quad",
+  "terms": 17970,
+  "terms_per_eq": 153.59
+ },
+ {
+  "builder": "legacy/aim3_macaulay.build_aim3",
+  "commit": "e7ebb71",
+  "ell": 2,
+  "experiment": "E04",
+  "exps": "2;3;4",
+  "host": "luck-Precision-7920-Tower",
+  "magma": {
+   "path": "/home/luck/rxw/AIM3_remote/out/E04_systems/E04_n13_l2_s2_P1only.magma.m",
+   "polynomials": 39
+  },
+  "max_degree": 2,
+  "msolve": {
+   "field_equations": true,
+   "path": "/home/luck/rxw/AIM3_remote/out/E04_systems/E04_n13_l2_s2_P1only.ms",
+   "polynomials": 78,
+   "terms": 4924
+  },
+  "n": 13,
+  "neqs": 39,
+  "nvars": 39,
+  "seed": 2,
+  "solution": "001000000101011100010000011010100101011",
+  "system": "P1only",
+  "tag": "E04_n13_l2_s2_P1only",
+  "terms": 4924,
+  "terms_per_eq": 126.26
+ },
+ {
+  "builder": "legacy/aim3_macaulay.build_aim3",
+  "commit": "e7ebb71",
+  "ell": 2,
+  "experiment": "E04",
+  "exps": "2;3;4",
+  "host": "luck-Precision-7920-Tower",
+  "magma": {
+   "path": "/home/luck/rxw/AIM3_remote/out/E04_systems/E04_n13_l2_s2_random.magma.m",
+   "polynomials": 117
+  },
+  "max_degree": 2,
+  "msolve": {
+   "field_equations": true,
+   "path": "/home/luck/rxw/AIM3_remote/out/E04_systems/E04_n13_l2_s2_random.ms",
+   "polynomials": 156,
+   "terms": 45805
+  },
+  "n": 13,
+  "neqs": 117,
+  "nvars": 39,
+  "seed": 2,
+  "system": "random",
+  "tag": "E04_n13_l2_s2_random",
+  "terms": 45805,
+  "terms_per_eq": 391.5
+ },
+ {
+  "builder": "legacy/aim3_macaulay.build_aim3",
+  "commit": "e7ebb71",
+  "ell": 1,
+  "experiment": "E04",
+  "exps": "2;4",
+  "host": "luck-Precision-7920-Tower",
+  "magma": {
+   "path": "/home/luck/rxw/AIM3_remote/out/E04_systems/E04_n15_l1_s1_S_quad.magma.m",
+   "polynomials": 90
+  },
+  "max_degree": 2,
+  "msolve": {
+   "field_equations": true,
+   "path": "/home/luck/rxw/AIM3_remote/out/E04_systems/E04_n15_l1_s1_S_quad.ms",
+   "polynomials": 120,
+   "terms": 12639
+  },
+  "n": 15,
+  "neqs": 90,
+  "nvars": 30,
+  "seed": 1,
+  "solution": "010010101110111001100000100110",
+  "system": "S_quad",
+  "tag": "E04_n15_l1_s1_S_quad",
+  "terms": 12639,
+  "terms_per_eq": 140.43
+ },
+ {
+  "builder": "legacy/aim3_macaulay.build_aim3",
+  "commit": "e7ebb71",
+  "ell": 1,
+  "experiment": "E04",
+  "exps": "2;4",
+  "host": "luck-Precision-7920-Tower",
+  "magma": {
+   "path": "/home/luck/rxw/AIM3_remote/out/E04_systems/E04_n15_l1_s1_P1only.magma.m",
+   "polynomials": 30
+  },
+  "max_degree": 2,
+  "msolve": {
+   "field_equations": true,
+   "path": "/home/luck/rxw/AIM3_remote/out/E04_systems/E04_n15_l1_s1_P1only.ms",
+   "polynomials": 60,
+   "terms": 3759
+  },
+  "n": 15,
+  "neqs": 30,
+  "nvars": 30,
+  "seed": 1,
+  "solution": "010010101110111001100000100110",
+  "system": "P1only",
+  "tag": "E04_n15_l1_s1_P1only",
+  "terms": 3759,
+  "terms_per_eq": 125.3
+ },
+ {
+  "builder": "legacy/aim3_macaulay.build_aim3",
+  "commit": "e7ebb71",
+  "ell": 1,
+  "experiment": "E04",
+  "exps": "2;4",
+  "host": "luck-Precision-7920-Tower",
+  "magma": {
+   "path": "/home/luck/rxw/AIM3_remote/out/E04_systems/E04_n15_l1_s1_random.magma.m",
+   "polynomials": 90
+  },
+  "max_degree": 2,
+  "msolve": {
+   "field_equations": true,
+   "path": "/home/luck/rxw/AIM3_remote/out/E04_systems/E04_n15_l1_s1_random.ms",
+   "polynomials": 120,
+   "terms": 20788
+  },
+  "n": 15,
+  "neqs": 90,
+  "nvars": 30,
+  "seed": 1,
+  "system": "random",
+  "tag": "E04_n15_l1_s1_random",
+  "terms": 20788,
+  "terms_per_eq": 230.98
+ },
+ {
+  "builder": "legacy/aim3_macaulay.build_aim3",
+  "commit": "e7ebb71",
+  "ell": 1,
+  "experiment": "E04",
+  "exps": "2;4",
+  "host": "luck-Precision-7920-Tower",
+  "magma": {
+   "path": "/home/luck/rxw/AIM3_remote/out/E04_systems/E04_n15_l1_s2_S_quad.magma.m",
+   "polynomials": 90
+  },
+  "max_degree": 2,
+  "msolve": {
+   "field_equations": true,
+   "path": "/home/luck/rxw/AIM3_remote/out/E04_systems/E04_n15_l1_s2_S_quad.ms",
+   "polynomials": 120,
+   "terms": 12644
+  },
+  "n": 15,
+  "neqs": 90,
+  "nvars": 30,
+  "seed": 2,
+  "solution": "011101011110000111000111011101",
+  "system": "S_quad",
+  "tag": "E04_n15_l1_s2_S_quad",
+  "terms": 12644,
+  "terms_per_eq": 140.49
+ },
+ {
+  "builder": "legacy/aim3_macaulay.build_aim3",
+  "commit": "e7ebb71",
+  "ell": 1,
+  "experiment": "E04",
+  "exps": "2;4",
+  "host": "luck-Precision-7920-Tower",
+  "magma": {
+   "path": "/home/luck/rxw/AIM3_remote/out/E04_systems/E04_n15_l1_s2_P1only.magma.m",
+   "polynomials": 30
+  },
+  "max_degree": 2,
+  "msolve": {
+   "field_equations": true,
+   "path": "/home/luck/rxw/AIM3_remote/out/E04_systems/E04_n15_l1_s2_P1only.ms",
+   "polynomials": 60,
+   "terms": 3585
+  },
+  "n": 15,
+  "neqs": 30,
+  "nvars": 30,
+  "seed": 2,
+  "solution": "011101011110000111000111011101",
+  "system": "P1only",
+  "tag": "E04_n15_l1_s2_P1only",
+  "terms": 3585,
+  "terms_per_eq": 119.5
+ },
+ {
+  "builder": "legacy/aim3_macaulay.build_aim3",
+  "commit": "e7ebb71",
+  "ell": 1,
+  "experiment": "E04",
+  "exps": "2;4",
+  "host": "luck-Precision-7920-Tower",
+  "magma": {
+   "path": "/home/luck/rxw/AIM3_remote/out/E04_systems/E04_n15_l1_s2_random.magma.m",
+   "polynomials": 90
+  },
+  "max_degree": 2,
+  "msolve": {
+   "field_equations": true,
+   "path": "/home/luck/rxw/AIM3_remote/out/E04_systems/E04_n15_l1_s2_random.ms",
+   "polynomials": 120,
+   "terms": 21051
+  },
+  "n": 15,
+  "neqs": 90,
+  "nvars": 30,
+  "seed": 2,
+  "system": "random",
+  "tag": "E04_n15_l1_s2_random",
+  "terms": 21051,
+  "terms_per_eq": 233.9
+ },
+ {
+  "builder": "legacy/aim3_macaulay.build_aim3",
+  "commit": "e7ebb71",
+  "ell": 2,
+  "experiment": "E04",
+  "exps": "2;4;7",
+  "host": "luck-Precision-7920-Tower",
+  "magma": {
+   "path": "/home/luck/rxw/AIM3_remote/out/E04_systems/E04_n15_l2_s1_S_quad.magma.m",
+   "polynomials": 135
+  },
+  "max_degree": 2,
+  "msolve": {
+   "field_equations": true,
+   "path": "/home/luck/rxw/AIM3_remote/out/E04_systems/E04_n15_l2_s1_S_quad.ms",
+   "polynomials": 180,
+   "terms": 26990
+  },
+  "n": 15,
+  "neqs": 135,
+  "nvars": 45,
+  "seed": 1,
+  "solution": "001010000000010111111110111111101101000110111",
+  "system": "S_quad",
+  "tag": "E04_n15_l2_s1_S_quad",
+  "terms": 26990,
+  "terms_per_eq": 199.93
+ },
+ {
+  "builder": "legacy/aim3_macaulay.build_aim3",
+  "commit": "e7ebb71",
+  "ell": 2,
+  "experiment": "E04",
+  "exps": "2;4;7",
+  "host": "luck-Precision-7920-Tower",
+  "magma": {
+   "path": "/home/luck/rxw/AIM3_remote/out/E04_systems/E04_n15_l2_s1_P1only.magma.m",
+   "polynomials": 45
+  },
+  "max_degree": 2,
+  "msolve": {
+   "field_equations": true,
+   "path": "/home/luck/rxw/AIM3_remote/out/E04_systems/E04_n15_l2_s1_P1only.ms",
+   "polynomials": 90,
+   "terms": 7656
+  },
+  "n": 15,
+  "neqs": 45,
+  "nvars": 45,
+  "seed": 1,
+  "solution": "001010000000010111111110111111101101000110111",
+  "system": "P1only",
+  "tag": "E04_n15_l2_s1_P1only",
+  "terms": 7656,
+  "terms_per_eq": 170.13
+ },
+ {
+  "builder": "legacy/aim3_macaulay.build_aim3",
+  "commit": "e7ebb71",
+  "ell": 2,
+  "experiment": "E04",
+  "exps": "2;4;7",
+  "host": "luck-Precision-7920-Tower",
+  "magma": {
+   "path": "/home/luck/rxw/AIM3_remote/out/E04_systems/E04_n15_l2_s1_random.magma.m",
+   "polynomials": 135
+  },
+  "max_degree": 2,
+  "msolve": {
+   "field_equations": true,
+   "path": "/home/luck/rxw/AIM3_remote/out/E04_systems/E04_n15_l2_s1_random.ms",
+   "polynomials": 180,
+   "terms": 69794
+  },
+  "n": 15,
+  "neqs": 135,
+  "nvars": 45,
+  "seed": 1,
+  "system": "random",
+  "tag": "E04_n15_l2_s1_random",
+  "terms": 69794,
+  "terms_per_eq": 516.99
+ },
+ {
+  "builder": "legacy/aim3_macaulay.build_aim3",
+  "commit": "e7ebb71",
+  "ell": 2,
+  "experiment": "E04",
+  "exps": "2;4;7",
+  "host": "luck-Precision-7920-Tower",
+  "magma": {
+   "path": "/home/luck/rxw/AIM3_remote/out/E04_systems/E04_n15_l2_s2_S_quad.magma.m",
+   "polynomials": 135
+  },
+  "max_degree": 2,
+  "msolve": {
+   "field_equations": true,
+   "path": "/home/luck/rxw/AIM3_remote/out/E04_systems/E04_n15_l2_s2_S_quad.ms",
+   "polynomials": 180,
+   "terms": 27186
+  },
+  "n": 15,
+  "neqs": 135,
+  "nvars": 45,
+  "seed": 2,
+  "solution": "001000100001100010111100000000111100010101101",
+  "system": "S_quad",
+  "tag": "E04_n15_l2_s2_S_quad",
+  "terms": 27186,
+  "terms_per_eq": 201.38
+ },
+ {
+  "builder": "legacy/aim3_macaulay.build_aim3",
+  "commit": "e7ebb71",
+  "ell": 2,
+  "experiment": "E04",
+  "exps": "2;4;7",
+  "host": "luck-Precision-7920-Tower",
+  "magma": {
+   "path": "/home/luck/rxw/AIM3_remote/out/E04_systems/E04_n15_l2_s2_P1only.magma.m",
+   "polynomials": 45
+  },
+  "max_degree": 2,
+  "msolve": {
+   "field_equations": true,
+   "path": "/home/luck/rxw/AIM3_remote/out/E04_systems/E04_n15_l2_s2_P1only.ms",
+   "polynomials": 90,
+   "terms": 7332
+  },
+  "n": 15,
+  "neqs": 45,
+  "nvars": 45,
+  "seed": 2,
+  "solution": "001000100001100010111100000000111100010101101",
+  "system": "P1only",
+  "tag": "E04_n15_l2_s2_P1only",
+  "terms": 7332,
+  "terms_per_eq": 162.93
+ },
+ {
+  "builder": "legacy/aim3_macaulay.build_aim3",
+  "commit": "e7ebb71",
+  "ell": 2,
+  "experiment": "E04",
+  "exps": "2;4;7",
+  "host": "luck-Precision-7920-Tower",
+  "magma": {
+   "path": "/home/luck/rxw/AIM3_remote/out/E04_systems/E04_n15_l2_s2_random.magma.m",
+   "polynomials": 135
+  },
+  "max_degree": 2,
+  "msolve": {
+   "field_equations": true,
+   "path": "/home/luck/rxw/AIM3_remote/out/E04_systems/E04_n15_l2_s2_random.ms",
+   "polynomials": 180,
+   "terms": 70035
+  },
+  "n": 15,
+  "neqs": 135,
+  "nvars": 45,
+  "seed": 2,
+  "system": "random",
+  "tag": "E04_n15_l2_s2_random",
+  "terms": 70035,
+  "terms_per_eq": 518.78
+ }
+]

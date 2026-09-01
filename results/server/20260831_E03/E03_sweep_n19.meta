@@ -1,0 +1,13 @@
+host    : luck-Precision-7920-Tower
+commit  : 0d06bfb
+branch  : claude/server-batch-1
+started : 2026-08-31T07:22:23-07:00
+ulimit -v: 48 GB
+results : /home/luck/rxw/AIM3_remote/out/E03_sweep_n19
+scratch : /home/luck/rxw/AIM3_remote/scratch/E03_sweep_n19
+command : env AIM3_BACKEND=sage E03_BUDGET=7200 E03_EXTRA=--no-points bash experiments/E03_syzygy_and_degree_fall/sweep.sh 19
+finished: 2026-08-31T07:45:48-07:00
+exit    : 0
+time    : Elapsed (wall clock) time (h:mm:ss or m:ss): 23:24.59
+time    : Maximum resident set size (kbytes): 707504
+JOB_DONE_rc=0
