@@ -424,6 +424,35 @@ def sec_e05():
           "this route forms no eliminated polynomial, and the route that does is censored from "
           "n = 8 (`results/E05_server_resultants.csv`).")
         A("")
+    tab = load("E05_server_cheap_elimination_tables.csv")
+    if tab:
+        A("**The same run with `--tables`.**  `src/aim3/gf2n.py` builds log/antilog tables only for "
+          "n ≤ 16 and falls back to carry-less multiplication above it, which puts a 29× step at "
+          "n = 17 into the curve above — an artefact of the field implementation, not of the "
+          "algorithm.  Forcing the tables (16 MB at n = 20, against the 2ⁿ lookup table the method "
+          "already builds) removes the step and extends the range.  Identical algorithm, identical "
+          "root counts.")
+        A("")
+        A("| n | " + " | ".join(str(i(r["n"])) for r in sorted(tab, key=lambda r: i(r["n"], 0))
+                                if r["censored"] != "1") + " |")
+        A("|---|" + "---:|" * len([r for r in tab if r["censored"] != "1"]))
+        A("| eliminate s | " + " | ".join(r["eliminate_seconds"] for r in
+                                          sorted(tab, key=lambda r: i(r["n"], 0))
+                                          if r["censored"] != "1") + " |")
+        A("")
+        pts2 = [(i(r["n"]), f(r["eliminate_seconds"])) for r in tab
+                if r["censored"] != "1" and f(r["eliminate_seconds"], 0)]
+        if len(pts2) >= 3:
+            xs = [p[0] for p in pts2]
+            ys = [math.log2(p[1]) for p in pts2]
+            mx, my = sum(xs) / len(xs), sum(ys) / len(ys)
+            den = sum((x - mx) ** 2 for x in xs)
+            sl = sum((x - mx) * (y - my) for x, y in zip(xs, ys)) / den
+            rr = [pts2[j][1] / pts2[j - 1][1] for j in range(1, len(pts2))]
+            A(f"Least squares over n = {xs[0]}..{xs[-1]} ({len(xs)} completed sizes): slope of "
+              f"`log2(seconds)` vs n = **{sl:.3f}**, and every successive ratio lies in "
+              f"{min(rr):.2f}..{max(rr):.2f} — no regime change anywhere in the range.")
+            A("")
 
 
 def sec_t4():

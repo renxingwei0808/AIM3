@@ -75,11 +75,56 @@ Table in §B.1.  On the sizes completed so far, **`S_quad`, `P1only` and the ran
 same `d_solv` at every cell**, and in particular the n = 11, ℓ = 2 cell that batch 1 measured as
 4 / 4 stays 4 / 4 when e = 2 is replaced by the generic 3;4;7.  msolve and Magma agree everywhere.
 
-<!--Q12-->
+**What the completed cells say (§B.1).**  `d_solv` is 4 at ℓ = 2 for n = 9 and 11, and 5 at n = 13
+and 15; at ℓ = 1 it is 4 for n = 11, 13, 15 and 5 at n = 17.  So on the sizes reachable here the
+solving degree moves by **one step over six values of n**, which is why no law is fitted to it:
+`COMPLEXITY_ACCOUNTING §4` wants four completed sizes before an extrapolation, and four completed
+sizes of a quantity that takes two distinct values do not determine a growth rate.  What the table
+does settle is the *level* — `d_solv` ∈ {4,5} where B2's `d_reg` for the same shapes is 5–8 (§B.2) —
+and that the exponent correction did not move it.
+
+**One cell where the structured system is worse than random.**  At ℓ = 1, n = 17, `S_quad` and
+`P1only` both need `d_solv = 5` while the random control of the same shape needs 4.  Everywhere else
+the three agree exactly.  A single cell is not a phenomenon, and the direction is the unhelpful one
+for an attacker, but it is recorded because it is the only place in this batch where the AIM3
+structure and a random system of identical shape separate at all in `d_solv`.
+
+**Tool agreement and cost.**  Magma and msolve agree on **every** cell both completed; msolve is
+5–10× slower on the same instance and accounts for 11 of the batch's censored runs against Magma's
+3.  Magma remains the instrument of record for `d_solv`, msolve the independent check — the same
+division as batch 1, now with the numbers behind it.
 
 ### 1.3 Hybrid guessing and δ
 
-<!--Q13-->
+`k` bits of pt are fixed to their **true** values, so the planted solution survives and the run
+measures the branch the attacker would actually be on.  Full table in §B.2; ℓ = 2, n = 13, both
+seeds, Magma and msolve agreeing on every completed cell:
+
+| k | variables 3n−k | `S_quad` `d_solv` | random `d_solv` | B2 `d_reg` | **δ = d_reg − d_solv** |
+|---:|---:|---:|---:|---:|---:|
+| 0 | 39 | 5 | 5 | 5 | **0** |
+| 2 | 37 | 4 | 4 | 4 | **0** |
+| 4 | 35 | 4 | 4 | 4 | **0** |
+| 6 | 33 | 3 | 4 | 4 | **1** |
+
+**δ = 0 for three of the four guess widths.**  Where B2 assumes semi-regularity and derives `d_reg`,
+the measurement lands exactly on it — the assumption is *right* about the solving degree of the
+guessed system at n = 13 for k ≤ 4, even though §1.4 shows the Macaulay ranks underneath it are not
+semi-regular at all.  These two facts are compatible: `d_reg` is where the rank first suffices, and
+a system can carry thousands of extra syzygies at D = 5 without that degree moving.
+
+**δ = 1 appears at k = 6, and only for the structured system.**  At 33 remaining variables `S_quad`
+solves at degree 3 while the random control of identical shape still needs 4.  This is the one place
+in the batch where guessing exposes something a random system does not have.  It is **one n, one k,
+two seeds** — far short of an extrapolation, and §1.5's table shows what a unit of δ would be worth
+if it survived (8.5–9 bits at ω = 2).  Whether δ grows with k, with n, or neither is exactly the
+question the next batch has to answer, and `n = 15` was launched for it (still censored at k = 0 at
+the time of writing; the k > 0 cells are cheaper and are running).
+
+**A column that is easy to misread.**  `B2 d_reg` in §B.2 is computed from each row's own shape, so
+the `P1only` rows (3n equations, not 9n) get a much larger `d_reg` and a δ of 3 throughout.  That δ
+is not the B2 quantity: B2's baseline is the 9n-equation system.  Only the `S_quad` rows carry the
+δ that §1.5 consumes.
 
 ### 1.4 The Hilbert-function side check
 
@@ -354,7 +399,27 @@ Eq1 is **separable** — `W(t₀) + V(t₁)` — so its variety is obtained by t
 looking `W(t₀)` up, then testing each hit against Eq2.  That is Θ(2ⁿ) field operations and forms no
 eliminated polynomial at all:
 
-<!--E05TABLE-->
+| n | 7 | 10 | 13 | 16 | 18 | 20 | 22 |
+|---|---:|---:|---:|---:|---:|---:|---:|
+| eliminate (s) | 0.006 | 0.116 | 1.34 | 15.6 | 74.0 | 403 | 1536 |
+| batch 1 `Resultant` (s) | 294.5 | — | — | — | — | — | — |
+
+**16 completed sizes, n = 7..22, no censoring** (full table and the un-tabled first run in §B.10).
+Least squares gives a slope of `log2(seconds)` against n of **1.182**, and every successive ratio
+lies in 1.71..3.00 — no regime change anywhere in the range.  The method is Θ(2ⁿ) by construction,
+so a slope near 1 is the expected answer; it is now measured over 16 sizes rather than assumed.
+
+Batch 1's `Resultant` on the same instance takes 294.5 s at n = 7 and does not return in two hours
+at n = 8.  At n = 7 the table-lookup route is **49000× faster**, and the comparison only gets worse
+for the resultant from there.
+
+**A measurement artefact found and removed.**  The first run of this had a **29× step at n = 17**
+and a 4.9× one at n = 18, which would have made any slope fitted across the whole range meaningless.
+The cause is not the algorithm: `src/aim3/gf2n.py` builds log/antilog tables only for n ≤ 16 and
+falls back to carry-less multiplication above that.  The tables cost 16 MB at n = 20 — nothing
+against the 2ⁿ lookup table this method already builds — so `--tables` forces them, and the curve
+above is the homogeneous one.  Both runs are kept, in separate files, with identical root counts on
+every shared size.
 
 **What this settles.**  The two-valued-inverse reduced system is solvable in **Θ(2ⁿ)** — the same
 order as brute-forcing pt, which is baseline B3.  T3.2 expected a negative result and argued it from
