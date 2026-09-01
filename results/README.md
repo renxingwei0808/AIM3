@@ -19,6 +19,7 @@ provenance columns **`tier, host, commit, seconds, censored`** to every row (CLA
 | `E12_cross_relations_explained.csv` | `E12_cross_sbox_relations/explain_n16.py` | splits the cubic relation space into univariate image criteria vs genuine cross relations |
 | `REPORT_tierA_batch1.md` | written by hand | the batch report: anchors, results, Gate 1, anomalies, what is left for the server |
 | `REPORT_tierA_batch2.md` | written by hand | batch-2 report: the refuted T1.2 ansatz, the two indispensable families, the kernel-model generators, the bit cost |
+| `REPORT_tierA_batch3.md` | written by hand | batch-3 report: the Ore prototype, the corrected T4 hypothesis, the exact degree of the pt-eliminated condition, reused key at q<=6 and the e = n-1 anomaly |
 | `REPORT_server_batch1.md` | written by hand | server batch-1 report: Gate 1 at n = 13..19, real `d_solv`, E05 resultants, E12 at degree 4 |
 
 **Tier-A batch 2 — theory tables** (all written through `record()`, same provenance columns):
