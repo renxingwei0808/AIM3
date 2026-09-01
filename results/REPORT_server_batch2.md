@@ -539,11 +539,18 @@ k S-boxes on pairwise **disjoint** variable blocks, put through the same subset 
 | 7 | 4 | 56 | {0+2} | 42 | 112 (112) | 121 | 121 | 0 | 0.082 |
 | 7 | 4 | 56 | {0+3} | 42 | 112 (112) | 183 | 183 | 0 | 0.0841 |
 | 7 | 4 | 56 | {1+2} | 42 | 112 (112) | 169 | 169 | 0 | 0.0836 |
+| 7 | 4 | 56 | {1+3} | 42 | 112 (112) | 231 | 231 | 0 | 0.0857 |
+| 7 | 4 | 56 | {2+3} | 42 | 112 (112) | 176 | 176 | 0 | 0.0838 |
+| 7 | 4 | 56 | {0+1+2} | 63 | 168 (168) | 233 | 233 | 0 | 0.1247 |
+| 7 | 4 | 56 | {0+1+3} | 63 | 168 (168) | 295 | 295 | 0 | 0.1268 |
+| 7 | 4 | 56 | {0+2+3} | 63 | 168 (168) | 240 | 240 | 0 | 0.1249 |
+| 7 | 4 | 56 | {1+2+3} | 63 | 168 (168) | 288 | 288 | 0 | 0.1266 |
+| 7 | 4 | 56 | {0+1+2+3} | 84 | 224 (224) | 352 | 352 | 0 | 0.1677 |
 | 11 | 2 | 44 | {0} | 33 | 88 (88) | 22 | 22 | 0 | 0.0997 |
 | 11 | 2 | 44 | {1} | 33 | 88 (88) | 22 | 22 | 0 | 0.0997 |
 | 11 | 2 | 44 | {0+1} | 66 | 176 (176) | 44 | 44 | 0 | 0.1994 |
 
-**11 of 11 subsets give exactly 0**  → the instrument is sound.
+**18 of 18 subsets give exactly 0**  → the instrument is sound.
 
 ### B.1 `d_solv` with corrected exponents (task 1.2)
 
@@ -553,22 +560,104 @@ grevlex; msolve and Magma agree on every completed cell.  A cell is `—` where 
 
 | system | ℓ | n=9 | n=11 | n=13 | n=15 | n=17 |
 |---|---:|---:|---:|---:|---:|---:|
-| `S_quad` | 1 | — | 4 | 4 | 4 | — |
+| `S_quad` | 1 | — | 4 | 4 | 4 | 5 |
 | `P1only` | 1 | — | 4 | 4 | 4 | 5 |
-| `random` | 1 | — | 4 | 4 | 4 | — |
-| `S_quad` | 2 | 4 | 4 | — | — | — |
-| `P1only` | 2 | 4 | 4 | — | — | — |
-| `random` | 2 | 4 | 4 | — | — | — |
+| `random` | 1 | — | 4 | 4 | 4 | 4 |
+| `S_quad` | 2 | 4 | 4 | 5 | 5 | — |
+| `P1only` | 2 | 4 | 4 | 5 | 5 | — |
+| `random` | 2 | 4 | 4 | 5 | 5 | — |
 
-Exponents used: ℓ=1, n=11: `3;4`, ℓ=1, n=13: `3;5`, ℓ=1, n=15: `4;11`, ℓ=1, n=17: `3;4`, ℓ=2, n=9: `2;4;5`, ℓ=2, n=11: `3;4;7`.
+Exponents used: ℓ=1, n=11: `3;4`, ℓ=1, n=13: `3;5`, ℓ=1, n=15: `4;11`, ℓ=1, n=17: `3;4`, ℓ=2, n=9: `2;4;5`, ℓ=2, n=11: `3;4;7`, ℓ=2, n=13: `3;5;8`, ℓ=2, n=15: `4;11;7`.
+
+17 run(s) censored at the cap: E04b2_n13_l2_s1_P1only/msolve, E04b2_n13_l2_s1_S_quad/msolve, E04b2_n13_l2_s1_random/msolve, E04b2_n13_l2_s2_P1only/msolve, E04b2_n13_l2_s2_S_quad/msolve, E04b2_n13_l2_s2_random/msolve, E04b2_n15_l2_s1_P1only/magma, E04b2_n15_l2_s1_P1only/msolve, E04b2_n15_l2_s1_S_quad/msolve, E04b2_n15_l2_s1_random/msolve, E04b2_n15_l2_s2_P1only/msolve, E04b2_n17_l2_s1_P1only/magma, E04b2_n17_l2_s1_P1only/msolve, E04b2_n17_l2_s1_S_quad/magma, E04b2_n17_l2_s1_S_quad/msolve, E04b2_n17_l2_s1_random/magma, E04b2_n17_l2_s1_random/msolve.
 
 ### B.2 Hybrid guessing: measured `d_solv` against B2's `d_reg` (task 1.3)
 
-_not collected_
+`k` bits of pt are fixed to their **true** values, so the planted root survives and the run measures the correct branch.  `δ = d_reg^{B2}(3n−k, 9n) − d_solv`.
+
+| n | k | nv = 3n−k | system | tool | `d_solv` | B2 `d_reg` | **δ** | s |
+|---:|---:|---:|---|---|---:|---:|---:|---:|
+| 13 | 6 | 33 | P1only | magma | 3 | 6 | **3** | 0 |
+| 13 | 6 | 33 | P1only | magma | 3 | 6 | **3** | 0 |
+| 13 | 6 | 33 | P1only | msolve | 3 | 6 | **3** | 1 |
+| 13 | 6 | 33 | P1only | msolve | 3 | 6 | **3** | 1 |
+| 13 | 6 | 33 | S_quad | magma | 3 | 4 | **1** | 0 |
+| 13 | 6 | 33 | S_quad | magma | 3 | 4 | **1** | 0 |
+| 13 | 6 | 33 | S_quad | msolve | 3 | 4 | **1** | 1 |
+| 13 | 6 | 33 | S_quad | msolve | 3 | 4 | **1** | 1 |
+| 13 | 6 | 33 | random | magma | 4 | 4 | **0** | 3 |
+| 13 | 6 | 33 | random | magma | 4 | 4 | **0** | 3 |
+| 13 | 6 | 33 | random | msolve | 4 | 4 | **0** | 36 |
+| 13 | 6 | 33 | random | msolve | 4 | 4 | **0** | 35 |
+| 13 | 4 | 35 | P1only | magma | 4 | 7 | **3** | 3 |
+| 13 | 4 | 35 | P1only | magma | 4 | 7 | **3** | 3 |
+| 13 | 4 | 35 | P1only | msolve | 4 | 7 | **3** | 22 |
+| 13 | 4 | 35 | P1only | msolve | 4 | 7 | **3** | 21 |
+| 13 | 4 | 35 | S_quad | magma | 4 | 4 | **0** | 3 |
+| 13 | 4 | 35 | S_quad | magma | 4 | 4 | **0** | 2 |
+| 13 | 4 | 35 | S_quad | msolve | 4 | 4 | **0** | 22 |
+| 13 | 4 | 35 | S_quad | msolve | 4 | 4 | **0** | 20 |
+| 13 | 4 | 35 | random | magma | 4 | 4 | **0** | 7 |
+| 13 | 4 | 35 | random | magma | 4 | 4 | **0** | 7 |
+| 13 | 4 | 35 | random | msolve | 4 | 4 | **0** | 109 |
+| 13 | 4 | 35 | random | msolve | 4 | 4 | **0** | 99 |
+| 13 | 2 | 37 | P1only | magma | 4 | 7 | **3** | 9 |
+| 13 | 2 | 37 | P1only | magma | 4 | 7 | **3** | 8 |
+| 13 | 2 | 37 | P1only | msolve | 4 | 7 | **3** | 96 |
+| 13 | 2 | 37 | P1only | msolve | 4 | 7 | **3** | 84 |
+| 13 | 2 | 37 | S_quad | magma | 4 | 4 | **0** | 11 |
+| 13 | 2 | 37 | S_quad | magma | 4 | 4 | **0** | 8 |
+| 13 | 2 | 37 | S_quad | msolve | 4 | 4 | **0** | 115 |
+| 13 | 2 | 37 | S_quad | msolve | 4 | 4 | **0** | 80 |
+| 13 | 2 | 37 | random | magma | 4 | 4 | **0** | 14 |
+| 13 | 2 | 37 | random | magma | 4 | 4 | **0** | 14 |
+| 13 | 2 | 37 | random | msolve | 4 | 4 | **0** | 299 |
+| 13 | 2 | 37 | random | msolve | 4 | 4 | **0** | 246 |
+| 13 | 0 | 39 | P1only | magma | 5 | 8 | **3** | 492 |
+| 13 | 0 | 39 | P1only | magma | 5 | 8 | **3** | 431 |
+| 13 | 0 | 39 | P1only | msolve | _censored_ | | | 3978 |
+| 13 | 0 | 39 | P1only | msolve | _censored_ | | | 1290 |
+| 13 | 0 | 39 | S_quad | magma | 5 | 5 | **0** | 638 |
+| 13 | 0 | 39 | S_quad | magma | 5 | 5 | **0** | 600 |
+| 13 | 0 | 39 | S_quad | msolve | _censored_ | | | 2663 |
+| 13 | 0 | 39 | S_quad | msolve | 5 | 5 | **0** | 4058 |
+| 13 | 0 | 39 | random | magma | 5 | 5 | **0** | 743 |
+| 13 | 0 | 39 | random | magma | 5 | 5 | **0** | 379 |
+| 13 | 0 | 39 | random | msolve | _censored_ | | | 2247 |
+| 13 | 0 | 39 | random | msolve | 5 | 5 | **0** | 5390 |
+| 15 | 6 | 39 | P1only | magma | 4 | 7 | **3** | 4 |
+| 15 | 6 | 39 | P1only | msolve | 4 | 7 | **3** | 45 |
+| 15 | 6 | 39 | S_quad | magma | 4 | 4 | **0** | 4 |
+| 15 | 6 | 39 | S_quad | msolve | 4 | 4 | **0** | 42 |
+| 15 | 6 | 39 | random | magma | 4 | 4 | **0** | 19 |
+| 15 | 6 | 39 | random | msolve | 4 | 4 | **0** | 385 |
+| 15 | 4 | 41 | P1only | magma | 4 | 8 | **4** | 15 |
+| 15 | 4 | 41 | P1only | msolve | 4 | 8 | **4** | 221 |
+| 15 | 4 | 41 | S_quad | magma | 4 | 5 | **1** | 15 |
+| 15 | 4 | 41 | S_quad | msolve | 4 | 5 | **1** | 188 |
+| 15 | 4 | 41 | random | magma | 4 | 5 | **1** | 205 |
+| 15 | 4 | 41 | random | msolve | 4 | 5 | **1** | 1189 |
+| 15 | 2 | 43 | P1only | magma | 4 | 8 | **4** | 188 |
+| 15 | 2 | 43 | P1only | msolve | 4 | 8 | **4** | 1235 |
+| 15 | 2 | 43 | S_quad | magma | 4 | 5 | **1** | 177 |
+| 15 | 2 | 43 | S_quad | msolve | 4 | 5 | **1** | 1248 |
+| 15 | 2 | 43 | random | magma | 5 | 5 | **0** | 1501 |
+| 15 | 2 | 43 | random | msolve | _censored_ | | | 5762 |
+| 15 | 0 | 45 | P1only | magma | _censored_ | | | 2047 |
+| 15 | 0 | 45 | P1only | msolve | _censored_ | | | 5294 |
+| 15 | 0 | 45 | S_quad | magma | _censored_ | | | 2227 |
+| 15 | 0 | 45 | S_quad | msolve | _censored_ | | | 4691 |
+| 15 | 0 | 45 | random | magma | _censored_ | | | 4368 |
+| 15 | 0 | 45 | random | msolve | _censored_ | | | 7200 |
 
 ### B.3 Measured Macaulay rank against the Boolean semi-regular prediction (task 1.4)
 
-_not collected_
+`rank_pred(D) = C(N,≤D) − Σ_{d≤D}[z^d] (1+z)^N/(1+z²)^m`, the rank a degree-D Macaulay matrix would have if the system were semi-regular — which is the assumption B2 rests on.
+
+| ℓ | n | system | D | rows | cols | rank | predicted | rank − pred | syz | syz − pred |
+|---:|---:|---|---:|---:|---:|---:|---:|---:|---:|---:|
+| 2 | 11 | `S_quad` | 5 | 595782 | 284274 | 268067 | 281622 | -13555 | 327715 | 13555 |
+| 2 | 11 | `random` | 5 | 595782 | 284274 | 284273 | 281622 | 2651 | 311509 | -2651 |
 
 ### B.4 Calibrated hybrid-guessing cost (task 1.5)
 
@@ -597,6 +686,7 @@ _not collected_
 |---:|---:|---|---:|---:|---:|---:|---:|---:|---:|
 | 16 | 3 | `generic` | 65535 | 41449 | 0 | 21592 | 21432 | **160** | 10 |
 | 16 | 5 | `{-3,-3^-1}` | 65535 | 41449 | 0 | 21224 | 21224 | **0** | 0 |
+| 18 | 5 | `generic` | 262143 | 66712 | 0 | 30699 | 30699 | **0** | 0 |
 
 ### B.6 What the D = 5 falls are made of (task 2.2)
 
@@ -643,14 +733,55 @@ Multipliers restricted to one block instead of all 6n variables.  `corank = cols
 
 ### B.9 Block orders computed directly, in PolyBoRi (task 3.3)
 
-PolyBoRi works **in** the declared order and prints one `Current Degree: d` line per degree, so `d_solv` here is a genuine per-order solving degree — the measurement batch 1 could not make, because Magma's GF(2) F4 runs in grevlex whatever order the ring declares.
+PolyBoRi works **in** the declared order and prints one `Current Degree: d` line per degree, so `d_solv` here is a genuine per-order solving degree — the measurement batch 1 could not make, because Magma's GF(2) F4 runs in grevlex whatever order the ring declares.  **18 of 43 runs completed**; the rest hit the timeout or aborted inside PolyBoRi (`rc = 134`, SIGABRT), and their `≥ d` entries are lower bounds taken from the degree lines printed before the crash.
 
-| system | n | order | ring order | `d_solv` | steps | GB size | GB max deg | s | censored |
-|---|---:|---|---|---:|---:|---:|---:|---:|:--:|
-| `E04b2_n9_l2_s1_P1only` | 9 | `grevlex` (grevlex) | degrevlex | 5 | 10 | 27 | 1 | 27 | no |
-| `E06_n7_kernel` | 7 | `blockU` (block:21) |  | 3 | 4 |  |  | 26 | yes |
-| `E06_n7_kernel` | 7 | `grevlex` (grevlex) |  | 4 | 31 |  |  | 502 | yes |
-| `E06_n7_kernel` | 7 | `grevlex` (grevlex) |  | 4 | 14 |  |  | 250 | yes |
+| system | n | order | ring order | `d_solv` | steps | GB size | GB max deg | s | outcome |
+|---|---:|---|---|---:|---:|---:|---:|---:|---|
+| `E04b2_n11_l2_s1_P1only` | 11 | `blockPT` (block:11) |  | ≥ 4 | 6 |  |  | 3600 | **timeout** |
+| `E04b2_n11_l2_s1_P1only` | 11 | `blockT` (blocklast:22) |  | ≥ 3 | 6 |  |  | 24 | **abort** |
+| `E04b2_n11_l2_s1_P1only` | 11 | `grevlex` (grevlex) | degrevlex | **5** | 14 | 33 | 2 | 178 | complete |
+| `E04b2_n11_l2_s1_S_quad` | 11 | `blockPT` (block:11) |  | _no degree line_ | 0 |  |  | 16 | **abort** |
+| `E04b2_n11_l2_s1_S_quad` | 11 | `blockT` (blocklast:22) |  | ≥ 5 | 9 |  |  | 344 | **abort** |
+| `E04b2_n11_l2_s1_S_quad` | 11 | `grevlex` (grevlex) | degrevlex | **5** | 13 | 33 | 2 | 91 | complete |
+| `E04b2_n11_l2_s1_random` | 11 | `blockPT` (block:11) |  | _no degree line_ | 0 |  |  | 41 | **abort** |
+| `E04b2_n11_l2_s1_random` | 11 | `blockT` (blocklast:22) |  | ≥ 3 | 3 |  |  | 1295 | **abort** |
+| `E04b2_n11_l2_s1_random` | 11 | `grevlex` (grevlex) | degrevlex | **5** | 9 | 33 | 1 | 109 | complete |
+| `E04b2_n11_l2_s2_P1only` | 11 | `blockPT` (block:11) |  | ≥ 4 | 6 |  |  | 3600 | **timeout** |
+| `E04b2_n11_l2_s2_P1only` | 11 | `blockT` (blocklast:22) |  | ≥ 4 | 7 |  |  | 63 | **abort** |
+| `E04b2_n11_l2_s2_P1only` | 11 | `grevlex` (grevlex) | degrevlex | **5** | 10 | 33 | 1 | 105 | complete |
+| `E04b2_n11_l2_s2_S_quad` | 11 | `blockPT` (block:11) |  | ≥ 2 | 2 |  |  | 1003 | **abort** |
+| `E04b2_n11_l2_s2_S_quad` | 11 | `blockT` (blocklast:22) |  | ≥ 5 | 8 |  |  | 246 | **abort** |
+| `E04b2_n11_l2_s2_S_quad` | 11 | `grevlex` (grevlex) | degrevlex | **5** | 9 | 33 | 1 | 77 | complete |
+| `E04b2_n11_l2_s2_random` | 11 | `blockPT` (block:11) |  | ≥ 2 | 2 |  |  | 472 | **abort** |
+| `E04b2_n11_l2_s2_random` | 11 | `blockT` (blocklast:22) |  | ≥ 3 | 3 |  |  | 514 | **abort** |
+| `E04b2_n11_l2_s2_random` | 11 | `grevlex` (grevlex) | degrevlex | **5** | 8 | 33 | 1 | 67 | complete |
+| `E04b2_n9_l2_s1_P1only` | 9 | `blockPT` (block:9) |  | ≥ 4 | 6 |  |  | 2628 | **abort** |
+| `E04b2_n9_l2_s1_P1only` | 9 | `blockT` (blocklast:18) | Block term order with blocks | **15** | 46 | 27 | 1 | 62 | complete |
+| `E04b2_n9_l2_s1_P1only` | 9 | `grevlex` (grevlex) | degrevlex | **5** | 10 | 27 | 1 | 27 | complete |
+| `E04b2_n9_l2_s1_S_quad` | 9 | `blockPT` (block:9) |  | ≥ 2 | 2 |  |  | 35 | **abort** |
+| `E04b2_n9_l2_s1_S_quad` | 9 | `blockT` (blocklast:18) | Block term order with blocks | **14** | 34 | 27 | 1 | 45 | complete |
+| `E04b2_n9_l2_s1_S_quad` | 9 | `grevlex` (grevlex) | degrevlex | **5** | 9 | 27 | 1 | 16 | complete |
+| `E04b2_n9_l2_s1_random` | 9 | `blockPT` (block:9) |  | ≥ 4 | 5 |  |  | 2288 | **abort** |
+| `E04b2_n9_l2_s1_random` | 9 | `blockT` (blocklast:18) | Block term order with blocks | **15** | 28 | 27 | 1 | 419 | complete |
+| `E04b2_n9_l2_s1_random` | 9 | `grevlex` (grevlex) | degrevlex | **5** | 8 | 27 | 1 | 19 | complete |
+| `E04b2_n9_l2_s2_P1only` | 9 | `blockPT` (block:9) |  | ≥ 4 | 5 |  |  | 2069 | **abort** |
+| `E04b2_n9_l2_s2_P1only` | 9 | `blockT` (blocklast:18) | Block term order with blocks | **17** | 45 | 27 | 1 | 134 | complete |
+| `E04b2_n9_l2_s2_P1only` | 9 | `grevlex` (grevlex) | degrevlex | **5** | 9 | 27 | 1 | 17 | complete |
+| `E04b2_n9_l2_s2_S_quad` | 9 | `blockPT` (block:9) |  | ≥ 2 | 2 |  |  | 27 | **abort** |
+| `E04b2_n9_l2_s2_S_quad` | 9 | `blockT` (blocklast:18) | Block term order with blocks | **15** | 35 | 27 | 1 | 56 | complete |
+| `E04b2_n9_l2_s2_S_quad` | 9 | `grevlex` (grevlex) | degrevlex | **5** | 9 | 27 | 1 | 19 | complete |
+| `E04b2_n9_l2_s2_random` | 9 | `blockPT` (block:9) |  | ≥ 4 | 5 |  |  | 1815 | **abort** |
+| `E04b2_n9_l2_s2_random` | 9 | `blockT` (blocklast:18) | Block term order with blocks | **16** | 29 | 27 | 1 | 194 | complete |
+| `E04b2_n9_l2_s2_random` | 9 | `grevlex` (grevlex) | degrevlex | **5** | 7 | 27 | 1 | 23 | complete |
+| `E06_n7_kernel` | 7 | `blockU` (block:21) |  | ≥ 3 | 4 |  |  | 26 | **abort** |
+| `E06_n7_kernel` | 7 | `blockW` (blocklast:21) |  | ≥ 4 | 6 |  |  | 760 | **abort** |
+| `E06_n7_kernel` | 7 | `grevlex` (grevlex) |  | ≥ 4 | 31 |  |  | 502 | **abort** |
+| `E06_n7_kernel` | 7 | `grevlex` (grevlex) |  | ≥ 4 | 14 |  |  | 250 | **timeout** |
+| `E06_n9_kernel` | 9 | `blockU` (block:27) |  | ≥ 3 | 4 |  |  | 335 | **abort** |
+| `E06_n9_kernel` | 9 | `blockW` (blocklast:27) |  | ≥ 3 | 4 |  |  | 5400 | **timeout** |
+| `E06_n9_kernel` | 9 | `grevlex` (grevlex) |  | ≥ 4 | 12 |  |  | 1988 | **abort** |
+
+Completed runs only, by order: `blockT` → 14, 15, 16, 17; `grevlex` → 5.
 
 ### B.10 E05: eliminating t₁ without a resultant (task 5)
 
@@ -669,8 +800,70 @@ Eq1 is separable, `W(t₀) + V(t₁)`, so its variety is found by tabulating V a
 | 15 | 0.094 | **5.876** | 1 | 0 | yes | — | — |
 | 16 | 0.188 | **15.818** | 2 | 1 | yes | — | — |
 | 17 | 1.623 | **461.241** | 4 | 3 | yes | — | — |
+| 18 | 3.629 | **2262.266** | 2 | 1 | yes | — | — |
+| 19 | 5.436 | **4974.791** | 1 | 0 | yes | — | — |
+| 20 | 5.224 | **10799.384** | 1 | 0 | yes | — | — |
 
-Least squares over n = [7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17]: slope of `log2(eliminate seconds)` vs n = **1.406**; over n ≥ 13 only (past the constant-overhead regime): **1.976**.
+Least squares over n = [7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20]: slope of `log2(eliminate seconds)` vs n = **1.630**; over n ≥ 13 only (past the constant-overhead regime): **2.106**.
 
 The method is Θ(2ⁿ) by construction, so a slope of 1 is the expected answer and the measurement confirms it rather than assuming it.  There is **no `log2(deg)` slope**: this route forms no eliminated polynomial, and the route that does is censored from n = 8 (`results/E05_server_resultants.csv`).
+
+**The same run with `--tables`.**  `src/aim3/gf2n.py` builds log/antilog tables only for n ≤ 16 and falls back to carry-less multiplication above it, which puts a 29× step at n = 17 into the curve above — an artefact of the field implementation, not of the algorithm.  Forcing the tables (16 MB at n = 20, against the 2ⁿ lookup table the method already builds) removes the step and extends the range.  Identical algorithm, identical root counts.
+
+| n | 7 | 8 | 9 | 10 | 11 | 12 | 13 | 14 | 15 | 16 | 17 | 18 | 19 | 20 | 21 | 22 | 23 | 24 |
+|---|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|
+| eliminate s | 0.006 | 0.018 | 0.048 | 0.116 | 0.239 | 0.555 | 1.335 | 2.953 | 6.113 | 15.583 | 26.646 | 74.006 | 156.359 | 402.905 | 766.789 | 1536.296 | 2854.477 | 7490.225 |
+
+Least squares over n = 7..24 (18 completed sizes): slope of `log2(seconds)` vs n = **1.167**, and every successive ratio lies in 1.71..3.00 — no regime change anywhere in the range.
+
+### B.11 T4 cross-validation in Sage, and the degree of the eliminated condition in t₀ (task 4)
+
+**B.11.1 — Sage against the Tier-A branch, on the same instances.**  The instances are exported by the Tier-A probe itself (same script, same seed), so the two implementations are compared on identical data.  `ker∩` is `dim(ker Λ₀ ∩ ker Λ₁)` and `solvable` the affine predicate {Λ₀(v)=c₀, Λ₁(v)=c₁}, at the true (t₀,t₁); `rand` is 32 random pairs.
+
+| n | e₀,e₁ | deg Λ₀,Λ₁ | gcrd | lclm | ker∩ | solvable (true) | solvable (rand) | gcrd (rand) | vs Tier-A |
+|---:|---|---|---:|---:|---:|:--:|---:|---:|---|
+| 8 | 7,7 | 14,14 | 0 | 28 | 0 | yes | 0/32 | 0..0 | 4/4 agree |
+| 9 | 8,8 | 16,16 | 0 | 32 | 0 | yes | 0/32 | 0..0 | 4/4 agree |
+| 10 | 9,9 | 18,18 | 0 | 36 | 0 | yes | 0/32 | 0..0 | 4/4 agree |
+| 11 | 3,4 | 13,14 | 0 | 27 | 0 | yes | 0/32 | 0..0 | 4/4 agree |
+| 12 | 11,11 | 22,22 | 0 | 44 | 0 | yes | 0/32 | 0..0 | 4/4 agree |
+| 13 | 3,5 | 15,17 | 0 | 32 | 0 | yes | 0/32 | 0..0 | 4/4 agree |
+| 14 | 3,5 | 16,18 | 0 | 34 | 0 | yes | 0/32 | 0..0 | 4/4 agree |
+| 15 | 4,11 | 18,25 | 0 | 43 | 0 | yes | 0/32 | 0..0 | — |
+| 16 | 3,11 | 18,26 | 0 | 44 | 0 | yes | 0/32 | 0..0 | — |
+| 17 | 3,4 | 19,20 | 0 | 39 | 0 | yes | 0/32 | 0..0 | — |
+| 18 | 5,7 | 22,24 | 0 | 46 | 0 | yes | 0/32 | 0..0 | — |
+| 19 | 3,4 | 21,22 | 0 | 43 | 0 | yes | 0/32 | 0..0 | — |
+| 20 | 3,7 | 22,26 | 0 | 48 | 0 | yes | 0/32 | 0..0 | — |
+| 21 | 4,5 | 24,25 | 0 | 49 | 0 | yes | 0/32 | 0..0 | — |
+| 22 | 3,5 | 24,26 | 0 | 50 | 0 | yes | 0/32 | 0..0 | — |
+| 23 | 3,4 | 25,26 | 0 | 51 | 0 | yes | 0/32 | 0..0 | — |
+| 24 | 5,7 | 28,30 | 0 | 58 | 0 | yes | 0/32 | 0..0 | — |
+
+Totals: **28 comparisons against `results/E07_theory_skew_degrees.csv`, 0 disagreements**.  `deg lclm = deg Λ₀ + deg Λ₁` at every n (the gcrd is 0 everywhere, true key included), and the affine predicate separates the true key from all 32 random pairs at every n up to 24 — the Tier-A finding, now measured ten sizes further.
+
+**B.11.2 — D(n), the degree in t₀ of the eliminated coefficients.**  t₁ is fixed at its true value and t₀ runs over **all** of F_{2ⁿ}; each coefficient of the monic lclm is a function F_{2ⁿ} → F_{2ⁿ} whose exact univariate degree is read off by interpolation and whose exact ANF degree comes from a Möbius transform.  `2ⁿ−1` and `n` are the maxima.
+
+| n | e₀,e₁ | deg lclm | values | ms per lclm | **D(n)** | max | **ANF** | max | Sage (independent) |
+|---:|---|---:|---:|---:|---:|---:|---:|---:|---|
+| 8 | 7,7 | 28 | 256 | 1.745 | **255** | 255 | **8** | 8 | 255 (same) |
+| 9 | 8,8 | 32 | 512 | 2.331 | **511** | 511 | **9** | 9 | 511 (same) |
+| 10 | 9,9 | 36 | 1024 | 2.91 | **1023** | 1023 | **10** | 10 | 1023 (same) |
+| 11 | 3,4 | 27 | 2048 | 1.873 | **2047** | 2047 | **11** | 11 | 2047 (same) |
+| 12 | 11,11 | 44 | 4096 | 10.527 | **4095** | 4095 | **12** | 12 | 4095 (same) |
+| 13 | 3,5 | 32 | 8192 | 7.682 | **8191** | 8191 | **13** | 13 | 8191 (same) |
+| 14 | 3,5 | 34 | 16384 | 4.664 | **16383** | 16383 | **14** | 14 | 16383 (same) |
+| 15 | 4,11 | 43 | 32768 | 4.995 | **32767** | 32767 | **15** | 15 | 32767 (same) |
+| 16 | 3,11 | 44 | 65536 | 3.968 | **65535** | 65535 | **16** | 16 | 65535 (same) |
+| 17 | 3,4 | 39 | 131072 | 27.077 | **131071** | 131071 | **—** | 17 | 131071 (same) |
+| 18 | 5,7 | 46 | 262144 | 36.122 | **262143** | 262143 | **18** | 18 | 262143 (same) |
+
+**D(n) = 2ⁿ − 1 — the maximum — at every completed size (n = 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18), and for every one of the deg-lclm + 1 coefficients, not just the extreme ones.**  The ANF degree is n, also the maximum.  Eliminating pt in the Ore ring is exact and cheap; what it leaves behind is a condition in t₀ of full degree, so recovering t₀ from it by any degree-sensitive method (resultant, univariate root finding, interpolation) costs at least 2ⁿ — the same order as guessing pt outright.
+
+**B.11.3 — the symbolic instrument.**  The same lclm computed over K(t₀) (twist t₀ ↦ t₀², which is what φ·t₀ = t₀²·φ forces), so the coefficients are exact rational functions rather than sampled values.
+
+| n | deg lclm | D_sym (numerator) | denominator | D_sym(u) | log₂ formal deg E | s |
+|---:|---:|---:|---:|---:|---:|---:|
+| 8 | — | _censored_ | — | — | — | 27000.047 |
+
 
