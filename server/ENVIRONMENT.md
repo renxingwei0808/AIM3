@@ -76,8 +76,9 @@ gpu     1x NVIDIA GeForce RTX 3080 (10 GB)   [unused by this batch]
   a wrong number silently.  Grep every new `.sage` file for `^` before trusting its output.
 * `ulimit -v 32G` does **not** break Sage start-up (checked), so the memory caps are usable.
 * `OrePolynomialRing(K, K.frobenius_endomorphism())` works (it is marked experimental and warns), and
-  `f.left_xlcm(g)` returns `(l, u, v)` with `u*f == v*g == l`.  It is **50–1000× slower per `lclm`**
-  than the pure-Python `src/aim3/ore.py`: use it as a correctness reference, not as a workhorse.
+  `f.left_xlcm(g)` returns `(l, u, v)` with `u*f == v*g == l`.  Speed is on a par with the pure-Python `src/aim3/ore.py` (≈ 2.6 ms per `lclm` of two degree-27
+  elements over GF(2¹¹), against ≈ 1.9 ms); an earlier note here claiming it was 50–1000× slower was
+  measuring the `^` bug above, not Sage.
   The same ring over the rational function field `K(T)` (twist `T ↦ T²`, built with
   `LF.hom([LF(T)^2], base_map=K.frobenius_endomorphism())`) is accepted but does not finish an
   `lclm` of two degree-14 elements in 6 h at n = 8 — the degree in `T` doubles at every Euclidean

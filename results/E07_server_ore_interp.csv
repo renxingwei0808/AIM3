@@ -1,4 +1,5 @@
-n,measurement,value,detail,tool,tier,host,commit,seconds,censored
-8,ore_scale,,rc=1,sage-ore,B,luck-Precision-7920-Tower,db7e5b6,490.544,1
-9,ore_scale,,rc=-9,sage-ore,B,luck-Precision-7920-Tower,db7e5b6,12600.184,1
-10,ore_scale,,rc=-9,sage-ore,B,luck-Precision-7920-Tower,db7e5b6,12600.139,1
+n,measurement,value,detail,tool,tier,host,commit,seconds,censored,e0,e1,deg_Lambda,deg_gcrd_true,deg_lclm_true,deg_sum,kerint_true,affine_solvable_true,deg_gcrd_rand,affine_solvable_rand,deg_gcrd_sym,deg_lclm_sym,D_sym_lclm,D_sym_lclm_den,D_sym_u,deg_u,deg_v,cofactors_check,log2_deg_E_formal,D_interp_lclm,anf_deg_lclm,interp_degree_drops,interp_censored,tierA_checks,tierA_disagreements
+8,ore_scale,,agrees with Tier-A,sage-ore,B,luck-Precision-7920-Tower,db7e5b6,2.423,0,7,7,14;14,0,28,28,0,1,0..0,0/32,,,,,,,,,,255,8,1,0,4,0
+9,ore_scale,,agrees with Tier-A,sage-ore,B,luck-Precision-7920-Tower,db7e5b6,3.425,0,8,8,16;16,0,32,32,0,1,0..0,0/32,,,,,,,,,,511,9,1,0,4,0
+10,ore_scale,,agrees with Tier-A,sage-ore,B,luck-Precision-7920-Tower,db7e5b6,4.774,0,9,9,18;18,0,36,36,0,1,0..0,0/32,,,,,,,,,,1023,10,1,0,4,0
+11,ore_scale,,agrees with Tier-A,sage-ore,B,luck-Precision-7920-Tower,db7e5b6,5.334,0,3,4,13;14,0,27,27,0,1,0..0,0/32,,,,,,,,,,2047,11,1,0,4,0
