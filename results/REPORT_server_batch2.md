@@ -83,7 +83,45 @@ same `d_solv` at every cell**, and in particular the n = 11, ℓ = 2 cell that b
 
 ### 1.4 The Hilbert-function side check
 
-<!--Q14-->
+Two things were asked here: how far the measured Macaulay rank is from the Boolean semi-regular
+prediction at D = 5, and whether the direct-sum property (Gate 1) still holds at D = 5.  Both were
+run at ℓ = 2, **n = 11** rather than the n = 13 the prompt names — n = 13 at D = 5 is
+1160640 × 667928 ≈ 97 GB and ≈ 32 h of M4RI, out of proportion to this batch; the shortfall is
+stated rather than papered over, and `P1only` was run at n = 13 (32 GB) as the partial substitute.
+
+**The semi-regular prediction fails, and it fails only for the AIM3 system.**  The D = 5 Macaulay
+matrix is 595782 × 284274 in both runs (§B.3):
+
+| system | rank | predicted | rank − predicted | syzygies | predicted |
+|---|---:|---:|---:|---:|---:|
+| `S_quad` | 268067 | 281622 | **−13555** | 327715 | 314160 |
+| random, same shape | 284273 | 281622 | +2651 | 311509 | 314160 |
+
+The random control lands one short of full column rank (284274 − 1), i.e. at D = 5 a random system
+of this shape is already *solved*; `S_quad` is **16206 below it** and 13555 below the semi-regular
+formula.  For scale, the departure at D = 3 is `syz₃ = 8n(ℓ+1) = 264`.  So the ROADMAP's C3/C4
+objection is not a small correction that stays small: between D = 3 and D = 5 the excess syzygies
+grow by a factor of ≈ 51 on this instance.  **One instance, one n — this is a measurement, not a
+law**, and no exponent is fitted to it here.
+
+**Gate 1 at D = 5: the direct sum breaks, but the measurement cannot say why.**  The subset lattice
+(§B.0/§B.11 aside; the D = 5 rows are in `results/E04_server_gate1_pairs_D5.csv`) gives
+
+| blocks | equations | `falls_D5` | Σ singles | `cross_excess` | saturation |
+|---|---:|---:|---:|---:|---:|
+| {0} | 33 | 859 | 859 | 0 | 0.3422 |
+| {1} | 33 | 870 | 870 | 0 | 0.3424 |
+| {2} | 33 | 914 | 914 | 0 | 0.3433 |
+| {0+1+2} | 99 | 5467 | 2643 | **2824** | **0.9999** |
+
+Taken at face value this says the direct sum fails at D = 5.  It should not be taken at face value:
+`dim_low = 46934` out of `low_cols = 46938`, so the degree-5 Macaulay matrix of the full system
+spans all but **four** dimensions of the entire degree-≤4 space.  A system that has filled the space
+has nowhere left to be additive, so `cross_excess` at that saturation measures the ceiling, not a
+cross-S-box mechanism.  The D = 4 rows are meaningful precisely because their saturation is 0.12–0.34.
+**Recorded as an observation with its saturation attached, and explicitly not offered as Gate-1
+evidence.**  (Consistency check: the Hilbert job, an independent script, reports the same
+`dim_low = 46934` for this instance.)
 
 ### 1.5 The calibrated numbers (§B.4)
 
@@ -213,12 +251,41 @@ untouched.
    degree at which it is *processing pairs*, and its algorithm is not F4; on the same system it
    reports 5 where both F4 implementations report 4.  The comparison this table supports is
    **across orders within PolyBoRi**, which is exactly the comparison batch 1 could not make.
-2. **PolyBoRi aborts on the kernel model under a block order.**  At n = 7, 42 variables,
-   `block:21` terminates with `Unhandled SIGABRT: An abort() occurred… a *compiled* module has a
-   bug`, after emitting four degree lines.  That is a crash inside PolyBoRi, not a timeout and not
-   a fault in the driver; the row is recorded with the degrees it did emit as a lower bound.
+2. **PolyBoRi aborts on most block-order runs, and the abort is not confined to the kernel
+   model.**  The failure is `Unhandled SIGABRT: An abort() occurred… a *compiled* module has a bug`
+   (exit code 134), emitted after some number of degree lines.  It is a crash inside PolyBoRi, not
+   a timeout and not a fault in the driver; the degrees already printed are a **lower bound** and
+   the row is censored.
 
-<!--Q33-->
+   The driver first recorded these as completed runs — it derived `censored` from the timeout and
+   from "did any degree line appear", and never looked at the exit code.  Fixed
+   (`server/jobs/run_polybori.py`), and the rows already written were re-marked from `rc`.  Before
+   the fix the table appeared to show block orders cutting `d_solv` from 5 to 2; that reading was
+   an artefact of counting a crash as a result, and it is withdrawn.
+
+**What survives (§B.9): 17 completed runs of 43.**  All grevlex runs complete; all `blockPT`
+(pt-block first) runs abort; all six kernel-model runs abort; `blockT` completes at n = 9 and
+aborts at n = 11.
+
+| system | order | `d_solv` (PolyBoRi) | note |
+|---|---|---|---|
+| `S_quad`/`P1only`/random, ℓ = 2, n = 9 and 11 | grevlex | **5** at every one of the 9 completed runs | complete |
+| same, n = 9 | `blockT` (t-blocks first) | **14, 15, 15, 16, 17** over 5 completed runs | complete |
+| same | `blockPT` (pt first) | — | **every run aborts** |
+| kernel model, n = 7 and 9 | grevlex, `blockU`, `blockW` | — | **every run aborts** |
+
+So the one block-order comparison that completed says the opposite of what T2.2 hoped for: putting
+the t-blocks first raises the working degree from 5 to 14–17 and is strictly worse.  The order that
+T2.2 actually wants — pt first, so that the twisted-bilinear structure is eliminated block by
+block — **cannot be measured with this tool either**.  Batch 1 was blocked by Magma computing in
+grevlex regardless of the declared order; batch 2 is blocked by PolyBoRi crashing on exactly the
+orders of interest.  Two independent tools, two different failure modes, same missing number.
+
+**This is the batch's clearest unfinished item.**  The remaining options, none of which fits in this
+batch: build the block-order Gröbner basis over F₂ with field equations in Singular or msolve (both
+compute in the declared order but neither is tuned for Boolean systems), or implement a small
+matrix-F4 in the block order directly on top of the existing M4RI backend, which the Macaulay
+machinery in `src/aim3/boolmac.py` already almost supports.
 
 ---
 

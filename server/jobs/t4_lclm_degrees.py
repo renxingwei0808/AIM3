@@ -159,9 +159,13 @@ def main():
         if censored:
             print(f"   !! budget {a.budget:.0f}s exhausted after {done}/{q} values -- CENSORED, "
                   f"no degree reported ({t_lclm:.0f}s)")
+            # the censored row must carry the SAME keys as a completed one, or `record` refuses
+            # to append it to an existing file and the whole escalation dies at the first timeout
             record(a.csv, dict(n=n, e0=e0, e1=e1, nvalues=q, values_done=done,
-                               deg_lclm=maxdeg, D_interp="", anf="", degree_drops=drops,
-                               tool="aim3.ore", detail="budget exhausted"),
+                               deg_lclm=maxdeg, D_interp="", D_over_q="", anf="",
+                               degree_drops=drops, per_coefficient="", scan_exhausted="",
+                               lclm_seconds=round(t_lclm, 2), ms_per_lclm=round(
+                                   1000 * t_lclm / max(done, 1), 3), tool="aim3.ore"),
                    seconds=t_lclm, censored=1, tier="B")
             continue
         print(f"   {q} lclm computations in {t_lclm:.1f}s ({1000*t_lclm/q:.2f} ms each); "

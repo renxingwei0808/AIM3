@@ -1,0 +1,3 @@
+n,ell,exps,seed,system,D,nvars,neqs,cols,rows,rank,syz,dim_low,predicted_rank,predicted_syz,rank_minus_predicted,syz_minus_predicted,semiregular_series,tier,host,commit,seconds,censored
+11,2,3;4;7,1,S_quad,5,33,99,284274,595782,268067,327715,46934,281622,314160,-13555,13555,1;33;429;2189,B,luck-Precision-7920-Tower,11ec8ab,10439.024,0
+11,2,3;4;7,1,random,5,33,99,284274,595782,284273,311509,46937,281622,314160,2651,-2651,1;33;429;2189,B,luck-Precision-7920-Tower,11ec8ab,16707.512,0

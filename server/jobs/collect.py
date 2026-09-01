@@ -43,6 +43,11 @@ MERGE = [
     ("E06_server_minrank.csv", "B2_minrank*", "E06_server_minrank.csv"),
     ("E10_server_polybori.csv", "B2_polybori*", "E10_server_polybori.csv"),
     ("E05_server_cheap_elimination.csv", "B2_e05cheap*", "E05_server_cheap_elimination.csv"),
+    ("E04_server_hilbert.csv", "B2_hilbert_*", "E04_server_hilbert.csv", ("n", "system", "D")),
+    # the D = 5 subset lattice is a separate table from the D = 4 one: same script,
+    # different degree, and mixing them in one file would make the `falls` column mean
+    # two things at once
+    ("E04_server_gate1_pairs.csv", "B2_gate1_D5_*", "E04_server_gate1_pairs_D5.csv"),
     ("E07_server_ore_scale.csv", "T4_ring*", "E07_server_ore_scale.csv", ("n",)),
     ("E07_server_ore_interp.csv", "T4_sage_interp*", "E07_server_ore_interp.csv", ("n",)),
     ("E07_server_ore_symbolic.csv", "T4_sage_symbolic*", "E07_server_ore_symbolic.csv", ("n",)),
