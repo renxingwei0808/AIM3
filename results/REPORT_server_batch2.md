@@ -359,10 +359,10 @@ on identical data rather than on two random instances that happen to have the sa
 *A correction to an earlier draft of this section.*  It reported that Sage's `OrePolynomialRing`
 costs ≈ 1 s per `lclm` against 0.2–20 ms for `src/aim3/ore.py`, and built a "division of labour"
 argument on that.  **That measurement was wrong**: the slowness was the `^`-preparser bug in my own
-Möbius transform (see the caveats below), not Sage.  With it fixed, Sage runs the whole n = 11 job —
-2048 `lclm` computations plus the interpolation — in **5.3 s**, i.e. ≈ 2.6 ms per `lclm`, on a par
-with the hand-written class.  The two implementations are simply two implementations; nothing about
-the plan depended on the false ratio, but the claim is withdrawn.
+Möbius transform (see the caveats below), not Sage.  With it fixed the ranking is the other way
+round — the full 2ⁿ measurement at n = 18 takes Sage **1684 s** and the hand-written class **9515 s**
+— so the claim is withdrawn rather than merely softened.  Nothing in the plan depended on it: both
+implementations ran the whole range anyway.
 
 **Result 1 — the Tier-A measurement replicates exactly.**  Over n = 8..14, where the Tier-A CSV has
 rows, Sage reproduces `deg lclm`, `dim(ker Λ₀ ∩ ker Λ₁)`, the affine-solvability bit and the random
@@ -377,11 +377,12 @@ n ≤ 24 (the gcrd is 0 everywhere), and the affine system is solvable at the tr
 its 2ⁿ measurements, not of the algebra: the ring-level statement costs nothing to check and does
 not weaken.
 
-**Result 3 — D(n) = 2ⁿ − 1, the maximum, at every size measured (n = 8..18).**  This is the number
-T4.3 makes the switch of the whole track.  With t₁ at its true value and t₀ ranging over **all** of
-F_{2ⁿ}, every coefficient of the monic lclm — not merely the extreme ones — has exact univariate
-degree 2ⁿ − 1 and exact ANF degree n.  Both are the largest values possible, at all eleven sizes,
-for all 28–47 coefficients of each.
+**Result 3 — D(n) = 2ⁿ − 1, the maximum, at every size measured (n = 8..18), in both
+implementations.**  This is the number T4.3 makes the switch of the whole track.  With t₁ at its
+true value and t₀ ranging over **all** of F_{2ⁿ}, every coefficient of the monic lclm — not merely
+the extreme ones — has exact univariate degree 2ⁿ − 1 and exact ANF degree n.  Both are the largest
+values possible, at all eleven sizes, for all 28–47 coefficients of each, and `src/aim3/ore.py` and
+Sage's `OrePolynomialRing` agree on **every one of the 11 sizes**.
 
 **What that settles.**  Eliminating pt in the Ore ring is exact, cheap and loses nothing (Tier-A
 already showed `Z(E) = C`, so no separate Frobenius-consistency step is needed).  But the object it
@@ -405,9 +406,8 @@ dense.  This is the same shape of negative result as E05/T3 in §5, reached inde
 * The independent Sage check of D(n) was first lost to a Sage trap: `.sage` files preparse `^` as
   exponentiation, so the Möbius transform written `arr[i] ^= arr[i^s]` was computing a tower of
   powers.  It raised `MemoryError`, which is the lucky outcome — the same rewrite on `s ^= f0`
-  returns a wrong number in silence.  Fixed and documented in `server/ENVIRONMENT.md`.  **Redone:
-  Sage reproduces `D(n) = 2ⁿ − 1` and `ANF = n` at n = 8, 9, 10, 11**, so result 3 now rests on two
-  independent implementations at those sizes; the run over n = 12..18 is in flight.
+  returns a wrong number in silence.  Fixed and documented in `server/ENVIRONMENT.md`, and redone in
+  full.
 * One instance per n, as in Tier A.  D(n) saturating its maximum is not a statistic that a second
   seed could improve, but it has not been repeated over seeds.
 
