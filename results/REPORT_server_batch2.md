@@ -361,10 +361,11 @@ n ≤ 24 (the gcrd is 0 everywhere), and the affine system is solvable at the tr
 its 2ⁿ measurements, not of the algebra: the ring-level statement costs nothing to check and does
 not weaken.
 
-**Result 3 — D(n) = 2ⁿ − 1, the maximum, at every size measured.**  This is the number T4.3 makes
-the switch of the whole track.  With t₁ at its true value and t₀ ranging over **all** of F_{2ⁿ},
-every coefficient of the monic lclm — not merely the extreme ones — has exact univariate degree
-2ⁿ − 1 and exact ANF degree n.  Both are the largest values possible.
+**Result 3 — D(n) = 2ⁿ − 1, the maximum, at every size measured (n = 8..18).**  This is the number
+T4.3 makes the switch of the whole track.  With t₁ at its true value and t₀ ranging over **all** of
+F_{2ⁿ}, every coefficient of the monic lclm — not merely the extreme ones — has exact univariate
+degree 2ⁿ − 1 and exact ANF degree n.  Both are the largest values possible, at all eleven sizes,
+for all 28–47 coefficients of each.
 
 **What that settles.**  Eliminating pt in the Ore ring is exact, cheap and loses nothing (Tier-A
 already showed `Z(E) = C`, so no separate Frobenius-consistency step is needed).  But the object it
@@ -379,11 +380,18 @@ dense.  This is the same shape of negative result as E05/T3 in §5, reached inde
   `e = n−1`, so both S-boxes get the same exponent — not an AIM3 parameter shape, but it keeps the
   instance out of the degenerate classes, which is what a degree measurement needs.  The n where
   two distinct generic exponents exist (11, 13, 14, 15, …) show the same D(n).
-* The symbolic instrument (the same lclm over K(t₀), coefficients as exact rational functions) is
-  reported separately in §B.11.3 and reaches only very small n: the twist sends t₀ ↦ t₀², so the
-  degree in t₀ **doubles at every Euclidean step**, and the formal degrees pass 2¹⁴ by n = 8.  That
-  growth is itself consistent with result 3 — a formal degree far above 2ⁿ reduces, as a function on
-  F_{2ⁿ}, to the full degree 2ⁿ − 1.
+* The symbolic instrument (the same lclm over K(t₀), coefficients as exact rational functions)
+  **does not finish at all**: 6 h at n = 8 without returning, on two degree-14 elements.  The reason
+  is structural rather than a tuning failure — the twist sends t₀ ↦ t₀², so the degree in t₀ doubles
+  at every Euclidean step and passes 2¹⁴ before the algorithm is halfway.  Recorded as censored, and
+  it is consistent with result 3: a formal degree far above 2ⁿ reduces, as a function on F_{2ⁿ}, to
+  the full degree 2ⁿ − 1.
+* The independent Sage check **of D(n) specifically** was lost to a Sage trap and is being redone.
+  `.sage` files preparse `^` as exponentiation, so the Möbius transform written `arr[i] ^= arr[i^s]`
+  was computing a tower of powers; it raised `MemoryError`, which is the lucky outcome — the same
+  rewrite on `s ^= f0` returns a wrong number in silence.  Fixed, documented in
+  `server/ENVIRONMENT.md`, and re-launched for n = 8..11.  **Until it lands, D(n) rests on one
+  implementation**, and the report says so rather than implying two.
 * One instance per n, as in Tier A.  D(n) saturating its maximum is not a statistic that a second
   seed could improve, but it has not been repeated over seeds.
 
