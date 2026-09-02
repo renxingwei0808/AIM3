@@ -545,15 +545,18 @@ is formed; the route that does form one is censored from n = 8 (batch 1).  The �
 |---|---|---|
 | `cross_excess` as measured by `gate1_pairs.py` is arithmetically sound | [VERIFIED] — decoupled control, 10/10 subsets exactly 0 | `results/E04_server_decoupled.csv` |
 | `falls_D5 = (#cubics)·2n − 18n + net`, net = 25n (generic) / 10n ({−3}) | [VERIFIED n = 14, 16, two classes] — **replaces** batch 1's `(2n)(2n)+7n` reading | `results/E03_server_d5_decomposition.csv` |
+| the generic closed form `falls_D5 = n(4n+7)` | **narrow to [VERIFIED n = 14, 16]** — n = 18 measures 64n against a predicted 79n, non-monotone in n; cause under test | `results/E03_server_D5.csv` |
+| the measured `d_solv` staircase in k shifts two guessed bits earlier for `S_quad` than for a random system of identical shape | [VERIFIED n = 13, 15, k ≤ 6, two seeds, two tools] — new row, the batch's one structural gain | `results/E04_f4_hybrid_b2.csv` |
 | 18n linear relations among the `z_k·c_j`, independent of the exponent class | [CONJ], verified at n = 14, 16 | same |
 | D = 5 leaves 10n quartics of `I(V_e)` unreached for generic e, 0 for the {−3} class | [VERIFIED n = 16]; an upper bound on generators outside ⟨P₁,P₂,P₃⟩ | `results/E03_server_pointset.csv` |
 | block-restricted XL does not linearise earlier, and U ≈ W | [VERIFIED n = 7, 11, D ≤ 5] — new row | `results/E06_server_multblock_*.csv` |
 | the first-layer rank defect is real (corank 1 at the true W) but carries ≈ n−1 bits | [VERIFIED n = 7, 9, 11, 13, 20000 samples each] — new row, T2.1 | `results/E06_server_minrank.csv` |
-| the two-valued-inverse reduced system is solvable in Θ(2ⁿ) by the separable structure | [VERIFIED n = 7..], i.e. the same order as B3 — this is T3.2's negative result, demonstrated | `results/E05_server_cheap_elimination.csv` |
+| the two-valued-inverse reduced system is solvable in Θ(2ⁿ) by the separable structure | [VERIFIED n = 7..24, 18 sizes, slope 1.167] — the same order as B3, so this is T3.2's negative result, demonstrated | `results/E05_server_cheap_elimination_tables.csv` |
 | generic exponents do not exist at n = 9 and are too few at n = 11, 15 for ℓ = 2 | [PROVED] (a finite check of `degenerate_class`) — worth a footnote wherever toy exponents are chosen | `server/jobs/…/generic_exps` |
 | the Tier-A T4 measurement replicates in an independent implementation | [VERIFIED n = 8..14, 28/28 comparisons] — supports the existing E07 rows rather than adding a claim | `results/E07_server_ore_scale.csv` |
 | `deg lclm = deg Λ₀ + deg Λ₁`, gcrd = 0, and the affine predicate separates the true key | [VERIFIED n ≤ 24, 0/32 random pairs solvable] — widens the Tier-A row from n ≤ 14 | same |
-| the pt-eliminated condition has **full** degree in t₀: D(n) = 2ⁿ−1 and ANF degree n | [VERIFIED n = 8..] — T4.3's switch, and it points the same way as T3.2 | `results/E07_server_lclm_degrees.csv` |
+| the pt-eliminated skew condition has **full** degree in t₀: D(n) = 2ⁿ−1, ANF degree n | [VERIFIED n = 8..19; two independent implementations agree at n = 8..18] — T4.3's switch, and it points the same way as T3.2 | `results/E07_server_lclm_degrees.csv`, `results/E07_server_ore_interp.csv` |
+
 
 <!--TABLES-->
 
