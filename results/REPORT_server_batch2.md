@@ -298,6 +298,13 @@ multiplier set it produces roughly a quarter of the rank and a third of the fall
 The bilinear structure does not make one side cheaper than the other, and neither side reaches
 linearisation sooner than the full set does.  Negative result for the block-restricted XL idea.
 
+**Coverage shortfall.**  The task asks for n = 7, 9, 11 at D = 2..5.  What is measured is
+**n = 7 to D = 5** (the D = 5 run reaches `rank = rows`, `syz = 0`, corank 909378 — still no
+linearisation) and **n = 11 to D = 4**; n = 9 was not run in the first pass and D = 5 at n = 11 was
+not attempted.  n = 9 has since been launched for both blocks and is listed in §9.  The conclusion
+does not depend on the missing cells — corank is six orders of magnitude from 1 at every cell that
+did run — but the row in §8 is stated for the sizes actually measured, not for the sizes asked.
+
 ### 3.2 The rank condition is real but worth only about n bits (§B.8)
 
 Writing the first layer as `N(W)·(pt,1)^T = 0` with N of size 2n × (n+1):
@@ -549,7 +556,7 @@ is formed; the route that does form one is censored from n = 8 (batch 1).  The �
 | the measured `d_solv` staircase in k shifts two guessed bits earlier for `S_quad` than for a random system of identical shape | [VERIFIED n = 13, 15, k ≤ 6, two seeds, two tools] — new row, the batch's one structural gain | `results/E04_f4_hybrid_b2.csv` |
 | 18n linear relations among the `z_k·c_j`, independent of the exponent class | [CONJ], verified at n = 14, 16 | same |
 | D = 5 leaves 10n quartics of `I(V_e)` unreached for generic e, 0 for the {−3} class | [VERIFIED n = 16]; an upper bound on generators outside ⟨P₁,P₂,P₃⟩ | `results/E03_server_pointset.csv` |
-| block-restricted XL does not linearise earlier, and U ≈ W | [VERIFIED n = 7, 11, D ≤ 5] — new row | `results/E06_server_multblock_*.csv` |
+| block-restricted XL does not linearise earlier, and U ≈ W | [VERIFIED n = 7 at D ≤ 5, n = 11 at D ≤ 4] — new row; n = 9 in flight | `results/E06_server_multblock_*.csv` |
 | the first-layer rank defect is real (corank 1 at the true W) but carries ≈ n−1 bits | [VERIFIED n = 7, 9, 11, 13, 20000 samples each] — new row, T2.1 | `results/E06_server_minrank.csv` |
 | the two-valued-inverse reduced system is solvable in Θ(2ⁿ) by the separable structure | [VERIFIED n = 7..24, 18 sizes, slope 1.167] — the same order as B3, so this is T3.2's negative result, demonstrated | `results/E05_server_cheap_elimination_tables.csv` |
 | generic exponents do not exist at n = 9 and are too few at n = 11, 15 for ℓ = 2 | [PROVED] (a finite check of `degenerate_class`) — worth a footnote wherever toy exponents are chosen | `server/jobs/…/generic_exps` |
@@ -557,6 +564,23 @@ is formed; the route that does form one is censored from n = 8 (batch 1).  The �
 | `deg lclm = deg Λ₀ + deg Λ₁`, gcrd = 0, and the affine predicate separates the true key | [VERIFIED n ≤ 24, 0/32 random pairs solvable] — widens the Tier-A row from n ≤ 14 | same |
 | the pt-eliminated skew condition has **full** degree in t₀: D(n) = 2ⁿ−1, ANF degree n | [VERIFIED n = 8..19; two independent implementations agree at n = 8..18] — T4.3's switch, and it points the same way as T3.2 | `results/E07_server_lclm_degrees.csv`, `results/E07_server_ore_interp.csv` |
 
+
+---
+
+## 9. Still running at the time of writing
+
+Four jobs were left on the server when this branch was pushed, in two groups.  **Neither group
+changes any conclusion above**; each resolves something this report already states as open.
+`results/server/RUNNING_EXPERIMENTS.md` gives the full brief — cost, every possible outcome and what
+it would mean, what is lost if they are stopped, and the commands to poll, stop or harvest them.
+
+| group | sessions | question | cost | if stopped |
+|---|---|---|---|---|
+| A | `B2_d5_n18_e7`, `B2_d5_n18_e11` | why `falls_D5 = n(4n+7)` fails at n = 18 (§2.2): is the form a fit that stops at n = 16, or is (18,5) in a class `degenerate_class` fails to detect? | ≈ 13 h each, ≈ 25 GB each | nothing reported becomes wrong; a known-unexplained point stays unexplained, and a possible bug in `src/aim3/structures.py` — which would affect every experiment that picks "generic" exponents — stays unexamined |
+| B | `B2_multblk_n9_U`, `B2_multblk_n9_W` | the n = 9 cell task 3.1 asks for and the first pass missed (§3.1) | ≈ 1–3 h each | only the footnote; §3.1 already names the gap and §8 is written for the sizes measured |
+
+Group A is the one worth finishing: two of its three outcomes change what may be quoted from batch 1,
+and one of them is a correctness bug rather than a missing measurement.
 
 <!--TABLES-->
 

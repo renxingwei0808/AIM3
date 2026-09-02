@@ -83,6 +83,21 @@ symbolic K(t₀) lclm, which does not finish at n = 8 because the twist squares 
 Euclidean step; ℓ = 2 at n = 17, censored in all twelve runs; the two n = 18 exponents above.
 **No attack is claimed anywhere in this batch.**
 
+## Four jobs are still running
+
+Two groups, detailed in `results/server/RUNNING_EXPERIMENTS.md` and summarised in §9 of the report.
+**Neither changes a conclusion in this PR.**
+
+* **Group A** (`B2_d5_n18_e7`, `B2_d5_n18_e11`, ≈ 13 h each) resolves the n = 18 `falls_D5` anomaly.
+  Its outcomes are not symmetric: one says batch 1's closed forms are a fit that stops at n = 16, one
+  says `aim3.structures.degenerate_class` is **missing a class** — a correctness bug that would touch
+  every experiment selecting "generic" exponents. **This is the one worth finishing.**
+* **Group B** (`B2_multblk_n9_U`, `B2_multblk_n9_W`, ≈ 1–3 h each) fills the n = 9 cell task 3.1 asks
+  for and the first pass missed.  Coverage, not discovery.
+
+If they are stopped, nothing here becomes wrong: §2.2 already states the closed form as
+`[VERIFIED n = 14, 16]` and not beyond, and §3.1 carries an explicit coverage-shortfall paragraph.
+
 ## Files
 
 New tables under `results/`: `E03_server_D5.csv`, `E03_server_d5_decomposition.csv`,
@@ -90,5 +105,6 @@ New tables under `results/`: `E03_server_D5.csv`, `E03_server_d5_decomposition.c
 `E04_server_gate1_pairs_D5.csv`, `E04_f4_degrees_b2.csv`, `E04_f4_hybrid_b2.csv`,
 `E05_server_cheap_elimination{,_tables}.csv`, `E06_server_multblock_{U,W}.csv`,
 `E06_server_minrank.csv`, `E10_server_polybori.csv`, `E07_server_{ore_scale,ore_interp,ore_symbolic,lclm_degrees}.csv`.
-New tooling under `server/jobs/` and `experiments/*/sage/`.  §8 of the report lists **14 suggested
+New tooling under `server/jobs/` and `experiments/*/sage/`; `results/server/RUNNING_EXPERIMENTS.md`
+for the jobs still in flight.  §8 of the report lists **14 suggested
 rows for `paper/claims_ledger.md`**; the ledger itself is deliberately not edited here.
