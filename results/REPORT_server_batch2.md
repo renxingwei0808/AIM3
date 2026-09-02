@@ -246,6 +246,29 @@ times larger than the 7n batch 1 read off the closed form, and the sign of the c
 the opposite of what the closed forms suggest: the `{−3}` class has *more* products but *fewer* net
 new quartics.  The 18n is the quantity a theorem should explain first.
 
+**But the generic closed form does not survive n = 18.**  This batch also ran `falls_D5` at n = 18,
+which is past the range batch 1 fitted the form on, and it is the first size where
+`degenerate_class(18, e)` is **empty for every admissible e** — every exponent at n = 18 is generic.
+With e = 5:
+
+| n | e | class | `falls_D5` | per n | `4n+7` predicts |
+|---:|---:|---|---:|---:|---:|
+| 14 | 3 | generic | 882 | 63 | 63 ✓ |
+| 16 | 3 | generic | 1136 | 71 | 71 ✓ |
+| **18** | **5** | **generic** | **1152** | **64** | **79 ✗** |
+
+64 against a predicted 79, and — worse for the form — the per-n count went *down* between n = 16 and
+n = 18, which no `4n + c` can do.  The run is complete, not censored (13 h 15 m, 25 GB peak,
+`saturation_D5 = 0.46`), and its random control behaves as it should (`falls_D5 = 0`).
+
+Two readings are open: either **`n(4n+7)` is a fit that does not extend past n = 16**, or **(18, 5)
+belongs to a degenerate class that `aim3.structures.degenerate_class` does not detect** — and n = 18
+returning an empty class list for *every* exponent is itself unusual enough to make the second
+reading worth taking seriously.  Two further exponents at n = 18 (e = 7 and e = 11) were launched to
+separate them; each takes ≈ 13 h, so they land after this report.  **Until then the closed form is
+`[VERIFIED n = 14, 16]` and explicitly not beyond**, and batch 1's n ≤ 16 extrapolation of it should
+not be quoted.
+
 ### 2.3 Task 2.3 is not executable as specified
 
 Task 2.3 asks, if quartic generators outside the ideal are found, to add them to `S_quad` at ℓ = 2,
@@ -460,7 +483,10 @@ is formed; the route that does form one is censored from n = 8 (batch 1).  The �
 ## 6. Findings that contradict, or correct, what was expected
 
 1. **Batch 1's reading of `falls_D5` is wrong** (§2.2).  It is not `(2n)(2n) + 7n`; the products
-   carry 18n linear relations and the net new quartics are 25n, not 7n.
+   carry 18n linear relations and the net new quartics are 25n, not 7n.  And the closed form itself
+   **fails at n = 18** — measured 64n against a predicted 79n, with the per-n count decreasing from
+   n = 16, which no `4n + c` allows.  Two more n = 18 exponents are running to decide whether the
+   form is merely a fit or whether n = 18 hides an undetected degenerate class.
 2. **Generic exponents do not exist at n = 9, and are too few at n = 11 and 15 for ℓ = 2** (§1.1).
    The batch's own instruction cannot be followed at three of its five sizes, and every ℓ = 2
    instance in batch 1 began at the degenerate e = 2.
@@ -506,6 +532,9 @@ is formed; the route that does form one is censored from n = 8 (batch 1).  The �
   far as the batch's budget allowed and censored rows are marked as such, never as values.
 * **`ℓ = 2` at n = 17 for `d_solv`**: launched, and expected to be censored — 51 Boolean variables
   is past where Magma finished at n = 15 (3109 s, 79 GB).
+* **The n = 18 `falls_D5` anomaly** (§2.2): e = 7 and e = 11 at n = 18 were launched to decide
+  between "the closed form is a fit that stops at n = 16" and "(18,5) is in an undetected degenerate
+  class".  ≈ 13 h each; they land after this report and belong in a follow-up commit.
 * **No attack** is claimed anywhere in this batch.
 
 ---
