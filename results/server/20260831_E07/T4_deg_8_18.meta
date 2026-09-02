@@ -1,0 +1,13 @@
+host    : luck-Precision-7920-Tower
+commit  : db7e5b6
+branch  : claude/server-batch-2
+started : 2026-08-31T22:43:16-07:00
+ulimit -v: 16 GB
+results : /home/luck/rxw/AIM3_remote/out/T4_deg_8_18
+scratch : /home/luck/rxw/AIM3_remote/scratch/T4_deg_8_18
+command : python3 server/jobs/t4_lclm_degrees.py --ns 8,9,10,11,12,13,14,15,16,17,18 --budget 7200 --csv E07_server_lclm_degrees.csv
+finished: 2026-09-01T02:04:20-07:00
+exit    : 1
+time    : Elapsed (wall clock) time (h:mm:ss or m:ss): 3:21:04
+time    : Maximum resident set size (kbytes): 138424
+JOB_DONE_rc=1

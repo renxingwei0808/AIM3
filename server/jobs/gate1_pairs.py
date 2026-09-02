@@ -51,17 +51,21 @@ from full_system_falls import default_exps                          # noqa: E402
 SCRATCH = os.environ.get("AIM3_SCRATCH")
 
 
-def falls_of(eqs, nv, backend, budget, tag):
-    """(falls_D4, dim_low4, rank3, syz3, censored, seconds) for one equation set."""
+def falls_of(eqs, nv, backend, budget, tag, D=4):
+    """(falls_D, dim_low_D, rank_{D-1}, syz_{D-1}, censored, seconds) for one equation set.
+
+    `falls_D = dim(span_{D} n deg<=D-1) - rank_{D-1}` -- the same definition E03/E04 use at D=4,
+    read one degree higher when D=5 (batch-2 task 1.4 asks whether the direct sum survives there).
+    """
     t0 = time.time()
     try:
-        s3 = macaulay_stats_backend(eqs, nv, 3, backend=backend, budget=budget, workdir=SCRATCH,
-                                    tag=f"{tag}_D3", verbose=False)
-        s4 = macaulay_stats_backend(eqs, nv, 4, backend=backend, budget=budget, workdir=SCRATCH,
-                                    tag=f"{tag}_D4", verbose=False)
+        lo = macaulay_stats_backend(eqs, nv, D - 1, backend=backend, budget=budget, workdir=SCRATCH,
+                                    tag=f"{tag}_D{D-1}", verbose=False)
+        hi = macaulay_stats_backend(eqs, nv, D, backend=backend, budget=budget, workdir=SCRATCH,
+                                    tag=f"{tag}_D{D}", verbose=False)
     except MacaulayTimeout:
         return None, None, None, None, 1, time.time() - t0
-    return s4.dim_low - s3.rank, s4.dim_low, s3.rank, s3.syz, 0, time.time() - t0
+    return hi.dim_low - lo.rank, hi.dim_low, lo.rank, lo.syz, 0, time.time() - t0
 
 
 def main():
@@ -80,6 +84,9 @@ def main():
                     help="comma-separated list of subsets to measure instead of the whole "
                          "lattice, e.g. '0,1,2,0+1+2'.  Singletons of every listed subset are "
                          "added automatically, since cross_excess needs them.")
+    ap.add_argument("--degree", type=int, default=4,
+                    help="the Macaulay degree D at which the falls are measured (default 4); "
+                         "D=5 answers whether the direct sum survives one degree higher")
     ap.add_argument("--backend", choices=["python", "sage"], default="sage")
     ap.add_argument("--budget", type=float, default=86400.0)
     ap.add_argument("--csv", default="E04_server_gate1_pairs.csv")
@@ -91,15 +98,15 @@ def main():
     nv, eqsP1, eqsAll, _ = build_aim3(a.n, exps, seed=a.seed)
     nblocks = a.ell + 1
     blocksize = 3 * a.n
-    low_cols = sum(comb(nv, d) for d in range(4))
+    low_cols = sum(comb(nv, d) for d in range(a.degree))
     maxsize = a.max_size or nblocks
     pool = {"S_quad": eqsAll}
     if "random" in a.systems:
         pool["random"] = random_system(nv, len(eqsAll), seed=1000 + a.seed)[0]
     print(f"# params: n={a.n} ell={a.ell} seed={a.seed} exps={exps} backend={a.backend} "
-          f"max_size={maxsize} budget={a.budget}s")
+          f"degree={a.degree} max_size={maxsize} budget={a.budget}s")
     print(f"{nv} variables, {nblocks} blocks of {blocksize} equations, "
-          f"degree-<=3 columns C({nv},<=3) = {low_cols}")
+          f"degree-<={a.degree-1} columns C({nv},<={a.degree-1}) = {low_cols}")
 
     for sysname in a.systems.split(","):
         if sysname not in pool:
@@ -122,7 +129,8 @@ def main():
                 size = len(sub)
                 part = [e for i in sub for e in eqs[i * blocksize:(i + 1) * blocksize]]
                 tag = f"g1_{sysname}_{''.join(map(str, sub))}"
-                f, low, r3, syz3, cens, secs = falls_of(part, nv, a.backend, a.budget, tag)
+                f, low, r3, syz3, cens, secs = falls_of(part, nv, a.backend, a.budget, tag,
+                                                        D=a.degree)
                 if size == 1:
                     single[sub[0]] = f
                 sum_single = (None if any(single.get(i) is None for i in sub)
@@ -130,12 +138,15 @@ def main():
                 cross = None if (f is None or sum_single is None) else f - sum_single
                 sat = None if low is None else round(low / low_cols, 4)
                 label = "+".join(map(str, sub))
-                print(f"   blocks {{{label}}}: {len(part):4d} eqs  D3 rank={r3} syz={syz3} "
-                      f"(8n*{size}={8*a.n*size})  falls_D4={f}  sum_singles={sum_single}  "
+                print(f"   blocks {{{label}}}: {len(part):4d} eqs  D{a.degree-1} rank={r3} "
+                      f"syz={syz3}"
+                      + (f" (8n*{size}={8*a.n*size})" if a.degree == 4 else "")
+                      + f"  falls_D{a.degree}={f}  sum_singles={sum_single}  "
                       f"cross_excess={cross}  saturation={sat}"
                       + ("   [CENSORED: lower bound]" if cens else ""), flush=True)
                 record(a.csv, dict(
                     n=a.n, ell=a.ell, seed=a.seed, exps=";".join(map(str, exps)), system=sysname,
+                    degree=a.degree,
                     blocks=label, nblocks=len(sub), nvars=nv, neqs=len(part),
                     D3_rank=r3 if r3 is not None else "", D3_syz=syz3 if syz3 is not None else "",
                     D4_dim_low=low if low is not None else "",

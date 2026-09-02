@@ -1,0 +1,19 @@
+n,exps,seed,build_seconds,eliminate_seconds,roots,spurious,key_is_root,eq1_terms,eq2_terms,eq1_deg_t1,eq2_deg_t1,method,gf_tables,tier,host,commit,seconds,censored
+7,2;3;4,1,0.013,0.006,3,2,1,26,260,118,64,separable table lookup,1,B,luck-Precision-7920-Tower,db7e5b6,0.019,0
+8,3;5;7,1,0.02,0.018,2,1,1,64,678,254,128,separable table lookup,1,B,luck-Precision-7920-Tower,db7e5b6,0.037,0
+9,2;4;5,1,0.028,0.048,1,0,1,80,1018,510,256,separable table lookup,1,B,luck-Precision-7920-Tower,db7e5b6,0.076,0
+10,3;7;9,1,0.032,0.116,1,0,1,100,1476,1022,512,separable table lookup,1,B,luck-Precision-7920-Tower,db7e5b6,0.149,0
+11,2;3;4,1,0.041,0.239,1,0,1,121,1991,2046,1024,separable table lookup,1,B,luck-Precision-7920-Tower,db7e5b6,0.28,0
+12,5;7;11,1,0.052,0.555,3,2,1,145,2689,4094,2048,separable table lookup,1,B,luck-Precision-7920-Tower,db7e5b6,0.607,0
+13,2;3;4,1,0.067,1.335,1,0,1,169,3446,8190,4096,separable table lookup,1,B,luck-Precision-7920-Tower,db7e5b6,1.403,0
+14,3;5;9,1,0.086,2.953,1,0,1,197,4446,16382,8192,separable table lookup,1,B,luck-Precision-7920-Tower,db7e5b6,3.039,0
+15,2;4;7,1,0.093,6.113,1,0,1,129,3301,32750,16384,separable table lookup,1,B,luck-Precision-7920-Tower,db7e5b6,6.207,0
+16,3;5;7,1,0.194,15.583,2,1,1,257,6825,65534,32768,separable table lookup,1,B,luck-Precision-7920-Tower,db7e5b6,15.778,0
+17,2;3;4,1,0.217,26.646,4,3,1,146,4472,131070,65536,separable table lookup,1,B,luck-Precision-7920-Tower,db7e5b6,26.863,0
+18,5;7;11,1,0.402,74.006,2,1,1,324,9928,262142,131072,separable table lookup,1,B,luck-Precision-7920-Tower,db7e5b6,74.408,0
+19,2;3;4,1,0.738,156.359,1,0,1,362,11648,524286,262144,separable table lookup,1,B,luck-Precision-7920-Tower,db7e5b6,157.096,0
+20,3;7;9,1,1.462,402.905,1,0,1,400,13851,1048574,524288,separable table lookup,1,B,luck-Precision-7920-Tower,db7e5b6,404.367,0
+21,2;4;5,1,2.677,766.789,3,2,1,441,15982,2097150,1048576,separable table lookup,1,B,luck-Precision-7920-Tower,db7e5b6,769.466,0
+22,3;5;7,1,4.167,1536.296,1,0,1,484,18690,4194302,2097152,separable table lookup,1,B,luck-Precision-7920-Tower,db7e5b6,1540.463,0
+23,2;3;4,1,9.984,2854.477,3,2,1,289,12053,8388598,4194304,separable table lookup,1,B,luck-Precision-7920-Tower,db7e5b6,2864.461,0
+24,5;7;11,1,18.63,7490.225,3,2,1,577,24541,16777214,8388608,separable table lookup,1,B,luck-Precision-7920-Tower,db7e5b6,7508.854,0

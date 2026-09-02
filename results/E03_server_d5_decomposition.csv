@@ -1,0 +1,5 @@
+n,e,deg_class,nvars,cubics,products,rank_mac4,rank_mac4_plus_products,X,products_ceiling,relations_among_products,four_n_squared,X_minus_4n2,falls_D5,net_new_quartics,net_over_n,cols_le4,tier,host,commit,seconds,censored
+14,3,generic,28,28,784,13209,13741,532,784,252,784,-252,882,350,25.0,24158,B,luck-Precision-7920-Tower,11ec8ab,45.241,0
+14,9,"{-3,-3^-1}",28,29,812,13209,13769,560,812,252,784,-224,700,140,10.0,24158,B,luck-Precision-7920-Tower,11ec8ab,59.338,0
+16,3,generic,32,32,1024,20296,21032,736,1024,288,1024,-288,1136,400,25.0,41449,B,luck-Precision-7920-Tower,11ec8ab,125.637,0
+16,5,"{-3,-3^-1}",32,33,1056,20296,21064,768,1056,288,1024,-256,928,160,10.0,41449,B,luck-Precision-7920-Tower,11ec8ab,130.157,0

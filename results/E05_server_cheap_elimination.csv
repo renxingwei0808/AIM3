@@ -1,0 +1,15 @@
+n,exps,seed,build_seconds,eliminate_seconds,roots,spurious,key_is_root,eq1_terms,eq2_terms,eq1_deg_t1,eq2_deg_t1,method,tier,host,commit,seconds,censored
+7,2;3;4,1,0.011,0.006,3,2,1,26,260,118,64,separable table lookup,B,luck-Precision-7920-Tower,11ec8ab,0.017,0
+8,3;5;7,1,0.019,0.016,2,1,1,64,678,254,128,separable table lookup,B,luck-Precision-7920-Tower,11ec8ab,0.035,0
+9,2;4;5,1,0.025,0.04,1,0,1,80,1018,510,256,separable table lookup,B,luck-Precision-7920-Tower,11ec8ab,0.065,0
+10,3;7;9,1,0.03,0.098,1,0,1,100,1476,1022,512,separable table lookup,B,luck-Precision-7920-Tower,11ec8ab,0.127,0
+11,2;3;4,1,0.036,0.21,1,0,1,121,1991,2046,1024,separable table lookup,B,luck-Precision-7920-Tower,11ec8ab,0.246,0
+12,5;7;11,1,0.045,0.463,3,2,1,145,2689,4094,2048,separable table lookup,B,luck-Precision-7920-Tower,11ec8ab,0.508,0
+13,2;3;4,1,0.057,1.167,1,0,1,169,3446,8190,4096,separable table lookup,B,luck-Precision-7920-Tower,11ec8ab,1.224,0
+14,3;5;9,1,0.084,2.777,1,0,1,197,4446,16382,8192,separable table lookup,B,luck-Precision-7920-Tower,11ec8ab,2.86,0
+15,2;4;7,1,0.094,5.876,1,0,1,129,3301,32750,16384,separable table lookup,B,luck-Precision-7920-Tower,11ec8ab,5.97,0
+16,3;5;7,1,0.188,15.818,2,1,1,257,6825,65534,32768,separable table lookup,B,luck-Precision-7920-Tower,11ec8ab,16.006,0
+17,2;3;4,1,1.623,461.241,4,3,1,146,4472,131070,65536,separable table lookup,B,luck-Precision-7920-Tower,11ec8ab,462.864,0
+18,5;7;11,1,3.629,2262.266,2,1,1,324,9928,262142,131072,separable table lookup,B,luck-Precision-7920-Tower,11ec8ab,2265.894,0
+19,2;3;4,1,5.436,4974.791,1,0,1,362,11648,524286,262144,separable table lookup,B,luck-Precision-7920-Tower,11ec8ab,4980.227,0
+20,3;7;9,1,5.224,10799.384,1,0,1,400,13851,1048574,524288,separable table lookup,B,luck-Precision-7920-Tower,11ec8ab,10804.609,0

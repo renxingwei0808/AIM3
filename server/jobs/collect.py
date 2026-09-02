@@ -31,7 +31,31 @@ ROOT = os.path.abspath(os.path.join(os.path.dirname(__file__), "..", ".."))
 # with `--no-points` to finish the fall-count table -- and only the (n, e) pair identifies a run.
 MERGE = [
     ("E03_sbox_degree_fall.csv", "E03_sweep_n*", "E03_server_n17_20.csv", ("n", "e")),
-    ("E03_server_D5.csv", "E03_D5_n*", "E03_server_D5.csv"),
+    ("E03_server_D5.csv", "*[dD]5_n*", "E03_server_D5.csv"),
+    # ---- server batch 2
+    ("E03_server_pointset.csv", "B2_pts4_*", "E03_server_pointset.csv"),
+    ("E03_server_d5_decomposition.csv", "B2_d5dec_*", "E03_server_d5_decomposition.csv"),
+    ("E04_server_decoupled.csv", "B2_decoupled_*", "E04_server_decoupled.csv"),
+    ("E04_f4_degrees_b2.csv", "B2_f4_*", "E04_f4_degrees_b2.csv"),
+    ("E04_f4_hybrid_b2.csv", "B2_hyb_*", "E04_f4_hybrid_b2.csv"),
+    ("E06_server_multblock_W.csv", "B2_multblk_*_W", "E06_server_multblock_W.csv"),
+    ("E06_server_multblock_U.csv", "B2_multblk_*_U", "E06_server_multblock_U.csv"),
+    ("E06_server_minrank.csv", "B2_minrank*", "E06_server_minrank.csv"),
+    ("E10_server_polybori.csv", "B2_polybori*", "E10_server_polybori.csv"),
+    ("E05_server_cheap_elimination.csv", "B2_e05cheap*", "E05_server_cheap_elimination.csv"),
+    # the --tables re-run is a SEPARATE table: same algorithm, different field arithmetic, and
+    # mixing the two would put a 29x implementation step in the middle of one timing curve
+    ("E05_server_cheap_elimination.csv", "B2_e05tab*",
+     "E05_server_cheap_elimination_tables.csv"),
+    ("E04_server_hilbert.csv", "B2_hilbert_*", "E04_server_hilbert.csv", ("n", "system", "D")),
+    # the D = 5 subset lattice is a separate table from the D = 4 one: same script,
+    # different degree, and mixing them in one file would make the `falls` column mean
+    # two things at once
+    ("E04_server_gate1_pairs.csv", "B2_gate1_D5_*", "E04_server_gate1_pairs_D5.csv"),
+    ("E07_server_ore_scale.csv", "T4_ring*", "E07_server_ore_scale.csv", ("n",)),
+    ("E07_server_ore_interp.csv", "T4_sage_interp*", "E07_server_ore_interp.csv", ("n",)),
+    ("E07_server_ore_symbolic.csv", "T4_sage_symbolic*", "E07_server_ore_symbolic.csv", ("n",)),
+    ("E07_server_lclm_degrees.csv", "T4_deg_*", "E07_server_lclm_degrees.csv", ("n",)),
     ("E04_full_system_falls.csv", "E04_gate1_l*", "E04_server_gate1.csv"),
     ("E04_server_gate1_pairs.csv", "E04_gate1pairs_*", "E04_server_gate1_pairs.csv"),  # noqa
     # The F4 jobs were launched with the block orders in their order list, before the Magma driver

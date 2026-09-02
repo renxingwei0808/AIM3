@@ -20,7 +20,8 @@ set -uo pipefail
 ROOT="$(cd "$(dirname "${BASH_SOURCE[0]}")/../.." && pwd)"
 BASE=${AIM3_BASE:-/home/luck/rxw/AIM3_remote}
 export AIM3_SAGE=${AIM3_SAGE:-$BASE/opt/envs/sage10/bin/sage}
-DATE=$(date +%Y%m%d)
+# AIM3_DATE lets a later batch file its artefacts under its own results/server/<date>_<EXP>
+DATE=${AIM3_DATE:-$(date +%Y%m%d)}
 
 launch() {          # launch <session> <exp> <name> <mem_gb> <command...>
   local sess=$1 exp=$2 name=$3 mem=$4; shift 4
@@ -34,6 +35,9 @@ launch() {          # launch <session> <exp> <name> <mem_gb> <command...>
     echo "export AIM3_RESULTS=$(printf %q "$out")"
     echo "export AIM3_SCRATCH=$(printf %q "$BASE/scratch/$name")"
     echo "export AIM3_SAGE=$(printf %q "$AIM3_SAGE")"
+    # run_job.sh files its log by AIM3_DATE; without this the runner falls back to today and a
+    # batch launched across midnight scatters its logs over two directories
+    echo "export AIM3_DATE=$(printf %q "$DATE")"
     echo "export PATH=$(printf %q "$BASE/opt/bin"):\$PATH"
     echo "cd $(printf %q "$ROOT")"
     printf 'bash server/jobs/run_job.sh %q %q %q --' "$exp" "$name" "$mem"

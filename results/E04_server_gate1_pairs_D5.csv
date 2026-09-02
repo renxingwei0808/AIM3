@@ -1,0 +1,5 @@
+n,ell,seed,exps,system,degree,blocks,nblocks,nvars,neqs,D3_rank,D3_syz,D4_dim_low,falls_D4,sum_singles,cross_excess,low_cols,saturation,tier,host,commit,seconds,censored
+11,2,1,3;4;7,S_quad,5,0,1,33,33,15202,3344,16061,859,859,0,46938,0.3422,B,luck-Precision-7920-Tower,11ec8ab,2019.006,0
+11,2,1,3;4;7,S_quad,5,1,1,33,33,15202,3344,16072,870,870,0,46938,0.3424,B,luck-Precision-7920-Tower,11ec8ab,1179.041,0
+11,2,1,3;4;7,S_quad,5,2,1,33,33,15202,3344,16116,914,914,0,46938,0.3433,B,luck-Precision-7920-Tower,11ec8ab,4265.437,0
+11,2,1,3;4;7,S_quad,5,0+1+2,3,33,99,41467,14171,46934,5467,2643,2824,46938,0.9999,B,luck-Precision-7920-Tower,11ec8ab,8993.723,0

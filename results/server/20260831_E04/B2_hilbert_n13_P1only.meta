@@ -1,0 +1,13 @@
+host    : luck-Precision-7920-Tower
+commit  : 11ec8ab
+branch  : claude/server-batch-2
+started : 2026-08-31T20:48:58-07:00
+ulimit -v: 60 GB
+results : /home/luck/rxw/AIM3_remote/out/B2_hilbert_n13_P1only
+scratch : /home/luck/rxw/AIM3_remote/scratch/B2_hilbert_n13_P1only
+command : python3 server/jobs/hilbert_check.py --n 13 --ell 2 --D 5 --system P1only --generic-exps --backend sage --budget 86400
+finished: 2026-08-31T20:58:18-07:00
+exit    : 1
+time    : Elapsed (wall clock) time (h:mm:ss or m:ss): 9:19.32
+time    : Maximum resident set size (kbytes): 31794880
+JOB_DONE_rc=1

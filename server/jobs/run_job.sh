@@ -17,7 +17,9 @@ EXP=$1; NAME=$2; MEM_GB=$3; shift 3
 
 ROOT="$(cd "$(dirname "${BASH_SOURCE[0]}")/../.." && pwd)"
 cd "$ROOT"
-OUT="$ROOT/results/server/$(date +%Y%m%d)_$EXP"
+# AIM3_DATE must match batch1.sh, or the launcher writes its JOB_DONE stamp into a
+# different directory from the one holding the log
+OUT="$ROOT/results/server/${AIM3_DATE:-$(date +%Y%m%d)}_$EXP"
 mkdir -p "$OUT"
 
 LOG="$OUT/$NAME.log"

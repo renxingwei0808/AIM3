@@ -1,0 +1,13 @@
+host    : luck-Precision-7920-Tower
+commit  : 11ec8ab
+branch  : claude/server-batch-2
+started : 2026-08-31T20:25:57-07:00
+ulimit -v: 60 GB
+results : /home/luck/rxw/AIM3_remote/out/B2_decoupled_n11_k2
+scratch : /home/luck/rxw/AIM3_remote/scratch/B2_decoupled_n11_k2
+command : python3 server/jobs/decoupled_control.py --n 11 --k 2 --backend sage
+finished: 2026-08-31T20:28:40-07:00
+exit    : 0
+time    : Elapsed (wall clock) time (h:mm:ss or m:ss): 2:42.45
+time    : Maximum resident set size (kbytes): 1427712
+JOB_DONE_rc=0

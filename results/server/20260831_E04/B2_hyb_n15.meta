@@ -1,0 +1,12 @@
+host    : luck-Precision-7920-Tower
+commit  : 11ec8ab
+branch  : claude/server-batch-2
+started : 2026-08-31T20:31:02-07:00
+ulimit -v: 150 GB
+results : /home/luck/rxw/AIM3_remote/out/B2_hyb_n15
+scratch : /home/luck/rxw/AIM3_remote/scratch/B2_hyb_n15
+command : python3 experiments/E04_full_system_hilbert/run_f4_degrees.py --systems /home/luck/rxw/AIM3_remote/out/B2_hybrid --tags E04h_n15 --tools msolve,magma --orders grevlex --threads 16 --timeout 7200 --csv E04_f4_hybrid_b2.csv --logdir /home/luck/rxw/AIM3_remote/out/B2_hyblogs
+finished: 2026-09-01T18:02:00-07:00
+exit    : 0
+time    : Elapsed (wall clock) time (h:mm:ss or m:ss): 21:30:58
+time    : Maximum resident set size (kbytes): 104822884

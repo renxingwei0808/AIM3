@@ -1,0 +1,8 @@
+host    : luck-Precision-7920-Tower
+commit  : 11ec8ab
+branch  : claude/server-batch-2
+started : 2026-08-31T20:45:10-07:00
+ulimit -v: 60 GB
+results : /home/luck/rxw/AIM3_remote/out/B2_e05cheap
+scratch : /home/luck/rxw/AIM3_remote/scratch/B2_e05cheap
+command : python3 server/jobs/e05_cheap_elimination.py --ns 7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22 --budget 3600

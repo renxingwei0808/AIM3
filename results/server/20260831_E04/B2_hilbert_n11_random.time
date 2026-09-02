@@ -1,0 +1,23 @@
+	Command being timed: "python3 server/jobs/hilbert_check.py --n 11 --ell 2 --D 5 --system random --exps 3,4,7 --backend sage --budget 86400"
+	User time (seconds): 16566.08
+	System time (seconds): 140.11
+	Percent of CPU this job got: 99%
+	Elapsed (wall clock) time (h:mm:ss or m:ss): 4:38:27
+	Average shared text size (kbytes): 0
+	Average unshared data size (kbytes): 0
+	Average stack size (kbytes): 0
+	Average total size (kbytes): 0
+	Maximum resident set size (kbytes): 25380104
+	Average resident set size (kbytes): 0
+	Major (requiring I/O) page faults: 3
+	Minor (reclaiming a frame) page faults: 43065292
+	Voluntary context switches: 328
+	Involuntary context switches: 23365
+	Swaps: 0
+	File system inputs: 72
+	File system outputs: 1096392
+	Socket messages sent: 0
+	Socket messages received: 0
+	Signals delivered: 0
+	Page size (bytes): 4096
+	Exit status: 0

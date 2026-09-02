@@ -1,0 +1,13 @@
+scheme,n,ell,nvars,neqs,delta,omega,best_k,dreg_boolean,d_used,log2_T,monomial_count,B1_log2T,B2_log2T,B3_log2T,B3_mode,beats_B1,beats_B2,beats_B3,tier,host,commit,seconds,censored
+AIM3-I,128,2,384,1152,0,2.0,5,19,19,215.83,"boolean sum_{i<=d} C(N-k,i)",262.6,218.4,147.9,karatsuba,1,1,0,A,uk-ai,db7e5b6,0.0,0
+AIM3-I,128,2,384,1152,0,2.81,91,13,13,298.02,"boolean sum_{i<=d} C(N-k,i)",262.6,218.4,147.9,karatsuba,0,0,0,A,uk-ai,db7e5b6,0.0,0
+AIM3-I,128,2,384,1152,1,2.0,5,19,18,207.33,"boolean sum_{i<=d} C(N-k,i)",262.6,218.4,147.9,karatsuba,1,1,0,A,uk-ai,db7e5b6,0.0,0
+AIM3-I,128,2,384,1152,1,2.81,91,13,12,285.55,"boolean sum_{i<=d} C(N-k,i)",262.6,218.4,147.9,karatsuba,0,0,0,A,uk-ai,db7e5b6,0.0,0
+AIM3-III,192,2,576,1728,0,2.0,2,27,27,308.98,"boolean sum_{i<=d} C(N-k,i)",381.0,312.5,213.14,karatsuba,1,1,0,A,uk-ai,db7e5b6,0.0,0
+AIM3-III,192,2,576,1728,0,2.81,102,20,20,428.45,"boolean sum_{i<=d} C(N-k,i)",381.0,312.5,213.14,karatsuba,0,0,0,A,uk-ai,db7e5b6,0.0,0
+AIM3-III,192,2,576,1728,1,2.0,2,27,26,300.29,"boolean sum_{i<=d} C(N-k,i)",381.0,312.5,213.14,karatsuba,1,1,0,A,uk-ai,db7e5b6,0.0,0
+AIM3-III,192,2,576,1728,1,2.81,102,20,19,415.78,"boolean sum_{i<=d} C(N-k,i)",381.0,312.5,213.14,karatsuba,0,0,0,A,uk-ai,db7e5b6,0.0,0
+AIM3-V,256,3,1024,3072,0,2.0,9,44,44,523.7,"boolean sum_{i<=d} C(N-k,i)",651.5,529.1,278.2,karatsuba,1,1,0,A,uk-ai,db7e5b6,0.0,0
+AIM3-V,256,3,1024,3072,0,2.81,140,35,35,726.53,"boolean sum_{i<=d} C(N-k,i)",651.5,529.1,278.2,karatsuba,0,0,0,A,uk-ai,db7e5b6,0.0,0
+AIM3-V,256,3,1024,3072,1,2.0,9,44,43,514.76,"boolean sum_{i<=d} C(N-k,i)",651.5,529.1,278.2,karatsuba,1,1,0,A,uk-ai,db7e5b6,0.0,0
+AIM3-V,256,3,1024,3072,1,2.81,140,35,34,713.59,"boolean sum_{i<=d} C(N-k,i)",651.5,529.1,278.2,karatsuba,0,0,0,A,uk-ai,db7e5b6,0.0,0

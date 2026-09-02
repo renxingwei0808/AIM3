@@ -1,0 +1,13 @@
+host    : luck-Precision-7920-Tower
+commit  : db7e5b6
+branch  : claude/server-batch-2
+started : 2026-08-31T20:57:26-07:00
+ulimit -v: 60 GB
+results : /home/luck/rxw/AIM3_remote/out/B2_polybori_E04b2_n11_l2
+scratch : /home/luck/rxw/AIM3_remote/scratch/B2_polybori_E04b2_n11_l2
+command : python3 server/jobs/run_polybori.py --systems /home/luck/rxw/AIM3_remote/out/B2_systems --tags E04b2_n11_l2 --orders grevlex,blockPT,blockT --timeout 3600 --csv E10_server_polybori.csv --logdir /home/luck/rxw/AIM3_remote/out/B2_pblogs
+finished: 2026-09-01T00:14:52-07:00
+exit    : 0
+time    : Elapsed (wall clock) time (h:mm:ss or m:ss): 3:17:25
+time    : Maximum resident set size (kbytes): 6337884
+JOB_DONE_rc=0

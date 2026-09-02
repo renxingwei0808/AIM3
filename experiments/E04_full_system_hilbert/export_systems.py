@@ -27,7 +27,7 @@ sys.path.insert(0, os.path.join(os.path.dirname(__file__), ".."))
 from _common import COMMIT, HOST                                  # noqa: E402
 from aim3_macaulay import build_aim3, random_system               # noqa: E402
 from aim3.polysys_export import write_system                      # noqa: E402
-from full_system_falls import default_exps                        # noqa: E402
+from full_system_falls import default_exps, generic_exps          # noqa: E402
 
 
 def main():
@@ -37,18 +37,30 @@ def main():
     ap.add_argument("--ells", default="1,2")
     ap.add_argument("--seeds", default="1,2")
     ap.add_argument("--systems", default="S_quad,P1only,random")
+    ap.add_argument("--exps", default=None,
+                    help="explicit comma-separated exponents (one list, used for every n); needed "
+                         "at the n where fewer than ell+1 non-degenerate exponents exist")
+    ap.add_argument("--tag-prefix", default=None, help="override the tag prefix (default E04/E04g)")
+    ap.add_argument("--generic-exps", action="store_true",
+                    help="use the smallest ell+1 NON-DEGENERATE exponents (batch 2 default)")
     a = ap.parse_args()
     ns = [int(v) for v in a.ns.split(",")]
     ells = [int(v) for v in a.ells.split(",")]
     seeds = [int(v) for v in a.seeds.split(",")]
     systems = a.systems.split(",")
     os.makedirs(a.out, exist_ok=True)
-    print(f"# params: ns={ns} ells={ells} seeds={seeds} systems={systems} out={a.out}")
+    print(f"# params: ns={ns} ells={ells} seeds={seeds} systems={systems} out={a.out} "
+          f"generic_exps={a.generic_exps}")
     index = []
     for n in ns:
         for ell in ells:
             try:
-                exps = default_exps(n, ell)
+                if a.exps:
+                    exps = [int(v) for v in a.exps.split(",")]
+                    if len(exps) != ell + 1:
+                        raise SystemExit(f"--exps needs {ell+1} values for ell={ell}, got {exps}")
+                else:
+                    exps = generic_exps(n, ell) if a.generic_exps else default_exps(n, ell)
             except SystemExit as exc:
                 print(f"  skip n={n} ell={ell}: {exc}")
                 continue
@@ -59,7 +71,8 @@ def main():
                     req, rsol = random_system(nv, len(eqsAll), seed=1000 + seed)
                     pool["random"] = req
                 for name in systems:
-                    tag = f"E04_n{n}_l{ell}_s{seed}_{name}"
+                    pfx = a.tag_prefix or ("E04g" if (a.generic_exps or a.exps) else "E04")
+                    tag = f"{pfx}_n{n}_l{ell}_s{seed}_{name}"
                     info = write_system(pool[name], nv, a.out, tag, sysname=name,
                                         sol=sol if name != "random" else None,
                                         meta=dict(experiment="E04", n=n, ell=ell, seed=seed,

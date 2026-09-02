@@ -1,0 +1,23 @@
+	Command being timed: "python3 server/jobs/run_polybori.py --systems /home/luck/rxw/AIM3_remote/out/E04_systems --tags E06_n7_kernel --orders grevlex,blockU,blockW --timeout 5400 --csv E10_server_polybori.csv --logdir /home/luck/rxw/AIM3_remote/out/B2_pblogs"
+	User time (seconds): 1263.37
+	System time (seconds): 18.92
+	Percent of CPU this job got: 99%
+	Elapsed (wall clock) time (h:mm:ss or m:ss): 21:27.71
+	Average shared text size (kbytes): 0
+	Average unshared data size (kbytes): 0
+	Average stack size (kbytes): 0
+	Average total size (kbytes): 0
+	Maximum resident set size (kbytes): 1745620
+	Average resident set size (kbytes): 0
+	Major (requiring I/O) page faults: 88
+	Minor (reclaiming a frame) page faults: 4371913
+	Voluntary context switches: 77017
+	Involuntary context switches: 3276
+	Swaps: 0
+	File system inputs: 97440
+	File system outputs: 6016
+	Socket messages sent: 0
+	Socket messages received: 0
+	Signals delivered: 0
+	Page size (bytes): 4096
+	Exit status: 0
