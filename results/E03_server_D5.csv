@@ -1,5 +1,6 @@
 n,e,system,nvars,degenerate,D3_rank,D3_syz,D4_rank,D4_syz,D4_dim_low,D5_rows,D5_rank,D5_syz,D5_dim_low,falls_D4,predicted_falls_D4,falls_D5,falls_D5_over_n,cols_le4,saturation_D5,tier,host,commit,seconds,censored
 18,5,S_box,36,,1854,144,29547,6471,1890,421578,290403,131175,30699,36,36,1152,64.0,66712,0.4602,B,luck-Precision-7920-Tower,11ec8ab,23405.575,0
+18,5,random,36,,1998,0,34533,1485,1998,421578,366633,54945,34533,0,,0,0.0,66712,0.5176,B,luck-Precision-7920-Tower,11ec8ab,24304.168,0
 14,3,S_box,28,,1106,112,13209,3885,1134,154686,94787,59899,14091,28,28,882,63.0,24158,0.5833,B,luck-Precision-7920-Tower,cc8d6ab,649.14,0
 14,3,random,28,,1218,0,16191,903,1218,154686,122437,32249,24157,0,,7966,569.0,24158,1.0,B,luck-Precision-7920-Tower,cc8d6ab,837.423,0
 14,9,S_box,28,"{-3,-3^-1}",1106,112,13209,3885,1135,154686,94857,59829,13909,29,29,700,50.0,24158,0.5758,B,luck-Precision-7920-Tower,cc8d6ab,826.896,0

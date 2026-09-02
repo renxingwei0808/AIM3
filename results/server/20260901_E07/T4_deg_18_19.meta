@@ -6,3 +6,7 @@ ulimit -v: 32 GB
 results : /home/luck/rxw/AIM3_remote/out/T4_deg_18_19
 scratch : /home/luck/rxw/AIM3_remote/scratch/T4_deg_18_19
 command : python3 server/jobs/t4_lclm_degrees.py --ns 18,19 --budget 25200 --anf-max 18 --csv E07_server_lclm_degrees.csv
+finished: 2026-09-01T09:53:25-07:00
+exit    : 0
+time    : Elapsed (wall clock) time (h:mm:ss or m:ss): 7:44:13
+time    : Maximum resident set size (kbytes): 286868

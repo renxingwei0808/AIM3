@@ -76,7 +76,9 @@ same `d_solv` at every cell**, and in particular the n = 11, ℓ = 2 cell that b
 4 / 4 stays 4 / 4 when e = 2 is replaced by the generic 3;4;7.  msolve and Magma agree everywhere.
 
 **What the completed cells say (§B.1).**  `d_solv` is 4 at ℓ = 2 for n = 9 and 11, and 5 at n = 13
-and 15; at ℓ = 1 it is 4 for n = 11, 13, 15 and 5 at n = 17.  So on the sizes reachable here the
+and 15 for all three systems; at ℓ = 1 it is 4 for n = 11, 13, 15 and 5 at n = 17.  **ℓ = 2, n = 17
+is censored in all twelve of its runs** (both tools, both seeds, all three systems, 2-hour cap) —
+51 Boolean variables is past where Magma finished at n = 15, as §7 predicted when it was launched.  So on the sizes reachable here the
 solving degree moves by **one step over six values of n**, which is why no law is fitted to it:
 `COMPLEXITY_ACCOUNTING §4` wants four completed sizes before an extrapolation, and four completed
 sizes of a quantity that takes two distinct values do not determine a growth rate.  What the table
@@ -97,47 +99,44 @@ division as batch 1, now with the numbers behind it.
 ### 1.3 Hybrid guessing and δ
 
 `k` bits of pt are fixed to their **true** values, so the planted solution survives and the run
-measures the branch the attacker would actually be on.  Full table in §B.2; ℓ = 2, n = 13, both
-seeds, Magma and msolve agreeing on every completed cell:
+measures the branch the attacker would actually be on.  Full table in §B.2.  **Every cell below is
+complete** — ℓ = 2, n = 13 and 15, k ∈ {0,2,4,6}, two seeds, Magma and msolve, and all four runs of
+a cell agree:
 
-| k | variables 3n−k | `S_quad` `d_solv` | random `d_solv` | B2 `d_reg` | **δ = d_reg − d_solv** |
-|---:|---:|---:|---:|---:|---:|
-| 0 | 39 | 5 | 5 | 5 | **0** |
-| 2 | 37 | 4 | 4 | 4 | **0** |
-| 4 | 35 | 4 | 4 | 4 | **0** |
-| 6 | 33 | 3 | 4 | 4 | **1** |
+| n | system | k=0 | k=2 | k=4 | k=6 |
+|---:|---|---:|---:|---:|---:|
+| 13 | `S_quad` | 5 | 4 | 4 | **3** |
+| 13 | random, same shape | 5 | 4 | 4 | 4 |
+| 15 | `S_quad` | 5 | **4** | 4 | 4 |
+| 15 | random, same shape | 5 | 5 | 4 | 4 |
 
-**δ = 0 for three of the four guess widths.**  Where B2 assumes semi-regularity and derives `d_reg`,
-the measurement lands exactly on it — the assumption is *right* about the solving degree of the
-guessed system at n = 13 for k ≤ 4, even though §1.4 shows the Macaulay ranks underneath it are not
-semi-regular at all.  These two facts are compatible: `d_reg` is where the rank first suffices, and
-a system can carry thousands of extra syzygies at D = 5 without that degree moving.
+**The right way to read this is not "δ = 1 in two cells" but "the staircase is shifted".**  Both
+systems descend the same staircase in k, and at each n the structured one takes one of its steps
+**two guessed bits earlier** than the random control: at n = 15 the 5 → 4 step happens at k = 2 for
+`S_quad` and k = 4 for random; at n = 13 the two share the 5 → 4 step at k = 2, and `S_quad` then
+takes a further 4 → 3 step at k = 6 that random does not take at all.  Everywhere else they agree.
+This is the only place in the batch where the AIM3 structure and a random system of identical shape
+separate under guessing.
 
-**δ = 1 appears once k is large enough, and only for the structured system.**  At n = 13, k = 6
-(33 remaining variables) `S_quad` solves at degree 3 while the random control of identical shape
-still needs 4.  The n = 15 run then reproduced it **at a smaller k**:
+**Against B2's own prediction.**  With `d_reg = dreg_boolean(3n−k, 9n)`, δ = `d_reg` − `d_solv` for
+`S_quad` is 0, 0, 0, 1 at n = 13 and 0, 1, 1, 0 at n = 15.  The n = 15, k = 4 entry is **not**
+structural — the random control has δ = 1 there too, i.e. the semi-regular formula simply
+over-predicts that cell for both.  Subtracting the control leaves exactly the two shifted steps
+above.
 
-| n | k | variables | `S_quad` | random | B2 `d_reg` | **δ** |
-|---:|---:|---:|---:|---:|---:|---:|
-| 13 | 6 | 33 | 3 | 4 | 4 | **1** |
-| 15 | 2 | 43 | 4 | 5 | 5 | **1** |
-
-so at n = 15 two guessed bits already buy what six bought at n = 13.  Magma and msolve agree on both.
-These are the only places in the batch where guessing exposes something a random system of identical
-shape does not have.
-
-**What this is and is not.**  It is two (n,k) cells, and §1.5's table shows what one unit of δ would
-be worth if it persisted (8.5–9 bits at ω = 2 on AIM3-I/III/V).  It is **not** an extrapolation:
-`COMPLEXITY_ACCOUNTING §4` needs four sizes, there are two, and the k at which δ first turns 1 has
-moved once — from 6 to 2 — which is a trend of two points.  The n = 15, k = 0 cells are censored at
-the 2-hour cap in all six runs, so the k = 0 row of that size is missing.  Whether δ keeps growing,
-and whether the threshold k keeps falling, is the single most attack-relevant open question this
-batch produced, and it is stated as open.
+**What this is and is not.**  It is two n and four k each, fully measured, no censoring.  §1.5's
+table shows what one unit of δ would be worth if it persisted (8.5–9 bits at ω = 2 on AIM3-I/III/V).
+It is **not** an extrapolation: `COMPLEXITY_ACCOUNTING §4` needs four sizes and there are two, and
+the shift is one step out of four in each — a two-point trend.  Whether the shift grows with n,
+stays at one step, or is an artefact of these sizes is the single most attack-relevant open question
+this batch produced, and it is stated as open.
 
 **A column that is easy to misread.**  `B2 d_reg` in §B.2 is computed from each row's own shape, so
-the `P1only` rows (3n equations, not 9n) get a much larger `d_reg` and a δ of 3 throughout.  That δ
-is not the B2 quantity: B2's baseline is the 9n-equation system.  Only the `S_quad` rows carry the
+the `P1only` rows (3n equations, not 9n) get a much larger `d_reg` and a δ of 3–4 throughout.  That
+δ is not the B2 quantity: B2's baseline is the 9n-equation system.  Only the `S_quad` rows carry the
 δ that §1.5 consumes.
+
+---
 
 ### 1.4 The Hilbert-function side check
 
@@ -377,12 +376,13 @@ n ≤ 24 (the gcrd is 0 everywhere), and the affine system is solvable at the tr
 its 2ⁿ measurements, not of the algebra: the ring-level statement costs nothing to check and does
 not weaken.
 
-**Result 3 — D(n) = 2ⁿ − 1, the maximum, at every size measured (n = 8..18), in both
+**Result 3 — D(n) = 2ⁿ − 1, the maximum, at every size measured (n = 8..19), in both
 implementations.**  This is the number T4.3 makes the switch of the whole track.  With t₁ at its
 true value and t₀ ranging over **all** of F_{2ⁿ}, every coefficient of the monic lclm — not merely
 the extreme ones — has exact univariate degree 2ⁿ − 1 and exact ANF degree n.  Both are the largest
-values possible, at all eleven sizes, for all 28–47 coefficients of each, and `src/aim3/ore.py` and
-Sage's `OrePolynomialRing` agree on **every one of the 11 sizes**.
+values possible, at all twelve sizes, for all 28–47 coefficients of each; `src/aim3/ore.py` reaches
+n = 19 and Sage's `OrePolynomialRing` independently confirms **every one of the 11 sizes it was run
+on (n = 8..18)**.
 
 **What that settles.**  Eliminating pt in the Ore ring is exact, cheap and loses nothing (Tier-A
 already showed `Z(E) = C`, so no separate Frobenius-consistency step is needed).  But the object it
@@ -476,7 +476,12 @@ is formed; the route that does form one is censored from n = 8 (batch 1).  The �
    because the withdrawn version was in an earlier draft of this file.
 7. **T4 and T3 fail for the same reason, reached by different routes** (§4, §5): the elimination
    step is cheap and exact in both, and in both the object it produces costs Θ(2ⁿ) to exploit.
-8. **A 29× step in the E05 curve was the field implementation, not the algorithm** (§5).
+8. **The hybrid-guessing result is a shifted staircase, not a constant δ** (§1.3).  An earlier
+   draft of this section, written when only the n = 15 k = 2 cell had landed, read the two δ = 1
+   cells as a threshold in k that falls with n.  The completed n = 15 row shows the gap closing
+   again at k = 4 and 6, so the accurate statement is that `S_quad` takes one of its staircase steps
+   two guessed bits earlier than the random control — which is a weaker and more specific claim.
+9. **A 29× step in the E05 curve was the field implementation, not the algorithm** (§5).
    `src/aim3/gf2n.py` drops its log/antilog tables above n = 16; fitting a slope across that step
    would have produced a fabricated exponent.  Two other measurement defects were found and fixed
    the same way: the PolyBoRi driver counted SIGABRT crashes as completed runs (§3.3), and the T4
@@ -569,7 +574,7 @@ grevlex; msolve and Magma agree on every completed cell.  A cell is `—` where 
 
 Exponents used: ℓ=1, n=11: `3;4`, ℓ=1, n=13: `3;5`, ℓ=1, n=15: `4;11`, ℓ=1, n=17: `3;4`, ℓ=2, n=9: `2;4;5`, ℓ=2, n=11: `3;4;7`, ℓ=2, n=13: `3;5;8`, ℓ=2, n=15: `4;11;7`.
 
-17 run(s) censored at the cap: E04b2_n13_l2_s1_P1only/msolve, E04b2_n13_l2_s1_S_quad/msolve, E04b2_n13_l2_s1_random/msolve, E04b2_n13_l2_s2_P1only/msolve, E04b2_n13_l2_s2_S_quad/msolve, E04b2_n13_l2_s2_random/msolve, E04b2_n15_l2_s1_P1only/magma, E04b2_n15_l2_s1_P1only/msolve, E04b2_n15_l2_s1_S_quad/msolve, E04b2_n15_l2_s1_random/msolve, E04b2_n15_l2_s2_P1only/msolve, E04b2_n17_l2_s1_P1only/magma, E04b2_n17_l2_s1_P1only/msolve, E04b2_n17_l2_s1_S_quad/magma, E04b2_n17_l2_s1_S_quad/msolve, E04b2_n17_l2_s1_random/magma, E04b2_n17_l2_s1_random/msolve.
+25 run(s) censored at the cap: E04b2_n13_l2_s1_P1only/msolve, E04b2_n13_l2_s1_S_quad/msolve, E04b2_n13_l2_s1_random/msolve, E04b2_n13_l2_s2_P1only/msolve, E04b2_n13_l2_s2_S_quad/msolve, E04b2_n13_l2_s2_random/msolve, E04b2_n15_l2_s1_P1only/magma, E04b2_n15_l2_s1_P1only/msolve, E04b2_n15_l2_s1_S_quad/msolve, E04b2_n15_l2_s1_random/msolve, E04b2_n15_l2_s2_P1only/msolve, E04b2_n15_l2_s2_S_quad/msolve, E04b2_n15_l2_s2_random/msolve, E04b2_n17_l2_s1_P1only/magma, E04b2_n17_l2_s1_P1only/msolve, E04b2_n17_l2_s1_S_quad/magma, E04b2_n17_l2_s1_S_quad/msolve, E04b2_n17_l2_s1_random/magma, E04b2_n17_l2_s1_random/msolve, E04b2_n17_l2_s2_P1only/magma, E04b2_n17_l2_s2_P1only/msolve, E04b2_n17_l2_s2_S_quad/magma, E04b2_n17_l2_s2_S_quad/msolve, E04b2_n17_l2_s2_random/magma, E04b2_n17_l2_s2_random/msolve.
 
 ### B.2 Hybrid guessing: measured `d_solv` against B2's `d_reg` (task 1.3)
 
@@ -626,28 +631,52 @@ Exponents used: ℓ=1, n=11: `3;4`, ℓ=1, n=13: `3;5`, ℓ=1, n=15: `4;11`, ℓ
 | 13 | 0 | 39 | random | msolve | _censored_ | | | 2247 |
 | 13 | 0 | 39 | random | msolve | 5 | 5 | **0** | 5390 |
 | 15 | 6 | 39 | P1only | magma | 4 | 7 | **3** | 4 |
+| 15 | 6 | 39 | P1only | magma | 4 | 7 | **3** | 3 |
 | 15 | 6 | 39 | P1only | msolve | 4 | 7 | **3** | 45 |
+| 15 | 6 | 39 | P1only | msolve | 4 | 7 | **3** | 35 |
 | 15 | 6 | 39 | S_quad | magma | 4 | 4 | **0** | 4 |
+| 15 | 6 | 39 | S_quad | magma | 4 | 4 | **0** | 3 |
 | 15 | 6 | 39 | S_quad | msolve | 4 | 4 | **0** | 42 |
+| 15 | 6 | 39 | S_quad | msolve | 4 | 4 | **0** | 33 |
 | 15 | 6 | 39 | random | magma | 4 | 4 | **0** | 19 |
+| 15 | 6 | 39 | random | magma | 4 | 4 | **0** | 18 |
 | 15 | 6 | 39 | random | msolve | 4 | 4 | **0** | 385 |
+| 15 | 6 | 39 | random | msolve | 4 | 4 | **0** | 306 |
+| 15 | 4 | 41 | P1only | magma | 4 | 8 | **4** | 15 |
 | 15 | 4 | 41 | P1only | magma | 4 | 8 | **4** | 15 |
 | 15 | 4 | 41 | P1only | msolve | 4 | 8 | **4** | 221 |
+| 15 | 4 | 41 | P1only | msolve | 4 | 8 | **4** | 174 |
+| 15 | 4 | 41 | S_quad | magma | 4 | 5 | **1** | 15 |
 | 15 | 4 | 41 | S_quad | magma | 4 | 5 | **1** | 15 |
 | 15 | 4 | 41 | S_quad | msolve | 4 | 5 | **1** | 188 |
+| 15 | 4 | 41 | S_quad | msolve | 4 | 5 | **1** | 169 |
 | 15 | 4 | 41 | random | magma | 4 | 5 | **1** | 205 |
+| 15 | 4 | 41 | random | magma | 4 | 5 | **1** | 189 |
 | 15 | 4 | 41 | random | msolve | 4 | 5 | **1** | 1189 |
+| 15 | 4 | 41 | random | msolve | 4 | 5 | **1** | 1094 |
 | 15 | 2 | 43 | P1only | magma | 4 | 8 | **4** | 188 |
+| 15 | 2 | 43 | P1only | magma | 4 | 8 | **4** | 159 |
 | 15 | 2 | 43 | P1only | msolve | 4 | 8 | **4** | 1235 |
+| 15 | 2 | 43 | P1only | msolve | 4 | 8 | **4** | 1082 |
 | 15 | 2 | 43 | S_quad | magma | 4 | 5 | **1** | 177 |
+| 15 | 2 | 43 | S_quad | magma | 4 | 5 | **1** | 153 |
 | 15 | 2 | 43 | S_quad | msolve | 4 | 5 | **1** | 1248 |
+| 15 | 2 | 43 | S_quad | msolve | 4 | 5 | **1** | 1054 |
 | 15 | 2 | 43 | random | magma | 5 | 5 | **0** | 1501 |
+| 15 | 2 | 43 | random | magma | 5 | 5 | **0** | 1189 |
 | 15 | 2 | 43 | random | msolve | _censored_ | | | 5762 |
+| 15 | 2 | 43 | random | msolve | _censored_ | | | 4416 |
 | 15 | 0 | 45 | P1only | magma | _censored_ | | | 2047 |
+| 15 | 0 | 45 | P1only | magma | _censored_ | | | 2731 |
 | 15 | 0 | 45 | P1only | msolve | _censored_ | | | 5294 |
+| 15 | 0 | 45 | P1only | msolve | _censored_ | | | 5765 |
 | 15 | 0 | 45 | S_quad | magma | _censored_ | | | 2227 |
+| 15 | 0 | 45 | S_quad | magma | 5 | 5 | **0** | 2898 |
 | 15 | 0 | 45 | S_quad | msolve | _censored_ | | | 4691 |
+| 15 | 0 | 45 | S_quad | msolve | _censored_ | | | 6695 |
 | 15 | 0 | 45 | random | magma | _censored_ | | | 4368 |
+| 15 | 0 | 45 | random | magma | 5 | 5 | **0** | 3792 |
+| 15 | 0 | 45 | random | msolve | _censored_ | | | 7200 |
 | 15 | 0 | 45 | random | msolve | _censored_ | | | 7200 |
 
 ### B.3 Measured Macaulay rank against the Boolean semi-regular prediction (task 1.4)
@@ -857,8 +886,9 @@ Totals: **28 comparisons against `results/E07_theory_skew_degrees.csv`, 0 disagr
 | 16 | 3,11 | 44 | 65536 | 3.968 | **65535** | 65535 | **16** | 16 | 65535 (same) |
 | 17 | 3,4 | 39 | 131072 | 27.077 | **131071** | 131071 | **—** | 17 | 131071 (same) |
 | 18 | 5,7 | 46 | 262144 | 36.122 | **262143** | 262143 | **18** | 18 | 262143 (same) |
+| 19 | 3,4 | 43 | 524288 | 34.946 | **524287** | 524287 | **—** | 19 | — |
 
-**D(n) = 2ⁿ − 1 — the maximum — at every completed size (n = 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18), and for every one of the deg-lclm + 1 coefficients, not just the extreme ones.**  The ANF degree is n, also the maximum.  Eliminating pt in the Ore ring is exact and cheap; what it leaves behind is a condition in t₀ of full degree, so recovering t₀ from it by any degree-sensitive method (resultant, univariate root finding, interpolation) costs at least 2ⁿ — the same order as guessing pt outright.
+**D(n) = 2ⁿ − 1 — the maximum — at every completed size (n = 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19), and for every one of the deg-lclm + 1 coefficients, not just the extreme ones.**  The ANF degree is n, also the maximum.  Eliminating pt in the Ore ring is exact and cheap; what it leaves behind is a condition in t₀ of full degree, so recovering t₀ from it by any degree-sensitive method (resultant, univariate root finding, interpolation) costs at least 2ⁿ — the same order as guessing pt outright.
 
 **B.11.3 — the symbolic instrument.**  The same lclm computed over K(t₀) (twist t₀ ↦ t₀², which is what φ·t₀ = t₀²·φ forces), so the coefficients are exact rational functions rather than sampled values.
 
